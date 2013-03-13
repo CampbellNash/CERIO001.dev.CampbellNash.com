@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="register.aspx.vb" Inherits="register" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-
+    <div class="span8">
             <div class="register">
                 <h2 class="form-signin-heading">Please register</h2>
                 <h3>Items marked with * are requried</h3>
@@ -16,6 +16,10 @@
                         <a class="btn" href="template.aspx">Sign in</a>
                     </div>
             </div>
-
+    </div>
+    <div class="span4">
+        <h2>This can be some content on right</h2>
+        <p>Instructions are always good.</p>
+    </div>
 </asp:Content>
 
