@@ -1,0 +1,12 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/masterpages/site.master" AutoEventWireup="false" CodeFile="login.master.vb" Inherits="masterpages_login" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" Runat="Server">
+    <div class="container-fluid hp-header">
+      <div class="row-fluid">
+          <asp:ContentPlaceHolder ID="cpcTopContent" runat="server">
+          </asp:ContentPlaceHolder>
+      </div><!--/row-->
+    </div>
+</asp:Content>
+

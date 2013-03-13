@@ -1,0 +1,26 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/masterpages/site.master" AutoEventWireup="false" CodeFile="templatefull.master.vb" Inherits="masterpages_templatefull" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" Runat="Server">
+    <div class="container-fluid">
+      <div class="row-fluid breadcrumb">
+            <div class="span12">
+                <ul class="breadcrumb">
+                  <li>You are here<span class="divider">: </span></li>
+                  <li><a href="#">Home</a> <span class="divider">/</span></li>
+                  <li><a href="#">Template</a> <span class="divider">/</span></li>
+                  <li class="active">Detail page</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+              <asp:ContentPlaceHolder ID="cpcMainContent" runat="server">
+
+              </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </div>
+</asp:Content>
+

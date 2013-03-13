@@ -1,0 +1,30 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/masterpages/site.master" AutoEventWireup="false" CodeFile="landing.master.vb" Inherits="masterpages_landing" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" Runat="Server">
+    <div class="container-fluid hp-header">
+      <div class="row-fluid">
+        <div class="span8">
+          <div class="hero-unit">
+            <asp:ContentPlaceHolder ID="cpcHeroLeft" runat="server">
+            </asp:ContentPlaceHolder>
+          </div>
+         </div>
+        <div class="span4">
+            <div class="hero-login">
+                <asp:ContentPlaceHolder ID="cphHeroRight" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+      </div><!--/row-->
+    </div>
+    <!-- lower section -->
+    <div class="container-fluid">
+    <!-- Remember to build up your rows using the right styles and using row-fluid then span -->
+        <asp:ContentPlaceHolder ID="cphLowerSection" runat="server">
+        </asp:ContentPlaceHolder>
+    </div><!--/.fluid-container-->
+    
+</asp:Content>
+

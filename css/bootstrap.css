@@ -6275,7 +6275,10 @@ a.badge:focus {
 {
     text-align: center;
 }
-
+.copyright
+{
+    text-align: right;
+}
 .btn-logout {
   color: #ffffff;
   padding-left:15px;
