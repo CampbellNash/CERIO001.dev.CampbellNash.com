@@ -40,7 +40,7 @@
             <div class="nav-collapse collapse">
             <!-- This is the menu if we are NOT logged in -->
                 <ul class="nav">
-                  <li class="active"><a href="default.html">Home</a></li>
+                  <li class="active"><a href="default.aspx">Home</a></li>
                   <li><a href="#about">About</a></li>
                   <li><a href="#about">Features</a></li>
                   <li><a href="#about">Pricing</a></li>
