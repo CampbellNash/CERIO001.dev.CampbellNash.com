@@ -18,7 +18,7 @@
     </div>
     <div class="span6">
         <h3>This can be some content on right</h3>
-        <p>Instructions are always good.</p>
+        <p>Instructions are always good. </p>
     </div>
 </asp:Content>
 
