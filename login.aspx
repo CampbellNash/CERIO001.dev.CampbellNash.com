@@ -7,13 +7,15 @@
                 <h2 class="form-signin-heading">Please sign in</h2>
                     <div class="form-signin">
                         <label>Username or email</label>
-                        <input type="text" class="input-block-level" placeholder="Email address" />
+                        <asp:TextBox ID="txtEmailaddress" runat="server" class="input-block-level" placeholder="Email address"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="rfvEmailAddress" ControlToValidate="txtEmailaddress" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter your email address"></asp:RequiredFieldValidator>
                         <label>Password (<a href="#">forgot password</a>)</label>
                         <input type="password" class="input-block-level" placeholder="Password" />
                         <label class="checkbox">
                           <input type="checkbox" value="remember-me" /> Remember me
                         </label>
-                        <a class="btn" href="template.aspx">Sign in</a>
+                        <asp:LinkButton ID="btnLogin" runat="server" class="btn">Sign in</asp:LinkButton>
+                        
                     </div>
             </div>
         </div>
