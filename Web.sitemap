@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+    <siteMapNode url="~/default.aspx" title="Home page"  description="This is the home page">
+        <siteMapNode url="~/register.aspx" title="Register with CERVIO"  description="" />
+        <siteMapNode url="~/mycompanies.aspx" title="My Companies"  description="" />
+    </siteMapNode>
+</siteMap>

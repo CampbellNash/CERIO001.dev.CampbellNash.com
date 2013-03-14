@@ -4001,7 +4001,7 @@ input[type="submit"].btn.btn-mini {
 .nav-list > .active > a:focus {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  background-color: #0088cc;
+  background-color: #C70C47;
 }
 
 .nav-list [class^="icon-"],
@@ -4967,18 +4967,20 @@ input[type="submit"].btn.btn-mini {
 
 .breadcrumb
 {
-    padding: 4px 0px 4px 0px;
-    margin: 0 0 0px 0;
+    padding: 2px 0px 2px 0px;
+    margin: 0 0 10px 0;
     list-style: none;
     background-color: #f5f5f5;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+    font-size: .8em;
 }
 
-.breadcrumb ul
+.breadcrumb ul, .breadcrumbInner
 {
     padding-left: 10px;
+    padding-top: 5px;
 }
 
 .breadcrumb > li {
