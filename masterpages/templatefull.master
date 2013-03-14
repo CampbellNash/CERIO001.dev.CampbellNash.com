@@ -3,7 +3,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMainContent" Runat="Server">
+    
     <div class="container-fluid">
+        
       <div class="row-fluid breadcrumb">
             <div class="span12">
                 <div class="breadcrumbInner">You are here: <asp:SiteMapPath ID="SiteMapPath1" runat="server" PathSeparator=" / " ></asp:SiteMapPath></div> 
