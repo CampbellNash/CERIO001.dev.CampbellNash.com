@@ -4,7 +4,7 @@
      <div class="span4"></div>
         <div class="span4">
             <div class="standard-login">
-                <h2 class="form-signin-heading">Please sign in</h2>
+                <h2 class="form-signin-heading">Please sign in now</h2>
                     <div class="form-signin">
                         <label>Username or email</label>
                         <asp:TextBox ID="txtEmailaddress" runat="server" class="input-block-level" placeholder="Email address"></asp:TextBox>
