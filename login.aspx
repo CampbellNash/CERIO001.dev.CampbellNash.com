@@ -12,7 +12,7 @@
                         <label>Password (<a href="#">forgot password</a>)</label>
                         <input type="password" class="input-block-level" placeholder="Password" />
                         <label class="checkbox">
-                          <input type="checkbox" value="remember-me" /> Remember me?
+                          <input type="checkbox" value="remember-me" /> Remember me
                         </label>
                         <asp:LinkButton ID="btnLogin" runat="server" class="btn">Sign in</asp:LinkButton>
                         
