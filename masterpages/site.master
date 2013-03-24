@@ -24,6 +24,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        
+        <AjaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></AjaxToolkit:ToolkitScriptManager>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -34,8 +36,9 @@
           </button>
           <a class="brand" href="#"><h1>CERI</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
           <p class="navbar-text pull-right">
-              <a class="btn" href="login.aspx">Sign In &raquo;</a>
-              <a class="btn btn-logout" href="default.aspx">Log out <img alt="" src="img/logoutIcon.png" /></a>
+              <a class="btn" href="../login.aspx" runat="server" id="btnLogin">Sign In &raquo;</a>
+              <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />
+              <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
             </p>
             <div class="nav-collapse collapse">
             <!-- This is the menu if we are NOT logged in -->
@@ -73,20 +76,20 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/js/jquery.js"></script>
-    <script src="/js/bootstrap.js"></script>
-    <script src="/js/bootstrap-transition.js"></script>
-    <script src="/js/bootstrap-alert.js"></script>
-    <script src="/js/bootstrap-modal.js"></script>
-    <script src="/js/bootstrap-dropdown.js"></script>
-    <script src="/js/bootstrap-scrollspy.js"></script>
-    <script src="/js/bootstrap-tab.js"></script>
-    <script src="/js/bootstrap-tooltip.js"></script>
-    <script src="/js/bootstrap-popover.js"></script>
-    <script src="/js/bootstrap-button.js"></script>
-    <script src="/js/bootstrap-collapse.js"></script>
-    <script src="/js/bootstrap-carousel.js"></script>
-    <script src="/js/bootstrap-typeahead.js"></script>
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-transition.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-alert.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-modal.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-scrollspy.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-tab.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-tooltip.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-popover.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-button.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-collapse.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-carousel.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-typeahead.js" type="text/javascript"></script>
     </form>
 </body>
 </html>
