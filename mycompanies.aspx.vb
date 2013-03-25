@@ -43,7 +43,6 @@ Partial Class mycompanies
                 rptMyCompanies.DataBind()
             Else
                 'No customers were found
-                panMyCompanies.Visible = False
                 lblNoCompanies.Text = "No companies found!"
             End If
             'Hide the other panels until clicked
@@ -51,6 +50,8 @@ Partial Class mycompanies
             panSuppliers.Visible = False
         End If
     End Sub
+
+#Region " Manage My Companies "
 
     Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
         'Go and see if we can get any customers
@@ -78,6 +79,26 @@ Partial Class mycompanies
         End If
     End Sub
 
+
+    Protected Sub btnAddCompany_Click(sender As Object, e As EventArgs) Handles btnAddCompany.Click
+        'Show the correct panels for this view
+        panAddCompany.Visible = True
+        panMyCompanies.Visible = False
+        panCustomers.Visible = False
+        panSuppliers.Visible = False
+    End Sub
+
+
+    Protected Sub btnCancelAdd_Click(sender As Object, e As EventArgs) Handles btnCancelAdd.Click
+        'Show the correct panels for this view
+        panMyCompanies.Visible = True
+        panAddCompany.Visible = False
+    End Sub
+
+#End Region
+
+#Region " Databindings "
+
     Protected Sub BindCompanies(sender As Object, e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
         Dim drv As DataRowView
@@ -90,6 +111,9 @@ Partial Class mycompanies
         End If
     End Sub
 
-    
-    
+
+#End Region
+
+
+
 End Class

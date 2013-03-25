@@ -6,30 +6,44 @@
             <div class="span9">
                 <h2>My Companies</h2>
                 <h3>Manage My Companies</h3>
-                <p>The list below shows the list of companies that you are resonsible for.</p>
+                <div style="width: auto; border-style: double; padding: 20px;">
+                    <asp:Panel ID="panMyCompanies" runat="server">
 
-                <div>
-                    My Companies:
-                        <asp:Panel ID="panMyCompanies" runat="server">
-                            <ul>
-                                <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
-                                    <ItemTemplate>
-                                        <li>
-                                            <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />
-                                        </li>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                            </ul>
-                        </asp:Panel>
-                    <p>
-                        <asp:Label ID="lblNoCompanies" runat="server" CssClass="failureNotification" />
-                    </p>
-                    <p>
-                        <asp:Button ID="btnAddCompany" runat="server" Text="Add Company" CssClass="btn" />
-                    </p>
+                        <p>The list below shows the list of companies that you are resonsible for.</p>
+                        <ul>
+                            <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
+                                <ItemTemplate>
+                                    <li>
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                        <p>
+                            <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-warning" />
+                        </p>
+                        <p>
+                            <asp:Button ID="btnAddCompany" runat="server" Text="Add Company" CssClass="btn" />
+                        </p>
+
+
+                    </asp:Panel>
+                <asp:Panel ID="panAddCompany" runat="server" Visible="false">
+                   
+                        <p>Use the form below to add your company.</p>
+                        <div class="form-signin">
+                            <label>Title:</label>
+                            <asp:DropDownList ID="cboTitles" runat="server" />
+                            <p>
+                                <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn" Text="Add New Company" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn" Text="Cancel" />
+                            </p>
+                        </div>
+                </asp:Panel>
+
                 </div>
+                <hr />
                 <asp:Panel ID="panCustomers" runat="server">
-                    <div style="float: left; margin-left: 50px; width: 350px;border-style:dashed;">
+                    <div style="float: left; margin-left: 50px; width: 450px; border-style: double; padding: 20px;">
                         My Customers:
                             <ul>
                                 <asp:Repeater ID="rptCustomers" runat="server" OnItemDataBound="BindCompanies">
@@ -49,7 +63,7 @@
                     </div>
                 </asp:Panel>
                 <asp:Panel ID="panSuppliers" runat="server">
-                    <div style="float: right; margin-right: 50px; width: 850px">
+                    <div style="float: right; margin-right: 550px; width: 450px; border-style: double; padding:20px;">
                         My Suppliers:
 
                             <ul>
