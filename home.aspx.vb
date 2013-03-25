@@ -38,6 +38,8 @@ Partial Class home
         If Not IsPostBack Then
             'lets add the user's firstname
             lblFirstname.Text = Session("FirstName")
+            lblFullname.Text = Session("Firstname") & " " & Session("Surname")
+            lblContactId.Text = Session("ContactID")
            
         End If
     End Sub
