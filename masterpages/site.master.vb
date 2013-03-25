@@ -32,10 +32,14 @@ Partial Class masterpages_site
         If Not IsPostBack Then
             If Not Session("UserLoggedIn") Then
                 btnLogin.Visible = True
-                btnLogOut.Visible = False
+                btnLogout.Visible = False
+                navloggedOut.Visible = True
+                navloggedin.Visible = False
             Else
                 btnLogOut.Visible = True
                 btnLogin.Visible = False
+                navloggedOut.Visible = False
+                navloggedin.Visible = True
             End If
         End If
     End Sub

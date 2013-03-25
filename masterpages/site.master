@@ -24,8 +24,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        
-        <AjaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></AjaxToolkit:ToolkitScriptManager>
+    <AjaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></AjaxToolkit:ToolkitScriptManager>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -42,17 +41,19 @@
             </p>
             <div class="nav-collapse collapse">
             <!-- This is the menu if we are NOT logged in -->
-                <ul class="nav">
-                  <li class="active"><a href="default.aspx">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#about">Features</a></li>
-                  <li><a href="#about">Pricing</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                </ul>
+                <div id="navloggedOut" runat="server" visible="false">
+                    <ul class="nav">
+                      <li class="active"><a href="default.aspx">Home</a></li>
+                      <li><a href="#about">About</a></li>
+                      <li><a href="#about">Features</a></li>
+                      <li><a href="#about">Pricing</a></li>
+                      <li><a href="#contact">Contact</a></li>
+                    </ul>
+                 </div>
             <!-- This is the menu if we are logged in -->
                 <div id="navloggedin" runat="server" visible="false">
                      <ul class="nav">
-                        <li class="active"><a href="default.html">Home</a></li>
+                        <li class="active"><a href="home.aspx">Home</a></li>
                         <li><a href="#about">Help</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>

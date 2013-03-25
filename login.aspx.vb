@@ -47,7 +47,7 @@ Partial Class login
                 Session("ContactID") = CInt(dr("ContactID"))
                 Session("Surname") = dr("Surname")
                 'Now we can redirect to the home page
-                Response.Redirect("~/default.aspx")
+                Response.Redirect("~/home.aspx")
             Case -1
                 'Incorrect user name
                 lblWarning.Text = "Incorrect username or password, please check your details and try again [1]"
