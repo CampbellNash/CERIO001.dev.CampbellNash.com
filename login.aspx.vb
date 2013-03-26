@@ -31,6 +31,7 @@ Partial Class login
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
             'TODO: If anything relies on this page then place it here
+
         End If
     End Sub
 

@@ -35,7 +35,7 @@
           </button>
           <a class="brand" href="#"><h1>CERI</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
           <p class="navbar-text pull-right">
-              <a class="btn" href="../login.aspx" runat="server" id="btnLogin">Sign In &raquo;</a>
+              <a class="btn" href="../login.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
               <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />
               <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
             </p>

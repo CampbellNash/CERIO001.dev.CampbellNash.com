@@ -31,13 +31,13 @@ Partial Class masterpages_site
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
             If Not Session("UserLoggedIn") Then
-                btnLogin.Visible = True
+                btnGotoLogin.Visible = True
                 btnLogout.Visible = False
                 navloggedOut.Visible = True
                 navloggedin.Visible = False
             Else
                 btnLogOut.Visible = True
-                btnLogin.Visible = False
+                btnGotoLogin.Visible = False
                 navloggedOut.Visible = False
                 navloggedin.Visible = True
             End If
