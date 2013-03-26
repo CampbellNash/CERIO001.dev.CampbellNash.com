@@ -44,16 +44,22 @@ Partial Class mycompanies
             Else
                 'No customers were found
                 lblNoCompanies.Text = "No companies found!"
+                lblNoCompaniesHelp.Text = "- You have no companies associated, click the button add company so find or add your company"
+
             End If
             'Hide the other panels until clicked
             panCustomers.Visible = False
             panSuppliers.Visible = False
+            'Set the page title 
+            lblManageCompaniesPageTitle.Text = "Manage My Companies"
         End If
     End Sub
 
 #Region " Manage My Companies "
 
     Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
+        'First lets update the page title to refelct the Company we are dealing with.
+        lblManageCompaniesPageTitle.Text = "Manage " & sender.CommandName
         'Go and see if we can get any customers
         Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(sender.CommandArgument)
         If MyCustomers.Tables(0).Rows.Count > 0 Then
@@ -61,6 +67,8 @@ Partial Class mycompanies
             rptCustomers.DataSource = MyCustomers
             rptCustomers.DataBind()
             panCustomers.Visible = True
+            lblCompanyCustomers.Text = sender.CommandName
+
         Else
             'No customers were found
             lblNoCustomers.Text = "No customers found!"
@@ -73,6 +81,7 @@ Partial Class mycompanies
             rptSuppliers.DataSource = MySuppliers
             rptSuppliers.DataBind()
             panSuppliers.Visible = True
+            lblCompanySuppliers.Text = sender.CommandName
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
@@ -82,10 +91,31 @@ Partial Class mycompanies
 
     Protected Sub btnAddCompany_Click(sender As Object, e As EventArgs) Handles btnAddCompany.Click
         'Show the correct panels for this view
-        panAddCompany.Visible = True
+        panAddCompany.Visible = False
         panMyCompanies.Visible = False
         panCustomers.Visible = False
         panSuppliers.Visible = False
+        panSearchCompanies.Visible = True
+        'Set the page title 
+        lblManageCompaniesPageTitle.Text = "Company Association"
+
+        'Populate our form dropdowns starting with the Business areas
+        cboBusinessArea.DataSource = NashBLL.GetBusinessAreas
+        cboBusinessArea.DataTextField = "BusinessArea"
+        cboBusinessArea.DataValueField = "BusinessAreaID"
+        cboBusinessArea.DataBind()
+        'Now get our countries
+        cboCountries.DataSource = NashBLL.GetCountries
+        cboCountries.DataTextField = "CountryName"
+        cboCountries.DataValueField = "CountryID"
+        cboCountries.DataBind()
+        'Now add in a please select
+        Dim newItem As New ListItem
+        newItem.Text = "--- Please Select ---"
+        newItem.Value = ""
+        cboBusinessArea.Items.Insert(0, newItem)
+        cboCountries.Items.Insert(0, newItem)
+
     End Sub
 
 
@@ -93,6 +123,32 @@ Partial Class mycompanies
         'Show the correct panels for this view
         panMyCompanies.Visible = True
         panAddCompany.Visible = False
+        'Set the page title 
+        lblManageCompaniesPageTitle.Text = "Manage My Companies"
+    End Sub
+
+    Protected Sub btngoBack_Click(sender As Object, e As EventArgs) Handles btnGoback.Click
+        'Show the correct panels for this view
+        panMyCompanies.Visible = False
+        panAddCompany.Visible = False
+        panSearchCompanies.Visible = True
+
+        'Set the page title 
+        lblManageCompaniesPageTitle.Text = "Manage My Companies"
+    End Sub
+
+    Protected Sub btnGoToAdd_Click(sender As Object, e As EventArgs) Handles btnGoToAdd.Click
+
+        panSearchCompanies.Visible = False
+        panAddCompany.Visible = True
+
+    End Sub
+
+    Protected Sub btnCancelSearch_Click(sender As Object, e As EventArgs) Handles btnCancelSearch.Click
+
+        panSearchCompanies.Visible = False
+        panMyCompanies.Visible = True
+
     End Sub
 
 #End Region
@@ -108,6 +164,9 @@ Partial Class mycompanies
             drv = e.Item.DataItem
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
+            btnCompanyName.CommandName = drv("CompanyName")
+
+
         End If
     End Sub
 
@@ -116,4 +175,6 @@ Partial Class mycompanies
 
 
 
+    
+    
 End Class
