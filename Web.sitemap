@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
-    <siteMapNode url="~/default.aspx" title="Home page"  description="This is the home page">
-		<siteMapNode url="~/template.aspx" title="CERVIO Template"  description="" />
-		<siteMapNode url="~/home.aspx" title="CERVIO Home page"  description="" />
+    <siteMapNode url="~/default.aspx" title="CERIO Home"  description="This is the home page">
+		<siteMapNode url="~/template.aspx" title="CERIO Template"  description="" />
 		<siteMapNode url="~/register.aspx" title="Register with CERVIO"  description="" />
-        <siteMapNode url="~/mycompanies.aspx" title="My Companies"  description="" />
+        <siteMapNode url="~/home.aspx" title="Your Home page"  description="" >
+			<siteMapNode url="~/mycompanies.aspx" title="My Companies"  description="" />
+		</siteMapNode>
     </siteMapNode>
+		
 </siteMap>
