@@ -5697,6 +5697,21 @@ a.badge:focus {
   cursor: pointer;
 }
 
+.label-nodata, .badge-nodata
+{
+    
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+.label-nodata[href],
+.badge-nodata[href] {
+  
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+
 .label-important,
 .badge-important {
   background-color: #b94a48;
