@@ -12,6 +12,11 @@
   *zoom: 1;
 }
 
+.gap
+{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;

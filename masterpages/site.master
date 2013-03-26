@@ -44,7 +44,7 @@
                 <div id="navloggedOut" runat="server" visible="false">
                     <ul class="nav">
                       <li class="active"><a href="default.aspx">Home</a></li>
-                      <li><a href="#about">About</a></li>
+                      <li><a href="about-cerio.aspx">About</a></li>
                       <li><a href="#about">Features</a></li>
                       <li><a href="#about">Pricing</a></li>
                       <li><a href="#contact">Contact</a></li>

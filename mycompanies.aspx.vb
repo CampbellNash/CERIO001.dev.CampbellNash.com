@@ -153,6 +153,21 @@ Partial Class mycompanies
 
 #End Region
 
+#Region "My Suppliers"
+
+    Protected Sub btnAddCustomer_Click(sender As Object, e As EventArgs) Handles btnAddCustomer.Click
+        panApplyCustomer.Visible = True
+        panCustomers.Visible = False
+    End Sub
+
+    Protected Sub btnCancelApplyCustomer_Click(sender As Object, e As EventArgs) Handles btnCancelApplyCustomer.Click
+        panApplyCustomer.Visible = False
+        panCustomers.Visible = True
+    End Sub
+
+#End Region
+
+
 #Region " Databindings "
 
     Protected Sub BindCompanies(sender As Object, e As RepeaterItemEventArgs)
@@ -175,6 +190,8 @@ Partial Class mycompanies
 
 
 
-    
+
+
+
     
 End Class
