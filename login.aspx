@@ -10,7 +10,7 @@
                     <div class="form-signin">
                         <asp:Panel ID="panFormWrapper" runat="server" defaultbutton="btnLogin">
                         <label>Username or email</label>
-                        <asp:TextBox ID="txtUserName" runat="server" class="input-block-level" placeholder="Email address" TabIndex="1"></asp:TextBox>
+                        <asp:TextBox ID="txtUserName" runat="server" CssClass="input-block-level" placeholder="Email address" TabIndex="1"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvEmailAddress" ControlToValidate="txtUserName" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter your email address or username"></asp:RequiredFieldValidator>
                         <label>Password (<a href="#">forgot password</a>)</label>
                         <asp:TextBox ID="txtPassword" runat="server" CssClass="input-block-level" placeholder="Password" TabIndex="2" TextMode="Password" />
