@@ -54,6 +54,56 @@ Namespace MasterClass
             Return MyDataSet
         End Function
 
+        Public Shared Function GetBusinessAreas() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetBusinessAreas", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "BusinessAreas")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function GetCountries() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetCountries", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "Countries")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+
+
 #End Region
 
 #Region " User Forms "
