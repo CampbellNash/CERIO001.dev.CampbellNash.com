@@ -15,7 +15,7 @@
                     <ul class="nav nav-list">
                         <li class="nav-header">Main Navigation</li>
                         <li class="active"><a href="home.aspx">Your home page</a></li>
-                        <li><a href="mycompanies.aspx">Manage my compnaies</a></li>
+                        <li><a href="mycompanies.aspx">Manage my companies</a></li>
                         <li><a href="#">Manage my data</a></li>
                        
                     </ul>
