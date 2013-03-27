@@ -52,7 +52,7 @@ Partial Class myquestionnaire
         rfv.ValidationGroup = "Questionnaire"
         rfv.Display = ValidatorDisplay.Dynamic
         
-        TextBox.Columns = 40
+
         TextBox.TextMode = TextBoxMode.Password
         TextBox.ID = "txtPassword"
         TextBox.CssClass = "input-block-level"
