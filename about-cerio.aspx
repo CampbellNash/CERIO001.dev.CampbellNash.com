@@ -43,8 +43,8 @@ broaden out into other areas through time.</p>
 supplier relationships</li>
                  <li>Translate policies into concrete action</li>
                  <li>Manage compliance and reputational risks</li>
-                 <li>Company policy is reinforced and embedded
-Set up a company-wide auditable archive to
+                 <li>Company policy is reinforced and embedded</li>
+                 <li>Set up a company-wide auditable archive to
 demonstrate compliance</li>
 
              </ul>

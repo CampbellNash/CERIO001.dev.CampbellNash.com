@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-     <h1>CERIO Supply Chain Solutions</h1>
+     <h1>CORICO Supply Chain Solutions</h1>
             <p>Ensuring compliance with UK and International Anti-Bribery and Corruption legislation can be a challenge. In particular, you need to be sure that your supply chain is compliant with your company policies</p>
             <p><a href="#" class="btn btn-info btn-large">Learn more &raquo;</a></p>
 </asp:Content>
@@ -15,13 +15,13 @@
                         </label>
                         <button class="btn btn-large btn-success" type="submit">Sign up for CERIO</button>
                         <label><a href="register.aspx">Register?</a></label>
-                        <label><a href="#">See plans and pricing</a></label>
+                        <label><a href="pricing">See plans and pricing</a></label>
                     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphLowerSection" Runat="Server">
      <div class="row-fluid">
             <div class="span4">
-              <h2>Introducing CERIO</h2>
+              <h2>Introducing CORICO</h2>
               <p>Ensuring compliance with UK and International Anti-Bribery and Corruption legislation can be a challenge. In particular, you need to be sure that your supply chain is compliant with your company policies. </p>
                 <p>This is where Pinsent Masons Cerio comes in. It gives you a process for vetting new and existing suppliers and, in turn, their suppliers.</p>
               <p><a class="btn" href="default.aspx#Introducing">Find out more &raquo;</a></p>
