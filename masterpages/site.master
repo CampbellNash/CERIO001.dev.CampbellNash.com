@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#"><h1>CORIC</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
+          <a class="brand" href="/"><h1>CORIC</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
           <p class="navbar-text pull-right">
               <a class="btn" href="../login.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
               <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />

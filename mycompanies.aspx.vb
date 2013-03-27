@@ -142,6 +142,8 @@ Partial Class mycompanies
         panSearchCompanies.Visible = False
         panAddCompany.Visible = True
 
+
+
     End Sub
 
     Protected Sub btnCancelSearch_Click(sender As Object, e As EventArgs) Handles btnCancelSearch.Click
@@ -155,14 +157,30 @@ Partial Class mycompanies
 
 #Region "My Suppliers"
 
+
+    Protected Sub btnAddSupplier_Click(sender As Object, e As EventArgs) Handles btnAddSupplier.Click
+
+    End Sub
+
+#End Region
+
+#Region "My Customers"
+
+
     Protected Sub btnAddCustomer_Click(sender As Object, e As EventArgs) Handles btnAddCustomer.Click
         panApplyCustomer.Visible = True
         panCustomers.Visible = False
+        panSuppliers.CssClass = "fadePanel"
+        panMyCompanies.CssClass = "fadePanel"
+        panSubNav.CssClass = "fadePanel"
     End Sub
 
     Protected Sub btnCancelApplyCustomer_Click(sender As Object, e As EventArgs) Handles btnCancelApplyCustomer.Click
         panApplyCustomer.Visible = False
         panCustomers.Visible = True
+        panSuppliers.CssClass = ""
+        panMyCompanies.CssClass = ""
+        panSubNav.CssClass = ""
     End Sub
 
 #End Region
@@ -194,4 +212,5 @@ Partial Class mycompanies
 
 
     
+   
 End Class

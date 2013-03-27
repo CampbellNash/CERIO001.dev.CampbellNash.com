@@ -3,13 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
+            
             <div class="span9">
-                <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                
+               
                 
                     <asp:Panel ID="panMyCompanies" runat="server">
-                        
-                        <p><b>The list below shows the list of companies that you are resonsible for.</b></p>
+                         <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
+               
+                        <p><b>The list below shows the list of companies that you are responsible for.</b></p>
                         <ul>
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
                                 <ItemTemplate>
@@ -160,8 +162,8 @@
                 </asp:Panel>
 
             </div>
-
-            <div class="span3">
+            <asp:Panel runat="server" ID="panSubNav">
+                <div class="span3">
                 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <li class="nav-header">Main Navigation</li>
@@ -189,6 +191,7 @@
                 <!--/.well -->
 
             </div>
+            </asp:Panel>
         </ContentTemplate>
     </asp:UpdatePanel>
 
