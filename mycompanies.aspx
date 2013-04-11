@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
-
+<%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
@@ -52,7 +52,7 @@
                         
                         <asp:Button ID="btnGoback" runat="server" CausesValidation="False" CssClass="btn btn-danger pull-right" Text="Go back and Search" />
                         <h4>Enter company details</h4>
-                        <p>Use the form below to add your company. Please ensure you have <a href="#">seached</a> for your company first. Items marked with a <span class="alert-error">*</span> are required.</p>
+                        <p>Use the form below to add your company. Please ensure you have <a href="#">searched</a> for your company first. Items marked with a <span class="alert-error">*</span> are required.</p>
                         
                             <div class="control-group">
                                 <label class="control-label"><span class="alert-error">*</span> Title:</label>
@@ -64,25 +64,86 @@
                                 <label class="control-label"><span class="alert-error">*</span> Business area:</label>
                                 <div class="controls"><asp:DropDownList runat="server" ID="cboBusinessArea"/></div>
                             </div>
-                            <label><span class="alert-error">*</span> Address line 1:</label>
-                            <asp:TextBox runat="server" ID="txtAddAddressLine1" CssClass="input-xlarge"></asp:TextBox>
-                            <label>Address line 2:</label><asp:TextBox runat="server" ID="TextBox1" CssClass="input-xlarge"></asp:TextBox>
-                            <label>Address line 3:</label><asp:TextBox runat="server" ID="TextBox2" CssClass="input-xlarge"></asp:TextBox>
-                            <label>Address line 4:</label><asp:TextBox runat="server" ID="TextBox3" CssClass="input-xlarge"></asp:TextBox>
-                            <label><span class="alert-error">*</span> City:</label><asp:TextBox runat="server" ID="TextBox4" CssClass="input-large"></asp:TextBox>
-                            <label><span class="alert-error">*</span> Post code/Zip code:</label><asp:TextBox runat="server" ID="txtPostCode" CssClass="input-small"></asp:TextBox>
-                            <label><span class="alert-error">*</span> Country:</label>
-                            <asp:DropDownList runat="server" ID="cboCountries"/>
-                            <label><span class="alert-error">*</span> Telephone Number:</label></label><asp:TextBox runat="server" ID="TextBox5" CssClass="input-large"></asp:TextBox>
-                            <label>Fax number:</label></label><asp:TextBox runat="server" ID="TextBox6" CssClass="input-large"></asp:TextBox>
-                            <label>Telex:</label></label><asp:TextBox runat="server" ID="TextBox7" CssClass="input-large"></asp:TextBox>
-                            <label>Website URL:</label></label><asp:TextBox runat="server" ID="TextBox8" CssClass="input-large"></asp:TextBox>
-                            <label><span class="alert-error">*</span> Email address:</label></label><asp:TextBox runat="server" ID="TextBox9" CssClass="input-xxlarge"></asp:TextBox>
-                            <label>Twitter:</label></label>
-                             <div class="input-prepend">
-                                  <span class="add-on">@</span>
-                                  <input class="span2" id="prependedInput" type="text" placeholder="Username">
+                            <div class="control-group">
+                                <label class="control-label"><span class="alert-error">*</span> Address line 1:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtAddAddressLine1" CssClass="input-xlarge"></asp:TextBox></div>
                             </div>
+                            <div class="control-group">
+                                
+                                <label class="control-label">Address line 2:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox1" CssClass="input-xlarge"></asp:TextBox></div>
+                            </div>
+                            <div class="control-group">
+                                
+                                <label class="control-label">Address line 3:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox2" CssClass="input-xlarge"></asp:TextBox></div>
+
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Address line 4:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox3" CssClass="input-xlarge"></asp:TextBox></div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label class="control-label"><span class="alert-error">*</span> City:</label>
+                                <div class="controls">
+                                <asp:TextBox runat="server" ID="TextBox4" CssClass="input-large"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="alert-error">*</span> Post code/Zip code:</label>
+                                    <div class="controls"><asp:TextBox runat="server" ID="txtPostCode" CssClass="input-small"></asp:TextBox></div>
+                            </div>
+                        
+                            <div class="control-group">
+                                 <label class="control-label"><span class="alert-error">*</span> Country:</label>
+                                 <div class="controls"><asp:DropDownList runat="server" ID="cboCountries"/></div>
+                            </div>
+                            
+                            <div class="control-group">
+                                
+                                <label class="control-label"><span class="alert-error">*</span> Telephone Number:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox5" CssClass="input-large"></asp:TextBox></div>
+                            </div> 
+                           
+                            <div class="control-group">
+                                
+                                <label class="control-label">Fax number:</label>
+                                
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox6" CssClass="input-large"></asp:TextBox></div>
+
+                            </div>
+                        
+                            <div class="control-group">
+                                <label class="control-label">Telex:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox7" CssClass="input-large"></asp:TextBox></div>
+                            </div>
+                        
+                            <div class="control-group">
+                                <label class="control-label">Website URL:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="TextBox8" CssClass="input-large"></asp:TextBox></div>
+                            </div>
+                        
+                        <div class="control-group">
+                            <label class="control-label"><span class="alert-error">*</span> Email address:</label>
+                            <div class="controls"><asp:TextBox runat="server" ID="TextBox9" CssClass="input-xxlarge"></asp:TextBox></div>
+
+                        </div>
+                            
+                          <div class="control-group">
+                               <label class="control-label">Twitter:</label>
+                              <div class="controls">
+                              <div class="input-prepend">
+                                  <span class="add-on">@</span>
+                                  <input class="span10" id="prependedInput" type="text" placeholder="Username">
+                            </div>
+                                  </div>
+                          </div>
+                        
+                          
+                           
+                           
+                             
                              <br />
                            <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn btn-warning" Text="Add New Company" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn btn-danger" Text="Cancel" CausesValidation="False" />
                     </div> 
@@ -164,33 +225,8 @@
             </div>
             <asp:Panel runat="server" ID="panSubNav">
                 <div class="span3">
-                <div class="well sidebar-nav">
-                    <ul class="nav nav-list">
-                        <li class="nav-header">Main Navigation</li>
-                        <li class="active"><a href="home.aspx">Your home page</a></li>
-                        <li><a href="mycompanies.aspx">Manage my companies</a></li>
-                        <li><a href="#">Manage my data</a></li>
-                       
-                    </ul>
-                    <ul class="nav nav-list">
-                        <li class="nav-header">My latest activities</li>
-                        <li class="active"><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li class="nav-header">Another bit of info</li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-                        <li><a href="#">Link</a></li>
-
-                    </ul>
+                    <uc1:submenu1 ID="submenu11" runat="server" />      
                 </div>
-                <!--/.well -->
-
-            </div>
             </asp:Panel>
         </ContentTemplate>
     </asp:UpdatePanel>

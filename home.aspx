@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="home.aspx.vb" Inherits="home" %>
+<%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
      <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -11,16 +12,9 @@
             </div>
             
             <div class="span3">
-                <div class="well sidebar-nav">
-                    <ul class="nav nav-list">
-                        <li class="nav-header">Main Navigation</li>
-                        <li class="active"><a href="home.aspx">Your home page</a></li>
-                        <li><a href="mycompanies.aspx">Manage my companies</a></li>
-                        <li><a href="#">Manage my data</a></li>
-                       
-                    </ul>
-                </div>
-                <!--/.well -->
+                
+                <uc1:submenu1 ID="submenu11" runat="server" />
+                
             </div>
 
         </ContentTemplate>
