@@ -8,7 +8,9 @@
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000">
         <asp:Literal ID="litTest" runat="server" />
             <div class="register">
-               
+               <div class="progress">
+                   <div class="bar" style="width: 20%;"></div>
+               </div>
                <h3>Items marked with * are requried</h3>
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
