@@ -7,6 +7,7 @@
                         <li><a href="#">Manage my data</a></li>
                        
                     </ul>
+                    
                     <ul class="nav nav-list">
                         <li class="nav-header">My Task list</li>
                         <li class="active"><a href="#">Link 1</a></li>
@@ -18,7 +19,27 @@
     <h4>Click<a href="#"> here</a> to view all your tasks</h4>
    
 </div>
-
+<ul class="nav nav-tabs">
+                      <li class="active">
+<a href="#">Assigned Tasks</a>
+</li>
+<li>
+<a href="#">Sent Tasks</a>
+</li>
+                      <li class="dropdown">
+                        <a class="dropdown-toggle"
+                           data-toggle="dropdown"
+                           href="#">
+                            Dropdown
+                            <b class="caret"></b>
+                          </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">action 1</a></li>
+                          <li><a href="#">action 2</a></li>
+                          <li><a href="#">action 3</a></li>
+                        </ul>
+                      </li>
+                    </ul>
 <div class="well sidebar-nav">
     <ul class="nav nav-list">                    
     <li class="nav-header">My Latest events</li>
