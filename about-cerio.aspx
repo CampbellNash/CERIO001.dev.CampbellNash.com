@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="about-cerio.aspx.vb" Inherits="about_cerio" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="about-CERICO.aspx.vb" Inherits="about_CERICO" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-     <h1>About Cerio</h1>
+     <h1>About CERICO</h1>
     <h3>a dueDILIGENCE solution</h3>
        
             <p><a href="#" class="btn btn-info btn-large">Another option &raquo;</a></p>
@@ -14,7 +14,7 @@
                         <label class="checkbox">
                           <input type="checkbox" value="remember-me" /> Remember me
                         </label>
-                        <button class="btn btn-large btn-success" type="submit">Sign up for CERIO</button>
+                        <button class="btn btn-large btn-success" type="submit">Sign up for CERICO</button>
                         <label><a href="register.aspx">Register?</a></label>
                         <label><a href="#">See plans and pricing</a></label>
                     </div>
@@ -23,7 +23,7 @@
      <div class="row-fluid">
             <div class="span8">
                 <h2> IT Due Diligence and Monitoring Packaged Electronic Framework Solution portal</h2>
-    <p>PMCcerio is a unique IT Due Diligence and Monitoring
+    <p>PMCCERICO is a unique IT Due Diligence and Monitoring
 Packaged Electronic Framework Solution portal that
 comprehensively covers the vital area of GOVERNANCE/
 COMPLIANCE, is GROUNDBREAKING in its concept, has

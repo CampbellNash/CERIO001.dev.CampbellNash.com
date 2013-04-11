@@ -221,13 +221,45 @@
 
                     </div>
                 </asp:Panel>
+                <asp:Panel ID="panAddSupplier" runat="server">
+                    <div class="span6">
+                        <asp:Button ID="btnCancelAddSupplier" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
+                        <h4>Add a new supplier</h4> 
+                        Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="Button1" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="search" ControlToValidate="txtSupplierSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
+                        <ajaxToolkit:HoverMenuExtender ID="HoverMenuExtender1" runat="Server"
+    TargetControlID="btnSelectSupplier"
+    PopupControlID="panelSupplierPopup"
+    HoverCssClass="popupHover"
+    PopupPosition="Right"
+    OffsetX="0"
+    OffsetY="-300"
+    PopDelay="50" />
+                        <h5>Search Results: </h5>
+                        <asp:LinkButton ID="btnSelectSupplier" runat="server">Campbell Nash - Select this company</asp:LinkButton>
+                        <asp:Panel CssClass="popover" ID="panelSupplierPopup" runat="server">
+                            <div class="popover-content">
+                            <h5>Full details for company</h5>
+                            <asp:Image ID="Image2" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                            <h6>Campbell Nash </h6>
+                            <h6>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</h6>
+                            
+                            </div>
+                        
+</asp:Panel>
+                    </div>
+                    
+
+                </asp:Panel>
 
             </div>
+            <div class="span3">
             <asp:Panel runat="server" ID="panSubNav">
-                <div class="span3">
+                
                     <uc1:submenu1 ID="submenu11" runat="server" />      
-                </div>
+               
             </asp:Panel>
+                 </div>
         </ContentTemplate>
     </asp:UpdatePanel>
 

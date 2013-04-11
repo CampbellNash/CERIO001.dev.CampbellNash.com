@@ -50,6 +50,7 @@ Partial Class mycompanies
             'Hide the other panels until clicked
             panCustomers.Visible = False
             panSuppliers.Visible = False
+            panAddSupplier.Visible = False
             'Set the page title 
             lblManageCompaniesPageTitle.Text = "Manage My Companies"
         End If
@@ -159,8 +160,22 @@ Partial Class mycompanies
 
 
     Protected Sub btnAddSupplier_Click(sender As Object, e As EventArgs) Handles btnAddSupplier.Click
-
+        panAddSupplier.Visible = True
+        panSuppliers.Visible = False
+        panCustomers.CssClass = "fadePanel"
+        panMyCompanies.CssClass = "fadePanel"
+        panSubNav.CssClass = "fadePanel"
     End Sub
+
+    Protected Sub btnCancelAddSupplier_Click(sender As Object, e As EventArgs) Handles btnCancelAddSupplier.Click
+        panAddSupplier.Visible = False
+        panSuppliers.Visible = True
+        panCustomers.CssClass = ""
+        panMyCompanies.CssClass = ""
+        panSubNav.CssClass = ""
+    End Sub
+
+
 
 #End Region
 

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-     <h1>CORICO Supply Chain Solutions</h1>
+     <h1>CERICO Supply Chain Solutions</h1>
             <p>Ensuring compliance with UK and International Anti-Bribery and Corruption legislation can be a challenge. In particular, you need to be sure that your supply chain is compliant with your company policies</p>
             <p><a href="#" class="btn btn-info btn-large">Learn more &raquo;</a></p>
 </asp:Content>
@@ -13,7 +13,7 @@
                         <label class="checkbox">
                           <input type="checkbox" value="remember-me" /> Remember me
                         </label>
-                        <button class="btn btn-large btn-success" type="submit">Sign up for CERIO</button>
+                        <button class="btn btn-large btn-success" type="submit">Sign up for CERICO</button>
                         <label><a href="register.aspx">Register?</a></label>
                         <label><a href="pricing">See plans and pricing</a></label>
                     </div>
@@ -21,9 +21,9 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="cphLowerSection" Runat="Server">
      <div class="row-fluid">
             <div class="span4">
-              <h2>Introducing CORICO</h2>
+              <h2>Introducing CERICO</h2>
               <p>Ensuring compliance with UK and International Anti-Bribery and Corruption legislation can be a challenge. In particular, you need to be sure that your supply chain is compliant with your company policies. </p>
-                <p>This is where Pinsent Masons Cerio comes in. It gives you a process for vetting new and existing suppliers and, in turn, their suppliers.</p>
+                <p>This is where Pinsent Masons CERICO comes in. It gives you a process for vetting new and existing suppliers and, in turn, their suppliers.</p>
               <p><a class="btn" href="default.aspx#Introducing">Find out more &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
@@ -53,12 +53,12 @@
               <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
-              <h2>Why CERIO?</h2>
+              <h2>Why CERICO?</h2>
               <p>The Act applies to ALL UK companies, irrespective of size or the sector in which they operate, and any international companies with a business in the UK. On the international front adding to the due diligence burden are new US regulations required product manufacturers and suppliers to carry out due diligigence on their supply chain, to avoid purchasing “conflict materials”.</p>
               <p><a class="btn" href="#">Full details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">
-              <h2>What can I do on Cerio?</h2>
+              <h2>What can I do on CERICO?</h2>
               <p>It forms part of a wider compliance service endowed with strong vetting procedures helping clients and their suppliers - at times thousands in number - to meet the challenges of supply chain compliance, whilst preserving their good name and reputation - so vital in these still highly uncertain economic times when competitition for new business remains fi erce.</p>
               <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
@@ -71,11 +71,11 @@
     <div class="row-fluid">
         <div class="span12">
             <section id="Introducing">
-            <h2>Introducing CERIO</h2>
+            <h2>Introducing CERICO</h2>
             <p>Ensuring compliance with UK and International Anti-Bribery and
 Corruption legislation can be a challenge.
 In particular, you need to be sure that your supply chain is compliant with
-your company policies. This is where Pinsent Masons Cerio comes in.
+your company policies. This is where Pinsent Masons CERICO comes in.
 It gives you a process for vetting new and existing suppliers and, in turn,
 their suppliers. </p>
             <p>It ensures consistent application of company policies

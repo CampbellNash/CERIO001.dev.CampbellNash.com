@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head runat="server">
-    <title>CORICO / From Campbell Nash & Pinset Masons</title>
+    <title>CERICO / From Campbell Nash & Pinset Masons</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap -->
     <link href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" />
@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="/"><h1>CORIC</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
+          <a class="brand" href="/"><h1>CERIC</h1><h2>Supply Chain Solutions from Pinsent Masons</h2></a>
           <p class="navbar-text pull-right">
               <a class="btn" href="../login.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
               <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />
@@ -44,7 +44,7 @@
                 <div id="navloggedOut" runat="server" visible="false">
                     <ul class="nav">
                       <li class="active"><a href="default.aspx">Home</a></li>
-                      <li><a href="about-cerio.aspx">About</a></li>
+                      <li><a href="about-CERICO.aspx">About</a></li>
                       <li><a href="corico-features-benefits.aspx">Features</a></li>
                       <li><a href="pricing.aspx">Pricing</a></li>
                       <li><a href="contact.aspx">Contact</a></li>
@@ -69,8 +69,8 @@
       <div class="row-fluid footer">
           <div class="span4">[<a href="#">Terms of service</a>] [<a href="#">Privacy</a>] [<a href="#">Security</a>]</div>
           <div class="span4 footer-logo"><img 
-               title="CERIO / Supply Chain Solutions from Pinsent Masons" alt="CERIO / Supply Chain Solutions from Pinsent Masons" src="img/icon-footer.png" /></div>
-          <div class="span4 copyright">© 2013 CERIO, Inc. All rights reserved.</div>
+               title="CERICO / Supply Chain Solutions from Pinsent Masons" alt="CERICO / Supply Chain Solutions from Pinsent Masons" src="img/icon-footer.png" /></div>
+          <div class="span4 copyright">© 2013 CERICO, Inc. All rights reserved.</div>
       </div><!--/row-->
     </div><!--/.fluid-container-->
 
