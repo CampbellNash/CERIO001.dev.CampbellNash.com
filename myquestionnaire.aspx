@@ -7,6 +7,9 @@
             <asp:Panel ID="panMain" runat="server" Visible="true">
                 <h3>
                     <asp:Literal ID="litStatus" runat="server" Text="Status: - " /></h3>
+                <div class="progress">
+            <div class="bar" style="width: 10%;"></div>
+        </div>
                 <p>Provide the answers below to complete &amp; close and submit this questionnaire.</p>
 
                 <div class="form-signin form-horizontal">

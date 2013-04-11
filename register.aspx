@@ -19,6 +19,9 @@
     <div class="span6">
         <h3>This can be some content on right</h3>
         <p>Instructions are always good. </p>
+        <div class="progress">
+            <div class="bar" style="width: 10%;"></div>
+        </div>
     </div>
 </asp:Content>
 
