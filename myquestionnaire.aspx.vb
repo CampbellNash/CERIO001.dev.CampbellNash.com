@@ -287,7 +287,7 @@ Partial Class myquestionnaire
         'QuestionPanel.Controls.Add(rfv)
         QuestionPanel.Controls.Add(CloseDivs)
         phMain.Controls.Add(QuestionPanel)
-        'Now write the panel name into the DB to enforce the rule and aidentify the panel we will switch on or off
+        'Now write the panel name into the DB to enforce the rule and identify the panel we will switch on or off
         NashBLL.UpdateQuestionPanelReference(MyRow("ContentID"), QuestionPanel.ID)
     End Sub
 
@@ -372,7 +372,7 @@ Partial Class myquestionnaire
         'QuestionPanel.Controls.Add(rfv)
         QuestionPanel.Controls.Add(CloseDivs)
         phMain.Controls.Add(QuestionPanel)
-        'Now write the panel name into the DB to enforce the rule and aidentify the panel we will switch on or off
+        'Now write the panel name into the DB to enforce the rule and identify the panel we will switch on or off
         NashBLL.UpdateQuestionPanelReference(MyRow("ContentID"), QuestionPanel.ID)
     End Sub
 
@@ -443,7 +443,7 @@ Partial Class myquestionnaire
         QuestionPanel.Controls.Add(rfv)
         QuestionPanel.Controls.Add(CloseDivs)
         phMain.Controls.Add(QuestionPanel)
-        'Now write the panel name into the DB to enforce the rule and aidentify the panel we will switch on or off
+        'Now write the panel name into the DB to enforce the rule and identify the panel we will switch on or off
         NashBLL.UpdateQuestionPanelReference(MyRow("ContentID"), QuestionPanel.ID)
     End Sub
 
