@@ -5,6 +5,7 @@
 		<siteMapNode url="~/register.aspx" title="Register with CERVIO"  description="" />
         <siteMapNode url="~/home.aspx" title="Your Home page"  description="" >
 			<siteMapNode url="~/mycompanies.aspx" title="My Companies"  description="" />
+			<siteMapNode url="~/standardquestionnaire.aspx" title="Conflict Minerals – Due Diligence Questionnaire" description=""/>
 		</siteMapNode>
     </siteMapNode>
 		

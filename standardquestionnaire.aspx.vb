@@ -43,8 +43,17 @@ Partial Class standardquestionnaire
             cboBusinessType.DataValueField = "BusinessAreaID"
             cboBusinessType.DataTextField = "BusinessArea"
             cboBusinessType.DataBind()
+
+            'Now get our countries
+            cboCountries.DataSource = NashBLL.GetCountries
+            cboCountries.DataTextField = "CountryName"
+            cboCountries.DataValueField = "CountryID"
+            cboCountries.DataBind()
+            'Now add in a please select
             Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
             cboBusinessType.Items.Insert(0, NewItem)
+            cboCountries.Items.Insert(0, newItem)
+
             panPage1.Visible = True
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
@@ -78,6 +87,32 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
             Case 2
+                panPage2.Visible = False
+                panPage3.Visible = True
+                btnNext.CommandArgument = 3
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 2
+            Case 3
+                panPage3.Visible = False
+                panPage4.Visible = True
+                btnNext.Visible = True
+                btnNext.CommandArgument = 4
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 3
+            Case 4
+                panPage4.Visible = False
+                panPage5.Visible = True
+                btnNext.Visible = True
+                btnNext.CommandArgument = 5
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 4
+            Case 5
+                panPage5.Visible = False
+                panPage6.Visible = True
+                btnNext.Visible = False
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 5
+
 
             Case Else
 
@@ -93,6 +128,32 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = False
 
             Case 2
+                panPage2.Visible = True
+                panPage3.Visible = False
+                btnNext.CommandArgument = 2
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 1
+            Case 3
+                panPage3.Visible = True
+                panPage4.Visible = False
+                btnNext.CommandArgument = 3
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                btnPrev.CommandArgument = 2
+            Case 4
+                panPage4.Visible = True
+                panPage5.Visible = False
+                btnNext.CommandArgument = 4
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                btnPrev.CommandArgument = 3
+            Case 5
+                panPage5.Visible = True
+                panPage6.Visible = False
+                btnNext.CommandArgument = 5
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                btnPrev.CommandArgument = 4
 
             Case Else
 
