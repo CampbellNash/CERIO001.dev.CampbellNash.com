@@ -171,7 +171,7 @@
                             
                             <asp:Panel ID="panParentCompanies" runat="server" Visible="false">
                             <div class="control-group">
-                                <label >You have selected YES, please list these in the table provided:</label>
+                                <label >3b. You have selected YES, please list these in the table provided:</label>
                                 <div >
                                     <table class="table table-bordered">
                                 <tr>
