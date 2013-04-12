@@ -5,7 +5,7 @@
     <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
     <p> It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p> 
     <p> Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
-    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000">
+    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000"> 
         <asp:Literal ID="litTest" runat="server" />
             <div class="register">
                <div class="progress">
@@ -74,44 +74,79 @@
                             <asp:ListItem Text="No" Selected="True" />
                             <asp:ListItem Text="Yes" Selected="False" />
                         </asp:RadioButtonList>
-                        <asp:PlaceHolder ID="phParent" runat="server">
-                            <asp:Table Width="900" BorderStyle="Solid" runat="server" ID="tblParent" Visible="false" EnableViewState="true">
-                                <asp:TableHeaderRow runat="server" ID="tblHeaderRow1">
-                                    <asp:TableHeaderCell ID="tblHeaderCell1" runat="server">Name of subsidiary/parent</asp:TableHeaderCell>
-                                    <asp:TableHeaderCell ID="tblHeaderCell2" runat="server">Registered number of subsidiary</asp:TableHeaderCell>
-                                    <asp:TableHeaderCell ID="tblHeaderCell3" runat="server">Country of registration of subsidiary</asp:TableHeaderCell>
-                                    <asp:TableHeaderCell ID="tblHeaderCell4" runat="server" ColumnSpan="2">% of subsidiary owned by Service </asp:TableHeaderCell>
-                                </asp:TableHeaderRow>
-                                <asp:TableRow ID="tblRow1" runat="server">
-                                    <asp:TableCell ID="tblCell1" runat="server">
-                                        <asp:TextBox ID="TextBox1" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="Please enter company name" ValidationGroup="Questions" CssClass="alert-error" />
-                                    </asp:TableCell>
-                                    <asp:TableCell ID="TableCell1" runat="server">
-                                        <asp:TextBox ID="TextBox2" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBox2" Display="Dynamic" ErrorMessage="Please enter company number" ValidationGroup="Questions" CssClass="alert-error" />
-                                    </asp:TableCell>
-                                    <asp:TableCell ID="TableCell2" runat="server">
-                                        <asp:TextBox ID="TextBox3" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter country of registration" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="TextBox3" Display="Dynamic" ErrorMessage="Please enter country of registration" ValidationGroup="Questions" CssClass="alert-error" />
-                                    </asp:TableCell>
-                                    <asp:TableCell ID="TableCell3" runat="server" ColumnSpan="2">
-                                        <asp:TextBox ID="TextBox4" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&percent; company owned" />
-                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="TextBox4" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
-                                    </asp:TableCell>
-                                </asp:TableRow>
-                            </asp:Table>
-                        </asp:PlaceHolder>
+                        <asp:Panel ID="panParentCompanies" runat="server" Visible="false">
+                            <table width="900" border="1">
+                                <tr>
+                                    <th>Name of subsidiary/parent</th>
+                                    <th>Registered number of subsidiary</th>
+                                    <th>Country of registration of subsidiary</th>
+                                    <th colspan="2">&#37; of subsidiary owned by Service </th>
+                                </tr>
+                                <asp:Repeater ID="rptParentCompany" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td>
+                                                <asp:TextBox ID="txtParentCompanyName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
+                                                <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtParentCompanyName" Display="Dynamic" ErrorMessage="Please enter company name" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:TextBox ID="txtParentCompanyNumber" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
+                                                <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtParentCompanyNumber" Display="Dynamic" ErrorMessage="Please enter company number" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:TextBox ID="txtParentCountry" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter country of registration" />
+                                                <asp:RequiredFieldValidator ID="rfvParentCountry" runat="server" ControlToValidate="txtParentCountry" Display="Dynamic" ErrorMessage="Please enter country of registration" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
+                                                <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td><asp:Button ID="btnDeleteParent" runat="server" CssClass="Btn" Text="Delete" OnClick="DeleteParentLine" /><asp:HiddenField ID="hidItemID" runat="server" /></td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                            </table>
+                        </asp:Panel>
                         <asp:LinkButton ID="btnAddNewParent" runat="server" Text="Add New Line" Visible="false" />
-                       </asp:Panel>
+                        <h4>4.List all owners, partners or shareholders of the Supplier (percentage should total 100%):</h4>
+                        <table width="900" border="1">
+                            <tr>
+                                <th>Name</th>
+                                <th>Nationality</th>
+                                <th colspan="2">Ownership &#37;</th>
+                            </tr>
+                            <asp:Repeater ID="rptShareholders" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td>
+                                            <asp:TextBox ID="txtShareholderName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
+                                            <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtShareholderName" Display="Dynamic" ErrorMessage="Please enter shareholder name" ValidationGroup="Questions" CssClass="alert-error" />
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtShareholderNationality" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
+                                            <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtShareholderNationality" Display="Dynamic" ErrorMessage="Please enter nationality" ValidationGroup="Questions" CssClass="alert-error" />
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
+                                            <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
+                                        </td>
+                                        <td>
+                                            <asp:Button ID="btnDeleteShareholder" runat="server" CssClass="Btn" Text="Delete" OnClick="DeleteParentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </table>
+                        <asp:LinkButton ID="btnAddNewShareholder" runat="server" Text="Add New Line" /> 
+                    </asp:Panel>
 
                     <p></p>
                     <p>
                         <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;<asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" />&nbsp;&nbsp;<asp:Button ID="btnSave" runat="server" CssClass="btn" Text="Save Draft" ValidationGroup="Questions" /></p>
-                </div>
+               </div>
             </div>
        
-    </Telerik:RadAjaxPanel>
+  </Telerik:RadAjaxPanel>
     <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
             <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">

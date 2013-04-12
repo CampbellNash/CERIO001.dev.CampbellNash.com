@@ -28,8 +28,10 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
 Partial Class standardquestionnaire
     Inherits System.Web.UI.Page
-
+    Public gbLoopCount As Integer
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        'Always reset our gloabl loopcount
+        gbLoopCount = 0
         If Not Session("UserLoggedIn") Then
             'User is not logged in so send to login page
             Response.Redirect("~/login.aspx")
@@ -46,11 +48,22 @@ Partial Class standardquestionnaire
             panPage1.Visible = True
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
-            btnAddNewParent.CommandArgument = 2
+            Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value will need replaced by querystring
+            rptShareholders.DataSource = Shareholders
+            rptShareholders.DataBind()
+            'Set the default panel up
+            rblParent.SelectedIndex = 1
+            gbLoopCount = 0
+            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+            rptParentCompany.DataSource = ParentCompanies
+            rptParentCompany.DataBind()
+            panParentCompanies.Visible = True
+            btnAddNewParent.Visible = True
+
         End If
     End Sub
 
-    
+
     Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Threading.Thread.Sleep(5000)
         txtCompanyName.Text = "Bullwood Business Consultants"
@@ -86,94 +99,229 @@ Partial Class standardquestionnaire
         End Select
     End Sub
 
+#Region " Manage parent company "
+
     Protected Sub rblParent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblParent.SelectedIndexChanged
         If rblParent.SelectedIndex = 0 Then
-            tblParent.Visible = False
+            'Hide the current panels
+            panParentCompanies.Visible = False
             btnAddNewParent.Visible = False
         Else
-            tblParent.Visible = True
+            'Go and get any previously entered items, this will always return at least 1 row
+            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+            rptParentCompany.DataSource = ParentCompanies
+            rptParentCompany.DataBind()
+            panParentCompanies.Visible = True
             btnAddNewParent.Visible = True
         End If
     End Sub
 
     Protected Sub btnAddNewParent_Click(sender As Object, e As EventArgs) Handles btnAddNewParent.Click
-        'Add our rows to the table
-        Dim tblRow As New TableRow
-        Dim tblCell1 As New TableCell
-        Dim tblCell2 As New TableCell
-        Dim tblCell3 As New TableCell
-        Dim tblCell4 As New TableCell
-        Dim tblCell5 As New TableCell
-        Dim rfv1 As New RequiredFieldValidator
-        Dim rfv2 As New RequiredFieldValidator
-        Dim rfv3 As New RequiredFieldValidator
-        Dim rfv4 As New RequiredFieldValidator
-        Dim txt1 As New TextBox
-        Dim txt2 As New TextBox
-        Dim txt3 As New TextBox
-        Dim txt4 As New TextBox
-        Dim DeletMe As New LinkButton
-        Dim LoopCount As Integer = sender.CommandArgument * 10
-        'Add the first table cell
-        tblRow.ID = sender.CommandArgument
-        txt1.ID = "TextBox" & LoopCount
-        txt1.CssClass = "input-xlarge"
-        rfv1.ID = "rfv" & LoopCount
-        rfv1.ControlToValidate = "TextBox" & LoopCount
-        rfv1.ErrorMessage = "Enter company name"
-        rfv1.CssClass = "alert-error"
-        rfv1.ValidationGroup = "Questions"
-        tblCell1.Controls.Add(txt1)
-        tblCell1.Controls.Add(rfv1)
-        tblRow.Cells.Add(tblCell1)
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtParentCompanyName As TextBox
+        Dim txtParentCompanyNumber As TextBox
+        Dim txtParentCountry As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptParentCompany.Items
+            txtParentCompanyName = Item.FindControl("txtParentCompanyName")
+            txtParentCompanyNumber = Item.FindControl("txtParentCompanyNumber")
+            txtParentCountry = Item.FindControl("txtParentCountry")
+            txtPercentOwned = Item.FindControl("txtPercentOwned")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtParentCompanyName.Text = "" Then
+                txtParentCompanyName.Text = "None"
+            End If
+            If txtParentCompanyNumber.Text = "" Then
+                txtParentCompanyNumber.Text = "None"
+            End If
+            If txtParentCountry.Text = "" Then
+                txtParentCountry.Text = "None"
+            End If
+            If txtPercentOwned.Text = "" Then
+                txtPercentOwned.Text = "0"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateParentCompanyLine(hidItemID.Value, _
+                                           txtParentCompanyName.Text, _
+                                           txtParentCompanyNumber.Text, _
+                                           txtParentCountry.Text, _
+                                           txtPercentOwned.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddParentCompanyLine(2) 'This value needs replaced by querystring
 
-        'Add the next table cell
-        txt2.ID = "TextBox" & LoopCount + 1
-        txt2.CssClass = "input-xlarge"
-        rfv2.ID = "rfv" & LoopCount + 1
-        rfv2.ControlToValidate = "TextBox" & LoopCount + 1
-        rfv2.ErrorMessage = "Please enter company number"
-        rfv2.CssClass = "alert-error"
-        rfv2.ValidationGroup = "Questions"
-        tblCell2.Controls.Add(txt2)
-        tblCell2.Controls.Add(rfv2)
-        tblRow.Cells.Add(tblCell2)
-
-        'Add the next table cell
-        txt3.ID = "TextBox" & LoopCount + 2
-        txt3.CssClass = "input-xlarge"
-        rfv3.ID = "rfv" & LoopCount + 2
-        rfv3.ControlToValidate = "TextBox" & LoopCount + 2
-        rfv3.ErrorMessage = "Please enter country of registration"
-        rfv3.CssClass = "alert-error"
-        rfv3.ValidationGroup = "Questions"
-        tblCell3.Controls.Add(txt3)
-        tblCell3.Controls.Add(rfv3)
-        tblRow.Cells.Add(tblCell3)
-
-        'Add the next table cell
-        txt4.ID = "TextBox" & LoopCount + 3
-        txt4.CssClass = "input-xlarge"
-        rfv4.ID = "rfv" & LoopCount + 3
-        rfv4.ControlToValidate = "TextBox" & LoopCount + 3
-        rfv4.ErrorMessage = "Please enter &#37; of company owned"
-        rfv4.CssClass = "alert-error"
-        rfv4.ValidationGroup = "Questions"
-        tblCell4.Controls.Add(txt4)
-        tblCell4.Controls.Add(rfv4)
-        tblRow.Cells.Add(tblCell4)
-
-        'Set our delete button to remove this row
-        DeletMe.Text = "Delete"
-        tblCell5.Controls.Add(DeletMe)
-        tblRow.Cells.Add(tblCell5)
-
-        'Now add our complete row
-        tblParent.Rows.Add(tblRow)
-
-        'Increase our command argument for the next row to be added
-        btnAddNewParent.CommandArgument = sender.CommandArgument + 1
-
-
+        'Now rebind everything
+        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+        rptParentCompany.DataSource = ParentCompanies
+        rptParentCompany.DataBind()
     End Sub
+
+    Protected Sub DeleteParentLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtParentCompanyName As TextBox
+        Dim txtParentCompanyNumber As TextBox
+        Dim txtParentCountry As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptParentCompany.Items
+            txtParentCompanyName = Item.FindControl("txtParentCompanyName")
+            txtParentCompanyNumber = Item.FindControl("txtParentCompanyNumber")
+            txtParentCountry = Item.FindControl("txtParentCountry")
+            txtPercentOwned = Item.FindControl("txtPercentOwned")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtParentCompanyName.Text = "" Then
+                txtParentCompanyName.Text = "None"
+            End If
+            If txtParentCompanyNumber.Text = "" Then
+                txtParentCompanyNumber.Text = "None"
+            End If
+            If txtParentCountry.Text = "" Then
+                txtParentCountry.Text = "None"
+            End If
+            If txtPercentOwned.Text = "" Then
+                txtPercentOwned.Text = "0"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateParentCompanyLine(hidItemID.Value, _
+                                           txtParentCompanyName.Text, _
+                                           txtParentCompanyNumber.Text, _
+                                           txtParentCountry.Text, _
+                                           txtPercentOwned.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteParentCompanyLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+        rptParentCompany.DataSource = ParentCompanies
+        rptParentCompany.DataBind()
+    End Sub
+
+#End Region
+
+#Region " Databindings "
+
+    Protected Sub rptParentCompany_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptParentCompany.ItemDataBound
+        Dim txtParentCompanyName As TextBox
+        Dim txtParentCompanyNumber As TextBox
+        Dim txtParentCountry As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim btnDeleteParent As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtParentCompanyName = e.Item.FindControl("txtParentCompanyName")
+            txtParentCompanyNumber = e.Item.FindControl("txtParentCompanyNumber")
+            txtParentCountry = e.Item.FindControl("txtParentCountry")
+            txtPercentOwned = e.Item.FindControl("txtPercentOwned")
+            btnDeleteParent = e.Item.FindControl("btnDeleteParent")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("ParentCompanyName")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtParentCompanyName.Text = drv("ParentCompanyName")
+            Else
+                'No value entered yet so show empty box
+                txtParentCompanyName.Text = ""
+            End If
+
+            If UCase(drv("ParentCompanyNumber")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtParentCompanyNumber.Text = drv("ParentCompanyNumber")
+            Else
+                'No value entered yet so show empty box
+                txtParentCompanyNumber.Text = ""
+            End If
+
+            If UCase(drv("ParentCompanyCountry")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtParentCountry.Text = drv("ParentCompanyCountry")
+            Else
+                'No value entered yet so show empty box
+                txtParentCountry.Text = ""
+            End If
+
+            If CInt(drv("PercentageOwned")) <> 0 Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPercentOwned.Text = drv("PercentageOwned")
+            Else
+                'No value entered yet so show empty box
+                txtPercentOwned.Text = "0"
+            End If
+            'Now set opur delete button
+            btnDeleteParent.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteParent.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptShareholders_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptShareholders.ItemDataBound
+        Dim txtShareholderName As TextBox
+        Dim txtShareholderNationality As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim btnDeleteShareholder As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtShareholderName = e.Item.FindControl("txtShareholderName")
+            txtShareholderNationality = e.Item.FindControl("txtShareholderNationality")
+            txtPercentOwned = e.Item.FindControl("txtPercentOwned")
+            btnDeleteShareholder = e.Item.FindControl("btnDeleteShareholder")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("ShareholderName")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtShareholderName.Text = drv("ShareholderName")
+            Else
+                'No value entered yet so show empty box
+                txtShareholderName.Text = ""
+            End If
+
+            If UCase(drv("Nationality")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtShareholderNationality.Text = drv("Nationality")
+            Else
+                'No value entered yet so show empty box
+                txtShareholderNationality.Text = ""
+            End If
+
+
+            If CInt(drv("PercentageOwned")) <> 0 Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPercentOwned.Text = drv("PercentageOwned")
+            Else
+                'No value entered yet so show empty box
+                txtPercentOwned.Text = "0"
+            End If
+            'Now set opur delete button
+            btnDeleteShareholder.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteShareholder.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+#End Region
+
+
 End Class
