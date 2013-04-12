@@ -43,7 +43,6 @@ Partial Class standardquestionnaire
             cboBusinessType.DataValueField = "BusinessAreaID"
             cboBusinessType.DataTextField = "BusinessArea"
             cboBusinessType.DataBind()
-
             'Now get our countries
             cboCountries.DataSource = NashBLL.GetCountries
             cboCountries.DataTextField = "CountryName"

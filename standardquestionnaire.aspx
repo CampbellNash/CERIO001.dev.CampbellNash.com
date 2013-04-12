@@ -10,7 +10,7 @@
                 <h4>Progress</h4>
                <div class="progress">
                    <div class="bar" style="width: 20%;"></div>
-               </div>
+               </div> 
                <h4>Items marked with * are requried</h4>
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
