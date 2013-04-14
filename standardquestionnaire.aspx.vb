@@ -545,7 +545,7 @@ Partial Class standardquestionnaire
                                       txtRelativeName.Text, _
                                       txtRelationshipType.Text, _
                                       txtLastJob.Text, _
-                                      txtLastJob.Text, _
+                                      txtJobCountry.Text, _
                                       rdpDateEnded.DbSelectedDate)
         Next
         'Now we can finally add our new line
@@ -598,7 +598,7 @@ Partial Class standardquestionnaire
                                       txtRelativeName.Text, _
                                       txtRelationshipType.Text, _
                                       txtLastJob.Text, _
-                                      txtLastJob.Text, _
+                                      txtJobCountry.Text, _
                                       rdpDateEnded.DbSelectedDate)
         Next
         'Now we can finally remove our line
