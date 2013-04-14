@@ -207,49 +207,49 @@
                                     
                                     <asp:LinkButton ID="btnAddNewParent" runat="server" Text="Add New Line" Visible="false" CssClass="btn btn-success" />
                                 </div>
-
+                                <hr />
                             </div>
                            
                         </asp:Panel>
-                       
                         <div class="control-group">
-                            <label >4. List all owners, partners or shareholders of the Supplier:</label>
-                            <div >
-                                <table class="table table-bordered">
-                            <tr>
-                                <th>Name</th>
-                                <th>Nationality</th>
-                                <th colspan="2">Ownership &#37;</th>
-                            </tr>
-                            <asp:Repeater ID="rptShareholders" runat="server">
-                                <ItemTemplate>
-                                    <tr>
-                                        <td>
-                                            <asp:TextBox ID="txtShareholderName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
-                                            <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtShareholderName" Display="Dynamic" ErrorMessage="Please enter shareholder name" ValidationGroup="Questions" CssClass="alert-error" />
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtShareholderNationality" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
-                                            <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtShareholderNationality" Display="Dynamic" ErrorMessage="Please enter nationality" ValidationGroup="Questions" CssClass="alert-error" />
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
-                                            <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
-                                        </td>
-                                        <td>
-                                            <asp:Button ID="btnDeleteShareholder" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteParentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
-                                        </td>
-                                    </tr>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </table>
-                                <span class="help-block">If any of the persons listed are not individuals, please provide the ownership information for those persons. Percentage should total 100%</span>
-                                <asp:LinkButton ID="btnAddNewShareholder" runat="server" Text="Add New Line" CssClass="btn btn-success" /> 
+                                <label>4. List all owners, partners or shareholders of the Supplier:</label>
+                                <div>
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Nationality</th>
+                                            <th colspan="2">Ownership &#37;</th>
+                                        </tr>
+                                        <asp:Repeater ID="rptShareholders" runat="server">
+                                            <ItemTemplate>
+                                                <tr>
+                                                    <td>
+                                                        <asp:TextBox ID="txtShareholderName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter shareholder name" />
+                                                        <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtShareholderName" Display="Dynamic" ErrorMessage="Please enter shareholder name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txtShareholderNationality" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
+                                                        <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtShareholderNationality" Display="Dynamic" ErrorMessage="Please enter nationality" ValidationGroup="Questions" CssClass="alert-error" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
+                                                        <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
+                                                    </td>
+                                                    <td>
+                                                        <asp:Button ID="btnDeleteShareholder" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteShareholderLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                    </td>
+                                                </tr>
+                                            </ItemTemplate>
+                                        </asp:Repeater>
+                                    </table>
+                                    <span class="help-block">If any of the persons listed are not individuals, please provide the ownership information for those persons. Percentage should total 100%</span>
+                                    <asp:LinkButton ID="btnAddNewShareholder" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                                    <hr />
+                                </div>
 
                             </div>
-
-                        </div>
                         
+
                         <div class="control-group">
                             <label >5. List all directors (or equivalent) of the Supplier (including those already listed at above):</label>
                             <div >
@@ -259,15 +259,31 @@
                                     <th>Job Title</th>
                                     <th colspan="2">Nationality</th>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                    <asp:Repeater ID="rptDirectors" runat="server">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td>
+                                                    <asp:TextBox ID="txtDirectorName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter director name" />
+                                                    <asp:RequiredFieldValidator ID="rfvDirectorName" runat="server" ControlToValidate="txtDirectorName" Display="Dynamic" ErrorMessage="Please enter director name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtDirectorJobTitle" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter director job title" />
+                                                    <asp:RequiredFieldValidator ID="rfvJobTitle" runat="server" ControlToValidate="txtDirectorJobTitle" Display="Dynamic" ErrorMessage="Please enter director job title" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtDirectorNationality" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
+                                                    <asp:RequiredFieldValidator ID="rfvNationality" runat="server" ControlToValidate="txtDirectorNationality" Display="Dynamic" ErrorMessage="Please enter director nationality" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:Button ID="btnDeleteDirector" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteDirectorLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
                                 </table>
                                 <asp:LinkButton ID="btnAddNewDirector" runat="server" Text="Add New Line" CssClass="btn btn-success" /> 
                             </div>
-
+                            <hr />
                         </div>
                         
                         <div class="control-group">
@@ -280,18 +296,17 @@
                                      </tr>
                                      <tr>
                                          <td>(from DB?) A current  or former government or public official (teachers, school assistants, nurses, librarians and public officials who only carry out low level administrative functions);</td>
-                                         <td><asp:CheckBox ID="CheckBox1" runat="server"/></td>
+                                         <td><asp:CheckBox ID="chkGovernmentEmployee" runat="server" AutoPostBack="true"/></td>
                                      </tr>
-
-                                 </table>
+                                </table>
 
                              </div>
 
                         </div>
-                        
+                        <asp:Panel ID="panGovernmanetEmployee" runat="server" Visible="false">
                         <div class="control-group">
                             <label >
-                                If the answer above is YES, please complete the information below for each person and list the last government/political job they or their relative held.  If the connection of the Service Provider to a government/political official is through a relative, please state the relative's name and the relationship:
+                                Please complete the information below for each person and list the last government/political job they or their relative held.  If the connection of the Service Provider to a government/political official is through a relative, please state the relative's name and the relationship:
                             </label>
                             <div>
                                 <table class="table table-bordered">
@@ -301,23 +316,48 @@
                                          <th>Relationship (if applicable)</th>
                                          <th>Last government/political job held</th>
                                          <th>Country job was held in</th>
-                                         <th>Date job ended</th>
+                                         <th colspan="2">Date job ended</th>
                                      </tr>
-                                     <tr>
-                                         <td>textbox</td>
-                                         <td>textbox</td>
-                                         <td>Relationship Dropdown from DB</td>
-                                         <td>textbox</td>
-                                         <td>Country dropdown from DB</td>
-                                         <td>Date picker</td>
-                                     </tr>
+                                    <asp:Repeater ID="rptGovtEmployees" runat="server">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td>
+                                                    <asp:TextBox ID="txtPersonName" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter name" />
+                                                    <asp:RequiredFieldValidator ID="rfvPersonName" runat="server" ControlToValidate="txtPersonName" Display="Dynamic" ErrorMessage="Please enter name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtRelativeName" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter relative name" />
+                                                    <asp:RequiredFieldValidator ID="rfvrelativeName" runat="server" ControlToValidate="txtRelativeName" Display="Dynamic" ErrorMessage="Please enter relative name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtRelationshipType" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="&#37; company owned" />
+                                                    <asp:RequiredFieldValidator ID="rfvRelationship" runat="server" ControlToValidate="txtRelationshipType" Display="Dynamic" ErrorMessage="Please enter relationship" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtLastJob" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter last job title" />
+                                                    <asp:RequiredFieldValidator ID="rfvLastJob" runat="server" ControlToValidate="txtLastJob" Display="Dynamic" ErrorMessage="Please enter last job" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtJobCountry" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter country name" />
+                                                    <asp:RequiredFieldValidator ID="rfvJobCountry" runat="server" ControlToValidate="txtJobCountry" Display="Dynamic" ErrorMessage="Please enter country name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                </td>
+                                                <td>
+                                                    <Telerik:RadDatePicker ID="rdpDateEnded" runat="server" DateInput-DateFormat="dd MMM yyyy" DateInput-Enabled="false" />
+                                                </td>
+                                                <td>
+                                                    <asp:Button ID="btnDeleteRelative" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteRelativeLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                </td>
+                                            </tr>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
 
                                  </table>
-                                <asp:LinkButton ID="btnAddPerson" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                                <asp:LinkButton ID="btnAddNewRelative" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                             </div>
-
+                            <hr />
                         </div>
-                      
+
+                        </asp:Panel>
                         
                     </asp:Panel>
                    
@@ -334,7 +374,11 @@
                                     <asp:ListItem Text="No" Selected="True" />
                                     <asp:ListItem Text="Yes" Selected="False" />
                                 </asp:RadioButtonList>
-
+                               <asp:Panel ID="panCassiterite" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtCassiterite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Cassiterite" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvCassiterite" runat="server" ControlToValidate="txtCassiterite" Display="Dynamic" ErrorMessage="Enter the details for Cassiterite" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
                            </div>
                            <label class="control-label">Columbite-tantalite (coltan):</label>
                            <div class="controls">
@@ -342,7 +386,11 @@
                                     <asp:ListItem Text="No" Selected="True" />
                                     <asp:ListItem Text="Yes" Selected="False" />
                                 </asp:RadioButtonList>
-
+                               <asp:Panel ID="panColumbite" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtColumbite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Columbite" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvColumbite" runat="server" ControlToValidate="txtCassiterite" Display="Dynamic" ErrorMessage="Enter the details for Columbite" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
                            </div>
                            <label class="control-label">Wolframite:</label>
                            <div class="controls">
@@ -350,14 +398,48 @@
                                     <asp:ListItem Text="No" Selected="True" />
                                     <asp:ListItem Text="Yes" Selected="False" />
                                 </asp:RadioButtonList>
-
+                               <asp:Panel ID="panWolframite" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtWolframite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Wolframite" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvWolframite" runat="server" ControlToValidate="txtWolframite" Display="Dynamic" ErrorMessage="Enter the details for Wolframite" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
                            </div>
                            <label class="control-label">tantalum:</label>
-                           <div class="controls"></div>
+                           <div class="controls">
+                               <asp:RadioButtonList ID="rblTantalum" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                   <asp:ListItem Text="No" Selected="True" />
+                                   <asp:ListItem Text="Yes" Selected="False" />
+                               </asp:RadioButtonList>
+                               <asp:Panel ID="panTantalum" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtTantalum" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Tantalum" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvTantalum" runat="server" ControlToValidate="txtTantalum" Display="Dynamic" ErrorMessage="Enter the details for Tantalum" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
+                           </div>
                            <label class="control-label">tungsten:</label>
-                           <div class="controls"></div>
+                           <div class="controls">
+                               <asp:RadioButtonList ID="rblTungsten" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                   <asp:ListItem Text="No" Selected="True" />
+                                   <asp:ListItem Text="Yes" Selected="False" />
+                               </asp:RadioButtonList>
+                               <asp:Panel ID="panTungsten" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtTungsten" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Tungsten" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvTungsten" runat="server" ControlToValidate="txtTungsten" Display="Dynamic" ErrorMessage="Enter the details for Tungsten" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
+                           </div>
                            <label class="control-label">Gold:</label>
-                           <div class="controls"></div>
+                           <div class="controls">
+                               <asp:RadioButtonList ID="rblGold" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                   <asp:ListItem Text="No" Selected="True" />
+                                   <asp:ListItem Text="Yes" Selected="False" />
+                               </asp:RadioButtonList>
+                               <asp:Panel ID="panGold" runat="server" Visible="false">
+                                   <asp:TextBox ID="txtGold" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Gold" />
+                                   <span class="help-block">Enter details</span>
+                                   <asp:RequiredFieldValidator ID="rfvGold" runat="server" ControlToValidate="txtGold" Display="Dynamic" ErrorMessage="Enter the details for Gold" ValidationGroup="Questions" CssClass="alert-error" />
+                               </asp:Panel>
+                           </div>
                        </div>
                        <div class="control-group">
                            <label class="control-label">Are the minerals smelted or fully refined? </label>
@@ -370,7 +452,7 @@
                            </div>
                        </div>
                       <legend>4. Purpose of mineral content</legend>
-                       <label><strong>If you answered yes to Question 7, are any of the minerals listed:</strong></label>
+                       <label><strong>If you answered yes to Question 3, are any of the minerals listed:</strong></label>
                        <div class="control-group">
                            <label>Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
                             <div>
@@ -440,7 +522,7 @@
                    <asp:Panel ID="panPage4" runat="server" Visible="False" >
                        <legend>5. Country of origin, processing and transportation</legend>
                        <div class="control-group">
-                           <label>Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 7, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
+                           <label>Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
                            <!-- Like the minerals i think these should come from the DB -->
                            <label class="control-label">Democratic Republic of Congo :</label>
                            <div class="controls">
@@ -543,7 +625,7 @@
                        
                        <legend>6. Quantity, date and method of extraction </legend>
                        <div class="control-group">
-                           <label>If you answered yes to questions 7 and 10, please provide details of the quantity of minerals, date of extraction</label>
+                           <label>If you answered yes to questions 3 and 5, please provide details of the quantity of minerals, date of extraction</label>
                            <div>
                                <table class="table table-bordered">
                                    <tr>
@@ -566,7 +648,7 @@
                        </div>
                        <legend>7. Processing Facility</legend>
                        <div class="control-group">
-                           <label><strong>If you answered yes to questions 7 and 10:</strong></label>
+                           <label><strong>If you answered yes to questions 3 and 5:</strong></label>
                            <label>At which facility are the minerals processed?</label>
                            <div>
                                <table class="table table-bordered">
@@ -612,7 +694,7 @@
                    
                    <asp:Panel ID="panPage5" Visible="False" runat="server">
                       <legend>8. Transport and supply of conflict </legend> 
-                       <label><strong>If you answered yes to question 7 and 10:</strong></label>
+                       <label><strong>If you answered yes to question 3 and 5:</strong></label>
                        <div class="control-group">
                        <label>Who supplies you with the minerals or products containing the minerals? Please provide name and address details</label>
                         <table class="table table-bordered">
@@ -642,7 +724,7 @@
                            <asp:LinkButton ID="LinkButton4" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        </div>
                       <legend>9. Supply Chain</legend>
-                      <label>16	If you answered yes to questions 7 and 10, please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
+                      <label>16	If you answered yes to questions 3 and 5, please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
                       <table class="table table-bordered">
                                <tr>
                                    <th>upstream intermediaries</th>
@@ -655,7 +737,7 @@
                            </table>
                            <asp:LinkButton ID="LinkButton5" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        <legend>10. Taxes & payments</legend>
-                       <label><strong>If you answered yes to questions 7 and 10, please disclose:</strong></label>
+                       <label><strong>If you answered yes to questions 3 and 5, please disclose:</strong></label>
                        <div class="control-group">
                            <label>all taxes, fees or royalties paid to the government of a country listed in question 10 for the purposes of extraction, trade, transport and export of minerals</label>
                             <table class="table table-bordered">
@@ -705,7 +787,7 @@
                    
                    <asp:Panel ID="panPage6" runat="server" Visible="False">
                        <legend>11. Your Policies</legend>
-                       <label>If you answered yes to question 7:</label>
+                       <label>If you answered yes to question 3:</label>
                        <div class="control-group">
                            <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
                            <asp:FileUpload ID="FileUpload1" runat="server" />
@@ -726,18 +808,7 @@
                        </ol>
                       <legend>13. Sign off</legend>
                    </asp:Panel>
-                       
-                        
-                       
-                        
-                           
-                        
-                      
-                        
-              
-
-
-                    <p></p>
+                  <p></p>
                     <p>
                         <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;<asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" />&nbsp;&nbsp;<asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" ValidationGroup="Questions" /></p>
 

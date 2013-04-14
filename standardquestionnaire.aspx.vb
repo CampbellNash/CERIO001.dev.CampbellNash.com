@@ -67,7 +67,17 @@ Partial Class standardquestionnaire
             rptParentCompany.DataBind()
             panParentCompanies.Visible = True
             btnAddNewParent.Visible = True
-
+            'Reset the loop count and go and get the directors list
+            gbLoopCount = 0
+            Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value will need replaced by querystring
+            rptDirectors.DataSource = Directors
+            rptDirectors.DataBind()
+            'Reset the loop count and go and get the relatives list
+            gbLoopCount = 0
+            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value will need replaced by querystring
+            rptGovtEmployees.DataSource = Relatives
+            rptGovtEmployees.DataBind()
+            
         End If
     End Sub
 
@@ -158,6 +168,59 @@ Partial Class standardquestionnaire
 
         End Select
     End Sub
+
+
+#Region " Manage Minerals "
+
+    Protected Sub rblCassiterite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblCassiterite.SelectedIndexChanged
+        If rblCassiterite.SelectedIndex = 1 Then
+            panCassiterite.Visible = True
+        Else
+            panCassiterite.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblColumbite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblColumbite.SelectedIndexChanged
+        If rblColumbite.SelectedIndex = 1 Then
+            panColumbite.Visible = True
+        Else
+            panColumbite.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblGold_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblGold.SelectedIndexChanged
+        If rblGold.SelectedIndex = 1 Then
+            panGold.Visible = True
+        Else
+            panGold.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblTantalum_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTantalum.SelectedIndexChanged
+        If rblTantalum.SelectedIndex = 1 Then
+            panTantalum.Visible = True
+        Else
+            panTantalum.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblTungsten_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTungsten.SelectedIndexChanged
+        If rblTungsten.SelectedIndex = 1 Then
+            panTungsten.Visible = True
+        Else
+            panTungsten.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblWolframite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblWolframite.SelectedIndexChanged
+        If rblWolframite.SelectedIndex = 1 Then
+            panWolframite.Visible = True
+        Else
+            panWolframite.Visible = False
+        End If
+    End Sub
+
+#End Region
 
 #Region " Manage parent company "
 
@@ -266,6 +329,289 @@ Partial Class standardquestionnaire
 
 #End Region
 
+#Region " Manage shareholders "
+
+    Protected Sub btnAddNewShareholder_Click(sender As Object, e As EventArgs) Handles btnAddNewShareholder.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtShareholderName As TextBox
+        Dim txtShareholderNationality As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptShareholders.Items
+            txtShareholderName = Item.FindControl("txtShareholderName")
+            txtShareholderNationality = Item.FindControl("txtShareholderNationality")
+            txtPercentOwned = Item.FindControl("txtPercentOwned")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtShareholderName.Text = "" Then
+                txtShareholderName.Text = "None"
+            End If
+            If txtShareholderNationality.Text = "" Then
+                txtShareholderNationality.Text = "None"
+            End If
+            If txtPercentOwned.Text = "" Then
+                txtPercentOwned.Text = "0"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateShareholderLine(hidItemID.Value, _
+                                           txtShareholderName.Text, _
+                                           txtShareholderNationality.Text, _
+                                           txtPercentOwned.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddShareholderLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value needs replaced by querystring
+        rptShareholders.DataSource = Shareholders
+        rptShareholders.DataBind()
+    End Sub
+
+    Protected Sub DeleteShareholderLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtShareholderName As TextBox
+        Dim txtShareholderNationality As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptShareholders.Items
+            txtShareholderName = Item.FindControl("txtShareholderName")
+            txtShareholderNationality = Item.FindControl("txtShareholderNationality")
+            txtPercentOwned = Item.FindControl("txtPercentOwned")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtShareholderName.Text = "" Then
+                txtShareholderName.Text = "None"
+            End If
+            If txtShareholderNationality.Text = "" Then
+                txtShareholderNationality.Text = "None"
+            End If
+            If txtPercentOwned.Text = "" Then
+                txtPercentOwned.Text = "0"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateShareholderLine(hidItemID.Value, _
+                                           txtShareholderName.Text, _
+                                           txtShareholderNationality.Text, _
+                                           txtPercentOwned.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteShareholderLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value needs replaced by querystring
+        rptShareholders.DataSource = Shareholders
+        rptShareholders.DataBind()
+    End Sub
+
+#End Region
+
+#Region " Manage Directors "
+
+    Protected Sub btnAddNewDirector_Click(sender As Object, e As EventArgs) Handles btnAddNewDirector.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtShareholderName As TextBox
+        Dim txtShareholderNationality As TextBox
+        Dim txtPercentOwned As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptShareholders.Items
+            txtShareholderName = Item.FindControl("txtShareholderName")
+            txtShareholderNationality = Item.FindControl("txtShareholderNationality")
+            txtPercentOwned = Item.FindControl("txtPercentOwned")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtShareholderName.Text = "" Then
+                txtShareholderName.Text = "None"
+            End If
+            If txtShareholderNationality.Text = "" Then
+                txtShareholderNationality.Text = "None"
+            End If
+            If txtPercentOwned.Text = "" Then
+                txtPercentOwned.Text = "0"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateDirectorLine(hidItemID.Value, _
+                                           txtShareholderName.Text, _
+                                           txtShareholderNationality.Text, _
+                                           txtPercentOwned.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddDirectorLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value needs replaced by querystring
+        rptDirectors.DataSource = Directors
+        rptDirectors.DataBind()
+    End Sub
+
+    Protected Sub DeleteDirectorLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtDirectorName As TextBox
+        Dim txtDirectorNationality As TextBox
+        Dim txtDirectorJobTitle As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptDirectors.Items
+            txtDirectorName = Item.FindControl("txtDirectorName")
+            txtDirectorNationality = Item.FindControl("txtDirectorNationality")
+            txtDirectorJobTitle = Item.FindControl("txtDirectorJobTitle")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDirectorName.Text = "" Then
+                txtDirectorName.Text = "None"
+            End If
+            If txtDirectorNationality.Text = "" Then
+                txtDirectorNationality.Text = "None"
+            End If
+            If txtDirectorJobTitle.Text = "" Then
+                txtDirectorJobTitle.Text = ""
+            End If
+            'Now update this line to the DB
+            NashBLL.UpateDirectorLine(hidItemID.Value, _
+                                           txtDirectorName.Text, _
+                                           txtDirectorNationality.Text, _
+                                           txtDirectorJobTitle.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteDirectorLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value needs replaced by querystring
+        rptDirectors.DataSource = Directors
+        rptDirectors.DataBind()
+    End Sub
+
+
+#End Region
+
+#Region " Manage Government Employees "
+
+    Protected Sub chkGovernmentEmployee_CheckedChanged(sender As Object, e As EventArgs) Handles chkGovernmentEmployee.CheckedChanged
+        If chkGovernmentEmployee.Checked Then
+            panGovernmanetEmployee.Visible = True
+            gbLoopCount = 0
+            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+            rptGovtEmployees.DataSource = Relatives
+            rptGovtEmployees.DataBind()
+        Else
+            panGovernmanetEmployee.Visible = False
+        End If
+    End Sub
+
+    Protected Sub btnAddNewRelative_Click(sender As Object, e As EventArgs) Handles btnAddNewRelative.Click
+        'Adds a new row to the table
+        Dim txtPersonName As TextBox
+        Dim txtRelativeName As TextBox
+        Dim txtRelationshipType As TextBox
+        Dim txtLastJob As TextBox
+        Dim txtJobCountry As TextBox
+        Dim rdpDateEnded As Telerik.Web.UI.RadDatePicker
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptGovtEmployees.Items
+            txtPersonName = Item.FindControl("txtPersonName")
+            txtRelativeName = Item.FindControl("txtRelativeName")
+            txtRelationshipType = Item.FindControl("txtRelationshipType")
+            txtLastJob = Item.FindControl("txtLastJob")
+            txtJobCountry = Item.FindControl("txtJobCountry")
+            rdpDateEnded = Item.FindControl("rdpDateEnded")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPersonName.Text = "" Then
+                txtPersonName.Text = "None"
+            End If
+            If txtRelativeName.Text = "" Then
+                txtRelativeName.Text = "None"
+            End If
+            If txtRelationshipType.Text = "" Then
+                txtRelationshipType.Text = ""
+            End If
+            If txtLastJob.Text = "" Then
+                txtLastJob.Text = "None"
+            End If
+            If txtJobCountry.Text = "" Then
+                txtJobCountry.Text = ""
+            End If
+
+            'Now update this line to the DB
+            NashBLL.UpateRelativeLine(hidItemID.Value, _
+                                      txtPersonName.Text, _
+                                      txtRelativeName.Text, _
+                                      txtRelationshipType.Text, _
+                                      txtLastJob.Text, _
+                                      txtLastJob.Text, _
+                                      rdpDateEnded.DbSelectedDate)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddRelativeLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+        rptGovtEmployees.DataSource = Relatives
+        rptGovtEmployees.DataBind()
+    End Sub
+
+    Protected Sub DeleteRelativeLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim txtPersonName As TextBox
+        Dim txtRelativeName As TextBox
+        Dim txtRelationshipType As TextBox
+        Dim txtLastJob As TextBox
+        Dim txtJobCountry As TextBox
+        Dim rdpDateEnded As Telerik.Web.UI.RadDatePicker
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptGovtEmployees.Items
+            txtPersonName = Item.FindControl("txtPersonName")
+            txtRelativeName = Item.FindControl("txtRelativeName")
+            txtRelationshipType = Item.FindControl("txtRelationshipType")
+            txtLastJob = Item.FindControl("txtLastJob")
+            txtJobCountry = Item.FindControl("txtJobCountry")
+            rdpDateEnded = Item.FindControl("rdpDateEnded")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPersonName.Text = "" Then
+                txtPersonName.Text = "None"
+            End If
+            If txtRelativeName.Text = "" Then
+                txtRelativeName.Text = "None"
+            End If
+            If txtRelationshipType.Text = "" Then
+                txtRelationshipType.Text = ""
+            End If
+            If txtLastJob.Text = "" Then
+                txtLastJob.Text = "None"
+            End If
+            If txtJobCountry.Text = "" Then
+                txtJobCountry.Text = ""
+            End If
+
+            'Now update this line to the DB
+            NashBLL.UpateRelativeLine(hidItemID.Value, _
+                                      txtPersonName.Text, _
+                                      txtRelativeName.Text, _
+                                      txtRelationshipType.Text, _
+                                      txtLastJob.Text, _
+                                      txtLastJob.Text, _
+                                      rdpDateEnded.DbSelectedDate)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteRelativeLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+        rptGovtEmployees.DataSource = Relatives
+        rptGovtEmployees.DataBind()
+    End Sub
+
+#End Region
+
 #Region " Databindings "
 
     Protected Sub rptParentCompany_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptParentCompany.ItemDataBound
@@ -317,7 +663,7 @@ Partial Class standardquestionnaire
                 txtPercentOwned.Text = drv("PercentageOwned")
             Else
                 'No value entered yet so show empty box
-                txtPercentOwned.Text = "0"
+                txtPercentOwned.Text = ""
             End If
             'Now set opur delete button
             btnDeleteParent.CommandArgument = drv("ItemID")
@@ -369,9 +715,9 @@ Partial Class standardquestionnaire
                 txtPercentOwned.Text = drv("PercentageOwned")
             Else
                 'No value entered yet so show empty box
-                txtPercentOwned.Text = "0"
+                txtPercentOwned.Text = ""
             End If
-            'Now set opur delete button
+            'Now set our delete button
             btnDeleteShareholder.CommandArgument = drv("ItemID")
             If gbLoopCount = 0 Then
                 'This is the first item in the list and that cannot be deleted
@@ -381,6 +727,145 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptDirectors_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptDirectors.ItemDataBound
+        Dim txtDirectorName As TextBox
+        Dim txtDirectorNationality As TextBox
+        Dim txtDirectorJobTitle As TextBox
+        Dim btnDeleteDirector As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtDirectorName = e.Item.FindControl("txtDirectorName")
+            txtDirectorJobTitle = e.Item.FindControl("txtDirectorJobTitle")
+            txtDirectorNationality = e.Item.FindControl("txtDirectorNationality")
+            btnDeleteDirector = e.Item.FindControl("btnDeleteDirector")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("DirectorName")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtDirectorName.Text = drv("DirectorName")
+            Else
+                'No value entered yet so show empty box
+                txtDirectorName.Text = ""
+            End If
+
+            If UCase(drv("DirectorNationality")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtDirectorNationality.Text = drv("Nationality")
+            Else
+                'No value entered yet so show empty box
+                txtDirectorNationality.Text = ""
+            End If
+
+            If UCase(drv("DirectorJobTitle")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtDirectorJobTitle.Text = drv("DirectorJobTitle")
+            Else
+                'No value entered yet so show empty box
+                txtDirectorJobTitle.Text = ""
+            End If
+
+            
+            'Now set our delete button
+            btnDeleteDirector.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteDirector.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptGovtEmployees_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptGovtEmployees.ItemDataBound
+        Dim txtPersonName As TextBox
+        Dim txtRelativeName As TextBox
+        Dim txtRelationshipType As TextBox
+        Dim txtLastJob As TextBox
+        Dim txtJobCountry As TextBox
+        Dim rdpDateEnded As Telerik.Web.UI.RadDatePicker
+        Dim btnDeleteRelative As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtPersonName = e.Item.FindControl("txtPersonName")
+            txtRelativeName = e.Item.FindControl("txtRelativeName")
+            txtRelationshipType = e.Item.FindControl("txtRelationshipType")
+            txtLastJob = e.Item.FindControl("txtLastJob")
+            txtJobCountry = e.Item.FindControl("txtJobCountry")
+            rdpDateEnded = e.Item.FindControl("rdpDateEnded")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteRelative = e.Item.FindControl("btnDeleteRelative")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("PersonName")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPersonName.Text = drv("PersonName")
+            Else
+                'No value entered yet so show empty box
+                txtPersonName.Text = ""
+            End If
+
+            If UCase(drv("RelativeName")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtRelativeName.Text = drv("RelativeName")
+            Else
+                'No value entered yet so show empty box
+                txtRelativeName.Text = ""
+            End If
+
+            If UCase(drv("RelationshipType")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtRelationshipType.Text = drv("RelationshipType")
+            Else
+                'No value entered yet so show empty box
+                txtRelationshipType.Text = ""
+            End If
+
+            If UCase(drv("LastJobHeld")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtLastJob.Text = drv("LastJobHeld")
+            Else
+                'No value entered yet so show empty box
+                txtLastJob.Text = ""
+            End If
+
+            If UCase(drv("JobCountry")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtJobCountry.Text = drv("JobCountry")
+            Else
+                'No value entered yet so show empty box
+                txtJobCountry.Text = ""
+            End If
+
+            If Not IsDBNull(drv("DateEnded")) Then
+                rdpDateEnded.DbSelectedDate = CDate(drv("DateEnded")).ToString("dd MMM yyyy")
+            Else
+                rdpDateEnded.SelectedDate = Now
+            End If
+
+            'Now set our delete button
+            btnDeleteRelative.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteRelative.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
 #End Region
 
+
+    
+
+    
+    
+    
 End Class
