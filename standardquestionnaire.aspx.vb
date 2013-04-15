@@ -48,6 +48,10 @@ Partial Class standardquestionnaire
             cboCountries.DataTextField = "CountryName"
             cboCountries.DataValueField = "CountryID"
             cboCountries.DataBind()
+            'Now get our Minerals list for table popop
+            Dim Minerals As DataSet = NashBLL.GetMinerals()
+            rptMineralsPopup.DataSource = Minerals
+            rptMineralsPopup.DataBind()
             'Now add in a please select
             Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
             cboBusinessType.Items.Insert(0, NewItem)
@@ -1279,6 +1283,22 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptMineralsPopup_itemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptMineralsPopup.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim litMineralNamePopup As Literal
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so lets populate
+            litMineralNamePopup = e.Item.FindControl("litMineralNamePopup")
+            'get our data now
+            drv = e.Item.DataItem
+            litMineralNamePopup.Text = drv("MineralName")
+        End If
+
+
+    End Sub
+
 #End Region
 
 
@@ -1289,5 +1309,5 @@ Partial Class standardquestionnaire
 
 
 
-    
+
 End Class

@@ -18,6 +18,14 @@
     padding-bottom: 50px;
 }
 
+.dependant
+{
+    border: 1px solid #FF9933;
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: #F4F4F4;
+}
+
 
 .clearfix:before,
 .clearfix:after {

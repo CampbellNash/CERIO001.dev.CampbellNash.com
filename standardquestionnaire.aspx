@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="standardquestionnaire.aspx.vb" Inherits="standardquestionnaire" %>
+<%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
+     <div class="span9">
    <script type="text/javascript" language="javascript">
        function UploadFile()
        {
@@ -10,8 +12,8 @@
     <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
     <p> It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p> 
     <p> Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
-    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000">
-        <asp:Button id-="btnUpload" runat="server" style="visibility:hidden" />
+    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+        <asp:Button id-="btnUpload" runat="server" style="visibility:hidden;float:right" />
         <asp:Literal ID="litTest" runat="server" />
                 <h4>Progress</h4>
                <div class="progress">
@@ -22,7 +24,7 @@
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
                        <legend>1. Corporate details</legend>
-                        <h4>Full name and address of supplier</h4>
+                       <label>Full name and address of supplier</label>
                        <div class="control-group">
                            <label class="control-label"><span class="alert-error">*</span>Company Name:</label>
                            <div class="controls">
@@ -151,7 +153,7 @@
                     <asp:Panel ID="panPage2" runat="server" Visible="false">
                         <legend>2. Company details</legend>
                         <div class="control-group">
-                            <label class="control-label"><span class="alert-error">*</span>2. Please list the countries in which the supplier operates or sources materials from:</label>
+                            <label class="control-label"><span class="alert-error">*</span>2.1 Please list the countries in which the supplier operates or sources materials from:</label>
                             <div class="controls">
                                  <asp:TextBox ID="txtCountryList" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter at least one country" />
                                 <span class="help-block">Enter a country on each line</span>
@@ -163,7 +165,7 @@
                         </div>      
                         
                          <div class="control-group">
-                            <label class="control-label">3. Does the Supplier have any subsidiaries or a parent company?</label>
+                            <label class="control-label">2.2 Does the Supplier have any subsidiaries or a parent company?</label>
                             <div class="controls">
                                  <asp:RadioButtonList ID="rblParent" runat="server" AutoPostBack="true" RepeatColumns="4">
                                     <asp:ListItem Text="No" Selected="True" />
@@ -176,34 +178,35 @@
                         
                         
                             
-                            <asp:Panel ID="panParentCompanies" runat="server" Visible="false">
+                            <asp:Panel ID="panParentCompanies" runat="server" Visible="false" CssClass="dependant">
                             <div class="control-group">
-                                <label >3b. You have selected YES, please list these in the table provided:</label>
-                                <div >
+                                <label>2.2.1 You have selected YES, please list these in the table provided:</label>
+                                <div>
                                     <table class="table table-bordered">
                                 <tr>
                                     <th>Name of subsidiary/parent</th>
                                     <th>Registered number of subsidiary</th>
                                     <th>Country of registration of subsidiary</th>
-                                    <th colspan="2">&#37; of subsidiary owned by Service </th>
+                                    <th>&#37; of subsidiary owned by Service </th>
+                                    <th>Control</th>
                                 </tr>
                                 <asp:Repeater ID="rptParentCompany" runat="server">
                                     <ItemTemplate>
                                         <tr>
                                             <td>
-                                                <asp:TextBox ID="txtParentCompanyName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
+                                                <asp:TextBox ID="txtParentCompanyName" runat="server" TextMode="SingleLine" CssClass="input-large" placeholder="Enter company name" />
                                                 <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtParentCompanyName" Display="Dynamic" ErrorMessage="Please enter company name" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="txtParentCompanyNumber" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
+                                                <asp:TextBox ID="txtParentCompanyNumber" runat="server" TextMode="SingleLine" CssClass="input-small" placeholder="Enter company number" />
                                                 <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtParentCompanyNumber" Display="Dynamic" ErrorMessage="Please enter company number" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="txtParentCountry" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter country of registration" />
+                                                <asp:TextBox ID="txtParentCountry" runat="server" TextMode="SingleLine" CssClass="input-large" placeholder="Enter country of registration" />
                                                 <asp:RequiredFieldValidator ID="rfvParentCountry" runat="server" ControlToValidate="txtParentCountry" Display="Dynamic" ErrorMessage="Please enter country of registration" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
+                                                <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-mini" placeholder="&#37; company owned" />
                                                 <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td><asp:Button ID="btnDeleteParent" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteParentLine" /><asp:HiddenField ID="hidItemID" runat="server" /></td>
@@ -214,12 +217,12 @@
                                     
                                     <asp:LinkButton ID="btnAddNewParent" runat="server" Text="Add New Line" Visible="false" CssClass="btn btn-success" />
                                 </div>
-                                <hr />
+                               
                             </div>
                            
                         </asp:Panel>
                         <div class="control-group">
-                                <label>4. List all owners, partners or shareholders of the Supplier:</label>
+                                <label>2.3 List all owners, partners or shareholders of the Supplier:</label>
                                 <div>
                                     <table class="table table-bordered">
                                         <tr>
@@ -258,7 +261,7 @@
                         
 
                         <div class="control-group">
-                            <label >5. List all directors (or equivalent) of the Supplier (including those already listed at above):</label>
+                            <label >2.4 List all directors (or equivalent) of the Supplier (including those already listed at above):</label>
                             <div >
                                 <table class="table table-bordered">
                                 <tr>
@@ -294,7 +297,7 @@
                         </div>
                         
                         <div class="control-group">
-                             <label>Is the Supplier or any person listed at question 4 or 5 above a person who falls within one of the categories listed below?  Do any of the people listed below have an ownership interest, directly or indirectly, in the Supplier?  Do any of the employees of the Supplier who would be involved in or in any way connected to the contract with [company name] fall within one of the categories listed below or are they relatives of a person who falls within one of the categories listed below? </label>
+                             <label>2.5 Is the Supplier or any person listed at question 4 or 5 above a person who falls within one of the categories listed below?  Do any of the people listed have an ownership interest, directly or indirectly, in the Supplier?  Do any of the employees of the Supplier who would be involved in or in any way connected to the contract with [company name] fall within one of the categories listed below or are they relatives of a person who falls within one of the categories listed below? </label>
                              <div>
                                  <table class="table table-bordered">
                                      <tr>
@@ -302,8 +305,18 @@
                                          <th>Check</th>
                                      </tr>
                                      <tr>
-                                         <td>(from DB?) A current  or former government or public official (teachers, school assistants, nurses, librarians and public officials who only carry out low level administrative functions);</td>
+                                         <td>A current  or former government or public official (teachers, school assistants, nurses, librarians and public officials who only carry out low level administrative functions);</td>
                                          <td><asp:CheckBox ID="chkGovernmentEmployee" runat="server" AutoPostBack="true"/></td>
+                                     </tr>
+                                     <tr>
+                                         <td>A current or former employee of a government or public agency (exclusions as above);</td>
+                                         <td></td>
+                                     </tr>
+                                     <tr>
+                                         <td>
+                                             etc
+                                         </td>
+                                         <td></td>
                                      </tr>
                                 </table>
 
@@ -373,7 +386,7 @@
                        <!-- Preferably these should come from the DB -->
                        <div class="control-group">
                            <label>
-                               Does your product/component contain any of the following minerals:
+                               3.1 Does your product/component contain any of the following minerals:
                            </label>
                            <label class="control-label">Cassiterite:</label>
                            <div class="controls">
@@ -447,9 +460,10 @@
                                    <asp:RequiredFieldValidator ID="rfvGold" runat="server" ControlToValidate="txtGold" Display="Dynamic" ErrorMessage="Enter the details for Gold" ValidationGroup="Questions" CssClass="alert-error" />
                                </asp:Panel>
                            </div>
+                          
                        </div>
                        <div class="control-group">
-                           <label class="control-label">Are the minerals smelted or fully refined? </label>
+                            <label class="control-label">3.2 Are the minerals smelted or fully refined? </label>
                             <div class="controls">
                                <asp:RadioButtonList ID="rblSmelted" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
                                     <asp:ListItem Text="No" Selected="True" />
@@ -457,12 +471,13 @@
                                 </asp:RadioButtonList>
 
                            </div>
+
                        </div>
                        <asp:Panel ID="panMineralPurpose" runat="server" Visible="false">
-                           <legend>4. Purpose of mineral content</legend>
+                           <legend>3.3 Purpose of mineral content</legend>
                            <label><strong>Are any of the minerals listed:</strong></label>
                            <div class="control-group">
-                               <label>Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
+                               <label>3.3.1 Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
@@ -493,7 +508,7 @@
                            </div>
                            <hr />
                            <div class="control-group">
-                               <label>Intentionally added to the product/component's production process?</label>
+                               <label>3.3.2 Intentionally added to the product/component's production process?</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
@@ -525,7 +540,7 @@
                            </div>
                            <hr />
                            <div class="control-group">
-                               <label>Necessary to produce the product/component?</label>
+                               <label>3.3.3 Necessary to produce the product/component?</label>
                                <table class="table table-bordered">
                                    <tr>
                                        <th>Mineral Name</th>
@@ -558,11 +573,11 @@
                    </asp:Panel>
                    
                    <asp:Panel ID="panPage4" runat="server" Visible="False" >
-                       <legend>5. Country of origin, processing and transportation</legend>
+                       <legend>4. Country of origin, processing and transportation</legend>
                        <div class="control-group">
-                           <label>Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
+                           <label>4.1 Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
                            <!-- Like the minerals i think these should come from the DB -->
-                           <label class="control-label">Democratic Republic of Congo :</label>
+                           <label class="control-label">DR Congo:</label>
                            <div class="controls">
                                <asp:RadioButtonList ID="rblCongo" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
                                     <asp:ListItem Text="No" Selected="True" />
@@ -571,11 +586,26 @@
 
                            </div>
                            <label class="control-label">Angola:</label>
-                           <div class="controls"></div>
+                           <div class="controls">
+                               <asp:RadioButtonList ID="rblAngola" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                                    <asp:ListItem Text="No" Selected="True" />
+                                    <asp:ListItem Text="Yes" Selected="False" />
+                                </asp:RadioButtonList>
+                           </div>
                            <label class="control-label">Burindi:</label>
-                           <div class="controls"></div>
-                           <label class="control-label">central Afircan Republic:</label>
-                           <div class="controls"></div>
+                           <div class="controls">
+                                <asp:RadioButtonList ID="rblBurindi" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                                    <asp:ListItem Text="No" Selected="True" />
+                                    <asp:ListItem Text="Yes" Selected="False" />
+                                </asp:RadioButtonList>
+                           </div>
+                           <label class="control-label">Central African Republic:</label>
+                           <div class="controls">
+                                <asp:RadioButtonList ID="rblCar" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                                    <asp:ListItem Text="No" Selected="True" />
+                                    <asp:ListItem Text="Yes" Selected="False" />
+                                </asp:RadioButtonList>
+                           </div>
                        </div>
                        <ajaxToolkit:HoverMenuExtender ID="hme2" runat="Server"
     TargetControlID="btnMineralsListed"
@@ -589,26 +619,23 @@
                             <div class="popover-content">
                             <h5>Listed Minerals</h5>
                                 <!-- From databse -->
-                                <table class="table-condensed"> 
-                                    <tr>
-                                        <td>Cassiterite</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Columbite-tantalite (coltan)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Wolframite</td>
-                                    </tr>
+                                <table class="table table-bordered">
+                                <asp:Repeater ID="rptMineralsPopup" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><asp:Literal ID="litMineralNamePopup" runat="server"></asp:Literal></td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                                 </table>
-                            
                             
                              
                             </div>
                         </asp:Panel>
                        <div class="control-group">
-                           <label class="control-label">Does the mineral content come from recycled sources?</label>
+                           <label class="control-label">4.2 Does the mineral content come from scrap sources?</label>
                            <div class="controls">
-                               <asp:RadioButtonList ID="rblRecycled" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                               <asp:RadioButtonList ID="rblScrap" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
                                     <asp:ListItem Text="No" Selected="True" />
                                     <asp:ListItem Text="Yes" Selected="False" />
                                 </asp:RadioButtonList>
@@ -625,7 +652,7 @@
                                    </tr>
                                    <tr>
                                        <td>
-                                        sdf   
+                                        <asp:DropDownList ID="cbo1" runat="server" />  
                                        </td>
                                        <td>
                                            sdf
@@ -637,6 +664,17 @@
 
 
                        </div>
+                       <div class="control-group">
+                           <label class="control-label">4.3 Does the mineral content come from recycled sources?</label>
+                           <div class="controls">
+                               <asp:RadioButtonList ID="rblRecycled" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                                    <asp:ListItem Text="No" Selected="True" />
+                                    <asp:ListItem Text="Yes" Selected="False" />
+                                </asp:RadioButtonList>
+
+                           </div>
+                           </div>
+                       
                        
                        <div class="control-group">
                            <label class="control-label">You have Selected yes, please provide details</label>
@@ -648,7 +686,7 @@
                                    </tr>
                                    <tr>
                                        <td>
-                                        sdf   
+                                       <asp:DropDownList ID="cbo2" runat="server" />  
                                        </td>
                                        <td>
                                            sdf
@@ -661,22 +699,22 @@
 
                        </div>
                        
-                       <legend>6. Quantity, date and method of extraction </legend>
+                       <legend>5. Quantity, date and method of extraction </legend>
                        <div class="control-group">
-                           <label>If you answered yes to questions 3 and 5, please provide details of the quantity of minerals, date of extraction</label>
+                           <label>5.1 If you answered yes to questions 2.2 and 2.4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
                            <div>
                                <table class="table table-bordered">
                                    <tr>
                                        <th>Mineral</th>
-                                       <th>Quanity</th>
+                                       <th>Quantity</th>
                                        <th>Date of extraction</th>
                                        <th>Method Extraction</th>
                                    </tr>
                                    <tr>
-                                        <td>Drop down?</td>
-                                        <td>textbox</td>
+                                        <td><asp:DropDownList ID="DropDownList1" runat="server" /></td>
+                                        <td><asp:TextBox runat="server" ID="txtExtractionQuantity" CssClass="input-mini"></asp:TextBox></td>
                                         <td>Date picker</td>
-                                        <td>Drop down from DB of artisanal|small-scale|large-scale mining</td>
+                                        <td><asp:DropDownList ID="cboExtractionMethod" runat="server" /><br />Drop down from DB using artisanal|small-scale|large-scale mining</td>
                                    </tr>
 
                                </table>
@@ -684,9 +722,9 @@
 
                            </div>
                        </div>
-                       <legend>7. Processing Facility</legend>
+                       <legend>6. Processing Facility</legend>
                        <div class="control-group">
-                           <label><strong>If you answered yes to questions 3 and 5:</strong></label>
+                           <label><strong>If you answered yes to questions 2.2 and 2.4 (system automated):</strong></label>
                            <label>At which facility are the minerals processed?</label>
                            <div>
                                <table class="table table-bordered">
@@ -867,6 +905,11 @@
         </AjaxSettings>
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />
-    
+    </div>
+      <div class="span3">
+                
+                <uc1:submenu1 ID="submenu11" runat="server" />
+                
+            </div>
 </asp:Content>
 

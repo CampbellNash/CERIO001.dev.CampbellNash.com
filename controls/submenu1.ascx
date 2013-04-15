@@ -10,7 +10,7 @@
                     
                     <ul class="nav nav-list">
                         <li class="nav-header">My Task list</li>
-                        <li class="active"><a href="#">Link 1</a></li>
+                        <li class="active"><a href="../standardquestionnaire.aspx">Complete Conflict Minerals</a></li>
                         <li><a href="#">Link 2</a></li>
                         <li><a href="#">Link 3</a></li>
                         <li><a href="#">Link 4</a></li>
