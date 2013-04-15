@@ -697,8 +697,7 @@ Namespace MasterClass
             Return 0
         End Function
 
-
-        Public Shared Function UpateRelativeLine(ByVal ItemID As Integer, _
+        Public Shared Function UpdateRelativeLine(ByVal ItemID As Integer, _
                                                     ByVal PersonName As String, _
                                                     ByVal RelativeName As String, _
                                                     ByVal RelationshipType As String, _
@@ -727,6 +726,243 @@ Namespace MasterClass
         Public Shared Function AddRelativeLine(ByVal CompanyID As Integer) As Integer
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("AddNewRelativeLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function GetMinerals() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetMinerals", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "Minerals")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function QuestionnaireGetMineralPurposeDetails(ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetPurposeList", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "PurposeList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function DeletePurposeLine(ByVal ItemID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeletePurposeLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function UpdatePurposeLine(ByVal ItemID As Integer, _
+                                                    ByVal MineralID As Integer, _
+                                                    ByVal Description As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UpdatePurposeLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            ObjCmd.Parameters.AddWithValue("@MineralID", MineralID)
+            ObjCmd.Parameters.AddWithValue("@Description", Description)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function AddPurposeLine(ByVal CompanyID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewPurposeLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function QuestionnaireGetMineralProcessDetails(ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetProcessList", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "ProcessList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function DeleteProcessLine(ByVal ItemID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteProcessLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function UpdateProcessLine(ByVal ItemID As Integer, _
+                                                    ByVal MineralID As Integer, _
+                                                    ByVal Description As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UpdateProcessLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            ObjCmd.Parameters.AddWithValue("@MineralID", MineralID)
+            ObjCmd.Parameters.AddWithValue("@Description", Description)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function AddProcessLine(ByVal CompanyID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewProcessLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function QuestionnaireGetMineralComponentDetails(ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetComponentList", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "ComponentList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function DeleteComponentLine(ByVal ItemID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteComponentLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function UpdateComponentLine(ByVal ItemID As Integer, _
+                                                    ByVal MineralID As Integer, _
+                                                    ByVal Description As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UpdateComponentLine", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ItemID", ItemID)
+            ObjCmd.Parameters.AddWithValue("@MineralID", MineralID)
+            ObjCmd.Parameters.AddWithValue("@Description", Description)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function AddComponentLine(ByVal CompanyID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewComponentLine", Conn)
             ObjCmd.CommandType = CommandType.StoredProcedure
             ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
             Try

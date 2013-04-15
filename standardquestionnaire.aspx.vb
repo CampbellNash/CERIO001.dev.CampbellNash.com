@@ -87,6 +87,8 @@ Partial Class standardquestionnaire
         txtCompanyName.Text = "Bullwood Business Consultants"
     End Sub
 
+#Region " Navigation Buttons "
+
     Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         Select Case sender.CommandArgument
             Case 1
@@ -95,12 +97,14 @@ Partial Class standardquestionnaire
                 btnNext.CommandArgument = 2
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
+                lblProgress.Width = "333"
             Case 2
                 panPage2.Visible = False
                 panPage3.Visible = True
                 btnNext.CommandArgument = 3
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 2
+                lblProgress.Width = "499"
             Case 3
                 panPage3.Visible = False
                 panPage4.Visible = True
@@ -108,6 +112,7 @@ Partial Class standardquestionnaire
                 btnNext.CommandArgument = 4
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 3
+                lblProgress.Width = "632"
             Case 4
                 panPage4.Visible = False
                 panPage5.Visible = True
@@ -115,13 +120,14 @@ Partial Class standardquestionnaire
                 btnNext.CommandArgument = 5
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 4
+                lblProgress.Width = "798"
             Case 5
                 panPage5.Visible = False
                 panPage6.Visible = True
                 btnNext.Visible = False
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 5
-
+                lblProgress.Width = "1000"
 
             Case Else
 
@@ -135,13 +141,14 @@ Partial Class standardquestionnaire
                 panPage2.Visible = False
                 btnNext.CommandArgument = 1
                 btnPrev.Visible = False
-
+                lblProgress.Width = "166"
             Case 2
                 panPage2.Visible = True
                 panPage3.Visible = False
                 btnNext.CommandArgument = 2
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
+                lblProgress.Width = "333"
             Case 3
                 panPage3.Visible = True
                 panPage4.Visible = False
@@ -149,6 +156,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 2
+                lblProgress.Width = "499"
             Case 4
                 panPage4.Visible = True
                 panPage5.Visible = False
@@ -156,6 +164,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 3
+                lblProgress.Width = "632"
             Case 5
                 panPage5.Visible = True
                 panPage6.Visible = False
@@ -163,62 +172,364 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 4
-
+                lblProgress.Width = "798"
             Case Else
 
         End Select
     End Sub
 
+#End Region
 
 #Region " Manage Minerals "
 
     Protected Sub rblCassiterite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblCassiterite.SelectedIndexChanged
         If rblCassiterite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panCassiterite.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panCassiterite.Visible = False
         End If
     End Sub
 
     Protected Sub rblColumbite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblColumbite.SelectedIndexChanged
         If rblColumbite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panColumbite.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panColumbite.Visible = False
         End If
     End Sub
 
     Protected Sub rblGold_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblGold.SelectedIndexChanged
         If rblGold.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panGold.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panGold.Visible = False
         End If
     End Sub
 
     Protected Sub rblTantalum_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTantalum.SelectedIndexChanged
         If rblTantalum.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panTantalum.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panTantalum.Visible = False
         End If
     End Sub
 
     Protected Sub rblTungsten_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTungsten.SelectedIndexChanged
         If rblTungsten.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panTungsten.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panTungsten.Visible = False
         End If
     End Sub
 
     Protected Sub rblWolframite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblWolframite.SelectedIndexChanged
         If rblWolframite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
             panWolframite.Visible = True
+            panMineralPurpose.Visible = True
         Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
             panWolframite.Visible = False
         End If
     End Sub
+
+    Private Sub CheckMinerals()
+        If rblCassiterite.SelectedIndex = 0 AndAlso _
+            rblColumbite.SelectedIndex = 0 AndAlso _
+            rblGold.SelectedIndex = 0 AndAlso _
+            rblTantalum.SelectedIndex = 0 AndAlso _
+            rblTungsten.SelectedIndex = 0 AndAlso _
+            rblWolframite.SelectedIndex = 0 Then
+            'None of these elements have been chosen so we can hide the rest of the form
+            panMineralPurpose.Visible = False
+        End If
+    End Sub
+
+    Protected Sub btnAddPurpose_Click(sender As Object, e As EventArgs) Handles btnAddPurpose.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptPurpose.Items
+            txtDescription = Item.FindControl("txtPurpose")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdatePurposeLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddPurposeLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+        rptPurpose.DataSource = Purposes
+        rptPurpose.DataBind()
+    End Sub
+
+    Protected Sub DeletePurposeLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptPurpose.Items
+            txtDescription = Item.FindControl("txtPurpose")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdatePurposeLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeletePurposeLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+        rptPurpose.DataSource = Purposes
+        rptPurpose.DataBind()
+    End Sub
+
+    Protected Sub btnAddProcess_Click(sender As Object, e As EventArgs) Handles btnAddProcess.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptProcess.Items
+            txtDescription = Item.FindControl("txtProcess")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateProcessLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddProcessLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+        rptProcess.DataSource = Processes
+        rptProcess.DataBind()
+    End Sub
+
+    Protected Sub DeleteProcessLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptProcess.Items
+            txtDescription = Item.FindControl("txtProcess")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateProcessLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteProcessLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+        rptProcess.DataSource = Processes
+        rptProcess.DataBind()
+    End Sub
+
+    Protected Sub btnAddComponent_Click(sender As Object, e As EventArgs) Handles btnAddComponent.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptComponent.Items
+            txtDescription = Item.FindControl("txtComponent")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateComponentLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddComponentLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+        rptComponent.DataSource = Components
+        rptComponent.DataBind()
+    End Sub
+
+    Protected Sub DeleteComponentLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptComponent.Items
+            txtDescription = Item.FindControl("txtComponent")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateComponentLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteComponentLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+        rptComponent.DataSource = Components
+        rptComponent.DataBind()
+    End Sub
+
 
 #End Region
 
@@ -540,7 +851,7 @@ Partial Class standardquestionnaire
             End If
 
             'Now update this line to the DB
-            NashBLL.UpateRelativeLine(hidItemID.Value, _
+            NashBLL.UpdateRelativeLine(hidItemID.Value, _
                                       txtPersonName.Text, _
                                       txtRelativeName.Text, _
                                       txtRelationshipType.Text, _
@@ -593,7 +904,7 @@ Partial Class standardquestionnaire
             End If
 
             'Now update this line to the DB
-            NashBLL.UpateRelativeLine(hidItemID.Value, _
+            NashBLL.UpdateRelativeLine(hidItemID.Value, _
                                       txtPersonName.Text, _
                                       txtRelativeName.Text, _
                                       txtRelationshipType.Text, _
@@ -635,7 +946,7 @@ Partial Class standardquestionnaire
             'Now complete our details
             hidItemID.Value = drv("ItemID")
             If UCase(drv("ParentCompanyName")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtParentCompanyName.Text = drv("ParentCompanyName")
             Else
                 'No value entered yet so show empty box
@@ -643,7 +954,7 @@ Partial Class standardquestionnaire
             End If
 
             If UCase(drv("ParentCompanyNumber")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtParentCompanyNumber.Text = drv("ParentCompanyNumber")
             Else
                 'No value entered yet so show empty box
@@ -651,7 +962,7 @@ Partial Class standardquestionnaire
             End If
 
             If UCase(drv("ParentCompanyCountry")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtParentCountry.Text = drv("ParentCompanyCountry")
             Else
                 'No value entered yet so show empty box
@@ -694,7 +1005,7 @@ Partial Class standardquestionnaire
             'Now complete our details
             hidItemID.Value = drv("ItemID")
             If UCase(drv("ShareholderName")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtShareholderName.Text = drv("ShareholderName")
             Else
                 'No value entered yet so show empty box
@@ -702,7 +1013,7 @@ Partial Class standardquestionnaire
             End If
 
             If UCase(drv("Nationality")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtShareholderNationality.Text = drv("Nationality")
             Else
                 'No value entered yet so show empty box
@@ -754,7 +1065,7 @@ Partial Class standardquestionnaire
             End If
 
             If UCase(drv("DirectorNationality")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtDirectorNationality.Text = drv("Nationality")
             Else
                 'No value entered yet so show empty box
@@ -762,14 +1073,14 @@ Partial Class standardquestionnaire
             End If
 
             If UCase(drv("DirectorJobTitle")) <> "NONE" Then
-                'A value was writtent to the DB so we need to re-populate the item now
+                'A value was written to the DB so we need to re-populate the item now
                 txtDirectorJobTitle.Text = drv("DirectorJobTitle")
             Else
                 'No value entered yet so show empty box
                 txtDirectorJobTitle.Text = ""
             End If
 
-            
+
             'Now set our delete button
             btnDeleteDirector.CommandArgument = drv("ItemID")
             If gbLoopCount = 0 Then
@@ -860,12 +1171,123 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptPurpose_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptPurpose.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeletePurpose As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtDescription = e.Item.FindControl("txtPurpose")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeletePurpose = e.Item.FindControl("btnDeletePurpose")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            If UCase(drv("Description")) <> "NONE" Then
+                txtDescription.Text = drv("Description")
+            Else
+                txtDescription.Text = ""
+            End If
+            'Set our managed values
+            btnDeletePurpose.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+        End If
+    End Sub
+
+    Protected Sub rptProcess_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptProcess.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeleteProcess As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtDescription = e.Item.FindControl("txtProcess")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteProcess = e.Item.FindControl("btnDeleteProcess")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            If UCase(drv("Description")) <> "NONE" Then
+                txtDescription.Text = drv("Description")
+            Else
+                txtDescription.Text = ""
+            End If
+            'Set our managed values
+            btnDeleteProcess.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+        End If
+    End Sub
+
+    Protected Sub rptComponent_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptComponent.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeleteComponent As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtDescription = e.Item.FindControl("txtComponent")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteComponent = e.Item.FindControl("btnDeleteComponent")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            If UCase(drv("Description")) <> "NONE" Then
+                txtDescription.Text = drv("Description")
+            Else
+                txtDescription.Text = ""
+            End If
+            'Set our managed values
+            btnDeleteComponent.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+        End If
+    End Sub
+
 #End Region
 
 
-    
 
-    
-    
+
+
+
+
+
+
     
 End Class

@@ -1,15 +1,22 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="standardquestionnaire.aspx.vb" Inherits="standardquestionnaire" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-   
+   <script type="text/javascript" language="javascript">
+       function UploadFile()
+       {
+           document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnUpload').click();// This used to purge uploaded files to the target folder
+       }
+   </script>
        <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
     <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
     <p> It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p> 
     <p> Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
-    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000"> 
+    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server" Width="1000">
+        <asp:Button id-="btnUpload" runat="server" style="visibility:hidden" />
         <asp:Literal ID="litTest" runat="server" />
                 <h4>Progress</h4>
                <div class="progress">
-                   <div class="bar" style="width: 20%;"></div>
+                   <div class="bar" runat="server" id="progressbar"></div>
+                   <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" />
                </div> 
                <h4>Items marked with * are requried</h4>
                <div class="form-signin form-horizontal">
@@ -451,73 +458,104 @@
 
                            </div>
                        </div>
-                      <legend>4. Purpose of mineral content</legend>
-                       <label><strong>If you answered yes to Question 3, are any of the minerals listed:</strong></label>
-                       <div class="control-group">
-                           <label>Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
-                            <div>
-                                <table class="table table-bordered">
-                                     <tr>
-                                         <th>textbox/dropdown?</th>
-                                         <th>Funciton use/Porpose</th>
-                                        
-                                     </tr>
-                                     <tr>
-                                         <td>textbox</td>
-                                         <td>Mutli textbox</td>
-                                         
-                                     </tr>
+                       <asp:Panel ID="panMineralPurpose" runat="server" Visible="false">
+                           <legend>4. Purpose of mineral content</legend>
+                           <label><strong>Are any of the minerals listed:</strong></label>
+                           <div class="control-group">
+                               <label>Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral</th>
+                                           <th colspan="2">Function use/Purpose</th>
+                                       </tr>
+                                       <asp:Repeater ID="rptPurpose" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtPurpose" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtPurpose" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   <td>
+                                                       <asp:Button ID="btnDeletePurpose" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeletePurposeLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
+                                   </table>
+                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                                   <asp:LinkButton ID="btnAddPurpose" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
+                           </div>
+                           <hr />
+                           <div class="control-group">
+                               <label>Intentionally added to the product/component's production process?</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral Name</th>
+                                           <th colspan="2">Explanation</th>
+                                       </tr>
+                                       <asp:Repeater ID="rptProcess" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtProcess" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtProcess" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   <td>
+                                                       <asp:Button ID="btnDeleteProcess" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteProcessLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
 
-                                 </table>
-                                <span class="help-block">If yes, please explain why?</span>
-                                <asp:LinkButton ID="LinkButton1" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                            </div>
-                       </div>
-                       
-                       <div class="control-group">
-                           <label>Intentionally added to the product/component's production process?</label>
-                            <div>
-                                <table class="table table-bordered">
-                                     <tr>
-                                         <th>Mineral Name</th>
-                                          <th>Explanation</th>
-                                        
-                                     </tr>
-                                     <tr>
-                                         <td>textbox/dropdown?</td>
-                                         <td>Mutli textbox</td>
-                                         
-                                     </tr>
+                                   </table>
+                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                                   <asp:LinkButton ID="btnAddProcess" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
+                           </div>
+                           <hr />
+                           <div class="control-group">
+                               <label>Necessary to produce the product/component?</label>
+                               <table class="table table-bordered">
+                                   <tr>
+                                       <th>Mineral Name</th>
+                                       <th colspan="2">Explanation</th>
 
-                                 </table>
-                               <span class="help-block">If yes, please explain why?</span>
-                               <asp:LinkButton ID="LinkButton2" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                            </div>
-                       </div>
-                       <div class="control-group">
-                           <label>Necessary to produce the product/component?</label>
-                           <table class="table table-bordered">
-                                     <tr>
-                                         <th>Mineral Name</th>
-                                         <th>Explanation</th>
-                                        
-                                     </tr>
-                                     <tr>
-                                         <td>textbox/dropdown?</td>
-                                         <td>Mutli textbox</td>
-                                         
-                                     </tr>
+                                   </tr>
+                                   <asp:Repeater ID="rptComponent" runat="server">
+                                       <ItemTemplate>
+                                           <tr>
+                                               <td>
+                                                   <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                   <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                               </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtComponent" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvComponent" runat="server" ControlToValidate="txtComponent" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                               <td>
+                                                   <asp:Button ID="btnDeleteComponent" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteComponentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                               </td>
+                                           </tr>
+                                       </ItemTemplate>
+                                   </asp:Repeater>
 
-                                 </table>
-                           <span class="help-block">If yes, please explain why?</span>
-                           <asp:LinkButton ID="LinkButton3" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                       </div>
-
-
-
-
+                               </table>
+                               <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                               <asp:LinkButton ID="btnAddComponent" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           </div>
+                       </asp:Panel>
                    </asp:Panel>
-                   
                    
                    <asp:Panel ID="panPage4" runat="server" Visible="False" >
                        <legend>5. Country of origin, processing and transportation</legend>
@@ -790,8 +828,9 @@
                        <label>If you answered yes to question 3:</label>
                        <div class="control-group">
                            <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
-                           <asp:FileUpload ID="FileUpload1" runat="server" />
-
+                           <Telerik:RadProgressManager runat="server" ID="RadProgressManager1" />
+                           <Telerik:RadAsyncUpload ID="RadAsyncUpload1" runat="server"  MultipleFileSelection="Automatic" TargetFolder="~/userfiles" OnClientFilesUploaded="UploadFile" />
+                           <Telerik:RadProgressArea runat="server" ID="RadProgressArea1" />
                        </div>
                        <legend>12. Certification / Consent</legend>
                        <ol>
