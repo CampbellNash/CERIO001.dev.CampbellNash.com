@@ -52,6 +52,10 @@ Partial Class standardquestionnaire
             Dim Minerals As DataSet = NashBLL.GetMinerals()
             rptMineralsPopup.DataSource = Minerals
             rptMineralsPopup.DataBind()
+            'Now get our Smeleter list
+            Dim SmelterList As DataSet = NashBLL.GetSmelterList()
+            rptSmelterList.DataSource = SmelterList
+            rptSmelterList.DataBind()
             'Now add in a please select
             Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
             cboBusinessType.Items.Insert(0, NewItem)
@@ -1294,6 +1298,29 @@ Partial Class standardquestionnaire
             'get our data now
             drv = e.Item.DataItem
             litMineralNamePopup.Text = drv("MineralName")
+        End If
+
+
+    End Sub
+
+    Protected Sub rptSmelterList_itemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptSmelterList.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim litSmelterName As Literal
+        Dim litSmelterLocation As Literal
+        Dim litSmeltereffectiveDate As Literal
+        Dim litSmelterMineral As Literal
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so lets populate
+            litSmelterName = e.Item.FindControl("litSmelterName")
+            litSmelterLocation = e.Item.FindControl("litSmelterLocation")
+            litSmeltereffectiveDate = e.Item.FindControl("litSmeltereffectiveDate")
+            'get our data now
+            drv = e.Item.DataItem
+            litSmelterName.Text = drv("CompanyName")
+            litSmelterLocation.Text = drv("Location")
+            litSmeltereffectiveDate.Text = drv("EffectiveDate")
         End If
 
 

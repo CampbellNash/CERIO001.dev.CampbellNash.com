@@ -643,7 +643,7 @@
                            </div>
                            </div>
                        <div class="control-group">
-                           <label class="control-label">You have Selected yes, please provide details</label>
+                           <label class="control-label">4.2.1 You have Selected yes, please provide details</label>
                            <div class="controls">
                                <table class="table table-bordered">
                                    <tr>
@@ -677,7 +677,7 @@
                        
                        
                        <div class="control-group">
-                           <label class="control-label">You have Selected yes, please provide details</label>
+                           <label class="control-label">4.3.1 You have Selected yes, please provide details</label>
                            <div class="controls">
                                <table class="table table-bordered">
                                    <tr>
@@ -724,13 +724,13 @@
                        </div>
                        <legend>6. Processing Facility</legend>
                        <div class="control-group">
-                           <label><strong>If you answered yes to questions 2.2 and 2.4 (system automated):</strong></label>
-                           <label>At which facility are the minerals processed?</label>
+                           <label><strong>If you answered yes to questions 3 and 4 (system automated):</strong></label>
+                           <label>6.1 At which facility are the minerals processed?</label>
                            <div>
                                <table class="table table-bordered">
                                    <tr>
-                                       <th>Name</th>
-                                       <th>Location</th>
+                                       <th>Company Name (e.g Exotech Inc.) </th>
+                                       <th>Location (e.g Pompano Beach, Florida, USA)</th>
                                        
                                    </tr>
                                    <tr>
@@ -740,14 +740,55 @@
                                    </tr>
 
                                </table>
-                               <span class="help-block">state name and location of facilitate</span>
+                               
                            <asp:LinkButton ID="btnAddFacility" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                            </div>
                        </div>
                        
                        <div class="control-group">
-                           <label class="control-label">Is the facility included in the Conflict Free Smelter list?</label>
-                           show list todo, need to get full list from http://www.conflictfreesmelter.org/ - jennifer on the case!
+                           <label >6.2 Is the facility included in the <asp:HyperLink ID="hypSmelterList" runat="server" >Conflict Free Smelter list? </asp:HyperLink></label>
+                           <div class="controls">
+                               
+                               <ajaxToolkit:HoverMenuExtender ID="HoverMenuExtender1" runat="Server"
+    TargetControlID="hypSmelterList"
+    PopupControlID="popupSmelterList"
+    HoverCssClass="popupHover"
+    PopupPosition="Right"
+    OffsetX="0"
+    OffsetY="-200"
+    PopDelay="50" />
+                       <asp:Panel CssClass="SmelterPopup" ID="popupSmelterList" runat="server">
+                            <div class="popover-content">
+                            <h5>Compliant Smelter & Refiner List</h5>
+                                <!-- From databse -->
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Company Name</th>
+                                        <th>Location</th>
+                                        <th>Effective Date</th>
+                                    </tr>
+                                <asp:Repeater ID="rptSmelterList" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td><asp:Literal ID="litSmelterName" runat="server"></asp:Literal></td>
+                                            <td><asp:Literal ID="litSmelterLocation" runat="server"></asp:Literal></td>
+                                            <td><asp:Literal ID="litSmeltereffectiveDate" runat="server"></asp:Literal></td>
+                                            
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                </table>
+                            
+                             
+                            </div>
+
+
+                        </asp:Panel>
+                                <asp:RadioButtonList ID="rblSmelterList" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
+                                    <asp:ListItem Text="No" Selected="True" />
+                                    <asp:ListItem Text="Yes" Selected="False" />
+                                </asp:RadioButtonList>
+                           </div>
                        </div>
                        <div class="control-group">
                            <label>Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
