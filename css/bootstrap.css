@@ -4436,15 +4436,16 @@ input[type="submit"].btn.btn-mini {
   overflow: visible;
 }
 
-.navbar .brand {
-  display: block;
-  float: left;
-  padding: 10px 20px 10px;
-  margin-left: -20px;
-  font-size: 20px;
-  font-weight: 200;
-  color: #777777;
-  text-shadow: 0 1px 0 #ffffff;
+.navbar .brand
+{
+    display: block;
+    float: left;
+    padding: 15px 20px 15px 20px;
+    margin-left: -20px;
+    font-size: 20px;
+    font-weight: 200;
+    color: #777777;
+    text-shadow: 0 1px 0 #ffffff;
 }
 
 .navbar .brand h1
@@ -4598,9 +4599,9 @@ input[type="submit"].btn.btn-mini {
   margin-bottom: 0;
 }
 
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  border-width: 0 0 1px;
+.navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner
+{
+    border-width: 0 0 0px 0;
 }
 
 .navbar-fixed-bottom .navbar-inner {
@@ -4650,10 +4651,10 @@ input[type="submit"].btn.btn-mini {
     display: block;
     float: left;
     margin: 0 10px 0 0;
-    padding-top: 15px;
+    padding-top: 30px;
     font-size: 1.6em;
     font-weight: 700;
-    height: 2em;
+    
 }
 
 .navbar .nav.pull-right {
@@ -6195,7 +6196,7 @@ a.badge:focus {
 .hero-unit
 {
     padding: 60px;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     font-size: 18px;
     font-weight: 200;
     line-height: 30px;
@@ -6256,7 +6257,7 @@ a.badge:focus {
     border-top-style: solid;
     border-top-width: 2px;
     border-top-color: #CCCCCC;
-    margin-top: -30px;
+    
 }
   
 .form-signin
