@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-     <h1>CERICO Supply Chain Solutions</h1>
+     <h1>CERICO / A Compliance and Due Diligence solution</h1>
             <p>Ensuring compliance with UK and International Anti-Bribery and Corruption legislation can be a challenge. In particular, you need to be sure that your supply chain is compliant with your company policies</p>
             <p><a href="#" class="btn btn-info btn-large">Learn more &raquo;</a></p>
 </asp:Content>

@@ -701,7 +701,7 @@
                        
                        <legend>5. Quantity, date and method of extraction </legend>
                        <div class="control-group">
-                           <label>5.1 If you answered yes to questions 2.2 and 2.4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
+                           <label>5.1 If you answered yes to questions 3 and 4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
                            <div>
                                <table class="table table-bordered">
                                    <tr>
