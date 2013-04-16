@@ -20,7 +20,7 @@
                    <div class="bar" runat="server" id="progressbar"></div>
                    <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" />
                </div> 
-               <h4>Items marked with * are requried</h4>
+               <h4>Items marked with <span class="alert-error">*</span> are requried</h4>
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
                        <legend>1. Corporate details</legend>
@@ -34,7 +34,7 @@
                        </div>
                         
                         <div class="control-group">
-                            <label class="control-label"><span class="alert-error">*</span> Company Number:</label>
+                            <label class="control-label"><span class="alert-error">*</span>Company Number:</label>
                             <div class="controls">
                                  <asp:TextBox ID="txtCompanyNumber" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
                                  <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtCompanyNumber" Display="Dynamic" ErrorMessage="Please enter company number" ValidationGroup="Questions" CssClass="alert-error" />
@@ -76,7 +76,7 @@
                             
                                <label ><span class="alert-error">*</span>Postcode:</label>
                                 <asp:TextBox ID="txtPostcode" runat="server" TextMode="SingleLine" CssClass="input-small" placeholder="Postcode" />
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtPostcode" Display="Dynamic" ErrorMessage="Please enter city" ValidationGroup="Questions" CssClass="alert-error" />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtPostcode" Display="Dynamic" ErrorMessage="Please enter Post code" ValidationGroup="Questions" CssClass="alert-error" />
                    
                             </div>
                         </div>
@@ -297,31 +297,34 @@
                         </div>
                         
                         <div class="control-group">
-                             <label>2.5 Is the Supplier or any person listed at question 4 or 5 above a person who falls within one of the categories listed below?  Do any of the people listed have an ownership interest, directly or indirectly, in the Supplier?  Do any of the employees of the Supplier who would be involved in or in any way connected to the contract with [company name] fall within one of the categories listed below or are they relatives of a person who falls within one of the categories listed below? </label>
+                             <label>2.5 Is the Supplier or any person listed at question 2.3 or 2.4 above a person who falls within one of the categories listed below?  Do any of the people listed have an ownership interest, directly or indirectly, in the Supplier?  Do any of the employees of the Supplier who would be involved in or in any way connected to the contract with [company name] fall within one of the categories listed below or are they relatives of a person who falls within one of the categories listed below? </label>
                              <div>
-                                 <table class="table table-bordered">
+                                 
+                                 <table class="table table-striped">
+                                     <thead>
                                      <tr>
                                          <th>Category</th>
-                                         <th>Check</th>
+                                         
                                      </tr>
-                                     <tr>
-                                         <td>A current  or former government or public official (teachers, school assistants, nurses, librarians and public officials who only carry out low level administrative functions);</td>
-                                         <td><asp:CheckBox ID="chkGovernmentEmployee" runat="server" AutoPostBack="true"/></td>
-                                     </tr>
-                                     <tr>
-                                         <td>A current or former employee of a government or public agency (exclusions as above);</td>
-                                         <td></td>
-                                     </tr>
-                                     <tr>
-                                         <td>
-                                             etc
-                                         </td>
-                                         <td></td>
-                                     </tr>
+                                         </thead>
+                                     <asp:Repeater ID="rptrelationshipCategories" runat="server">
+                                         <ItemTemplate>
+                                             <tr>
+                                                 <td><asp:Literal ID="litRelationshipCategory" runat="server"></asp:Literal></td>
+                                             </tr>
+                                         </ItemTemplate>
+                                     </asp:Repeater>
+                                    <tfoot>
+                                        <tr>
+                                            <td><strong>Does any of the above categories apply?</strong>  <asp:CheckBox ID="chkGovernmentEmployee" runat="server" AutoPostBack="true"/></td>
+                                        </tr>
+                                    </tfoot>
+                               
                                 </table>
-
+                                
                              </div>
-
+                            
+                          
                         </div>
                         <asp:Panel ID="panGovernmanetEmployee" runat="server" Visible="false">
                         <div class="control-group">
@@ -912,6 +915,17 @@
                            <li>On behalf of the Supplier, its officers, directors and employees, I agree to comply with [company name]'s policy on conflict minerals, anti-bribery and business ethics. </li>
                        </ol>
                       <legend>13. Sign off</legend>
+                       <div class="control-group">
+                       <label>I have the authority to bind the Supplier</label>
+                       <label>Name:</label><asp:Literal ID="litUsername" runat="server" Text="Stephen Davidson" />
+                           
+                       <label>Position:</label><asp:Literal ID="litPosition" runat="server" Text="Web developer" />
+                          
+                       <label>Signature checkbox:</label>
+                           
+                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                              
+                           </div>
                    </asp:Panel>
                   <p></p>
                     <p>

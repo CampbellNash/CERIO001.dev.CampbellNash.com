@@ -56,6 +56,10 @@ Partial Class standardquestionnaire
             Dim SmelterList As DataSet = NashBLL.GetSmelterList()
             rptSmelterList.DataSource = SmelterList
             rptSmelterList.DataBind()
+            'Now get out relationship categories
+            Dim RelationshipCategory As DataSet = NashBLL.GetrelationshipCategories()
+            rptrelationshipCategories.DataSource = RelationshipCategory
+            rptrelationshipCategories.DataBind()
             'Now add in a please select
             Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
             cboBusinessType.Items.Insert(0, NewItem)
@@ -1380,6 +1384,16 @@ Partial Class standardquestionnaire
             litCountryName = e.Item.FindControl("litCountryName")
             drv = e.Item.DataItem
             litCountryName.Text = drv("CountryName")
+        End If
+    End Sub
+
+    Protected Sub rptrelationshipCategories_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptrelationshipCategories.ItemDataBound
+        Dim litRelationshipCategory As Literal
+        Dim drv As DataRowView
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            litRelationshipCategory = e.Item.FindControl("litRelationshipCategory")
+            drv = e.Item.DataItem
+            litRelationshipCategory.Text = drv("Description")
         End If
     End Sub
 
