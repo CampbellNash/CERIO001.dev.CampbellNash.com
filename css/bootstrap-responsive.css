@@ -947,6 +947,36 @@
   .carousel-caption {
     position: static;
   }
+
+  .hp-header
+    {
+        padding: 0px;
+        margin-top: -20px;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+  .hero-unit
+{
+    padding: 10px;
+    margin-bottom: 0px;
+    font-size: 1.2em;
+    line-height: 16px;
+}
+
+  .hero-unit h1
+    {
+        font-size: 1.6em;
+        margin-bottom: 10px;
+    }
+  .hero-login
+{
+    padding: 10px;
+    margin-bottom: 10px;
+
+    line-height: 20px;
+   
+}
+  
 }
 
 @media (max-width: 979px) {
