@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="cerico-features-benefits.aspx.vb" Inherits="cerico_features_benefits" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-      <h1>CORICO Features & benefits</h1>
+      <h1>CERICO Features & benefits</h1>
     <h3>a dueDILIGENCE solution</h3>
        
             <p><a href="#" class="btn btn-info btn-large">Another option &raquo;</a></p>

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="contact.aspx.vb" Inherits="contact" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
-     <h1>Contact CORICO</h1>
+     <h1>Contact CERICO</h1>
     <h3>a dueDILIGENCE solution</h3>
        
             
