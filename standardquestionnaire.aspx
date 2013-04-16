@@ -577,36 +577,18 @@
                        <div class="control-group">
                            <label>4.1 Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
                            <!-- Like the minerals i think these should come from the DB -->
-                           <label class="control-label">DR Congo:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblCongo" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-
-                           </div>
-                           <label class="control-label">Angola:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblAngola" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                           </div>
-                           <label class="control-label">Burindi:</label>
-                           <div class="controls">
-                                <asp:RadioButtonList ID="rblBurindi" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                           </div>
-                           <label class="control-label">Central African Republic:</label>
-                           <div class="controls">
-                                <asp:RadioButtonList ID="rblCar" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                           </div>
-                       </div>
+                           <asp:Repeater ID="rptDangerousCountries" runat="server">
+                               <ItemTemplate>
+                                   <label class="control-label"><asp:Literal ID="litCountryName" runat="server" /></label>
+                                   <div class="controls">
+                                       <asp:RadioButtonList ID="rblDangerousCountry" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" OnSelectedIndexChanged="CheckCountry">
+                                           <asp:ListItem Text="No" Selected="True" />
+                                           <asp:ListItem Text="Yes" Selected="False" />
+                                       </asp:RadioButtonList>
+                                   </div>
+                               </ItemTemplate>
+                           </asp:Repeater>
+                        </div>
                        <ajaxToolkit:HoverMenuExtender ID="hme2" runat="Server"
     TargetControlID="btnMineralsListed"
     PopupControlID="PopupMinerals"
@@ -642,173 +624,178 @@
 
                            </div>
                            </div>
-                       <div class="control-group">
-                           <label class="control-label">4.2.1 You have Selected yes, please provide details</label>
-                           <div class="controls">
-                               <table class="table table-bordered">
-                                   <tr>
-                                       <th>Mineral name</th>
-                                       <th>Details</th>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                        <asp:DropDownList ID="cbo1" runat="server" />  
-                                       </td>
-                                       <td>
-                                           sdf
-                                       </td>
-                                   </tr>
-                               </table>
-                               <asp:LinkButton ID="btnAddScrapSource" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                       <asp:Panel ID="panScrap" runat="server" Visible="false">
+                           <div class="control-group">
+                               <label class="control-label">4.2.1 You have Selected yes, please provide details</label>
+                               <div class="controls">
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral name</th>
+                                           <th>Details</th>
+                                       </tr>
+                                       <tr>
+                                           <td>
+                                               <asp:DropDownList ID="cbo1" runat="server" />
+                                           </td>
+                                           <td>sdf
+                                           </td>
+                                       </tr>
+                                   </table>
+                                   <asp:LinkButton ID="btnAddScrapSource" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
                            </div>
+                       </asp:Panel>
 
+                       
+                           <div class="control-group">
+                               <label class="control-label">4.3 Does the mineral content come from recycled sources?</label>
+                               <div class="controls">
+                                   <asp:RadioButtonList ID="rblRecycled" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                       <asp:ListItem Text="No" Selected="True" />
+                                       <asp:ListItem Text="Yes" Selected="False" />
+                                   </asp:RadioButtonList>
 
-                       </div>
-                       <div class="control-group">
-                           <label class="control-label">4.3 Does the mineral content come from recycled sources?</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblRecycled" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-
-                           </div>
+                               </div>
                            </div>
                        
-                       
-                       <div class="control-group">
-                           <label class="control-label">4.3.1 You have Selected yes, please provide details</label>
-                           <div class="controls">
-                               <table class="table table-bordered">
-                                   <tr>
-                                       <th>Mineral name</th>
-                                       <th>Details</th>
-                                   </tr>
-                                   <tr>
-                                       <td>
-                                       <asp:DropDownList ID="cbo2" runat="server" />  
-                                       </td>
-                                       <td>
-                                           sdf
-                                       </td>
-                                   </tr>
-                               </table>
-                               <asp:LinkButton ID="btnAddRecycled" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                       <asp:Panel ID="panRecycled" runat="server" Visible="false">
+                           <div class="control-group">
+                               <label class="control-label">4.3.1 You have Selected yes, please provide details</label>
+                               <div class="controls">
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral name</th>
+                                           <th>Details</th>
+                                       </tr>
+                                       <tr>
+                                           <td>
+                                               <asp:DropDownList ID="cbo2" runat="server" />
+                                           </td>
+                                           <td>sdf
+                                           </td>
+                                       </tr>
+                                   </table>
+                                   <asp:LinkButton ID="btnAddRecycled" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
+                           </div>
+                       </asp:Panel>
+
+                       <asp:Panel ID="panQuestion5" runat="server" Visible="false">
+                           <legend>5. Quantity, date and method of extraction </legend>
+                           <div class="control-group">
+                               <label>5.1 If you answered yes to questions 3 and 4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral</th>
+                                           <th>Quantity</th>
+                                           <th>Date of extraction</th>
+                                           <th>Method Extraction</th>
+                                       </tr>
+                                       <tr>
+                                           <td>
+                                               <asp:DropDownList ID="DropDownList1" runat="server" /></td>
+                                           <td>
+                                               <asp:TextBox runat="server" ID="txtExtractionQuantity" CssClass="input-mini"></asp:TextBox></td>
+                                           <td>Date picker</td>
+                                           <td>
+                                               <asp:DropDownList ID="cboExtractionMethod" runat="server" /><br />
+                                               Drop down from DB using artisanal|small-scale|large-scale mining</td>
+                                       </tr>
+
+                                   </table>
+                                   <asp:LinkButton ID="btnAddExtraction" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+
+                               </div>
+                           </div>
+                           <legend>6. Processing Facility</legend>
+                           <div class="control-group">
+                               <label><strong>If you answered yes to questions 3 and 4 (system automated):</strong></label>
+                               <label>6.1 At which facility are the minerals processed?</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Company Name (e.g Exotech Inc.) </th>
+                                           <th>Location (e.g Pompano Beach, Florida, USA)</th>
+
+                                       </tr>
+                                       <tr>
+                                           <td></td>
+                                           <td></td>
+
+                                       </tr>
+
+                                   </table>
+
+                                   <asp:LinkButton ID="btnAddFacility" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
                            </div>
 
+                           <div class="control-group">
+                               <label>6.2 Is the facility included in the
+                                   <asp:HyperLink ID="hypSmelterList" runat="server">Conflict Free Smelter list? </asp:HyperLink></label>
+                               <div class="controls">
 
-                       </div>
-                       
-                       <legend>5. Quantity, date and method of extraction </legend>
-                       <div class="control-group">
-                           <label>5.1 If you answered yes to questions 3 and 4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
-                           <div>
-                               <table class="table table-bordered">
-                                   <tr>
-                                       <th>Mineral</th>
-                                       <th>Quantity</th>
-                                       <th>Date of extraction</th>
-                                       <th>Method Extraction</th>
-                                   </tr>
-                                   <tr>
-                                        <td><asp:DropDownList ID="DropDownList1" runat="server" /></td>
-                                        <td><asp:TextBox runat="server" ID="txtExtractionQuantity" CssClass="input-mini"></asp:TextBox></td>
-                                        <td>Date picker</td>
-                                        <td><asp:DropDownList ID="cboExtractionMethod" runat="server" /><br />Drop down from DB using artisanal|small-scale|large-scale mining</td>
-                                   </tr>
+                                   <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender1" runat="Server"
+                                       TargetControlID="hypSmelterList"
+                                       PopupControlID="popupSmelterList"
+                                       HoverCssClass="popupHover"
+                                       PopupPosition="Right"
+                                       OffsetX="0"
+                                       OffsetY="-200"
+                                       PopDelay="50" />
+                                   <asp:Panel CssClass="SmelterPopup" ID="popupSmelterList" runat="server">
+                                       <div class="popover-content">
+                                           <h5>Compliant Smelter & Refiner List</h5>
+                                           <!-- From databse -->
+                                           <table class="table table-bordered">
+                                               <tr>
+                                                   <th>Company Name</th>
+                                                   <th>Location</th>
+                                                   <th>Effective Date</th>
+                                               </tr>
+                                               <asp:Repeater ID="rptSmelterList" runat="server">
+                                                   <ItemTemplate>
+                                                       <tr>
+                                                           <td>
+                                                               <asp:Literal ID="litSmelterName" runat="server"></asp:Literal></td>
+                                                           <td>
+                                                               <asp:Literal ID="litSmelterLocation" runat="server"></asp:Literal></td>
+                                                           <td>
+                                                               <asp:Literal ID="litSmeltereffectiveDate" runat="server"></asp:Literal></td>
 
-                               </table>
-                           <asp:LinkButton ID="btnAddExtraction" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-
+                                                       </tr>
+                                                   </ItemTemplate>
+                                               </asp:Repeater>
+                                           </table>
+                                        </div>
+                                   </asp:Panel>
+                                   <asp:RadioButtonList ID="rblSmelterList" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                       <asp:ListItem Text="No" Selected="True" />
+                                       <asp:ListItem Text="Yes" Selected="False" />
+                                   </asp:RadioButtonList>
+                               </div>
                            </div>
-                       </div>
-                       <legend>6. Processing Facility</legend>
-                       <div class="control-group">
-                           <label><strong>If you answered yes to questions 3 and 4 (system automated):</strong></label>
-                           <label>6.1 At which facility are the minerals processed?</label>
-                           <div>
-                               <table class="table table-bordered">
-                                   <tr>
-                                       <th>Company Name (e.g Exotech Inc.) </th>
-                                       <th>Location (e.g Pompano Beach, Florida, USA)</th>
-                                       
-                                   </tr>
-                                   <tr>
-                                        <td></td>
-                                        <td></td>
-                                        
-                                   </tr>
-
-                               </table>
-                               
-                           <asp:LinkButton ID="btnAddFacility" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                           </div>
-                       </div>
-                       
-                       <div class="control-group">
-                           <label >6.2 Is the facility included in the <asp:HyperLink ID="hypSmelterList" runat="server" >Conflict Free Smelter list? </asp:HyperLink></label>
-                           <div class="controls">
-                               
-                               <ajaxToolkit:HoverMenuExtender ID="HoverMenuExtender1" runat="Server"
-    TargetControlID="hypSmelterList"
-    PopupControlID="popupSmelterList"
-    HoverCssClass="popupHover"
-    PopupPosition="Right"
-    OffsetX="0"
-    OffsetY="-200"
-    PopDelay="50" />
-                       <asp:Panel CssClass="SmelterPopup" ID="popupSmelterList" runat="server">
-                            <div class="popover-content">
-                            <h5>Compliant Smelter & Refiner List</h5>
-                                <!-- From databse -->
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th>Company Name</th>
-                                        <th>Location</th>
-                                        <th>Effective Date</th>
-                                    </tr>
-                                <asp:Repeater ID="rptSmelterList" runat="server">
-                                    <ItemTemplate>
-                                        <tr>
-                                            <td><asp:Literal ID="litSmelterName" runat="server"></asp:Literal></td>
-                                            <td><asp:Literal ID="litSmelterLocation" runat="server"></asp:Literal></td>
-                                            <td><asp:Literal ID="litSmeltereffectiveDate" runat="server"></asp:Literal></td>
-                                            
-                                        </tr>
-                                    </ItemTemplate>
-                                </asp:Repeater>
-                                </table>
-                            
-                             
-                            </div>
-
-
-                        </asp:Panel>
-                                <asp:RadioButtonList ID="rblSmelterList" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                           </div>
-                       </div>
-                       <div class="control-group">
-                           <label>Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
-                           Yes no and details table
+                           <div class="control-group">
+                               <label>Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
+                               Yes no and details table
                            <table class="table table-bordered">
                                <tr>
                                    <th></th>
-                                    <th></th>
+                                   <th></th>
                                </tr>
                                <tr>
                                    <td></td>
                                    <td></td>
                                </tr>
                            </table>
-                           <asp:LinkButton ID="btnAddAuditDetails" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                       </div>
+                               <asp:LinkButton ID="btnAddAuditDetails" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           </div>
 
 
+                       </asp:Panel>
                    </asp:Panel>
-                   
+
                    <asp:Panel ID="panPage5" Visible="False" runat="server">
                       <legend>8. Transport and supply of conflict </legend> 
                        <label><strong>If you answered yes to question 3 and 5:</strong></label>

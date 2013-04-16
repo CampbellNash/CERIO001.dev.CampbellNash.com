@@ -974,7 +974,6 @@ Namespace MasterClass
             Return 0
         End Function
 
-
         Public Shared Function GetSmelterList() As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim paramReturn As SqlParameter = Nothing
@@ -991,6 +990,30 @@ Namespace MasterClass
             Try
                 sqlMyAdapter.SelectCommand.Connection.Open()
                 sqlMyAdapter.Fill(MyDataSet, "SmelterList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function GetDangerousCountries() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetDangerousCountryList", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "CountryList")
             Finally
                 sqlMyAdapter.SelectCommand.Connection.Close()
             End Try

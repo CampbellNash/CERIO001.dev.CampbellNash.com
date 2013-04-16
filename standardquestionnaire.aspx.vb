@@ -85,7 +85,10 @@ Partial Class standardquestionnaire
             Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value will need replaced by querystring
             rptGovtEmployees.DataSource = Relatives
             rptGovtEmployees.DataBind()
-            
+            Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
+            rptDangerousCountries.DataSource = DangerousCountries
+            rptDangerousCountries.DataBind()
+
         End If
     End Sub
 
@@ -325,6 +328,8 @@ Partial Class standardquestionnaire
             rblWolframite.SelectedIndex = 0 Then
             'None of these elements have been chosen so we can hide the rest of the form
             panMineralPurpose.Visible = False
+            panQuestion5.Visible = False
+        
         End If
     End Sub
 
@@ -931,6 +936,50 @@ Partial Class standardquestionnaire
 
 #End Region
 
+#Region " Manage Scrap "
+
+    Protected Sub rblScrap_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblScrap.SelectedIndexChanged
+        If rblScrap.SelectedIndex = 1 Then
+            panScrap.Visible = True
+        Else
+            panScrap.Visible = False
+        End If
+    End Sub
+
+#End Region
+
+#Region " Manage Recycled "
+
+    Protected Sub rblRecycled_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblRecycled.SelectedIndexChanged
+        If rblRecycled.SelectedIndex = 1 Then
+            panRecycled.Visible = True
+        Else
+            panRecycled.Visible = False
+        End If
+    End Sub
+
+#End Region
+
+#Region " Manage Countries "
+
+    Protected Sub CheckCountry(sender As Object, e As EventArgs)
+        Dim NoCountry As Boolean = True
+        For Each Item As RepeaterItem In rptDangerousCountries.Items
+            Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
+            If ButtonList.SelectedIndex = 1 Then
+                NoCountry = False
+            End If
+        Next
+        'Now check to see if we can show or hide our panel
+        If NoCountry Then
+            panQuestion5.Visible = False
+        Else
+            panQuestion5.Visible = True
+        End If
+    End Sub
+
+#End Region
+
 #Region " Databindings "
 
     Protected Sub rptParentCompany_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptParentCompany.ItemDataBound
@@ -1322,11 +1371,23 @@ Partial Class standardquestionnaire
             litSmelterLocation.Text = drv("Location")
             litSmeltereffectiveDate.Text = drv("EffectiveDate")
         End If
+    End Sub
 
-
+    Protected Sub rptDangerousCountries_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptDangerousCountries.ItemDataBound
+        Dim litCountryName As Literal
+        Dim drv As DataRowView
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            litCountryName = e.Item.FindControl("litCountryName")
+            drv = e.Item.DataItem
+            litCountryName.Text = drv("CountryName")
+        End If
     End Sub
 
 #End Region
+
+
+
+
 
 
 
