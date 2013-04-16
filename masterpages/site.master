@@ -46,7 +46,7 @@
                     <ul class="nav">
                       <li class="active"><a href="default.aspx">Home</a></li>
                       <li><a href="about-CERICO.aspx">About</a></li>
-                      <li><a href="corico-features-benefits.aspx">Features</a></li>
+                      <li><a href="cerico-features-benefits.aspx">Features</a></li>
                       <li><a href="pricing.aspx">Pricing</a></li>
                       <li><a href="contact.aspx">Contact</a></li>
                     </ul>
@@ -62,7 +62,13 @@
             </div><!--/.nav-collapse -->
         </div>
       </div>
+        <div class="row-fluid breadcrumb">
+            <div class="span12">
+                <div class="breadcrumbInner">You are here: <asp:SiteMapPath ID="SiteMapPath1" runat="server" PathSeparator=" / " ></asp:SiteMapPath></div> 
+            </div>
+        </div>
     </div>
+         
         <asp:ContentPlaceHolder id="cphMainContent" runat="server">
         
         </asp:ContentPlaceHolder>   

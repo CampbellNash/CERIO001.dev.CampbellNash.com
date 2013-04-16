@@ -38,7 +38,7 @@
                 <ul><li>Import commercial research data such as Dow Jones’ Factiva or other research results</li>
                 <li>Lock results in an auditable archive</li>
                     </ul>
-                <p>Business benifits</p>
+                <p>Business benefits</p>
                 <ul style="padding: 0px; margin: 0px 0px 10px 25px; color: rgb(51, 51, 51); font-family: 'Open Sans', sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 20px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">
                     <li style="line-height: 20px;">Apply best practice due diligence to all supplier relationships</li>
                     <li style="line-height: 20px;">Translate policies into concrete action</li>
@@ -49,7 +49,7 @@
       <div class="row-fluid">
             <div class="span4">
               <h2>Industry Endorsed</h2>
-              <p>“<i>We are accelerating the deployment of the Campbell Nash Due Diligence portal, as the creation of a dedicated compliance function and delivering the highest standards of transparency and integrity is the way forward. In the Oil &amp; Gas industry in which we operate, the sector faces unprecedented risk, legal and compliance challenges both in highly competitive andregulated markets and under-regulated countries.</i>” <b>says Macelo Cardoso, group Head of Compliance at Petrofac</b></p>
+              <p>“<i>We are accelerating the deployment of the Campbell Nash Due Diligence portal, as the creation of a dedicated compliance function and delivering the highest standards of transparency and integrity is the way forward. In the Oil &amp; Gas industry in which we operate, the sector faces unprecedented risk, legal and compliance challenges both in highly competitive andregulated markets and under-regulated countries.</i>” <b>says Marcelo Cardoso, group Head of Compliance at Petrofac</b></p>
               <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
             <div class="span4">

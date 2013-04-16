@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="corico-features-benefits.aspx.vb" Inherits="corico_features_benefits" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="cerico-features-benefits.aspx.vb" Inherits="cerico_features_benefits" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
       <h1>CORICO Features & benefits</h1>

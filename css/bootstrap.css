@@ -4393,26 +4393,12 @@ input[type="submit"].btn.btn-mini {
   overflow: visible;
 }
 
-.navbar-inner {
-  min-height: 60px;
-  padding-right: 20px;
-  padding-left: 20px;
-  background-color: #fafafa;
-  background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
-  background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
-  background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
-  background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
-  background-repeat: repeat-x;
-  border: 1px solid #d4d4d4;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
-  *zoom: 1;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+.navbar-inner
+{
+    min-height: 60px;
+    padding-right: 20px;
+    padding-left: 20px;
+    background-color: #FFFFFF;
 }
 
 .navbar-inner:before,
@@ -4439,7 +4425,7 @@ input[type="submit"].btn.btn-mini {
 {
     display: block;
     float: left;
-    padding: 15px 20px 15px 20px;
+    padding: 30px 20px 0px 20px;
     margin-left: -20px;
     font-size: 20px;
     font-weight: 200;
@@ -4459,7 +4445,7 @@ input[type="submit"].btn.btn-mini {
     color: #010101;
     font-weight: normal;
     display: inline;
-    padding-bottom: 3px;
+    padding-bottom: 0px;
     padding-top: 0px;
 }
 .navbar .brand h2
@@ -4628,9 +4614,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
-  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-     -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .navbar-fixed-bottom {
@@ -4638,9 +4622,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 .navbar-fixed-bottom .navbar-inner {
-  -webkit-box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
-     -moz-box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+  
 }
 
 .navbar .nav
@@ -4650,7 +4632,7 @@ input[type="submit"].btn.btn-mini {
     display: block;
     float: left;
     margin: 0 10px 0 0;
-    padding-top: 30px;
+    padding-top: 60px;
     font-size: 1.6em;
     font-weight: 700;
     
@@ -4844,20 +4826,15 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-inverse .navbar-inner {
   background-color: #ffffff;
-  background-image: -moz-linear-gradient(top, #F9F9F9, #F3F3F3);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#F9F9F9), to(#F3F3F3));
-  background-image: -webkit-linear-gradient(top, #F9F9F9, #F3F3F31);
-  background-image: -o-linear-gradient(top, #F9F9F9, #F3F3F3);
-  background-image: linear-gradient(to bottom, #F9F9F9, #F3F3F3);
-  background-repeat: repeat-x;
+ 
   
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
 }
 
 .navbar-inverse .brand,
 .navbar-inverse .nav > li > a {
-  color: #999999;
-  
+  color: #BD213A;
+   margin-right: 10px;
 }
 
 .navbar-inverse .brand:hover,
@@ -4871,19 +4848,22 @@ input[type="submit"].btn.btn-mini {
   color: #999999;
 }
 
-.navbar-inverse .navbar-text {
-  color: #999999;
+.navbar-inverse .navbar-text
+{
+    color: #999999;
+   
 }
 
 .navbar-inverse .nav > li > a:focus,
 .navbar-inverse .nav > li > a:hover {
   color: #ffffff;
-  background-color: transparent;
+  background-color: #BD213A;
 }
 
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus
 {
-    color: #C70C47;
+    color: #FFFFFF;
+    background-color: #BD213A;
 }
 
 .navbar-inverse .navbar-link {
@@ -4999,20 +4979,18 @@ input[type="submit"].btn.btn-mini {
 .breadcrumb
 {
     padding: 2px 0px 2px 0px;
-    margin: 15px 0 10px 0;
+    margin: 0px 0 0px 0;
     list-style: none;
-    background-color: #f5f5f5;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+    background-color: #BD213A;
     font-size: .8em;
     position: relative;
 }
 
 .breadcrumb ul, .breadcrumbInner
 {
-    padding-left: 10px;
+    padding-left: 18px;
     padding-top: 5px;
+    color: #FFFFFF;
 }
 
 .breadcrumb > li {
@@ -5029,6 +5007,11 @@ input[type="submit"].btn.btn-mini {
 
 .breadcrumb > .active {
   color: #999999;
+}
+
+.breadcrumbInner a
+{
+    color: #FFFFCC;
 }
 
 .pagination {
@@ -6254,10 +6237,12 @@ a.badge:focus {
 .hp-header
 {
     background-color: #BD213A;
-    border-top-style: solid;
-    border-top-width: 2px;
-    border-top-color: #CCCCCC;
+   
     
+}
+.mainContent
+{
+    margin-top: 40px;
 }
   
 .form-signin

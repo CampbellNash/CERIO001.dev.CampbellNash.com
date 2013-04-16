@@ -1,5 +1,5 @@
 ﻿
-Partial Class corico_features_benefits
+Partial Class about_cerico
     Inherits System.Web.UI.Page
 
 End Class
