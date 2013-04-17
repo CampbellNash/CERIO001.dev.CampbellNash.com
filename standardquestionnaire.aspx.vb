@@ -92,7 +92,26 @@ Partial Class standardquestionnaire
             Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
             rptDangerousCountries.DataSource = DangerousCountries
             rptDangerousCountries.DataBind()
-
+            'Reset the loop count and go and get the scrap list
+            gbLoopCount = 0
+            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+            rptScrap.DataSource = ScrapList
+            rptScrap.DataBind()
+            'Reset the loop count and go and get the recycled list
+            gbLoopCount = 0
+            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+            rptRecycled.DataSource = RecycleList
+            rptRecycled.DataBind()
+            'Reset the loop count and go and get the recycled list
+            gbLoopCount = 0
+            Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
+            rptExtraction.DataSource = ExtractionList
+            rptExtraction.DataBind()
+            'Reset the loop count and go and get the recycled list
+            gbLoopCount = 0
+            Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
+            rptFacility.DataSource = FacilityList
+            rptFacility.DataBind()
         End If
     End Sub
 
@@ -547,6 +566,307 @@ Partial Class standardquestionnaire
         rptComponent.DataBind()
     End Sub
 
+    Protected Sub btnAddScrapSource_Click(sender As Object, e As EventArgs) Handles btnAddScrapSource.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptScrap.Items
+            txtDescription = Item.FindControl("txtScrap")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateScrapLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddScrapLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+        rptScrap.DataSource = ScrapList
+        rptScrap.DataBind()
+    End Sub
+
+    Protected Sub DeleteScrapLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptScrap.Items
+            txtDescription = Item.FindControl("txtScrap")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateScrapLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteScrapLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+        rptScrap.DataSource = ScrapList
+        rptScrap.DataBind()
+    End Sub
+
+    Protected Sub btnAddRecycled_Click(sender As Object, e As EventArgs) Handles btnAddRecycled.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptRecycled.Items
+            txtDescription = Item.FindControl("txtRecycled")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateRecycleLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddRecycleLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+        rptRecycled.DataSource = RecycleList
+        rptRecycled.DataBind()
+    End Sub
+
+    Protected Sub DeleteRecyleLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptRecycled.Items
+            txtDescription = Item.FindControl("txtRecycled")
+            cboMinerals = Item.FindControl("cboMinerals")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtDescription.Text = "" Then
+                txtDescription.Text = "None"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateRecycleLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtDescription.Text)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteRecycleLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+        rptRecycled.DataSource = RecycleList
+        rptRecycled.DataBind()
+    End Sub
+
+    Protected Sub btnAddExtraction_Click(sender As Object, e As EventArgs) Handles btnAddExtraction.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtQuantity As TextBox
+        Dim rdpExtractionDate As Telerik.Web.UI.RadDatePicker
+        Dim cboMethodID As DropDownList
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        Dim MethodID As Integer
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptExtraction.Items
+            txtQuantity = Item.FindControl("txtQuantity")
+            cboMinerals = Item.FindControl("cboMinerals")
+            cboMethodID = Item.FindControl("cboExtractionMethod")
+            rdpExtractionDate = Item.FindControl("rdpExtractionDate")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtQuantity.Text = "" Then
+                txtQuantity.Text = "0"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            If cboMethodID.SelectedIndex = 0 Then
+                MethodID = 0
+            Else
+                MethodID = cboMethodID.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateExtractionLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtQuantity.Text, _
+                                           rdpExtractionDate.SelectedDate, _
+                                           MethodID)
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddExtractionLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
+        rptExtraction.DataSource = ExtractionList
+        rptExtraction.DataBind()
+    End Sub
+
+    Protected Sub DeleteExtractionLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtQuantity As TextBox
+        Dim rdpExtractionDate As Telerik.Web.UI.RadDatePicker
+        Dim cboMethodID As DropDownList
+        Dim MineralID As Integer
+        Dim hidItemID As HiddenField
+        Dim MethodID As Integer
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptExtraction.Items
+            txtQuantity = Item.FindControl("txtQuantity")
+            cboMinerals = Item.FindControl("cboMinerals")
+            cboMethodID = Item.FindControl("cboExtractionMethod")
+            rdpExtractionDate = Item.FindControl("rdpExtractionDate")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtQuantity.Text = "" Then
+                txtQuantity.Text = "0"
+            End If
+            If cboMinerals.SelectedIndex = 0 Then
+                MineralID = 0
+            Else
+                MineralID = cboMinerals.SelectedValue
+            End If
+            If cboMethodID.SelectedIndex = 0 Then
+                MethodID = 0
+            Else
+                MethodID = cboMethodID.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateExtractionLine(hidItemID.Value, _
+                                           MineralID, _
+                                           txtQuantity.Text, _
+                                           rdpExtractionDate.SelectedDate, _
+                                           MethodID)
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteExtractionLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
+        rptExtraction.DataSource = ExtractionList
+        rptExtraction.DataBind()
+    End Sub
+
+    Protected Sub btnAddFacility_Click(sender As Object, e As EventArgs) Handles btnAddFacility.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtFacilityName As TextBox
+        Dim txtLocation As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptFacility.Items
+            txtFacilityName = Item.FindControl("txtFacilityName")
+            txtLocation = Item.FindControl("txtLocation")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtFacilityName.Text = "" Then
+                txtFacilityName.Text = "None"
+            End If
+            If txtLocation.Text = "" Then
+                txtLocation.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateFacilityLine(hidItemID.Value, _
+                                       txtFacilityName.Text, _
+                                       txtLocation.Text)
+
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddFacilityLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
+        rptFacility.DataSource = FacilityList
+        rptFacility.DataBind()
+    End Sub
+
+    Protected Sub DeleteFacilityLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtFacilityName As TextBox
+        Dim txtLocation As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptFacility.Items
+            txtFacilityName = Item.FindControl("txtFacilityName")
+            txtLocation = Item.FindControl("txtLocation")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtFacilityName.Text = "" Then
+                txtFacilityName.Text = "None"
+            End If
+            If txtLocation.Text = "" Then
+                txtLocation.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateFacilityLine(hidItemID.Value, _
+                                       txtFacilityName.Text, _
+                                       txtLocation.Text)
+
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteFacilityLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
+        rptFacility.DataSource = FacilityList
+        rptFacility.DataBind()
+    End Sub
+
+
 
 #End Region
 
@@ -940,10 +1260,15 @@ Partial Class standardquestionnaire
 
 #End Region
 
-#Region " Manage Scrap "
+#Region " Manage Scrap Radios "
 
     Protected Sub rblScrap_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblScrap.SelectedIndexChanged
         If rblScrap.SelectedIndex = 1 Then
+            'Reset the loop count and go and get the relatives list
+            gbLoopCount = 0
+            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+            rptScrap.DataSource = ScrapList
+            rptScrap.DataBind()
             panScrap.Visible = True
         Else
             panScrap.Visible = False
@@ -952,10 +1277,14 @@ Partial Class standardquestionnaire
 
 #End Region
 
-#Region " Manage Recycled "
+#Region " Manage Recycled Radios "
 
     Protected Sub rblRecycled_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblRecycled.SelectedIndexChanged
         If rblRecycled.SelectedIndex = 1 Then
+            gbLoopCount = 0
+            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+            rptRecycled.DataSource = RecycleList
+            rptRecycled.DataBind()
             panRecycled.Visible = True
         Else
             panRecycled.Visible = False
@@ -983,6 +1312,8 @@ Partial Class standardquestionnaire
     End Sub
 
 #End Region
+
+
 
 #Region " Databindings "
 
@@ -1397,19 +1728,185 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptScrap_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptScrap.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeleteScrap As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtDescription = e.Item.FindControl("txtScrap")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteScrap = e.Item.FindControl("btnDeleteScrap")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            If UCase(drv("Description")) <> "NONE" Then
+                txtDescription.Text = drv("Description")
+            Else
+                txtDescription.Text = ""
+            End If
+            'Set our managed values
+            btnDeleteScrap.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+            If gbLoopCount = 0 Then
+                btnDeleteScrap.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptRecycled_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptRecycled.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtDescription As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeleteRecycle As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtDescription = e.Item.FindControl("txtRecycled")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteRecycle = e.Item.FindControl("btnDeleteRecycle")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            If UCase(drv("Description")) <> "NONE" Then
+                txtDescription.Text = drv("Description")
+            Else
+                txtDescription.Text = ""
+            End If
+            'Set our managed values
+            btnDeleteRecycle.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+            If gbLoopCount = 0 Then
+                btnDeleteRecycle.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptExtraction_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptExtraction.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboMinerals As DropDownList
+        Dim txtQuantity As TextBox
+        Dim rdpExtractionDate As Telerik.Web.UI.RadDatePicker
+        Dim cboExtractionMethod As DropDownList
+        Dim hidItemID As HiddenField
+        Dim btnDeleteExtraction As Button
+        Dim drv As DataRowView
+        Dim Minerals As DataSet = NashBLL.GetMinerals
+        Dim ExtractionMethods = NashBLL.GetExtractionMethods
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboMinerals = e.Item.FindControl("cboMinerals")
+            txtQuantity = e.Item.FindControl("txtQuantity")
+            rdpExtractionDate = e.Item.FindControl("rdpExtractionDate")
+            cboExtractionMethod = e.Item.FindControl("cboExtractionMethod")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteExtraction = e.Item.FindControl("btnDeleteExtraction")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboMinerals.DataSource = Minerals
+            cboMinerals.DataValueField = "MineralID"
+            cboMinerals.DataTextField = "MineralName"
+            cboMinerals.DataBind()
+            cboMinerals.SelectedValue = drv("MineralID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboMinerals.Items.Insert(0, NewItem)
+            cboExtractionMethod.DataSource = ExtractionMethods
+            cboExtractionMethod.DataValueField = "ExtractionID"
+            cboExtractionMethod.DataTextField = "Method"
+            cboExtractionMethod.DataBind()
+            cboExtractionMethod.Items.Insert(0, NewItem)
+            cboExtractionMethod.SelectedValue = drv("MethodID")
+            If CInt(drv("Quantity")) <> 0 Then
+                txtQuantity.Text = drv("Quantity")
+            Else
+                txtQuantity.Text = ""
+            End If
+
+            If Not IsDBNull(drv("DateOfExtraction")) Then
+                rdpExtractionDate.DbSelectedDate = CDate(drv("DateOfExtraction")).ToString("dd MMM yyyy")
+            Else
+                rdpExtractionDate.SelectedDate = Now
+            End If
+            'Set our managed values
+            btnDeleteExtraction.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+            If gbLoopCount = 0 Then
+                btnDeleteExtraction.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptFacility_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptFacility.ItemDataBound
+        Dim txtFacilityName As TextBox
+        Dim txtLocation As TextBox
+        Dim btnDeleteFacility As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtFacilityName = e.Item.FindControl("txtFacilityName")
+            txtLocation = e.Item.FindControl("txtLocation")
+            btnDeleteFacility = e.Item.FindControl("btnDeleteFacility")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("FacilityName")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtFacilityName.Text = drv("FacilityName")
+            Else
+                'No value entered yet so show empty box
+                txtFacilityName.Text = ""
+            End If
+
+            If UCase(drv("FacilityLocation")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtLocation.Text = drv("FacilityLocation")
+            Else
+                'No value entered yet so show empty box
+                txtLocation.Text = ""
+            End If
+
+            'Now set our delete button
+            btnDeleteFacility.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteFacility.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
 #End Region
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 End Class

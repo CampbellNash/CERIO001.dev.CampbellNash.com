@@ -634,15 +634,25 @@
                                    <table class="table table-bordered">
                                        <tr>
                                            <th>Mineral name</th>
-                                           <th>Details</th>
+                                           <th colspan="2">Details</th>
                                        </tr>
-                                       <tr>
-                                           <td>
-                                               <asp:DropDownList ID="cbo1" runat="server" />
-                                           </td>
-                                           <td>sdf
-                                           </td>
-                                       </tr>
+                                       <asp:Repeater ID="rptScrap" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   </td>
+                                                   <td>
+                                                       <asp:TextBox ID="txtScrap" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                       <span class="help-block">Enter details</span>
+                                                       <asp:RequiredFieldValidator ID="rfvScrap" runat="server" ControlToValidate="txtScrap" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   </td>
+                                                   <td><asp:Button ID="btnDeleteScrap" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteScrapLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
                                    </table>
                                    <asp:LinkButton ID="btnAddScrapSource" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                                </div>
@@ -668,15 +678,27 @@
                                    <table class="table table-bordered">
                                        <tr>
                                            <th>Mineral name</th>
-                                           <th>Details</th>
+                                           <th colspan="2">Details</th>
                                        </tr>
-                                       <tr>
-                                           <td>
-                                               <asp:DropDownList ID="cbo2" runat="server" />
-                                           </td>
-                                           <td>sdf
-                                           </td>
-                                       </tr>
+                                       <asp:Repeater ID="rptRecycled" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   </td>
+                                                   <td>
+                                                       <asp:TextBox ID="txtRecycled" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                       <span class="help-block">Enter details</span>
+                                                       <asp:RequiredFieldValidator ID="rfvRecycled" runat="server" ControlToValidate="txtRecycled" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                                    </td>
+                                                   <td>
+                                                      <asp:Button ID="btnDeleteRecycle" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteRecyleLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                    </td>
+                                                   
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
                                    </table>
                                    <asp:LinkButton ID="btnAddRecycled" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                                </div>
@@ -686,26 +708,39 @@
                        <asp:Panel ID="panQuestion5" runat="server" Visible="false">
                            <legend>5. Quantity, date and method of extraction </legend>
                            <div class="control-group">
-                               <label>5.1 If you answered yes to questions 3 and 4 (system automated), please provide details of the quantity of minerals, date of extraction</label>
+                               <label>5.1 Please provide details of the quantity of minerals, date of extraction</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
                                            <th>Mineral</th>
-                                           <th>Quantity</th>
+                                           <th>Quantity (Tonnes?)</th>
                                            <th>Date of extraction</th>
-                                           <th>Method Extraction</th>
+                                           <th colspan="2">Method Extraction</th>
                                        </tr>
+                                       <asp:Repeater ID="rptExtraction" runat="server">
+                                           <ItemTemplate>
                                        <tr>
                                            <td>
-                                               <asp:DropDownList ID="DropDownList1" runat="server" /></td>
+                                               <asp:DropDownList ID="cboMinerals" runat="server" />
+                                               <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
                                            <td>
-                                               <asp:TextBox runat="server" ID="txtExtractionQuantity" CssClass="input-mini"></asp:TextBox></td>
-                                           <td>Date picker</td>
+                                               <asp:TextBox runat="server" ID="txtQuantity" CssClass="input-mini" placeholder="Enter the quantity for this mineral" />
+                                               <asp:RequiredFieldValidator ID="rfvQuantity" runat="server" ControlToValidate="txtQuantity" Display="Dynamic" ErrorMessage="Enter the mineral quantity" ValidationGroup="Questions" CssClass="alert-error" />
+                                           </td>
                                            <td>
-                                               <asp:DropDownList ID="cboExtractionMethod" runat="server" /><br />
-                                               Drop down from DB using artisanal|small-scale|large-scale mining</td>
+                                               <Telerik:RadDatePicker ID="rdpExtractionDate" runat="server" DateInput-DateFormat="dd MMM yyyy" DateInput-Enabled="false" />
+                                           </td>
+                                           <td>
+                                               <asp:DropDownList ID="cboExtractionMethod" runat="server" />
+                                               <asp:RequiredFieldValidator ID="rfvExtraction" runat="server" ControlToValidate="cboExtractionMethod" Display="Dynamic" ErrorMessage="Select an extraction method" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                           <td>
+                                               <asp:Button ID="btnDeleteExtraction" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteExtractionLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                           </td>
                                        </tr>
-
+                                        </ItemTemplate>
+                                        </asp:Repeater>
                                    </table>
                                    <asp:LinkButton ID="btnAddExtraction" runat="server" Text="Add New Line" CssClass="btn btn-success" />
 
@@ -713,24 +748,32 @@
                            </div>
                            <legend>6. Processing Facility</legend>
                            <div class="control-group">
-                               <label><strong>If you answered yes to questions 3 and 4 (system automated):</strong></label>
                                <label>6.1 At which facility are the minerals processed?</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
                                            <th>Company Name (e.g Exotech Inc.) </th>
-                                           <th>Location (e.g Pompano Beach, Florida, USA)</th>
-
+                                           <th colspan="2">Location (e.g Pompano Beach, Florida, USA)</th>
                                        </tr>
-                                       <tr>
-                                           <td></td>
-                                           <td></td>
-
-                                       </tr>
-
+                                       <asp:Repeater ID="rptFacility" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:TextBox ID="txtFacilityName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
+                                                       <asp:RequiredFieldValidator ID="rfvCompanyName" runat="server" ControlToValidate="txtFacilityName" Display="Dynamic" ErrorMessage="Please enter company name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   </td>
+                                                   <td>
+                                                       <asp:TextBox ID="txtLocation" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter location" />
+                                                       <asp:RequiredFieldValidator ID="rfvLocation" runat="server" ControlToValidate="txtLocation" Display="Dynamic" ErrorMessage="Please enter location" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   </td>
+                                                   <td>
+                                                       <asp:Button ID="btnDeleteFacility" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteFacilityLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                                </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
                                    </table>
-
-                                   <asp:LinkButton ID="btnAddFacility" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                                  <asp:LinkButton ID="btnAddFacility" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                                </div>
                            </div>
 
