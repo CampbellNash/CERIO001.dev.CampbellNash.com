@@ -778,7 +778,7 @@
                            </div>
 
                            <div class="control-group">
-                               <label>6.2 Is the facility included in the
+                               <label class="control-label">6.2 Is the facility included in the
                                    <asp:HyperLink ID="hypSmelterList" runat="server">Conflict Free Smelter list? </asp:HyperLink></label>
                                <div class="controls">
 
@@ -823,19 +823,16 @@
                                </div>
                            </div>
                            <div class="control-group">
-                               <label>Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
-                               Yes no and details table
-                           <table class="table table-bordered">
-                               <tr>
-                                   <th></th>
-                                   <th></th>
-                               </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
-                           </table>
-                               <asp:LinkButton ID="btnAddAuditDetails" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               <label class="control-label">6.3 Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
+                               <div class="controls">
+                               <asp:RadioButtonList ID="rblIndependent" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                       <asp:ListItem Text="No" Selected="True" />
+                                       <asp:ListItem Text="Yes" Selected="False" />
+                                   </asp:RadioButtonList>
+                                    <asp:TextBox ID="txtIndependentAudit" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Independent Audit" />
+                                
+                                </div>
+                          
                            </div>
 
 
@@ -846,7 +843,7 @@
                       <legend>8. Transport and supply of conflict </legend> 
                        <label><strong>If you answered yes to question 3 and 5:</strong></label>
                        <div class="control-group">
-                       <label>Who supplies you with the minerals or products containing the minerals? Please provide name and address details</label>
+                       <label>8.1 Who supplies you with the minerals or products containing the minerals? Please provide name and address details</label>
                         <table class="table table-bordered">
                                <tr>
                                    <th>Name</th>
@@ -860,36 +857,19 @@
                            <asp:LinkButton ID="btnAddSuppliers" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        </div>
                        <div class="control-group">
-                           <label>What countries are the minerals transported through? </label>
-                        <table class="table table-bordered">
-                               <tr>
-                                   <th>Countries</th>
-                                   <th>Address Details</th>
-                               </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
-                           </table>
-                           <asp:LinkButton ID="LinkButton4" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           <label>8.2 What countries are the minerals transported through? </label>
+                        
+                           <asp:TextBox ID="txtTransported" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please list the countries" />
+                                
                        </div>
                       <legend>9. Supply Chain</legend>
-                      <label>16	If you answered yes to questions 3 and 5, please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
-                      <table class="table table-bordered">
-                               <tr>
-                                   <th>upstream intermediaries</th>
-                                   <th>other Details</th>
-                               </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
-                           </table>
-                           <asp:LinkButton ID="LinkButton5" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                      <label>9.1 If you answered yes to questions 3 and 5, please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
+                       <asp:TextBox ID="txtIntermediaries" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please identify all upstream intermediaries, consolidators and other actors" />
+                         
                        <legend>10. Taxes & payments</legend>
                        <label><strong>If you answered yes to questions 3 and 5, please disclose:</strong></label>
                        <div class="control-group">
-                           <label>all taxes, fees or royalties paid to the government of a country listed in question 10 for the purposes of extraction, trade, transport and export of minerals</label>
+                           <label>10.1 all taxes, fees or royalties paid to the government of a country listed in question 10 for the purposes of extraction, trade, transport and export of minerals</label>
                             <table class="table table-bordered">
                                <tr>
                                    <th>Country</th>
@@ -904,7 +884,7 @@
                        </div>
                        
                        <div class="control-group">
-                           <label>Any other payments made to government officials for the purposes of extraction, trade, transport or export of minerals</label>
+                           <label>10.2 Any other payments made to government officials for the purposes of extraction, trade, transport or export of minerals</label>
                            <table class="table table-bordered">
                                <tr>
                                    <th>Payment</th>
@@ -919,7 +899,7 @@
 
                        </div>
                        <div class="control-group">
-                           <label>All taxes and any other payments made to public or private security forces or other armed groups at all points in the supply chain from extraction onwards</label>
+                           <label>10.3 All taxes and any other payments made to public or private security forces or other armed groups at all points in the supply chain from extraction onwards</label>
                             <table class="table table-bordered">
                                <tr>
                                    <th>Payment</th>
