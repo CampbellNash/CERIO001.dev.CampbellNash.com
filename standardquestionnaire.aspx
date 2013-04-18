@@ -816,7 +816,7 @@
                                            </table>
                                         </div>
                                    </asp:Panel>
-                                   <asp:RadioButtonList ID="rblSmelterList" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
+                                   <asp:RadioButtonList ID="rblSmelterList" runat="server" AutoPostBack="false" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
                                        <asp:ListItem Text="No" Selected="True" />
                                        <asp:ListItem Text="Yes" Selected="False" />
                                    </asp:RadioButtonList>
@@ -829,9 +829,12 @@
                                        <asp:ListItem Text="No" Selected="True" />
                                        <asp:ListItem Text="Yes" Selected="False" />
                                    </asp:RadioButtonList>
-                                    <asp:TextBox ID="txtIndependentAudit" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Independent Audit" />
-                                
-                                </div>
+                                   <asp:Panel ID="panIndependentAudit" runat="server" Visible="false">
+                                       <asp:TextBox ID="txtIndependentAudit" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Independent Audit" />
+                                       <asp:RequiredFieldValidator ID="rfvIndependent" runat="server" ControlToValidate="txtIndependentAudit" Display="Dynamic" ErrorMessage="Please enter audit details" ValidationGroup="Questions" CssClass="alert-error" />
+                                   </asp:Panel>
+
+                               </div>
                           
                            </div>
 
@@ -841,46 +844,70 @@
 
                    <asp:Panel ID="panPage5" Visible="False" runat="server">
                       <legend>8. Transport and supply of conflict </legend> 
-                       <label><strong>If you answered yes to question 3 and 5:</strong></label>
                        <div class="control-group">
                        <label>8.1 Who supplies you with the minerals or products containing the minerals? Please provide name and address details</label>
                         <table class="table table-bordered">
                                <tr>
                                    <th>Name</th>
-                                   <th>Address Details</th>
+                                   <th colspan="2">Address Details</th>
                                </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
+                            <asp:Repeater ID="rptTransport" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td>
+                                            <asp:TextBox ID="txtTransporterName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company/individual name" />
+                                            <asp:RequiredFieldValidator ID="rfvTransportName" runat="server" ControlToValidate="txtTransporterName" Display="Dynamic" ErrorMessage="Please enter a name" ValidationGroup="Questions" CssClass="alert-error" />
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="txtTransporterAddress" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter address" Rows="4" />
+                                            <asp:RequiredFieldValidator ID="rfvTransportAddress" runat="server" ControlToValidate="txtTransporterAddress" Display="Dynamic" ErrorMessage="Please enter address" ValidationGroup="Questions" CssClass="alert-error" />
+                                        </td>
+                                        <td>
+                                            <asp:Button ID="btnDeleteTransport" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteTransportLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                        </td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
                            </table>
-                           <asp:LinkButton ID="btnAddSuppliers" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           <asp:LinkButton ID="btnAddTransporter" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        </div>
                        <div class="control-group">
                            <label>8.2 What countries are the minerals transported through? </label>
-                        
-                           <asp:TextBox ID="txtTransported" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please list the countries" />
-                                
+                            <asp:TextBox ID="txtTransportCountries" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please list the countries" />
+                           <asp:RequiredFieldValidator ID="rfvTransportCountries" runat="server" ControlToValidate="txtTransportCountries" Display="Dynamic" ErrorMessage="Please enter a country name" ValidationGroup="Questions" CssClass="alert-error" />    
                        </div>
                       <legend>9. Supply Chain</legend>
-                      <label>9.1 If you answered yes to questions 3 and 5, please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
+                      <label>9.1 Please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
                        <asp:TextBox ID="txtIntermediaries" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please identify all upstream intermediaries, consolidators and other actors" />
-                         
+                       <asp:RequiredFieldValidator ID="rfvIntermediaries" runat="server" ControlToValidate="txtIntermediaries" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
                        <legend>10. Taxes & payments</legend>
-                       <label><strong>If you answered yes to questions 3 and 5, please disclose:</strong></label>
+                       <label><strong>Please disclose:</strong></label>
                        <div class="control-group">
                            <label>10.1 all taxes, fees or royalties paid to the government of a country listed in question 10 for the purposes of extraction, trade, transport and export of minerals</label>
                             <table class="table table-bordered">
                                <tr>
                                    <th>Country</th>
-                                   <th>Details</th>
+                                   <th colspan="2">Details</th>
                                </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
+                                <asp:Repeater ID="rptTaxes" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td>
+                                                <asp:DropDownList ID="cboCountryID" runat="server"  />
+                                                <asp:RequiredFieldValidator ID="rfvCountry" runat="server" ControlToValidate="cboCountryID" Display="Dynamic" ErrorMessage="Please select country" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:TextBox ID="txtTaxDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                                <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtTaxDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:Button ID="btnDeleteTax" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteTaxLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                            </td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                            </table>
-                           <asp:LinkButton ID="LinkButton6" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           <asp:LinkButton ID="btnAddTax" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        </div>
                        
                        <div class="control-group">
@@ -888,14 +915,27 @@
                            <table class="table table-bordered">
                                <tr>
                                    <th>Payment</th>
-                                   <th>Details</th>
+                                   <th colspan="2">Details</th>
                                </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
+                               <asp:Repeater ID="rptOtherPayment" runat="server">
+                                   <ItemTemplate>
+                                       <tr>
+                                           <td>
+                                               <asp:TextBox ID="txtPaymentAmount" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter payment amount" />
+                                               <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
+                                           </td>
+                                           <td>
+                                               <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                               <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtPaymentDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
+                                           </td>
+                                           <td>
+                                               <asp:Button ID="btnDeleteOtherPayment" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteOtherPaymentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                           </td>
+                                       </tr>
+                                   </ItemTemplate>
+                               </asp:Repeater>
                            </table>
-                           <asp:LinkButton ID="LinkButton7" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           <asp:LinkButton ID="btnAddOtherPayment" runat="server" Text="Add New Line" CssClass="btn btn-success" />
 
                        </div>
                        <div class="control-group">
@@ -903,14 +943,27 @@
                             <table class="table table-bordered">
                                <tr>
                                    <th>Payment</th>
-                                   <th>Details</th>
+                                   <th colspan="2">Details</th>
                                </tr>
-                               <tr>
-                                   <td></td>
-                                   <td></td>
-                               </tr>
+                                <asp:Repeater ID="rptOtherTaxes" runat="server">
+                                    <ItemTemplate>
+                                        <tr>
+                                            <td>
+                                                <asp:TextBox ID="txtPaymentAmount" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter payment amount" />
+                                                <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                                <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtPaymentDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
+                                            </td>
+                                            <td>
+                                                <asp:Button ID="btnDeleteOtherTax" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteOtherTaxLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                            </td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                            </table>
-                           <asp:LinkButton ID="LinkButton8" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           <asp:LinkButton ID="btnAddOtherTax" runat="server" Text="Add New Line" CssClass="btn btn-success" />
                        </div>
 
                    </asp:Panel>

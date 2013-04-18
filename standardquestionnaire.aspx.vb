@@ -107,11 +107,31 @@ Partial Class standardquestionnaire
             Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
             rptExtraction.DataSource = ExtractionList
             rptExtraction.DataBind()
-            'Reset the loop count and go and get the recycled list
+            'Reset the loop count and go and get the facility list
             gbLoopCount = 0
             Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
             rptFacility.DataSource = FacilityList
             rptFacility.DataBind()
+            'Reset the loop count and go and get the transport list
+            gbLoopCount = 0
+            Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
+            rptTransport.DataSource = TransporterList
+            rptTransport.DataBind()
+            'Reset the loop count and go and get the other payment list
+            gbLoopCount = 0
+            Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
+            rptOtherPayment.DataSource = OtherPaymentList
+            rptOtherPayment.DataBind()
+            'Reset the loop count and go and get the other taxes list
+            gbLoopCount = 0
+            Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
+            rptOtherTaxes.DataSource = OtherTaxList
+            rptOtherTaxes.DataBind()
+            'Reset the loop count and go and get the tax list
+            gbLoopCount = 0
+            Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
+            rptTaxes.DataSource = TaxList
+            rptTaxes.DataBind()
         End If
     End Sub
 
@@ -865,6 +885,277 @@ Partial Class standardquestionnaire
         rptFacility.DataSource = FacilityList
         rptFacility.DataBind()
     End Sub
+
+    Protected Sub btnAddTransporter_Click(sender As Object, e As EventArgs) Handles btnAddTransporter.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtTransporterName As TextBox
+        Dim txtTransporterAddress As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptTransport.Items
+            txtTransporterName = Item.FindControl("txtTransporterName")
+            txtTransporterAddress = Item.FindControl("txtTransporterAddress")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtTransporterName.Text = "" Then
+                txtTransporterName.Text = "None"
+            End If
+            If txtTransporterAddress.Text = "" Then
+                txtTransporterAddress.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateTransportLine(hidItemID.Value, _
+                                       txtTransporterName.Text, _
+                                       txtTransporterAddress.Text)
+
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddTransportLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
+        rptTransport.DataSource = TransporterList
+        rptTransport.DataBind()
+    End Sub
+
+    Protected Sub DeleteTransportLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtTransporterName As TextBox
+        Dim txtTransporterAddress As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptTransport.Items
+            txtTransporterName = Item.FindControl("txtTransporterName")
+            txtTransporterAddress = Item.FindControl("txtTransporterAddress")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtTransporterName.Text = "" Then
+                txtTransporterName.Text = "None"
+            End If
+            If txtTransporterAddress.Text = "" Then
+                txtTransporterAddress.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateTransportLine(hidItemID.Value, _
+                                       txtTransporterName.Text, _
+                                       txtTransporterAddress.Text)
+
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteTransportLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
+        rptTransport.DataSource = TransporterList
+        rptTransport.DataBind()
+    End Sub
+
+    Protected Sub btnAddOtherPayment_Click(sender As Object, e As EventArgs) Handles btnAddOtherPayment.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptOtherPayment.Items
+            txtPaymentAmount = Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = Item.FindControl("txtPaymentDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPaymentAmount.Text = "" Then
+                txtPaymentAmount.Text = "None"
+            End If
+            If txtPaymentDetails.Text = "" Then
+                txtPaymentDetails.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateOtherPaymentLine(hidItemID.Value, _
+                                       txtPaymentAmount.Text, _
+                                       txtPaymentDetails.Text)
+
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddOtherPaymentLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
+        rptOtherPayment.DataSource = OtherPaymentList
+        rptOtherPayment.DataBind()
+    End Sub
+
+    Protected Sub DeleteOtherPaymentLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptOtherPayment.Items
+            txtPaymentAmount = Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = Item.FindControl("txtPaymentDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPaymentAmount.Text = "" Then
+                txtPaymentAmount.Text = "None"
+            End If
+            If txtPaymentDetails.Text = "" Then
+                txtPaymentDetails.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateOtherPaymentLine(hidItemID.Value, _
+                                       txtPaymentAmount.Text, _
+                                       txtPaymentDetails.Text)
+
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteOtherPaymentLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
+        rptOtherPayment.DataSource = OtherPaymentList
+        rptOtherPayment.DataBind()
+    End Sub
+
+    Protected Sub btnAddOtherTax_Click(sender As Object, e As EventArgs) Handles btnAddOtherTax.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptOtherTaxes.Items
+            txtPaymentAmount = Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = Item.FindControl("txtPaymentDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPaymentAmount.Text = "" Then
+                txtPaymentAmount.Text = "None"
+            End If
+            If txtPaymentDetails.Text = "" Then
+                txtPaymentDetails.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateOtherTaxLine(hidItemID.Value, _
+                                       txtPaymentAmount.Text, _
+                                       txtPaymentDetails.Text)
+
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddOtherTaxLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
+        rptOtherTaxes.DataSource = OtherTaxList
+        rptOtherTaxes.DataBind()
+    End Sub
+
+    Protected Sub DeleteOtherTaxLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim hidItemID As HiddenField
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptOtherTaxes.Items
+            txtPaymentAmount = Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = Item.FindControl("txtPaymentDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtPaymentAmount.Text = "" Then
+                txtPaymentAmount.Text = "None"
+            End If
+            If txtPaymentDetails.Text = "" Then
+                txtPaymentDetails.Text = "None"
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateOtherTaxLine(hidItemID.Value, _
+                                       txtPaymentAmount.Text, _
+                                       txtPaymentDetails.Text)
+
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteOtherTaxLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
+        rptOtherTaxes.DataSource = OtherTaxList
+        rptOtherTaxes.DataBind()
+    End Sub
+
+    Protected Sub btnAddTax_Click(sender As Object, e As EventArgs) Handles btnAddTax.Click
+        'Adds a new row to the table
+        Dim LoopCount As Integer = 1
+        Dim cboCountryID As DropDownList
+        Dim txtTaxDetails As TextBox
+        Dim hidItemID As HiddenField
+        Dim CountryID As Integer
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptTaxes.Items
+            cboCountryID = Item.FindControl("cboCountryID")
+            txtTaxDetails = Item.FindControl("txtTaxDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtTaxDetails.Text = "" Then
+                txtTaxDetails.Text = "None"
+            End If
+            If cboCountryID.SelectedIndex = 0 Then
+                CountryID = 0
+            Else
+                CountryID = cboCountryID.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateTaxLine(hidItemID.Value, _
+                                       CountryID, _
+                                       txtTaxDetails.Text)
+
+        Next
+        'Now we can finally add our new line
+        NashBLL.AddTaxLine(2) 'This value needs replaced by querystring
+
+        'Now rebind everything
+        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
+        rptTaxes.DataSource = TaxList
+        rptTaxes.DataBind()
+    End Sub
+
+    Protected Sub DeleteTaxLine(sender As Object, e As EventArgs)
+        'Deletes a row from the table
+        Dim LoopCount As Integer = 1
+        Dim cboCountryID As DropDownList
+        Dim txtTaxDetails As TextBox
+        Dim hidItemID As HiddenField
+        Dim CountryID As Integer
+        'Check what values we have already as we need to preserve them
+        For Each Item As RepeaterItem In rptTaxes.Items
+            cboCountryID = Item.FindControl("cboCountryID")
+            txtTaxDetails = Item.FindControl("txtTaxDetails")
+            hidItemID = Item.FindControl("hidItemID")
+            'Now update this to the DB
+            If txtTaxDetails.Text = "" Then
+                txtTaxDetails.Text = "None"
+            End If
+            If cboCountryID.SelectedIndex = 0 Then
+                CountryID = 0
+            Else
+                CountryID = cboCountryID.SelectedValue
+            End If
+            'Now update this line to the DB
+            NashBLL.UpdateTaxLine(hidItemID.Value, _
+                                       CountryID, _
+                                       txtTaxDetails.Text)
+
+        Next
+        'Now we can finally remove our line
+        NashBLL.DeleteTaxLine(sender.CommandArgument)
+
+        'Now rebind everything
+        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
+        rptTaxes.DataSource = TaxList
+        rptTaxes.DataBind()
+    End Sub
+
 
 
 
@@ -1906,7 +2197,178 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptTransport_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptTransport.ItemDataBound
+        Dim txtTransporterName As TextBox
+        Dim txtTransporterAddress As TextBox
+        Dim btnDeleteTransport As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtTransporterName = e.Item.FindControl("txtTransporterName")
+            txtTransporterAddress = e.Item.FindControl("txtTransporterAddress")
+            btnDeleteTransport = e.Item.FindControl("btnDeleteTransport")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("TransporterName")) <> "NONE" Then
+                'A value was writtent to the DB so we need to re-populate the item now
+                txtTransporterName.Text = drv("TransporterName")
+            Else
+                'No value entered yet so show empty box
+                txtTransporterName.Text = ""
+            End If
+
+            If UCase(drv("TransporterAddress")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtTransporterAddress.Text = drv("TransporterAddress")
+            Else
+                'No value entered yet so show empty box
+                txtTransporterAddress.Text = ""
+            End If
+
+            'Now set our delete button
+            btnDeleteTransport.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteTransport.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptOtherPayment_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptOtherPayment.ItemDataBound
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim btnDeleteOtherPayment As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtPaymentAmount = e.Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = e.Item.FindControl("txtPaymentDetails")
+            btnDeleteOtherPayment = e.Item.FindControl("btnDeleteOtherPayment")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("PaymentAmount")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPaymentAmount.Text = drv("PaymentAmount")
+            Else
+                'No value entered yet so show empty box
+                txtPaymentAmount.Text = ""
+            End If
+
+            If UCase(drv("PaymentDetails")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPaymentDetails.Text = drv("PaymentDetails")
+            Else
+                'No value entered yet so show empty box
+                txtPaymentDetails.Text = ""
+            End If
+
+            'Now set our delete button
+            btnDeleteOtherPayment.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteOtherPayment.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptOtherTaxes_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptOtherTaxes.ItemDataBound
+        Dim txtPaymentAmount As TextBox
+        Dim txtPaymentDetails As TextBox
+        Dim btnDeleteOtherTax As Button
+        Dim hidItemID As HiddenField
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the text boxes now
+            txtPaymentAmount = e.Item.FindControl("txtPaymentAmount")
+            txtPaymentDetails = e.Item.FindControl("txtPaymentDetails")
+            btnDeleteOtherTax = e.Item.FindControl("btnDeleteOtherTax")
+            hidItemID = e.Item.FindControl("hidItemID")
+            drv = e.Item.DataItem
+            'Now complete our details
+            hidItemID.Value = drv("ItemID")
+            If UCase(drv("PaymentAmount")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPaymentAmount.Text = drv("PaymentAmount")
+            Else
+                'No value entered yet so show empty box
+                txtPaymentAmount.Text = ""
+            End If
+
+            If UCase(drv("PaymentDetails")) <> "NONE" Then
+                'A value was written to the DB so we need to re-populate the item now
+                txtPaymentDetails.Text = drv("PaymentDetails")
+            Else
+                'No value entered yet so show empty box
+                txtPaymentDetails.Text = ""
+            End If
+
+            'Now set our delete button
+            btnDeleteOtherTax.CommandArgument = drv("ItemID")
+            If gbLoopCount = 0 Then
+                'This is the first item in the list and that cannot be deleted
+                btnDeleteOtherTax.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
+    Protected Sub rptTaxes_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptTaxes.ItemDataBound
+        Dim LoopCount As Integer = 1
+        Dim cboCountryID As DropDownList
+        Dim txtTaxDetails As TextBox
+        Dim hidItemID As HiddenField
+        Dim btnDeleteTax As Button
+        Dim drv As DataRowView
+        Dim Countries As DataSet = NashBLL.GetCountries
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate the form boxes now
+            cboCountryID = e.Item.FindControl("cboCountryID")
+            txtTaxDetails = e.Item.FindControl("txtTaxDetails")
+            hidItemID = e.Item.FindControl("hidItemID")
+            btnDeleteTax = e.Item.FindControl("btnDeleteTax")
+            'Get our data row now
+            drv = e.Item.DataItem
+            'Now we need to set our minerals menu
+            cboCountryID.DataSource = Countries
+            cboCountryID.DataValueField = "CountryID"
+            cboCountryID.DataTextField = "CountryName"
+            cboCountryID.DataBind()
+            cboCountryID.SelectedValue = drv("CountryID")
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboCountryID.Items.Insert(0, NewItem)
+            If UCase(drv("TaxDetails")) <> "NONE" Then
+                txtTaxDetails.Text = drv("TaxDetails")
+            Else
+                txtTaxDetails.Text = ""
+            End If
+            'Set our managed values
+            btnDeleteTax.CommandArgument = drv("ItemID")
+            hidItemID.Value = drv("ItemID")
+            If gbLoopCount = 0 Then
+                btnDeleteTax.Visible = False
+            End If
+            gbLoopCount += 1
+        End If
+    End Sub
+
 #End Region
+
+
+    
+
+
 
 
 End Class
