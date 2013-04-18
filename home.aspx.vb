@@ -27,6 +27,7 @@ Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
 
+
 Partial Class home
     Inherits System.Web.UI.Page
 
@@ -40,8 +41,12 @@ Partial Class home
             lblFirstname.Text = Session("FirstName")
             lblFullname.Text = Session("Firstname") & " " & Session("Surname")
             lblContactId.Text = Session("ContactID")
+
+            
            
         End If
     End Sub
+
+    
 
 End Class
