@@ -7,8 +7,15 @@
        {
            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnUpload').click();// This used to purge uploaded files to the target folder
        }
+       Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(pageLoadedHandler)
+
+       function pageLoadedHandler(sender, args) {
+
+           window.scrollTo(0, 0);
+
+       }
    </script>
-       <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
+    <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
     <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
     <p> It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p> 
     <p> Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
@@ -476,107 +483,9 @@
                            </div>
 
                        </div>
-                       <asp:Panel ID="panMineralPurpose" runat="server" Visible="false">
-                           <legend>3.3 Purpose of mineral content</legend>
-                           <label><strong>Are any of the minerals listed:</strong></label>
-                           <div class="control-group">
-                               <label>3.3.1 Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
-                               <div>
-                                   <table class="table table-bordered">
-                                       <tr>
-                                           <th>Mineral</th>
-                                           <th colspan="2">Function use/Purpose</th>
-                                       </tr>
-                                       <asp:Repeater ID="rptPurpose" runat="server">
-                                           <ItemTemplate>
-                                               <tr>
-                                                   <td>
-                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
-                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                                   </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtPurpose" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
-                                                    <span class="help-block">Enter details</span>
-                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtPurpose" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                                   <td>
-                                                       <asp:Button ID="btnDeletePurpose" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeletePurposeLine" /><asp:HiddenField ID="hidItemID" runat="server" />
-                                                   </td>
-                                               </tr>
-                                           </ItemTemplate>
-                                       </asp:Repeater>
-                                   </table>
-                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
-                                   <asp:LinkButton ID="btnAddPurpose" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                               </div>
-                           </div>
-                           <hr />
-                           <div class="control-group">
-                               <label>3.3.2 Intentionally added to the product/component's production process?</label>
-                               <div>
-                                   <table class="table table-bordered">
-                                       <tr>
-                                           <th>Mineral Name</th>
-                                           <th colspan="2">Explanation</th>
-                                       </tr>
-                                       <asp:Repeater ID="rptProcess" runat="server">
-                                           <ItemTemplate>
-                                               <tr>
-                                                   <td>
-                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
-                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                                   </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtProcess" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
-                                                    <span class="help-block">Enter details</span>
-                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtProcess" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                                   <td>
-                                                       <asp:Button ID="btnDeleteProcess" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteProcessLine" /><asp:HiddenField ID="hidItemID" runat="server" />
-                                                   </td>
-                                               </tr>
-                                           </ItemTemplate>
-                                       </asp:Repeater>
+                       
 
-                                   </table>
-                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
-                                   <asp:LinkButton ID="btnAddProcess" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                               </div>
-                           </div>
-                           <hr />
-                           <div class="control-group">
-                               <label>3.3.3 Necessary to produce the product/component?</label>
-                               <table class="table table-bordered">
-                                   <tr>
-                                       <th>Mineral Name</th>
-                                       <th colspan="2">Explanation</th>
-
-                                   </tr>
-                                   <asp:Repeater ID="rptComponent" runat="server">
-                                       <ItemTemplate>
-                                           <tr>
-                                               <td>
-                                                   <asp:DropDownList ID="cboMinerals" runat="server" />
-                                                   <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                               </td>
-                                                <td>
-                                                    <asp:TextBox ID="txtComponent" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
-                                                    <span class="help-block">Enter details</span>
-                                                    <asp:RequiredFieldValidator ID="rfvComponent" runat="server" ControlToValidate="txtComponent" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
-                                               <td>
-                                                   <asp:Button ID="btnDeleteComponent" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteComponentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
-                                               </td>
-                                           </tr>
-                                       </ItemTemplate>
-                                   </asp:Repeater>
-
-                               </table>
-                               <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
-                               <asp:LinkButton ID="btnAddComponent" runat="server" Text="Add New Line" CssClass="btn btn-success" />
-                           </div>
-                       </asp:Panel>
-                   </asp:Panel>
-                   
-                   <asp:Panel ID="panPage4" runat="server" Visible="false" >
-                       <legend>4. Country of origin, processing and transportation</legend>
+                          <legend>4. Country of origin, processing and transportation</legend>
                        <div class="control-group">
                            <label>4.1 Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
                            <!-- Like the minerals i think these should come from the DB -->
@@ -705,10 +614,111 @@
                            </div>
                        </asp:Panel>
 
-                       <asp:Panel ID="panQuestion5" runat="server" Visible="false">
-                           <legend>5. Quantity, date and method of extraction </legend>
+                       
+                   </asp:Panel>
+                   
+                   <asp:Panel ID="panPage4" runat="server" Visible="false" >
+                    <asp:Panel ID="panMineralPurpose" runat="server" Visible="false">
+                           <legend>3.3 Purpose of mineral content</legend>
+                           <label><strong>Are any of the minerals listed:</strong></label>
                            <div class="control-group">
-                               <label>5.1 Please provide details of the quantity of minerals, date of extraction</label>
+                               <label>3.3.1 Necessary for the product or components function, use, or purpose, or in any way useful to any of the product/component's functions?</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral</th>
+                                           <th colspan="2">Function use/Purpose</th>
+                                       </tr>
+                                       <asp:Repeater ID="rptPurpose" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtPurpose" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtPurpose" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   <td>
+                                                       <asp:Button ID="btnDeletePurpose" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeletePurposeLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
+                                   </table>
+                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                                   <asp:LinkButton ID="btnAddPurpose" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
+                           </div>
+                           <hr />
+                           <div class="control-group">
+                               <label>3.3.2 Intentionally added to the product/component's production process?</label>
+                               <div>
+                                   <table class="table table-bordered">
+                                       <tr>
+                                           <th>Mineral Name</th>
+                                           <th colspan="2">Explanation</th>
+                                       </tr>
+                                       <asp:Repeater ID="rptProcess" runat="server">
+                                           <ItemTemplate>
+                                               <tr>
+                                                   <td>
+                                                       <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                       <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtProcess" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtProcess" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                                   <td>
+                                                       <asp:Button ID="btnDeleteProcess" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteProcessLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                                   </td>
+                                               </tr>
+                                           </ItemTemplate>
+                                       </asp:Repeater>
+
+                                   </table>
+                                   <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                                   <asp:LinkButton ID="btnAddProcess" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                               </div>
+                           </div>
+                           <hr />
+                           <div class="control-group">
+                               <label>3.3.3 Necessary to produce the product/component?</label>
+                               <table class="table table-bordered">
+                                   <tr>
+                                       <th>Mineral Name</th>
+                                       <th colspan="2">Explanation</th>
+
+                                   </tr>
+                                   <asp:Repeater ID="rptComponent" runat="server">
+                                       <ItemTemplate>
+                                           <tr>
+                                               <td>
+                                                   <asp:DropDownList ID="cboMinerals" runat="server" />
+                                                   <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                               </td>
+                                                <td>
+                                                    <asp:TextBox ID="txtComponent" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <span class="help-block">Enter details</span>
+                                                    <asp:RequiredFieldValidator ID="rfvComponent" runat="server" ControlToValidate="txtComponent" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
+                                               <td>
+                                                   <asp:Button ID="btnDeleteComponent" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteComponentLine" /><asp:HiddenField ID="hidItemID" runat="server" />
+                                               </td>
+                                           </tr>
+                                       </ItemTemplate>
+                                   </asp:Repeater>
+
+                               </table>
+                               <span class="help-block">If yes, please click the button below and explain why in the boxes that will appear.</span>
+                               <asp:LinkButton ID="btnAddComponent" runat="server" Text="Add New Line" CssClass="btn btn-success" />
+                           </div>
+                       </asp:Panel>
+                    <asp:Panel ID="panQuestion5" runat="server" Visible="false">
+                           <legend>4.4 Quantity, date and method of extraction </legend>
+                           <div class="control-group">
+                               <label>4.4.1 Please provide details of the quantity of minerals, date of extraction</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
@@ -746,9 +756,9 @@
 
                                </div>
                            </div>
-                           <legend>6. Processing Facility</legend>
+                           <legend>4.5 Processing Facility</legend>
                            <div class="control-group">
-                               <label>6.1 At which facility are the minerals processed?</label>
+                               <label>4.5.1 At which facility are the minerals processed?</label>
                                <div>
                                    <table class="table table-bordered">
                                        <tr>
@@ -778,7 +788,7 @@
                            </div>
 
                            <div class="control-group">
-                               <label class="control-label">6.2 Is the facility included in the
+                               <label class="control-label">4.5.2 Is the facility included in the
                                    <asp:HyperLink ID="hypSmelterList" runat="server">Conflict Free Smelter list? </asp:HyperLink></label>
                                <div class="controls">
 
@@ -823,7 +833,7 @@
                                </div>
                            </div>
                            <div class="control-group">
-                               <label class="control-label">6.3 Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
+                               <label class="control-label">4.5.3 Has the facility been subject to an independent audit that has led it being designated "conflict-free" (in relation to conflict minerals)? </label>
                                <div class="controls">
                                <asp:RadioButtonList ID="rblIndependent" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
                                        <asp:ListItem Text="No" Selected="True" />
@@ -921,8 +931,12 @@
                                    <ItemTemplate>
                                        <tr>
                                            <td>
-                                               <asp:TextBox ID="txtPaymentAmount" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter payment amount" />
-                                               <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
+                                               <div class="input-prepend input-append">
+                                                   <span class="add-on">$</span>
+                                                    <asp:TextBox ID="txtPaymentAmount" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter payment amount" />
+                                                    <span class="add-on">.00</span>
+                                                </div>
+                                                   <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
                                            </td>
                                            <td>
                                                <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
@@ -949,8 +963,12 @@
                                     <ItemTemplate>
                                         <tr>
                                             <td>
+                                                <div class="input-prepend input-append">
+                                                   <span class="add-on">$</span>
                                                 <asp:TextBox ID="txtPaymentAmount" runat="server" TextMode="SingleLine" CssClass="input-medium" placeholder="Enter payment amount" />
-                                                <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
+                                                   <span class="add-on">.00</span>
+                                                </div>
+                                                    <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
                                                 <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
