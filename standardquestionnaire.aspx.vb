@@ -135,6 +135,13 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rblIndependent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblIndependent.SelectedIndexChanged
+        If rblIndependent.SelectedIndex = 1 Then
+            panIndependentAudit.Visible = True
+        Else
+            panIndependentAudit.Visible = False
+        End If
+    End Sub
 
     Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Threading.Thread.Sleep(5000)
@@ -234,7 +241,7 @@ Partial Class standardquestionnaire
 
 #End Region
 
-#Region " Manage Minerals "
+#Region " Manage New Lines "
 
     Protected Sub rblCassiterite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblCassiterite.SelectedIndexChanged
         If rblCassiterite.SelectedIndex = 1 Then
@@ -250,6 +257,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panCassiterite.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -271,6 +279,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panColumbite.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -292,6 +301,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panGold.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -313,6 +323,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panTantalum.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -334,6 +345,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panTungsten.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -355,6 +367,7 @@ Partial Class standardquestionnaire
             rptComponent.DataBind()
             panWolframite.Visible = True
             panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
         Else
             'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
             CheckMinerals()
@@ -363,6 +376,9 @@ Partial Class standardquestionnaire
     End Sub
 
     Private Sub CheckMinerals()
+        'We need to check the minerals and the countries as a pair to determine what we show next
+        Dim NoConflictSelected = False
+        Dim NoCountrySelected = True
         If rblCassiterite.SelectedIndex = 0 AndAlso _
             rblColumbite.SelectedIndex = 0 AndAlso _
             rblGold.SelectedIndex = 0 AndAlso _
@@ -370,9 +386,27 @@ Partial Class standardquestionnaire
             rblTungsten.SelectedIndex = 0 AndAlso _
             rblWolframite.SelectedIndex = 0 Then
             'None of these elements have been chosen so we can hide the rest of the form
+            NoConflictSelected = True
             panMineralPurpose.Visible = False
+        End If
+
+        For Each Item As RepeaterItem In rptDangerousCountries.Items
+            Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
+            If ButtonList.SelectedIndex = 1 Then
+                NoCountrySelected = False
+            End If
+        Next
+        'Now check to see if we can show or hide our panels
+        If NoConflictSelected AndAlso NoCountrySelected Then
+            'No minerals or countries were selected so hide the panels
             panQuestion5.Visible = False
-        
+            panMineralPurpose.Visible = False
+            'TODO: adjust prev & next logic as this would mean the next page is the last one
+        Else
+            'Either a mineral or a country was chosen, so show the rest of the form
+            panQuestion5.Visible = True
+            panMineralPurpose.Visible = True
+            'TODO: adjust prev & next logic as this would mean the next page is the last one
         End If
     End Sub
 
@@ -1587,19 +1621,20 @@ Partial Class standardquestionnaire
 #Region " Manage Countries "
 
     Protected Sub CheckCountry(sender As Object, e As EventArgs)
-        Dim NoCountry As Boolean = True
-        For Each Item As RepeaterItem In rptDangerousCountries.Items
-            Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
-            If ButtonList.SelectedIndex = 1 Then
-                NoCountry = False
-            End If
-        Next
+        'Dim NoCountry As Boolean = True
+        'For Each Item As RepeaterItem In rptDangerousCountries.Items
+        'Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
+        'If ButtonList.SelectedIndex = 1 Then
+        'NoCountry = False
+        'End If
+        'Next
         'Now check to see if we can show or hide our panel
-        If NoCountry Then
-            panQuestion5.Visible = False
-        Else
-            panQuestion5.Visible = True
-        End If
+        'If NoCountry Then
+        'panQuestion5.Visible = False
+        'Else
+        'panQuestion5.Visible = True
+        'End If
+        CheckMinerals()
     End Sub
 
 #End Region
@@ -2371,4 +2406,5 @@ Partial Class standardquestionnaire
 
 
 
+    
 End Class

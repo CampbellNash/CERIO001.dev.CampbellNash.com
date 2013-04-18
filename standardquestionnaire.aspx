@@ -575,7 +575,7 @@
                        </asp:Panel>
                    </asp:Panel>
                    
-                   <asp:Panel ID="panPage4" runat="server" Visible="False" >
+                   <asp:Panel ID="panPage4" runat="server" Visible="false" >
                        <legend>4. Country of origin, processing and transportation</legend>
                        <div class="control-group">
                            <label>4.1 Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
