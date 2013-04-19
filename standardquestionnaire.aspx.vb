@@ -283,14 +283,16 @@ Partial Class standardquestionnaire
                 panPage6.Visible = False
                 If CheckMinerals() Then
                     btnNext.CommandArgument = 5
+                    btnSave.CommandArgument = 3
                 Else
                     btnNext.CommandArgument = 3
+                    btnSave.CommandArgument = 3
                 End If
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 2
                 lblProgress.Width = "499"
                 'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument
+                'btnSave.CommandArgument = sender.CommandArgument
             Case 3
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -330,16 +332,18 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 If CheckMinerals() Then
                     btnPrev.CommandArgument = 3
+                    btnSave.CommandArgument = 6
                 Else
                     btnPrev.CommandArgument = 5
+                    btnSave.CommandArgument = 6
                 End If
                 lblProgress.Width = "1000"
                 'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument
+                'btnSave.CommandArgument = sender.CommandArgument
             Case Else
-                'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument + 1
+                
         End Select
+        lblErrorMessage.Text = btnSave.CommandArgument
     End Sub
 
     Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
@@ -378,17 +382,17 @@ Partial Class standardquestionnaire
                 panPage6.Visible = False
                 If CheckMinerals() Then
                     btnNext.CommandArgument = 5
+                    btnSave.CommandArgument = 3
                 Else
                     btnNext.CommandArgument = 3
+                    btnSave.CommandArgument = 3
                 End If
 
                 btnPrev.Visible = True
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 2
                 lblProgress.Width = "499"
-                'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument
-            Case 4
+           Case 4
                 panPage1.Visible = False
                 panPage2.Visible = False
                 panPage3.Visible = False
@@ -423,6 +427,7 @@ Partial Class standardquestionnaire
             Case Else
                 
         End Select
+        lblErrorMessage.Text = btnSave.CommandArgument
     End Sub
 
 #End Region
