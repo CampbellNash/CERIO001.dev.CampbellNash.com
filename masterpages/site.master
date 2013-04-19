@@ -24,7 +24,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <AjaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server"></AjaxToolkit:ToolkitScriptManager>
+        <Telerik:RadScriptManager ID="RadScriptManager1" runat="server"></Telerik:RadScriptManager>
+        
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container-fluid">

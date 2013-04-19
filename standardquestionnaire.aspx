@@ -11,17 +11,34 @@
 
        function pageLoadedHandler(sender, args) {
 
-           window.scrollTo(0, 0);
+           //window.scrollTo(0, 0);
 
        }
    </script>
-    <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
-    <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
-    <p> It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p> 
-    <p> Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
+         
+
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-        <asp:Button id-="btnUpload" runat="server" style="visibility:hidden;float:right" />
-        <asp:Literal ID="litTest" runat="server" />
+        <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
+        <asp:Panel ID="panNoQuery" runat="server" Visible="false">
+            <p>Incorrect credentials passed for this function.</p>
+            <p>Please use the navigation panel to the right to open this page.</p>
+        </asp:Panel>
+        
+            
+        <asp:Panel ID="panSaveDraft" runat="server" Visible="false">
+            <p>Your current position in this form has been saved!</p>
+            <p>When you reload this form from the main menu it will open up where you last saved so that you can continue.</p>
+            <p>You may also re-load it now by clicking the button below.</p>
+            <p><asp:LinkButton ID="btnReOpen" runat="server" CssClass="btn btn-warning" Text="Re Open" /></p>
+        </asp:Panel>
+
+        <asp:Button ID="btnUpload" runat="server" style="visibility:hidden;float:right" />
+        <asp:Panel ID="panForm" runat="server" Visible="true">
+            
+             <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
+             <p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p>
+             <p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
+         
                 <h4>Progress</h4>
                <div class="progress">
                    <div class="bar" runat="server" id="progressbar"></div>
@@ -847,9 +864,7 @@
                                </div>
                           
                            </div>
-
-
-                       </asp:Panel>
+                        </asp:Panel>
                    </asp:Panel>
 
                    <asp:Panel ID="panPage5" Visible="False" runat="server">
@@ -987,14 +1002,15 @@
                    </asp:Panel>
                    
                    <asp:Panel ID="panPage6" runat="server" Visible="False">
-                       <legend>11. Your Policies</legend>
-                       <label>If you answered yes to question 3:</label>
-                       <div class="control-group">
-                           <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
-                           <Telerik:RadProgressManager runat="server" ID="RadProgressManager1" />
-                           <Telerik:RadAsyncUpload ID="RadAsyncUpload1" runat="server"  MultipleFileSelection="Automatic" TargetFolder="~/userfiles" OnClientFilesUploaded="UploadFile" />
-                           <Telerik:RadProgressArea runat="server" ID="RadProgressArea1" />
-                       </div>
+                       <asp:Panel ID="panUpload" runat="server" Visible="false">
+                           <legend>11. Your Policies</legend>
+                           <div class="control-group">
+                               <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
+                               <Telerik:RadProgressManager runat="server" ID="RadProgressManager1" />
+                               <Telerik:RadAsyncUpload ID="rauUploader" runat="server" MultipleFileSelection="Automatic" OnClientFilesUploaded="UploadFile" />
+                               <Telerik:RadProgressArea runat="server" ID="RadProgressArea1" />
+                           </div>
+                       </asp:Panel>
                        <legend>12. Certification / Consent</legend>
                        <ol>
                            <li>The information provided above is, to the best of my knowledge and belief, accurate, current and complete.</li>
@@ -1023,11 +1039,13 @@
                    </asp:Panel>
                   <p></p>
                     <p>
-                        <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;<asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" />&nbsp;&nbsp;<asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" ValidationGroup="Questions" /></p>
-
+                        <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" ValidationGroup="Questions" />&nbsp;&nbsp;
+                        <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
+                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" /></p>
+                   <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="false" /></p>
                </div>
           
-            
+        </asp:Panel>
 
        
   </Telerik:RadAjaxPanel>

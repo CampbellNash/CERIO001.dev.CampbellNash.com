@@ -26,356 +26,15 @@ Imports Microsoft.VisualBasic
 Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
+Imports Telerik.Web.UI
 Partial Class standardquestionnaire
     Inherits System.Web.UI.Page
     Public gbLoopCount As Integer
-    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        'Always reset our gloabl loopcount
-        gbLoopCount = 0
-        If Not Session("UserLoggedIn") Then
-            'User is not logged in so send to login page
-            Response.Redirect("~/login.aspx")
-        End If
+    Public CompanyID As Integer
 
-        If Not IsPostBack Then
-            'Populate the form elements
-            cboBusinessType.DataSource = NashBLL.GetBusinessAreas
-            cboBusinessType.DataValueField = "BusinessAreaID"
-            cboBusinessType.DataTextField = "BusinessArea"
-            cboBusinessType.DataBind()
-            'Now get our countries
-            cboCountries.DataSource = NashBLL.GetCountries
-            cboCountries.DataTextField = "CountryName"
-            cboCountries.DataValueField = "CountryID"
-            cboCountries.DataBind()
-            'Now get our Minerals list for table popop
-            Dim Minerals As DataSet = NashBLL.GetMinerals()
-            rptMineralsPopup.DataSource = Minerals
-            rptMineralsPopup.DataBind()
-            'Now get our Smeleter list
-            Dim SmelterList As DataSet = NashBLL.GetSmelterList()
-            rptSmelterList.DataSource = SmelterList
-            rptSmelterList.DataBind()
-            'Now get out relationship categories
-            Dim RelationshipCategory As DataSet = NashBLL.GetrelationshipCategories()
-            rptrelationshipCategories.DataSource = RelationshipCategory
-            rptrelationshipCategories.DataBind()
-            'Now add in a please select
-            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
-            cboBusinessType.Items.Insert(0, NewItem)
-            cboCountries.Items.Insert(0, newItem)
+#Region " User Defined Functions "
 
-            panPage1.Visible = True
-            btnNext.CommandArgument = 1
-            btnPrev.Visible = False
-            Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value will need replaced by querystring
-            rptShareholders.DataSource = Shareholders
-            rptShareholders.DataBind()
-            'Set the default panel up
-            rblParent.SelectedIndex = 1
-            gbLoopCount = 0
-            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
-            rptParentCompany.DataSource = ParentCompanies
-            rptParentCompany.DataBind()
-            panParentCompanies.Visible = True
-            btnAddNewParent.Visible = True
-            'Reset the loop count and go and get the directors list
-            gbLoopCount = 0
-            Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value will need replaced by querystring
-            rptDirectors.DataSource = Directors
-            rptDirectors.DataBind()
-            'Reset the loop count and go and get the relatives list
-            gbLoopCount = 0
-            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value will need replaced by querystring
-            rptGovtEmployees.DataSource = Relatives
-            rptGovtEmployees.DataBind()
-            Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
-            rptDangerousCountries.DataSource = DangerousCountries
-            rptDangerousCountries.DataBind()
-            'Reset the loop count and go and get the scrap list
-            gbLoopCount = 0
-            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
-            rptScrap.DataSource = ScrapList
-            rptScrap.DataBind()
-            'Reset the loop count and go and get the recycled list
-            gbLoopCount = 0
-            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
-            rptRecycled.DataSource = RecycleList
-            rptRecycled.DataBind()
-            'Reset the loop count and go and get the recycled list
-            gbLoopCount = 0
-            Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
-            rptExtraction.DataSource = ExtractionList
-            rptExtraction.DataBind()
-            'Reset the loop count and go and get the facility list
-            gbLoopCount = 0
-            Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
-            rptFacility.DataSource = FacilityList
-            rptFacility.DataBind()
-            'Reset the loop count and go and get the transport list
-            gbLoopCount = 0
-            Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
-            rptTransport.DataSource = TransporterList
-            rptTransport.DataBind()
-            'Reset the loop count and go and get the other payment list
-            gbLoopCount = 0
-            Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
-            rptOtherPayment.DataSource = OtherPaymentList
-            rptOtherPayment.DataBind()
-            'Reset the loop count and go and get the other taxes list
-            gbLoopCount = 0
-            Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
-            rptOtherTaxes.DataSource = OtherTaxList
-            rptOtherTaxes.DataBind()
-            'Reset the loop count and go and get the tax list
-            gbLoopCount = 0
-            Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
-            rptTaxes.DataSource = TaxList
-            rptTaxes.DataBind()
-        End If
-    End Sub
-
-    Protected Sub rblIndependent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblIndependent.SelectedIndexChanged
-        If rblIndependent.SelectedIndex = 1 Then
-            panIndependentAudit.Visible = True
-        Else
-            panIndependentAudit.Visible = False
-        End If
-    End Sub
-
-    Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        Threading.Thread.Sleep(5000)
-        txtCompanyName.Text = "Bullwood Business Consultants"
-    End Sub
-
-#Region " Navigation Buttons "
-
-    Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-        Select Case sender.CommandArgument
-            Case 1
-                panPage1.Visible = False
-                panPage2.Visible = True
-                btnNext.CommandArgument = 2
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 1
-                lblProgress.Width = "333"
-            Case 2
-                panPage2.Visible = False
-                panPage3.Visible = True
-                btnNext.CommandArgument = 3
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 2
-                lblProgress.Width = "499"
-            Case 3
-                panPage3.Visible = False
-                panPage4.Visible = True
-                btnNext.Visible = True
-                btnNext.CommandArgument = 4
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 3
-                lblProgress.Width = "632"
-            Case 4
-                panPage4.Visible = False
-                panPage5.Visible = True
-                btnNext.Visible = True
-                btnNext.CommandArgument = 5
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 4
-                lblProgress.Width = "798"
-            Case 5
-                panPage5.Visible = False
-                panPage6.Visible = True
-                btnNext.Visible = False
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 5
-                lblProgress.Width = "1000"
-
-            Case Else
-
-        End Select
-    End Sub
-
-    Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
-        Select Case sender.CommandArgument
-            Case 1
-                panPage1.Visible = True
-                panPage2.Visible = False
-                btnNext.CommandArgument = 1
-                btnPrev.Visible = False
-                lblProgress.Width = "166"
-            Case 2
-                panPage2.Visible = True
-                panPage3.Visible = False
-                btnNext.CommandArgument = 2
-                btnPrev.Visible = True
-                btnPrev.CommandArgument = 1
-                lblProgress.Width = "333"
-            Case 3
-                panPage3.Visible = True
-                panPage4.Visible = False
-                btnNext.CommandArgument = 3
-                btnPrev.Visible = True
-                btnNext.Visible = True
-                btnPrev.CommandArgument = 2
-                lblProgress.Width = "499"
-            Case 4
-                panPage4.Visible = True
-                panPage5.Visible = False
-                btnNext.CommandArgument = 4
-                btnPrev.Visible = True
-                btnNext.Visible = True
-                btnPrev.CommandArgument = 3
-                lblProgress.Width = "632"
-            Case 5
-                panPage5.Visible = True
-                panPage6.Visible = False
-                btnNext.CommandArgument = 5
-                btnPrev.Visible = True
-                btnNext.Visible = True
-                btnPrev.CommandArgument = 4
-                lblProgress.Width = "798"
-            Case Else
-
-        End Select
-    End Sub
-
-#End Region
-
-#Region " Manage New Lines "
-
-    Protected Sub rblCassiterite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblCassiterite.SelectedIndexChanged
-        If rblCassiterite.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panCassiterite.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panCassiterite.Visible = False
-        End If
-    End Sub
-
-    Protected Sub rblColumbite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblColumbite.SelectedIndexChanged
-        If rblColumbite.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panColumbite.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panColumbite.Visible = False
-        End If
-    End Sub
-
-    Protected Sub rblGold_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblGold.SelectedIndexChanged
-        If rblGold.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panGold.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panGold.Visible = False
-        End If
-    End Sub
-
-    Protected Sub rblTantalum_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTantalum.SelectedIndexChanged
-        If rblTantalum.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panTantalum.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panTantalum.Visible = False
-        End If
-    End Sub
-
-    Protected Sub rblTungsten_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTungsten.SelectedIndexChanged
-        If rblTungsten.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panTungsten.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panTungsten.Visible = False
-        End If
-    End Sub
-
-    Protected Sub rblWolframite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblWolframite.SelectedIndexChanged
-        If rblWolframite.SelectedIndex = 1 Then
-            'Selected yes to this option so show the rest of the form
-            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
-            rptPurpose.DataSource = Purposes
-            rptPurpose.DataBind()
-            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
-            rptProcess.DataSource = Processes
-            rptProcess.DataBind()
-            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
-            rptComponent.DataSource = Components
-            rptComponent.DataBind()
-            panWolframite.Visible = True
-            panMineralPurpose.Visible = True
-            panQuestion5.Visible = True
-        Else
-            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
-            CheckMinerals()
-            panWolframite.Visible = False
-        End If
-    End Sub
-
-    Private Sub CheckMinerals()
+    Private Function CheckMinerals() As Boolean
         'We need to check the minerals and the countries as a pair to determine what we show next
         Dim NoConflictSelected = False
         Dim NoCountrySelected = True
@@ -401,12 +60,510 @@ Partial Class standardquestionnaire
             'No minerals or countries were selected so hide the panels
             panQuestion5.Visible = False
             panMineralPurpose.Visible = False
+            panUpload.Visible = False
             'TODO: adjust prev & next logic as this would mean the next page is the last one
+            btnNext.CommandArgument = 5
+            btnPrev.CommandArgument = 3
+            Return True
         Else
             'Either a mineral or a country was chosen, so show the rest of the form
             panQuestion5.Visible = True
             panMineralPurpose.Visible = True
+            panUpload.Visible = True
             'TODO: adjust prev & next logic as this would mean the next page is the last one
+            btnNext.CommandArgument = 3
+            Return False
+        End If
+    End Function
+
+#End Region
+
+    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
+        'Always reset our gloabl loopcount
+        gbLoopCount = 0
+        If Not Session("UserLoggedIn") Then
+            'User is not logged in so send to login page
+            Response.Redirect("~/login.aspx")
+        End If
+
+        'Check our query string value
+        If Not Request.QueryString.HasKeys Or Not IsNumeric(Request.QueryString("ci")) Then
+            panNoQuery.Visible = True
+            panForm.Visible = False
+            Return
+        Else
+            CompanyID = Request.QueryString("ci")
+        End If
+
+        If Not IsPostBack Then
+            btnSave.CommandArgument = 1
+            'Populate the form elements
+            cboBusinessType.DataSource = NashBLL.GetBusinessAreas
+            cboBusinessType.DataValueField = "BusinessAreaID"
+            cboBusinessType.DataTextField = "BusinessArea"
+            cboBusinessType.DataBind()
+            'Now get our countries
+            cboCountries.DataSource = NashBLL.GetCountries
+            cboCountries.DataTextField = "CountryName"
+            cboCountries.DataValueField = "CountryID"
+            cboCountries.DataBind()
+            'Now get our Minerals list for table popop
+            Dim Minerals As DataSet = NashBLL.GetMinerals()
+            rptMineralsPopup.DataSource = Minerals
+            rptMineralsPopup.DataBind()
+            'Now get our Smeleter list
+            Dim SmelterList As DataSet = NashBLL.GetSmelterList()
+            rptSmelterList.DataSource = SmelterList
+            rptSmelterList.DataBind()
+            'Now get out relationship categories
+            Dim RelationshipCategory As DataSet = NashBLL.GetrelationshipCategories()
+            rptrelationshipCategories.DataSource = RelationshipCategory
+            rptrelationshipCategories.DataBind()
+            'Now add in a please select
+            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+            cboBusinessType.Items.Insert(0, NewItem)
+            cboCountries.Items.Insert(0, NewItem)
+
+            panPage1.Visible = True
+            btnNext.CommandArgument = 1
+            btnPrev.Visible = False
+            Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID) 'This value will need replaced by querystring
+            rptShareholders.DataSource = Shareholders
+            rptShareholders.DataBind()
+            'Set the default panel up
+            rblParent.SelectedIndex = 1
+            gbLoopCount = 0
+            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
+            rptParentCompany.DataSource = ParentCompanies
+            rptParentCompany.DataBind()
+            panParentCompanies.Visible = True
+            btnAddNewParent.Visible = True
+            'Reset the loop count and go and get the directors list
+            gbLoopCount = 0
+            Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID) 'This value will need replaced by querystring
+            rptDirectors.DataSource = Directors
+            rptDirectors.DataBind()
+            'Reset the loop count and go and get the relatives list
+            gbLoopCount = 0
+            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID) 'This value will need replaced by querystring
+            rptGovtEmployees.DataSource = Relatives
+            rptGovtEmployees.DataBind()
+            Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
+            rptDangerousCountries.DataSource = DangerousCountries
+            rptDangerousCountries.DataBind()
+            'Reset the loop count and go and get the scrap list
+            gbLoopCount = 0
+            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
+            rptScrap.DataSource = ScrapList
+            rptScrap.DataBind()
+            'Reset the loop count and go and get the recycled list
+            gbLoopCount = 0
+            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
+            rptRecycled.DataSource = RecycleList
+            rptRecycled.DataBind()
+            'Reset the loop count and go and get the recycled list
+            gbLoopCount = 0
+            Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(CompanyID)
+            rptExtraction.DataSource = ExtractionList
+            rptExtraction.DataBind()
+            'Reset the loop count and go and get the facility list
+            gbLoopCount = 0
+            Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(CompanyID)
+            rptFacility.DataSource = FacilityList
+            rptFacility.DataBind()
+            'Reset the loop count and go and get the transport list
+            gbLoopCount = 0
+            Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(CompanyID)
+            rptTransport.DataSource = TransporterList
+            rptTransport.DataBind()
+            'Reset the loop count and go and get the other payment list
+            gbLoopCount = 0
+            Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(CompanyID)
+            rptOtherPayment.DataSource = OtherPaymentList
+            rptOtherPayment.DataBind()
+            'Reset the loop count and go and get the other taxes list
+            gbLoopCount = 0
+            Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(CompanyID)
+            rptOtherTaxes.DataSource = OtherTaxList
+            rptOtherTaxes.DataBind()
+            'Reset the loop count and go and get the tax list
+            gbLoopCount = 0
+            Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
+            rptTaxes.DataSource = TaxList
+            rptTaxes.DataBind()
+        End If
+    End Sub
+
+    Protected Sub rblIndependent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblIndependent.SelectedIndexChanged
+        If rblIndependent.SelectedIndex = 1 Then
+            panIndependentAudit.Visible = True
+        Else
+            panIndependentAudit.Visible = False
+        End If
+    End Sub
+
+    Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        panSaveDraft.Visible = True
+        panForm.Visible = False
+    End Sub
+
+    Protected Sub btnReOpen_Click(sender As Object, e As EventArgs) Handles btnReOpen.Click
+        panSaveDraft.Visible = False
+        panForm.Visible = True
+        Select Case CInt(btnSave.CommandArgument)
+            Case 1
+                panPage1.Visible = True
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+            Case 2
+                panPage1.Visible = False
+                panPage2.Visible = True
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+            Case 3
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = True
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+            Case 4
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = True
+                panPage5.Visible = False
+                panPage6.Visible = False
+            Case 5
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = True
+                panPage6.Visible = False
+            Case Else
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = True
+        End Select
+    End Sub
+
+
+#Region " Navigation Buttons "
+
+    Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+        Select Case sender.CommandArgument
+            Case 1
+                panPage1.Visible = False
+                panPage2.Visible = True
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+                btnNext.CommandArgument = 2
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 1
+                lblProgress.Width = "333"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 2
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = True
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+                If CheckMinerals() Then
+                    btnNext.CommandArgument = 5
+                Else
+                    btnNext.CommandArgument = 3
+                End If
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 2
+                lblProgress.Width = "499"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 3
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = True
+                panPage5.Visible = False
+                panPage6.Visible = False
+                btnNext.Visible = True
+                btnNext.CommandArgument = 4
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 3
+                lblProgress.Width = "632"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 4
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = True
+                panPage6.Visible = False
+                btnNext.Visible = True
+                btnNext.CommandArgument = 5
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 4
+                lblProgress.Width = "798"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 5
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = True
+                btnNext.Visible = False
+                btnPrev.Visible = True
+                If CheckMinerals() Then
+                    btnPrev.CommandArgument = 3
+                Else
+                    btnPrev.CommandArgument = 5
+                End If
+                lblProgress.Width = "1000"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case Else
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument + 1
+        End Select
+    End Sub
+
+    Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
+        Select Case sender.CommandArgument
+            Case 1
+                panPage1.Visible = True
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+                btnNext.CommandArgument = 1
+                btnPrev.Visible = False
+                lblProgress.Width = "166"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 2
+                panPage1.Visible = False
+                panPage2.Visible = True
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+                btnNext.CommandArgument = 2
+                btnPrev.Visible = True
+                btnPrev.CommandArgument = 1
+                lblProgress.Width = "333"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 3
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = True
+                panPage4.Visible = False
+                panPage5.Visible = False
+                panPage6.Visible = False
+                If CheckMinerals() Then
+                    btnNext.CommandArgument = 5
+                Else
+                    btnNext.CommandArgument = 3
+                End If
+
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                btnPrev.CommandArgument = 2
+                lblProgress.Width = "499"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 4
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = True
+                panPage5.Visible = False
+                panPage6.Visible = False
+                btnNext.CommandArgument = 4
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                btnPrev.CommandArgument = 3
+                lblProgress.Width = "632"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case 5
+                panPage1.Visible = False
+                panPage2.Visible = False
+                panPage3.Visible = False
+                panPage4.Visible = False
+                panPage5.Visible = True
+                panPage6.Visible = False
+                btnNext.CommandArgument = 5
+                btnPrev.Visible = True
+                btnNext.Visible = True
+                If CheckMinerals() Then
+                    btnPrev.CommandArgument = 3
+                Else
+                    btnPrev.CommandArgument = 4
+                End If
+                lblProgress.Width = "798"
+                'Save the current page for saving and re-opening this form
+                btnSave.CommandArgument = sender.CommandArgument
+            Case Else
+                
+        End Select
+    End Sub
+
+#End Region
+
+#Region " Manage New Lines "
+
+    Protected Sub rblCassiterite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblCassiterite.SelectedIndexChanged
+        If rblCassiterite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panCassiterite.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panCassiterite.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblColumbite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblColumbite.SelectedIndexChanged
+        If rblColumbite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panColumbite.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panColumbite.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblGold_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblGold.SelectedIndexChanged
+        If rblGold.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panGold.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panGold.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblTantalum_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTantalum.SelectedIndexChanged
+        If rblTantalum.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panTantalum.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panTantalum.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblTungsten_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblTungsten.SelectedIndexChanged
+        If rblTungsten.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panTungsten.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panTungsten.Visible = False
+        End If
+    End Sub
+
+    Protected Sub rblWolframite_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblWolframite.SelectedIndexChanged
+        If rblWolframite.SelectedIndex = 1 Then
+            'Selected yes to this option so show the rest of the form
+            Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+            rptPurpose.DataSource = Purposes
+            rptPurpose.DataBind()
+            Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+            rptProcess.DataSource = Processes
+            rptProcess.DataBind()
+            Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+            rptComponent.DataSource = Components
+            rptComponent.DataBind()
+            panWolframite.Visible = True
+            panMineralPurpose.Visible = True
+            panQuestion5.Visible = True
+            CheckMinerals()
+        Else
+            'Turning this mineral off so check to see if it was the last one selected and if so, then hide the rest of the form
+            CheckMinerals()
+            panWolframite.Visible = False
         End If
     End Sub
 
@@ -437,10 +594,10 @@ Partial Class standardquestionnaire
                                            txtDescription.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddPurposeLine(2) 'This value needs replaced by querystring
+        NashBLL.AddPurposeLine(CompanyID)
 
         'Now rebind everything
-        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
         rptPurpose.DataSource = Purposes
         rptPurpose.DataBind()
     End Sub
@@ -475,7 +632,7 @@ Partial Class standardquestionnaire
         NashBLL.DeletePurposeLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(2) 'This value needs replaced by querystring
+        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
         rptPurpose.DataSource = Purposes
         rptPurpose.DataBind()
     End Sub
@@ -507,10 +664,10 @@ Partial Class standardquestionnaire
                                            txtDescription.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddProcessLine(2) 'This value needs replaced by querystring
+        NashBLL.AddProcessLine(CompanyID)
 
         'Now rebind everything
-        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
         rptProcess.DataSource = Processes
         rptProcess.DataBind()
     End Sub
@@ -545,7 +702,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteProcessLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(2) 'This value needs replaced by querystring
+        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
         rptProcess.DataSource = Processes
         rptProcess.DataBind()
     End Sub
@@ -577,10 +734,10 @@ Partial Class standardquestionnaire
                                            txtDescription.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddComponentLine(2) 'This value needs replaced by querystring
+        NashBLL.AddComponentLine(CompanyID)
 
         'Now rebind everything
-        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
         rptComponent.DataSource = Components
         rptComponent.DataBind()
     End Sub
@@ -615,7 +772,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteComponentLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(2) 'This value needs replaced by querystring
+        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
         rptComponent.DataSource = Components
         rptComponent.DataBind()
     End Sub
@@ -647,10 +804,10 @@ Partial Class standardquestionnaire
                                            txtDescription.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddScrapLine(2) 'This value needs replaced by querystring
+        NashBLL.AddScrapLine(CompanyID)
 
         'Now rebind everything
-        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
         rptScrap.DataSource = ScrapList
         rptScrap.DataBind()
     End Sub
@@ -685,7 +842,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteScrapLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
         rptScrap.DataSource = ScrapList
         rptScrap.DataBind()
     End Sub
@@ -717,10 +874,10 @@ Partial Class standardquestionnaire
                                            txtDescription.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddRecycleLine(2) 'This value needs replaced by querystring
+        NashBLL.AddRecycleLine(CompanyID)
 
         'Now rebind everything
-        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
         rptRecycled.DataSource = RecycleList
         rptRecycled.DataBind()
     End Sub
@@ -755,7 +912,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteRecycleLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
         rptRecycled.DataSource = RecycleList
         rptRecycled.DataBind()
     End Sub
@@ -799,10 +956,10 @@ Partial Class standardquestionnaire
                                            MethodID)
         Next
         'Now we can finally add our new line
-        NashBLL.AddExtractionLine(2) 'This value needs replaced by querystring
+        NashBLL.AddExtractionLine(CompanyID)
 
         'Now rebind everything
-        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
+        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(CompanyID)
         rptExtraction.DataSource = ExtractionList
         rptExtraction.DataBind()
     End Sub
@@ -849,7 +1006,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteExtractionLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(2) 'This value needs replaced by querystring
+        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(CompanyID)
         rptExtraction.DataSource = ExtractionList
         rptExtraction.DataBind()
     End Sub
@@ -879,10 +1036,10 @@ Partial Class standardquestionnaire
 
         Next
         'Now we can finally add our new line
-        NashBLL.AddFacilityLine(2) 'This value needs replaced by querystring
+        NashBLL.AddFacilityLine(CompanyID)
 
         'Now rebind everything
-        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
+        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(CompanyID)
         rptFacility.DataSource = FacilityList
         rptFacility.DataBind()
     End Sub
@@ -915,7 +1072,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteFacilityLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(2) 'This value needs replaced by querystring
+        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(CompanyID)
         rptFacility.DataSource = FacilityList
         rptFacility.DataBind()
     End Sub
@@ -945,10 +1102,10 @@ Partial Class standardquestionnaire
 
         Next
         'Now we can finally add our new line
-        NashBLL.AddTransportLine(2) 'This value needs replaced by querystring
+        NashBLL.AddTransportLine(CompanyID)
 
         'Now rebind everything
-        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
+        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(CompanyID)
         rptTransport.DataSource = TransporterList
         rptTransport.DataBind()
     End Sub
@@ -981,7 +1138,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteTransportLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(2) 'This value needs replaced by querystring
+        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(CompanyID)
         rptTransport.DataSource = TransporterList
         rptTransport.DataBind()
     End Sub
@@ -1011,10 +1168,10 @@ Partial Class standardquestionnaire
 
         Next
         'Now we can finally add our new line
-        NashBLL.AddOtherPaymentLine(2) 'This value needs replaced by querystring
+        NashBLL.AddOtherPaymentLine(CompanyID)
 
         'Now rebind everything
-        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
+        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(CompanyID)
         rptOtherPayment.DataSource = OtherPaymentList
         rptOtherPayment.DataBind()
     End Sub
@@ -1047,7 +1204,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteOtherPaymentLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(2) 'This value needs replaced by querystring
+        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(CompanyID)
         rptOtherPayment.DataSource = OtherPaymentList
         rptOtherPayment.DataBind()
     End Sub
@@ -1077,10 +1234,10 @@ Partial Class standardquestionnaire
 
         Next
         'Now we can finally add our new line
-        NashBLL.AddOtherTaxLine(2) 'This value needs replaced by querystring
+        NashBLL.AddOtherTaxLine(CompanyID)
 
         'Now rebind everything
-        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
+        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(CompanyID)
         rptOtherTaxes.DataSource = OtherTaxList
         rptOtherTaxes.DataBind()
     End Sub
@@ -1113,7 +1270,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteOtherTaxLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(2) 'This value needs replaced by querystring
+        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(CompanyID)
         rptOtherTaxes.DataSource = OtherTaxList
         rptOtherTaxes.DataBind()
     End Sub
@@ -1146,10 +1303,10 @@ Partial Class standardquestionnaire
 
         Next
         'Now we can finally add our new line
-        NashBLL.AddTaxLine(2) 'This value needs replaced by querystring
+        NashBLL.AddTaxLine(CompanyID)
 
         'Now rebind everything
-        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
+        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
         rptTaxes.DataSource = TaxList
         rptTaxes.DataBind()
     End Sub
@@ -1185,7 +1342,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteTaxLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(2) 'This value needs replaced by querystring
+        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
         rptTaxes.DataSource = TaxList
         rptTaxes.DataBind()
     End Sub
@@ -1204,7 +1361,7 @@ Partial Class standardquestionnaire
             btnAddNewParent.Visible = False
         Else
             'Go and get any previously entered items, this will always return at least 1 row
-            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
             rptParentCompany.DataSource = ParentCompanies
             rptParentCompany.DataBind()
             panParentCompanies.Visible = True
@@ -1248,10 +1405,10 @@ Partial Class standardquestionnaire
                                            txtPercentOwned.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddParentCompanyLine(2) 'This value needs replaced by querystring
+        NashBLL.AddParentCompanyLine(CompanyID)
 
         'Now rebind everything
-        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
         rptParentCompany.DataSource = ParentCompanies
         rptParentCompany.DataBind()
     End Sub
@@ -1295,7 +1452,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteParentCompanyLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(2) 'This value needs replaced by querystring
+        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
         rptParentCompany.DataSource = ParentCompanies
         rptParentCompany.DataBind()
     End Sub
@@ -1334,10 +1491,10 @@ Partial Class standardquestionnaire
                                            txtPercentOwned.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddShareholderLine(2) 'This value needs replaced by querystring
+        NashBLL.AddShareholderLine(CompanyID)
 
         'Now rebind everything
-        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value needs replaced by querystring
+        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID)
         rptShareholders.DataSource = Shareholders
         rptShareholders.DataBind()
     End Sub
@@ -1375,7 +1532,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteShareholderLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(2) 'This value needs replaced by querystring
+        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID)
         rptShareholders.DataSource = Shareholders
         rptShareholders.DataBind()
     End Sub
@@ -1414,10 +1571,10 @@ Partial Class standardquestionnaire
                                            txtPercentOwned.Text)
         Next
         'Now we can finally add our new line
-        NashBLL.AddDirectorLine(2) 'This value needs replaced by querystring
+        NashBLL.AddDirectorLine(CompanyID)
 
         'Now rebind everything
-        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value needs replaced by querystring
+        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID)
         rptDirectors.DataSource = Directors
         rptDirectors.DataBind()
     End Sub
@@ -1455,7 +1612,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteDirectorLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(2) 'This value needs replaced by querystring
+        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID)
         rptDirectors.DataSource = Directors
         rptDirectors.DataBind()
     End Sub
@@ -1469,7 +1626,7 @@ Partial Class standardquestionnaire
         If chkGovernmentEmployee.Checked Then
             panGovernmanetEmployee.Visible = True
             gbLoopCount = 0
-            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID)
             rptGovtEmployees.DataSource = Relatives
             rptGovtEmployees.DataBind()
         Else
@@ -1522,10 +1679,10 @@ Partial Class standardquestionnaire
                                       rdpDateEnded.DbSelectedDate)
         Next
         'Now we can finally add our new line
-        NashBLL.AddRelativeLine(2) 'This value needs replaced by querystring
+        NashBLL.AddRelativeLine(CompanyID)
 
         'Now rebind everything
-        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID)
         rptGovtEmployees.DataSource = Relatives
         rptGovtEmployees.DataBind()
     End Sub
@@ -1578,7 +1735,7 @@ Partial Class standardquestionnaire
         NashBLL.DeleteRelativeLine(sender.CommandArgument)
 
         'Now rebind everything
-        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(2) 'This value needs replaced by querystring
+        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID)
         rptGovtEmployees.DataSource = Relatives
         rptGovtEmployees.DataBind()
     End Sub
@@ -1591,7 +1748,7 @@ Partial Class standardquestionnaire
         If rblScrap.SelectedIndex = 1 Then
             'Reset the loop count and go and get the relatives list
             gbLoopCount = 0
-            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(2) 'This value needs replaced by querystring
+            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
             rptScrap.DataSource = ScrapList
             rptScrap.DataBind()
             panScrap.Visible = True
@@ -1607,7 +1764,7 @@ Partial Class standardquestionnaire
     Protected Sub rblRecycled_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblRecycled.SelectedIndexChanged
         If rblRecycled.SelectedIndex = 1 Then
             gbLoopCount = 0
-            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(2) 'This value needs replaced by querystring
+            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
             rptRecycled.DataSource = RecycleList
             rptRecycled.DataBind()
             panRecycled.Visible = True
@@ -1639,7 +1796,17 @@ Partial Class standardquestionnaire
 
 #End Region
 
+#Region " Manage Uploads "
 
+    Protected Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
+        lblErrorMessage.Text = "Executed the upload function"
+        For Each File As UploadedFile In rauUploader.UploadedFiles
+            File.SaveAs(MapPath("~/userfiles/" & CompanyID & Now.ToString("_dd_MMM_yyyy_HH_mm_ss_") & File.FileName), True)
+        Next
+
+    End Sub
+
+#End Region
 
 #Region " Databindings "
 
@@ -2400,11 +2567,4 @@ Partial Class standardquestionnaire
 
 #End Region
 
-
-    
-
-
-
-
-    
 End Class
