@@ -1039,7 +1039,7 @@
                    </asp:Panel>
                   <p></p>
                     <p>
-                        <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" ValidationGroup="Questions" />&nbsp;&nbsp;
+                        <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;
                         <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
                         <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" /></p>
                    <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="false" /></p>
