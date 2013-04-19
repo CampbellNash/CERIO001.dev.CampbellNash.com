@@ -156,10 +156,11 @@
                
                 <asp:Label runat="server" ID="lblFullname"></asp:Label>, your ContactID is  <asp:Label runat="server" ID="lblContactId"></asp:Label>
                 <h2>Reporting dashboard</h2>
+                <h3>Pie Chart Example</h3>
                
 
 <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-
+                <h3>Chart Example</h3>
                 <div id="container2" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
                 
             </div>
