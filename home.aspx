@@ -7,7 +7,7 @@
 	
     <script type="text/javascript">
         $(function () {
-             
+            
             // Radialize the colors
             Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
                 return {
