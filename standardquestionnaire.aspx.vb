@@ -72,6 +72,7 @@ Partial Class standardquestionnaire
             panUpload.Visible = True
             'TODO: adjust prev & next logic as this would mean the next page is the last one
             btnNext.CommandArgument = 3
+            'btnPrev.CommandArgument = 1
             Return False
         End If
     End Function
@@ -107,91 +108,96 @@ Partial Class standardquestionnaire
             cboCountries.DataTextField = "CountryName"
             cboCountries.DataValueField = "CountryID"
             cboCountries.DataBind()
-            'Now get our Minerals list for table popop
-            Dim Minerals As DataSet = NashBLL.GetMinerals()
-            rptMineralsPopup.DataSource = Minerals
-            rptMineralsPopup.DataBind()
-            'Now get our Smeleter list
-            Dim SmelterList As DataSet = NashBLL.GetSmelterList()
-            rptSmelterList.DataSource = SmelterList
-            rptSmelterList.DataBind()
-            'Now get out relationship categories
-            Dim RelationshipCategory As DataSet = NashBLL.GetrelationshipCategories()
-            rptrelationshipCategories.DataSource = RelationshipCategory
-            rptrelationshipCategories.DataBind()
-            'Now add in a please select
-            Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
-            cboBusinessType.Items.Insert(0, NewItem)
-            cboCountries.Items.Insert(0, NewItem)
-
+            'Now bind all the repeaters
+            BindRepeaters()
+            'Set our initial navigation configuration
             panPage1.Visible = True
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
-            Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID) 'This value will need replaced by querystring
-            rptShareholders.DataSource = Shareholders
-            rptShareholders.DataBind()
-            'Set the default panel up
-            rblParent.SelectedIndex = 1
-            gbLoopCount = 0
-            Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
-            rptParentCompany.DataSource = ParentCompanies
-            rptParentCompany.DataBind()
-            panParentCompanies.Visible = True
-            btnAddNewParent.Visible = True
-            'Reset the loop count and go and get the directors list
-            gbLoopCount = 0
-            Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID) 'This value will need replaced by querystring
-            rptDirectors.DataSource = Directors
-            rptDirectors.DataBind()
-            'Reset the loop count and go and get the relatives list
-            gbLoopCount = 0
-            Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID) 'This value will need replaced by querystring
-            rptGovtEmployees.DataSource = Relatives
-            rptGovtEmployees.DataBind()
-            Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
-            rptDangerousCountries.DataSource = DangerousCountries
-            rptDangerousCountries.DataBind()
-            'Reset the loop count and go and get the scrap list
-            gbLoopCount = 0
-            Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
-            rptScrap.DataSource = ScrapList
-            rptScrap.DataBind()
-            'Reset the loop count and go and get the recycled list
-            gbLoopCount = 0
-            Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
-            rptRecycled.DataSource = RecycleList
-            rptRecycled.DataBind()
-            'Reset the loop count and go and get the recycled list
-            gbLoopCount = 0
-            Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(CompanyID)
-            rptExtraction.DataSource = ExtractionList
-            rptExtraction.DataBind()
-            'Reset the loop count and go and get the facility list
-            gbLoopCount = 0
-            Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(CompanyID)
-            rptFacility.DataSource = FacilityList
-            rptFacility.DataBind()
-            'Reset the loop count and go and get the transport list
-            gbLoopCount = 0
-            Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(CompanyID)
-            rptTransport.DataSource = TransporterList
-            rptTransport.DataBind()
-            'Reset the loop count and go and get the other payment list
-            gbLoopCount = 0
-            Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(CompanyID)
-            rptOtherPayment.DataSource = OtherPaymentList
-            rptOtherPayment.DataBind()
-            'Reset the loop count and go and get the other taxes list
-            gbLoopCount = 0
-            Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(CompanyID)
-            rptOtherTaxes.DataSource = OtherTaxList
-            rptOtherTaxes.DataBind()
-            'Reset the loop count and go and get the tax list
-            gbLoopCount = 0
-            Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
-            rptTaxes.DataSource = TaxList
-            rptTaxes.DataBind()
         End If
+    End Sub
+
+    Private Sub BindRepeaters()
+        'Now get our Minerals list for table popop
+        Dim Minerals As DataSet = NashBLL.GetMinerals()
+        rptMineralsPopup.DataSource = Minerals
+        rptMineralsPopup.DataBind()
+        'Now get our Smeleter list
+        Dim SmelterList As DataSet = NashBLL.GetSmelterList()
+        rptSmelterList.DataSource = SmelterList
+        rptSmelterList.DataBind()
+        'Now get out relationship categories
+        Dim RelationshipCategory As DataSet = NashBLL.GetrelationshipCategories()
+        rptrelationshipCategories.DataSource = RelationshipCategory
+        rptrelationshipCategories.DataBind()
+        'Now add in a please select
+        Dim NewItem As New ListItem With {.Text = "--- Please Select ---", .Value = ""}
+        cboBusinessType.Items.Insert(0, NewItem)
+        cboCountries.Items.Insert(0, NewItem)
+        Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID) 'This value will need replaced by querystring
+        rptShareholders.DataSource = Shareholders
+        rptShareholders.DataBind()
+        'Set the default panel up
+        rblParent.SelectedIndex = 1
+        gbLoopCount = 0
+        Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
+        rptParentCompany.DataSource = ParentCompanies
+        rptParentCompany.DataBind()
+        panParentCompanies.Visible = True
+        btnAddNewParent.Visible = True
+        'Reset the loop count and go and get the directors list
+        gbLoopCount = 0
+        Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID) 'This value will need replaced by querystring
+        rptDirectors.DataSource = Directors
+        rptDirectors.DataBind()
+        'Reset the loop count and go and get the relatives list
+        gbLoopCount = 0
+        Dim Relatives As DataSet = NashBLL.QuestionnaireGetGovtEmployeeDetails(CompanyID) 'This value will need replaced by querystring
+        rptGovtEmployees.DataSource = Relatives
+        rptGovtEmployees.DataBind()
+        Dim DangerousCountries As DataSet = NashBLL.GetDangerousCountries
+        rptDangerousCountries.DataSource = DangerousCountries
+        rptDangerousCountries.DataBind()
+        'Reset the loop count and go and get the scrap list
+        gbLoopCount = 0
+        Dim ScrapList As DataSet = NashBLL.QuestionnaireGetMineralScrapDetails(CompanyID)
+        rptScrap.DataSource = ScrapList
+        rptScrap.DataBind()
+        'Reset the loop count and go and get the recycled list
+        gbLoopCount = 0
+        Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
+        rptRecycled.DataSource = RecycleList
+        rptRecycled.DataBind()
+        'Reset the loop count and go and get the recycled list
+        gbLoopCount = 0
+        Dim ExtractionList As DataSet = NashBLL.QuestionnaireGetExtractionDetails(CompanyID)
+        rptExtraction.DataSource = ExtractionList
+        rptExtraction.DataBind()
+        'Reset the loop count and go and get the facility list
+        gbLoopCount = 0
+        Dim FacilityList As DataSet = NashBLL.QuestionnaireGetFacilityDetails(CompanyID)
+        rptFacility.DataSource = FacilityList
+        rptFacility.DataBind()
+        'Reset the loop count and go and get the transport list
+        gbLoopCount = 0
+        Dim TransporterList As DataSet = NashBLL.QuestionnaireGetTransportDetails(CompanyID)
+        rptTransport.DataSource = TransporterList
+        rptTransport.DataBind()
+        'Reset the loop count and go and get the other payment list
+        gbLoopCount = 0
+        Dim OtherPaymentList As DataSet = NashBLL.QuestionnaireGetOtherPaymentDetails(CompanyID)
+        rptOtherPayment.DataSource = OtherPaymentList
+        rptOtherPayment.DataBind()
+        'Reset the loop count and go and get the other taxes list
+        gbLoopCount = 0
+        Dim OtherTaxList As DataSet = NashBLL.QuestionnaireGetOtherTaxDetails(CompanyID)
+        rptOtherTaxes.DataSource = OtherTaxList
+        rptOtherTaxes.DataBind()
+        'Reset the loop count and go and get the tax list
+        gbLoopCount = 0
+        Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
+        rptTaxes.DataSource = TaxList
+        rptTaxes.DataBind()
     End Sub
 
     Protected Sub rblIndependent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblIndependent.SelectedIndexChanged
@@ -291,8 +297,6 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 2
                 lblProgress.Width = "499"
-                'Save the current page for saving and re-opening this form
-                'btnSave.CommandArgument = sender.CommandArgument
             Case 3
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -338,12 +342,10 @@ Partial Class standardquestionnaire
                     btnSave.CommandArgument = 6
                 End If
                 lblProgress.Width = "1000"
-                'Save the current page for saving and re-opening this form
-                'btnSave.CommandArgument = sender.CommandArgument
             Case Else
                 
         End Select
-        lblErrorMessage.Text = btnSave.CommandArgument
+        lblErrorMessage.Text &= "Next Page value = " & btnNext.CommandArgument & "<br />"
     End Sub
 
     Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
@@ -387,7 +389,6 @@ Partial Class standardquestionnaire
                     btnNext.CommandArgument = 3
                     btnSave.CommandArgument = 3
                 End If
-
                 btnPrev.Visible = True
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 2
@@ -422,12 +423,10 @@ Partial Class standardquestionnaire
                     btnPrev.CommandArgument = 4
                 End If
                 lblProgress.Width = "798"
-                'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument
             Case Else
                 
         End Select
-        lblErrorMessage.Text = btnSave.CommandArgument
+        lblErrorMessage.Text &= "Prev Page Value = " & btnPrev.CommandArgument & "<br />"
     End Sub
 
 #End Region
