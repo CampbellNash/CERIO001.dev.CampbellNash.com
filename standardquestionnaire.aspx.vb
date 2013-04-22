@@ -254,7 +254,7 @@ Partial Class standardquestionnaire
         End If
 
         If FormData("DangerousCountries") <> "0" Then
-            'Only check these if therw was one chosen previously
+            'Only check these if there was one chosen previously
             Dim DangerousCountries As Array = Split(FormData("DangerousCountries"), ",")
             For Each Item As RepeaterItem In rptDangerousCountries.Items
                 Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
