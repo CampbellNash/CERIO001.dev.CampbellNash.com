@@ -2,7 +2,7 @@
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
      <div class="span9">
-   <script type="text/javascript" language="javascript">
+   <script type="text/javascript">
        function UploadFile()
        {
            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnUpload').click();// This used to purge uploaded files to the target folder
@@ -14,7 +14,10 @@
            //window.scrollTo(0, 0);
 
        }
+
+       
    </script>
+      
          
 
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
@@ -410,85 +413,27 @@
                    
                    <asp:Panel ID="panPage3" runat="server" Visible="False">
                        <legend>3. Content of products/components</legend>
-                       <!-- Preferably these should come from the DB -->
                        <div class="control-group">
                            <label>
                                3.1 Does your product/component contain any of the following minerals:
                            </label>
-                           <label class="control-label">Cassiterite:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblCassiterite" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" >
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                               <asp:Panel ID="panCassiterite" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtCassiterite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Cassiterite" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvCassiterite" runat="server" ControlToValidate="txtCassiterite" Display="Dynamic" ErrorMessage="Enter the details for Cassiterite" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                           <label class="control-label">Columbite-tantalite (coltan):</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblColumbite" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                               <asp:Panel ID="panColumbite" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtColumbite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Columbite" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvColumbite" runat="server" ControlToValidate="txtCassiterite" Display="Dynamic" ErrorMessage="Enter the details for Columbite" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                           <label class="control-label">Wolframite:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblWolframite" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
-                                </asp:RadioButtonList>
-                               <asp:Panel ID="panWolframite" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtWolframite" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Wolframite" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvWolframite" runat="server" ControlToValidate="txtWolframite" Display="Dynamic" ErrorMessage="Enter the details for Wolframite" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                           <label class="control-label">tantalum:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblTantalum" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
-                                   <asp:ListItem Text="No" Selected="True" />
-                                   <asp:ListItem Text="Yes" Selected="False" />
-                               </asp:RadioButtonList>
-                               <asp:Panel ID="panTantalum" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtTantalum" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Tantalum" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvTantalum" runat="server" ControlToValidate="txtTantalum" Display="Dynamic" ErrorMessage="Enter the details for Tantalum" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                           <label class="control-label">tungsten:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblTungsten" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
-                                   <asp:ListItem Text="No" Selected="True" />
-                                   <asp:ListItem Text="Yes" Selected="False" />
-                               </asp:RadioButtonList>
-                               <asp:Panel ID="panTungsten" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtTungsten" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Tungsten" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvTungsten" runat="server" ControlToValidate="txtTungsten" Display="Dynamic" ErrorMessage="Enter the details for Tungsten" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                           <label class="control-label">Gold:</label>
-                           <div class="controls">
-                               <asp:RadioButtonList ID="rblGold" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table">
-                                   <asp:ListItem Text="No" Selected="True" />
-                                   <asp:ListItem Text="Yes" Selected="False" />
-                               </asp:RadioButtonList>
-                               <asp:Panel ID="panGold" runat="server" Visible="false">
-                                   <asp:TextBox ID="txtGold" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Gold" />
-                                   <span class="help-block">Enter details</span>
-                                   <asp:RequiredFieldValidator ID="rfvGold" runat="server" ControlToValidate="txtGold" Display="Dynamic" ErrorMessage="Enter the details for Gold" ValidationGroup="Questions" CssClass="alert-error" />
-                               </asp:Panel>
-                           </div>
-                          
-                       </div>
+                           <asp:Repeater ID="rptMinerals" runat="server">
+                               <ItemTemplate>
+                                   <label class="control-label"><asp:Literal ID="litMineralName" runat="server" />:</label>
+                                   <div class="controls">
+                                       <asp:RadioButtonList ID="rblMineral" runat="server" AutoPostBack="true" RepeatColumns="4" RepeatDirection="Horizontal" RepeatLayout="Table" OnSelectedIndexChanged="SelectMineral">
+                                           <asp:ListItem Text="No" Selected="True" />
+                                           <asp:ListItem Text="Yes" Selected="False" />
+                                       </asp:RadioButtonList>
+                                       <asp:Panel ID="panMineral" runat="server" Visible="false">
+                                           <asp:TextBox ID="txtMineralDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Cassiterite" />
+                                           <span class="help-block">Enter details</span>
+                                           <asp:RequiredFieldValidator ID="rfvMineral" runat="server" ControlToValidate="txtMineralDetails" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
+                                       </asp:Panel>
+                                   </div>
+                               </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
                        <div class="control-group">
                             <label class="control-label">3.2 Are the minerals smelted or fully refined? </label>
                             <div class="controls">
@@ -498,11 +443,8 @@
                                 </asp:RadioButtonList>
 
                            </div>
-
-                       </div>
-                       
-
-                          <legend>4. Country of origin, processing and transportation</legend>
+                        </div>
+                       <legend>4. Country of origin, processing and transportation</legend>
                        <div class="control-group">
                            <label>4.1 Did any of the <asp:LinkButton ID="btnMineralsListed" runat="server">Minerals listed</asp:LinkButton> in Question 3, <strong>originate</strong> from mines or suppliers in any of the following countries, and/or are any of the minerals <strong>processed</strong> or <strong>transported</strong> through any of the countries listed below:</label>
                            <!-- Like the minerals i think these should come from the DB -->
@@ -1033,7 +975,7 @@
                           
                        <label>Signature checkbox:</label>
                            
-                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                                <asp:CheckBox ID="chkSignOff" runat="server" />
                               
                            </div>
                    </asp:Panel>
@@ -1042,7 +984,7 @@
                         <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;
                         <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
                         <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" /></p>
-                   <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="false" /></p>
+                   <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="true" /></p>
                </div>
           
         </asp:Panel>

@@ -1571,7 +1571,6 @@ Namespace MasterClass
             Return 0
         End Function
 
-
         Public Shared Function QuestionnaireGetTaxDetails(ByVal CompanyID As Integer) As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim paramReturn As SqlParameter = Nothing
@@ -1643,6 +1642,113 @@ Namespace MasterClass
             Return 0
         End Function
 
+        Public Shared Function GetQuestionnaireConflictMinerals(ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetQuestionnaireMinerals", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "MineralsList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function UpdateStandardQuestionnaire(ByVal CompanyID As Integer, _
+                                                           ByVal CompanyName As String, _
+                                                           ByVal CompanyNumber As String, _
+                                                           ByVal Address1 As String, _
+                                                           ByVal Address2 As String, _
+                                                           ByVal District As String, _
+                                                           ByVal CityName As String, _
+                                                           ByVal Postcode As String, _
+                                                           ByVal StateRegion As String, _
+                                                           ByVal CountryID As Integer, _
+                                                           ByVal TelephoneNumber As String, _
+                                                           ByVal FaxNumber As String, _
+                                                           ByVal WebAddress As String, _
+                                                           ByVal BusinessTypeID As Integer, _
+                                                           ByVal ContactPerson As String, _
+                                                           ByVal ContactEmail As String, _
+                                                           ByVal CountryList As String, _
+                                                           ByVal ParentCompany As Integer, _
+                                                           ByVal GovernmentEmployees As Integer, _
+                                                           ByVal ConflictMinerals As String, _
+                                                           ByVal DangerousCountries As String, _
+                                                           ByVal SmelterList As Integer, _
+                                                           ByVal IndependentAudit As String, _
+                                                           ByVal SignOff As Integer, _
+                                                           ByVal UpdatedBy As Integer, _
+                                                           ByVal CurrentPage As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UpdateMyStandardQuestionnaire", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@CompanyName", CompanyName)
+            ObjCmd.Parameters.AddWithValue("@CompanyNumber", CompanyNumber)
+            ObjCmd.Parameters.AddWithValue("@Address1", Address1)
+            ObjCmd.Parameters.AddWithValue("@Address2", Address2)
+            ObjCmd.Parameters.AddWithValue("@District", District)
+            ObjCmd.Parameters.AddWithValue("@CityName", CityName)
+            ObjCmd.Parameters.AddWithValue("@Postcode", Postcode)
+            ObjCmd.Parameters.AddWithValue("@StateRegion", StateRegion)
+            ObjCmd.Parameters.AddWithValue("@CountryID", CountryID)
+            ObjCmd.Parameters.AddWithValue("@TelephoneNumber", TelephoneNumber)
+            ObjCmd.Parameters.AddWithValue("@FaxNumber", FaxNumber)
+            ObjCmd.Parameters.AddWithValue("@WebAddress", WebAddress)
+            ObjCmd.Parameters.AddWithValue("@BusinessTypeID", BusinessTypeID)
+            ObjCmd.Parameters.AddWithValue("@ContactPerson", ContactPerson)
+            ObjCmd.Parameters.AddWithValue("@ContactEmail", ContactEmail)
+            ObjCmd.Parameters.AddWithValue("@CountryList", CountryList)
+            ObjCmd.Parameters.AddWithValue("@ParentCompany", ParentCompany)
+            ObjCmd.Parameters.AddWithValue("@GovernmentEmployees", GovernmentEmployees)
+            ObjCmd.Parameters.AddWithValue("@ConflictMinerals", ConflictMinerals)
+            ObjCmd.Parameters.AddWithValue("@DangerousCountries", DangerousCountries)
+            ObjCmd.Parameters.AddWithValue("@SmelterList", SmelterList)
+            ObjCmd.Parameters.AddWithValue("@IndependentAudit", IndependentAudit)
+            ObjCmd.Parameters.AddWithValue("@SignOff", SignOff)
+            ObjCmd.Parameters.AddWithValue("@UpdatedBy", UpdatedBy)
+            ObjCmd.Parameters.AddWithValue("@CurrentPage", CurrentPage)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
+
+        Public Shared Function UpdateQuestionnaireMinerals(ByVal CompanyID As Integer, _
+                                                           ByVal MineralID As Integer, _
+                                                           ByVal MineralDetails As String) As Integer
+
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UpdateMyQuestionnaireMinerals", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@MineralID", MineralID)
+            ObjCmd.Parameters.AddWithValue("@MineralDetails", MineralDetails)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+        End Function
 
 #End Region
 
