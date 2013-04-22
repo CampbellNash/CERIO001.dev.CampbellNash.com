@@ -1689,7 +1689,11 @@ Namespace MasterClass
                                                            ByVal ConflictMinerals As String, _
                                                            ByVal DangerousCountries As String, _
                                                            ByVal SmelterList As Integer, _
+                                                           ByVal Scrap As Integer,
+                                                           ByVal Recycled As Integer, _
                                                            ByVal IndependentAudit As String, _
+                                                           ByVal TransportCountries As String, _
+                                                           ByVal SupplyChain As String, _
                                                            ByVal SignOff As Integer, _
                                                            ByVal UpdatedBy As Integer, _
                                                            ByVal CurrentPage As Integer) As Integer
@@ -1718,7 +1722,11 @@ Namespace MasterClass
             ObjCmd.Parameters.AddWithValue("@ConflictMinerals", ConflictMinerals)
             ObjCmd.Parameters.AddWithValue("@DangerousCountries", DangerousCountries)
             ObjCmd.Parameters.AddWithValue("@SmelterList", SmelterList)
+            ObjCmd.Parameters.AddWithValue("@Scrap", Scrap)
+            ObjCmd.Parameters.AddWithValue("@Recycled", Recycled)
             ObjCmd.Parameters.AddWithValue("@IndependentAudit", IndependentAudit)
+            ObjCmd.Parameters.AddWithValue("@TransportCountries", TransportCountries)
+            ObjCmd.Parameters.AddWithValue("@SupplyChain", SupplyChain)
             ObjCmd.Parameters.AddWithValue("@SignOff", SignOff)
             ObjCmd.Parameters.AddWithValue("@UpdatedBy", UpdatedBy)
             ObjCmd.Parameters.AddWithValue("@CurrentPage", CurrentPage)
@@ -1748,6 +1756,32 @@ Namespace MasterClass
                 Conn.Close()
             End Try
             Return 0
+        End Function
+
+        Public Shared Function GetMyStandardQuestionnaire(ByVal CompanyID As Integer, ByVal CreatedBy As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetMyStandardQuestionnaire", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@CreatedBy", CreatedBy)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "MyQuestionnaire")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
         End Function
 
 #End Region

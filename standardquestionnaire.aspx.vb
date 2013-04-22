@@ -109,13 +109,208 @@ Partial Class standardquestionnaire
             cboCountries.DataTextField = "CountryName"
             cboCountries.DataValueField = "CountryID"
             cboCountries.DataBind()
+
             'Now bind all the repeaters
             BindRepeaters()
+            'Now go and get the questionnaire data
+            LoadQuestionnaire()
             'Set our initial navigation configuration
             panPage1.Visible = True
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
         End If
+    End Sub
+
+    Private Sub LoadQuestionnaire()
+        Dim MyData As DataSet = NashBLL.GetMyStandardQuestionnaire(CompanyID, Session("ContactID"))
+        Dim FormData As DataRow = MyData.Tables(0).Rows(0)
+        Dim LoopCount As Integer = 0
+        If UCase(FormData("CompanyName")) <> "NONE" Then
+            txtCompanyName.Text = FormData("CompanyName")
+        Else
+            txtCompanyName.Text = ""
+        End If
+
+        If UCase(FormData("CompanyNumber")) <> "NONE" Then
+            txtCompanyNumber.Text = FormData("CompanyNumber")
+        Else
+            txtCompanyNumber.Text = ""
+        End If
+
+        If UCase(FormData("Address1")) <> "NONE" Then
+            txtAddress1.Text = FormData("Address1")
+        Else
+            txtAddress1.Text = ""
+        End If
+
+        If UCase(FormData("Address2")) <> "NONE" Then
+            txtAddress2.Text = FormData("Address2")
+        Else
+            txtAddress2.Text = ""
+        End If
+
+        If UCase(FormData("District")) <> "NONE" Then
+            txtDistrict.Text = FormData("District")
+        Else
+            txtDistrict.Text = ""
+        End If
+
+        If UCase(FormData("CityName")) <> "NONE" Then
+            txtCity.Text = FormData("CityName")
+        Else
+            txtCity.Text = ""
+        End If
+
+        If UCase(FormData("Postcode")) <> "NONE" Then
+            txtPostcode.Text = FormData("Postcode")
+        Else
+            txtPostcode.Text = ""
+        End If
+
+        If UCase(FormData("StateRegion")) <> "NONE" Then
+            txtState.Text = FormData("StateRegion")
+        Else
+            txtState.Text = ""
+        End If
+
+        If CInt(FormData("CountryID")) <> 0 Then
+            cboCountries.SelectedValue = FormData("CountryID")
+        Else
+            cboCountries.SelectedIndex = 0
+        End If
+
+        If UCase(FormData("TelephoneNumber")) <> "NONE" Then
+            txtTelephone.Text = FormData("TelephoneNumber")
+        Else
+            txtTelephone.Text = ""
+        End If
+
+        If UCase(FormData("FaxNumber")) <> "NONE" Then
+            txtFax.Text = FormData("FaxNumber")
+        Else
+            txtFax.Text = ""
+        End If
+
+        If UCase(FormData("WebAddress")) <> "NONE" Then
+            txtWebAddress.Text = FormData("WebAddress")
+        Else
+            txtWebAddress.Text = ""
+        End If
+
+        If CInt(FormData("BusinessTypeID")) <> 0 Then
+            cboBusinessType.SelectedValue = FormData("BusinessTypeID")
+        Else
+            cboBusinessType.SelectedIndex = 0
+        End If
+
+        If UCase(FormData("ContactPerson")) <> "NONE" Then
+            txtContact.Text = FormData("ContactPerson")
+        Else
+            txtContact.Text = ""
+        End If
+
+        If UCase(FormData("ContactEmail")) <> "NONE" Then
+            txtContactEmail.Text = FormData("ContactEmail")
+        Else
+            txtContactEmail.Text = ""
+        End If
+
+        If UCase(FormData("CountryList")) <> "NONE" Then
+            txtCountryList.Text = FormData("CountryList")
+        Else
+            txtCountryList.Text = ""
+        End If
+
+        If CInt(FormData("ParentCompany")) <> 0 Then
+            rblParent.SelectedIndex = 1
+            panParentCompanies.Visible = True
+        Else
+            rblParent.SelectedIndex = 0
+            panParentCompanies.Visible = False
+        End If
+
+        If CInt(FormData("GovernmentEmployees")) <> 0 Then
+            chkGovernmentEmployee.Checked = True
+            panGovernmanetEmployee.Visible = True
+        Else
+            chkGovernmentEmployee.Checked = False
+            panGovernmanetEmployee.Visible = False
+        End If
+
+        If FormData("ConflictMinerals") <> "0" Then
+            'Only check these if there was one chosen previously
+            Dim ConflictMinerals As Array = Split(FormData("ConflictMinerals"), ",")
+            For Each Item As RepeaterItem In rptMinerals.Items
+                Dim ButtonList As RadioButtonList = Item.FindControl("rblMineral")
+                Dim panMineral As Panel = Item.FindControl("panMineral")
+                For LoopCount = LBound(ConflictMinerals) To UBound(ConflictMinerals)
+                    If CInt(ConflictMinerals(LoopCount)) = CInt(ButtonList.Attributes("MineralID")) Then
+                        'This was selected so we need to enable it and show its panel
+                        ButtonList.SelectedIndex = 1
+                        panMineral.Visible = True
+                    End If
+                Next
+            Next
+        End If
+
+        If FormData("DangerousCountries") <> "0" Then
+            'Only check these if therw was one chosen previously
+            Dim DangerousCountries As Array = Split(FormData("DangerousCountries"), ",")
+            For Each Item As RepeaterItem In rptDangerousCountries.Items
+                Dim ButtonList As RadioButtonList = Item.FindControl("rblDangerousCountry")
+                For LoopCount = LBound(DangerousCountries) To UBound(DangerousCountries)
+                    If CInt(DangerousCountries(LoopCount)) = CInt(ButtonList.Attributes("CountryID")) Then
+                        'This was selected so we need to enable it and show its panel
+                        ButtonList.SelectedIndex = 1
+                    End If
+                Next
+            Next
+        End If
+
+        If CInt(FormData("SmelterList")) = 0 Then
+            rblSmelterList.SelectedIndex = 0
+        Else
+            rblSmelterList.SelectedIndex = 1
+        End If
+
+        If CInt(FormData("Scrap")) = 0 Then
+            rblScrap.SelectedIndex = 0
+            panScrap.Visible = False
+        Else
+            rblScrap.SelectedIndex = 1
+            panScrap.Visible = True
+        End If
+
+        If CInt(FormData("Recycled")) = 0 Then
+            rblRecycled.SelectedIndex = 0
+            panRecycled.Visible = False
+        Else
+            rblRecycled.SelectedIndex = 1
+            panRecycled.Visible = True
+        End If
+
+        If UCase(FormData("IndependentAudit")) <> "NONE" Then
+            rblIndependent.SelectedIndex = 1
+            panIndependentAudit.Visible = True
+            txtIndependentAudit.Text = FormData("IndependentAudit")
+        Else
+            rblIndependent.SelectedIndex = 0
+            panIndependentAudit.Visible = False
+            txtIndependentAudit.Text = ""
+        End If
+
+        If UCase(FormData("TransportCountries")) <> "NONE" Then
+            txtTransportCountries.Text = FormData("TransportCountries")
+        Else
+            txtTransportCountries.Text = ""
+        End If
+
+        If UCase(FormData("SupplyChain")) <> "NONE" Then
+            txtIntermediaries.Text = FormData("SupplyChain")
+        Else
+            txtIntermediaries.Text = ""
+        End If
+
     End Sub
 
     Private Sub BindRepeaters()
@@ -138,14 +333,10 @@ Partial Class standardquestionnaire
         Dim Shareholders As DataSet = NashBLL.QuestionnaireGetParentShareholderDetails(CompanyID) 'This value will need replaced by querystring
         rptShareholders.DataSource = Shareholders
         rptShareholders.DataBind()
-        'Set the default panel up
-        rblParent.SelectedIndex = 1
         gbLoopCount = 0
         Dim ParentCompanies As DataSet = NashBLL.QuestionnaireGetParentCompanyDetails(CompanyID)
         rptParentCompany.DataSource = ParentCompanies
         rptParentCompany.DataBind()
-        panParentCompanies.Visible = True
-        btnAddNewParent.Visible = True
         'Reset the loop count and go and get the directors list
         gbLoopCount = 0
         Dim Directors As DataSet = NashBLL.QuestionnaireGetDirectorDetails(CompanyID) 'This value will need replaced by querystring
@@ -260,7 +451,11 @@ Partial Class standardquestionnaire
         Dim ConflictMinerals As String = ""
         Dim DangerousCountries As String = ""
         Dim SmelterList As Integer = 0
+        Dim Scrap As Integer = 0
+        Dim Recycled As Integer = 0
         Dim IndependentAudit As String = ""
+        Dim TransportCountries As String = ""
+        Dim SupplyChain As String = ""
         Dim SignOff As Integer = 0
         Dim UpdatedBy As Integer = Session("ContactID")
         Dim CurrentPage As Integer = 0
@@ -362,6 +557,18 @@ Partial Class standardquestionnaire
             CountryList = txtCountryList.Text
         End If
 
+        If txtTransportCountries.Text = "" Then
+            TransportCountries = "None"
+        Else
+            TransportCountries = txtTransportCountries.Text
+        End If
+
+        If txtIntermediaries.Text = "" Then
+            SupplyChain = "None"
+        Else
+            SupplyChain = txtIntermediaries.Text
+        End If
+
         If rblParent.SelectedIndex = 0 Then
             ParentCompany = 0
         Else
@@ -373,6 +580,9 @@ Partial Class standardquestionnaire
         Else
             GovernmentEmployees = 0
         End If
+
+        Scrap = rblScrap.SelectedIndex
+        Recycled = rblRecycled.SelectedIndex
 
         'Now get our selected minerals if there are any
         For Each Item As RepeaterItem In rptMinerals.Items
@@ -410,13 +620,13 @@ Partial Class standardquestionnaire
             DangerousCountries = "0"
         End If
 
-        If rblSmelted.SelectedIndex = 0 Then
+        If rblSmelterList.SelectedIndex = 0 Then
             SmelterList = "0"
         Else
             SmelterList = "1"
         End If
 
-        If txtIndependentAudit.Text = "" Then
+        If txtIndependentAudit.Text = "" Or rblIndependent.SelectedIndex = 0 Then
             IndependentAudit = "None"
         Else
             IndependentAudit = txtIndependentAudit.Text
@@ -453,7 +663,11 @@ Partial Class standardquestionnaire
                                             ConflictMinerals, _
                                             DangerousCountries, _
                                             SmelterList, _
+                                            Scrap, _
+                                            Recycled, _
                                             IndependentAudit, _
+                                            TransportCountries, _
+                                            SupplyChain, _
                                             SignOff, _
                                             UpdatedBy, _
                                             CurrentPage)
@@ -630,7 +844,7 @@ Partial Class standardquestionnaire
             Case Else
 
         End Select
-        lblErrorMessage.Text &= "Next Page value = " & btnNext.CommandArgument & "<br />"
+        'lblErrorMessage.Text &= "Next Page value = " & btnNext.CommandArgument & "<br />"
     End Sub
 
     Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
@@ -659,7 +873,7 @@ Partial Class standardquestionnaire
                 btnPrev.CommandArgument = 1
                 lblProgress.Width = "333"
                 'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument + 1
+                btnSave.CommandArgument = sender.CommandArgument
             Case 3
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -691,7 +905,7 @@ Partial Class standardquestionnaire
                 btnPrev.CommandArgument = 3
                 lblProgress.Width = "632"
                 'Save the current page for saving and re-opening this form
-                btnSave.CommandArgument = sender.CommandArgument + 1
+                btnSave.CommandArgument = sender.CommandArgument
             Case 5
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -711,7 +925,7 @@ Partial Class standardquestionnaire
             Case Else
 
         End Select
-        lblErrorMessage.Text &= "Prev Page Value = " & btnPrev.CommandArgument & "<br />"
+        'lblErrorMessage.Text &= "Prev Page Value = " & btnPrev.CommandArgument & "<br />"
     End Sub
 
 #End Region

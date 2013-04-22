@@ -195,8 +195,8 @@
                             <label class="control-label">2.2 Does the Supplier have any subsidiaries or a parent company?</label>
                             <div class="controls">
                                  <asp:RadioButtonList ID="rblParent" runat="server" AutoPostBack="true" RepeatColumns="4">
-                                    <asp:ListItem Text="No" Selected="True" />
-                                    <asp:ListItem Text="Yes" Selected="False" />
+                                    <asp:ListItem Text="No" />
+                                    <asp:ListItem Text="Yes" />
                                 </asp:RadioButtonList>
 
                             </div>
