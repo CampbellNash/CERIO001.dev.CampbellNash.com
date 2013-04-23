@@ -72,7 +72,7 @@ Partial Class standardquestionnaire
             panMineralPurpose.Visible = True
             panUpload.Visible = True
             'TODO: adjust prev & next logic as this would mean the next page is the last one
-            btnNext.CommandArgument = 3
+            btnNext.CommandArgument = 5
             'btnPrev.CommandArgument = 1
             Return False
         End If
@@ -310,7 +310,6 @@ Partial Class standardquestionnaire
         Else
             txtIntermediaries.Text = ""
         End If
-
     End Sub
 
     Private Sub BindRepeaters()
@@ -397,6 +396,18 @@ Partial Class standardquestionnaire
         Dim TaxList As DataSet = NashBLL.QuestionnaireGetTaxDetails(CompanyID)
         rptTaxes.DataSource = TaxList
         rptTaxes.DataBind()
+        'Go and get the purposes
+        Dim Purposes As DataSet = NashBLL.QuestionnaireGetMineralPurposeDetails(CompanyID)
+        rptPurpose.DataSource = Purposes
+        rptPurpose.DataBind()
+        'Go and get the processes
+        Dim Processes As DataSet = NashBLL.QuestionnaireGetMineralProcessDetails(CompanyID)
+        rptProcess.DataSource = Processes
+        rptProcess.DataBind()
+        'Go and get the components
+        Dim Components As DataSet = NashBLL.QuestionnaireGetMineralComponentDetails(CompanyID)
+        rptComponent.DataSource = Components
+        rptComponent.DataBind()
     End Sub
 
     Private Sub UpdateNewLines()
@@ -691,9 +702,15 @@ Partial Class standardquestionnaire
     End Sub
 
     Protected Sub btnReOpen_Click(sender As Object, e As EventArgs) Handles btnReOpen.Click
+        Response.Redirect("~/standardquestionnaire.aspx?ci=" & CompanyID)
+        'ReOpen(sender.CommandArgument)
+    End Sub
+
+    Private Sub ReOpen(ByVal PageNumber As Integer)
+
         panSaveDraft.Visible = False
         panForm.Visible = True
-        Select Case CInt(btnSave.CommandArgument)
+        Select Case CInt(PageNumber)
             Case 1
                 panPage1.Visible = True
                 panPage2.Visible = False
@@ -745,6 +762,7 @@ Partial Class standardquestionnaire
     Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
         Dim CompanyPercentage As Double = 0
         Dim ThereWasAnError As Boolean = False
+
         Select Case sender.CommandArgument
             Case 1
                 panPage1.Visible = False
@@ -759,14 +777,9 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "333"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = 2
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 2
-                If CheckMinerals() Then
-                    btnNext.CommandArgument = 5
-                    btnSave.CommandArgument = 3
-                Else
-                    btnNext.CommandArgument = 3
-                    btnSave.CommandArgument = 3
-                End If
+                
                 'First we need to check our director percentage
                 For Each Item As RepeaterItem In rptShareholders.Items
                     Dim txtPercentOwned As TextBox = Item.FindControl("txtPercentOwned")
@@ -778,11 +791,17 @@ Partial Class standardquestionnaire
                     End If
                 Next
                 If CompanyPercentage < 100 Or ThereWasAnError Then
-                    RadAjaxPanel1.Alert("Please check the directors shareholding!")
+                    RadAjaxPanel1.Alert("Please check the directors shareholding!\n\nCompany ownership must total 100%")
                     'Just exit now at this point
                     Return
                 End If
-
+                If CheckMinerals() Then
+                    btnNext.CommandArgument = 5
+                    btnSave.CommandArgument = 3
+                Else
+                    btnNext.CommandArgument = 3
+                    btnSave.CommandArgument = 3
+                End If
                 panPage1.Visible = False
                 panPage2.Visible = False
                 panPage3.Visible = True
@@ -792,6 +811,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 lblProgress.Width = "499"
                 btnPrev.CommandArgument = 2
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 3
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -806,7 +826,7 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "632"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
-
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
 
             Case 4
                 panPage1.Visible = False
@@ -822,7 +842,7 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "798"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
-
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 5
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -839,8 +859,9 @@ Partial Class standardquestionnaire
                     btnPrev.CommandArgument = 5
                     btnSave.CommandArgument = 6
                 End If
+                btnClose.Visible = True
                 lblProgress.Width = "1000"
-
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case Else
 
         End Select
@@ -848,6 +869,7 @@ Partial Class standardquestionnaire
     End Sub
 
     Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
+        btnClose.Visible = False
         Select Case sender.CommandArgument
             Case 1
                 panPage1.Visible = True
@@ -861,6 +883,7 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "166"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 2
                 panPage1.Visible = False
                 panPage2.Visible = True
@@ -874,6 +897,7 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "333"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 3
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -892,7 +916,8 @@ Partial Class standardquestionnaire
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 2
                 lblProgress.Width = "499"
-           Case 4
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
+            Case 4
                 panPage1.Visible = False
                 panPage2.Visible = False
                 panPage3.Visible = False
@@ -906,6 +931,7 @@ Partial Class standardquestionnaire
                 lblProgress.Width = "632"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 5
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -922,6 +948,7 @@ Partial Class standardquestionnaire
                     btnPrev.CommandArgument = 4
                 End If
                 lblProgress.Width = "798"
+                RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case Else
 
         End Select
@@ -1004,7 +1031,7 @@ Partial Class standardquestionnaire
                                            MineralID, _
                                            txtDescription.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeletePurposeLine(sender As Object, e As EventArgs)
@@ -1079,7 +1106,7 @@ Partial Class standardquestionnaire
                                            MineralID, _
                                            txtDescription.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteProcessLine(sender As Object, e As EventArgs)
@@ -1154,7 +1181,7 @@ Partial Class standardquestionnaire
                                            MineralID, _
                                            txtDescription.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteComponentLine(sender As Object, e As EventArgs)
@@ -1229,7 +1256,7 @@ Partial Class standardquestionnaire
                                            MineralID, _
                                            txtDescription.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteScrapLine(sender As Object, e As EventArgs)
@@ -1304,7 +1331,7 @@ Partial Class standardquestionnaire
                                            MineralID, _
                                            txtDescription.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteRecyleLine(sender As Object, e As EventArgs)
@@ -1391,7 +1418,7 @@ Partial Class standardquestionnaire
                                            rdpExtractionDate.SelectedDate, _
                                            MethodID)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteExtractionLine(sender As Object, e As EventArgs)
@@ -1476,7 +1503,7 @@ Partial Class standardquestionnaire
                                        txtLocation.Text)
 
         Next
-        
+
     End Sub
 
     Protected Sub DeleteFacilityLine(sender As Object, e As EventArgs)
@@ -1547,7 +1574,7 @@ Partial Class standardquestionnaire
                                        txtTransporterAddress.Text)
 
         Next
-        
+
     End Sub
 
     Protected Sub DeleteTransportLine(sender As Object, e As EventArgs)
@@ -1618,7 +1645,7 @@ Partial Class standardquestionnaire
                                        txtPaymentDetails.Text)
 
         Next
-        
+
     End Sub
 
     Protected Sub DeleteOtherPaymentLine(sender As Object, e As EventArgs)
@@ -1689,7 +1716,7 @@ Partial Class standardquestionnaire
                                        txtPaymentDetails.Text)
 
         Next
-        
+
     End Sub
 
     Protected Sub DeleteOtherTaxLine(sender As Object, e As EventArgs)
@@ -1763,7 +1790,7 @@ Partial Class standardquestionnaire
                                        txtTaxDetails.Text)
 
         Next
-        
+
     End Sub
 
     Protected Sub DeleteTaxLine(sender As Object, e As EventArgs)
@@ -1870,7 +1897,7 @@ Partial Class standardquestionnaire
                                            txtParentCountry.Text, _
                                            txtPercentOwned.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteParentLine(sender As Object, e As EventArgs)
@@ -1961,7 +1988,7 @@ Partial Class standardquestionnaire
                                            txtShareholderNationality.Text, _
                                            txtPercentOwned.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteShareholderLine(sender As Object, e As EventArgs)
@@ -2046,7 +2073,7 @@ Partial Class standardquestionnaire
                                            txtDirectorNationality.Text, _
                                            txtDirectorJobTitle.Text)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteDirectorLine(sender As Object, e As EventArgs)
@@ -2159,7 +2186,7 @@ Partial Class standardquestionnaire
                                       txtJobCountry.Text, _
                                       rdpDateEnded.DbSelectedDate)
         Next
-        
+
     End Sub
 
     Protected Sub DeleteRelativeLine(sender As Object, e As EventArgs)

@@ -17,11 +17,12 @@
 
        
    </script>
-      
+         <asp:Button ID="btnUpload" runat="server" Style="visibility: hidden; float: right" /> 
          
 
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-        <h2>Conflict Minerals – Due Diligence Questionnaire</h2>
+    
+        <h2 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h2>
         <asp:Panel ID="panNoQuery" runat="server" Visible="false">
             <p>Incorrect credentials passed for this function.</p>
             <p>Please use the navigation panel to the right to open this page.</p>
@@ -29,13 +30,13 @@
         
             
         <asp:Panel ID="panSaveDraft" runat="server" Visible="false">
-            <p>Your current position in this form has been saved!</p>
-            <p>When you reload this form from the main menu it will open up where you last saved so that you can continue.</p>
-            <p>You may also re-load it now by clicking the button below.</p>
+            <p>The data you have entered so far in this form has been saved!</p>
+            <p>You may re-open it now by clicking the button below.</p>
+            <p>Or you can open it anytime again by using your activity panel on the right.</p>
             <p><asp:LinkButton ID="btnReOpen" runat="server" CssClass="btn btn-warning" Text="Re Open" /></p>
         </asp:Panel>
 
-        <asp:Button ID="btnUpload" runat="server" style="visibility:hidden;float:right" />
+        
         <asp:Panel ID="panForm" runat="server" Visible="true">
             
              <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
@@ -983,7 +984,9 @@
                     <p>
                         <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;
                         <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
-                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" /></p>
+                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" />&nbsp;&nbsp;
+                        <asp:Button ID="btnClose" runat="server" CssClass="btn btn-success" Text="Save &amp; Close" Visible="false" />
+                    </p>
                    <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="true" /></p>
                </div>
           
