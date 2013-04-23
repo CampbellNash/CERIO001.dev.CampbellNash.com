@@ -38,8 +38,10 @@
               <asp:Image ID="Image1" runat="server" ImageUrl="~/img/main-logo.png" AlternateText="CERICO / A Compliance and Due Diligence solution" ToolTip="CERICO / A Compliance and Due Diligence solution" /></h1></a>
           <p class="navbar-text pull-right">
               <a class="btn" href="../login.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
+              <asp:Panel ID="panloggedInHeader" runat="server">Logged in as <asp:Label runat="server" ID="lblFullnameHeader" />
               <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />
               <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
+               </asp:Panel>
             </p>
             <div class="nav-collapse collapse">
             <!-- This is the menu if we are NOT logged in -->
@@ -55,7 +57,9 @@
             <!-- This is the menu if we are logged in -->
                 <div id="navloggedin" runat="server" visible="false">
                      <ul class="nav">
-                        <li class="active"><a href="home.aspx">Home</a></li>
+                        <li class="active"><a href="home.aspx">My CERICO</a></li>
+                        <li><a href="#about">Suppliers</a></li>
+                        <li><a href="#about">Customers</a></li>
                         <li><a href="#about">Help</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
