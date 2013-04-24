@@ -118,6 +118,7 @@ Partial Class standardquestionnaire
             panPage1.Visible = True
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
+            divProgressbar.Attributes.Add("style", "width: 16.6%;")
         End If
     End Sub
 
@@ -775,6 +776,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
                 lblProgress.Width = "333"
+                divProgressbar.Attributes.Add("style", "width: 33.2%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = 2
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -809,6 +811,7 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnPrev.Visible = True
+                divProgressbar.Attributes.Add("style", "width: 49.4%;")
                 lblProgress.Width = "499"
                 btnPrev.CommandArgument = 2
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -824,6 +827,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 3
                 lblProgress.Width = "632"
+                divProgressbar.Attributes.Add("style", "width: 65.4%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -840,6 +844,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 4
                 lblProgress.Width = "798"
+                divProgressbar.Attributes.Add("style", "width: 81.6%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -860,6 +865,7 @@ Partial Class standardquestionnaire
                     btnSave.CommandArgument = 6
                 End If
                 btnClose.Visible = True
+                divProgressbar.Attributes.Add("style", "width: 100%;")
                 lblProgress.Width = "1000"
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case Else
@@ -880,6 +886,7 @@ Partial Class standardquestionnaire
                 panPage6.Visible = False
                 btnNext.CommandArgument = 1
                 btnPrev.Visible = False
+                divProgressbar.Attributes.Add("style", "width: 16.6%;")
                 lblProgress.Width = "166"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
@@ -895,6 +902,7 @@ Partial Class standardquestionnaire
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
                 lblProgress.Width = "333"
+                divProgressbar.Attributes.Add("style", "width: 33.2%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -916,6 +924,7 @@ Partial Class standardquestionnaire
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 2
                 lblProgress.Width = "499"
+                divProgressbar.Attributes.Add("style", "width: 49.4%;")
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 4
                 panPage1.Visible = False
@@ -929,6 +938,7 @@ Partial Class standardquestionnaire
                 btnNext.Visible = True
                 btnPrev.CommandArgument = 3
                 lblProgress.Width = "632"
+                divProgressbar.Attributes.Add("style", "width: 65.4%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -948,6 +958,7 @@ Partial Class standardquestionnaire
                     btnPrev.CommandArgument = 4
                 End If
                 lblProgress.Width = "798"
+                divProgressbar.Attributes.Add("style", "width: 81.6%;")
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case Else
 

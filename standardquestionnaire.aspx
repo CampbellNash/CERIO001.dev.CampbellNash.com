@@ -45,8 +45,8 @@
          
                 <h4>Progress</h4>
                <div class="progress">
-                   <div class="bar" runat="server" id="progressbar"></div>
-                   <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" />
+                   <div class="bar" runat="server" id="divProgressbar"></div>
+                   <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" Visible="false" />
                </div> 
                <h4>Items marked with <span class="alert-error">*</span> are requried</h4>
                <div class="form-signin form-horizontal">
