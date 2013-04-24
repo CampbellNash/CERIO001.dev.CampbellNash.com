@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="home.aspx.vb" Inherits="home" %>
-<%@ Register Assembly="Telerik.ReportViewer.WebForms, Version=7.0.13.220, Culture=neutral, PublicKeyToken=a9d7983dfcc261be" Namespace="Telerik.ReportViewer.WebForms" TagPrefix="telerik" %>
+<%@ Register TagPrefix="telerik" Namespace="Telerik.Web.UI" Assembly="Telerik.Web.UI" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
@@ -147,14 +147,37 @@
 
 
 		</script> 
+   <script type="text/javascript">
+       function onRequestStart(sender, args) {
+           if (args.get_eventTarget().indexOf("Button1") >= 0)
+               args.set_enableAjax(false);
+           if (args.get_eventTarget().indexOf("ExportToExcelButton") >= 0 ||
+                   args.get_eventTarget().indexOf("ExportToWordButton") >= 0 ||
+                   args.get_eventTarget().indexOf("ExportToPdfButton") >= 0) {
+               args.set_enableAjax(false);
+           }
+       }
+    </script>
+    
+    
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
          
-		
+        
         <ContentTemplate>
             <div class="span9">
-                <h1>Welcome to CERICO <em><asp:Label runat="server" ID="lblFirstname"></asp:Label></em>, you are now logged in</h1>
-               
-                <asp:Label runat="server" ID="lblFullname"></asp:Label>, your ContactID is  <asp:Label runat="server" ID="lblContactId"></asp:Label>
+                <h2>My COMPANY NAME Dashboard</h2>
+                <telerik:RadGrid ID="RadGrid1" Width="97%" AllowSorting="True" PageSize="15" AllowPaging="True"
+        AllowMultiRowSelection="True" runat="server" GridLines="None" Skin="MetroTouch">
+                   
+        
+        <MasterTableView Width="100%" Summary="RadGrid table">
+             <CommandItemSettings ShowExportToExcelButton="true" ShowExportToWordButton="true"
+                ShowExportToPdfButton="true"></CommandItemSettings>
+        </MasterTableView>
+                   
+        <PagerStyle Mode="NextPrevAndNumeric"></PagerStyle>
+    </telerik:RadGrid>
+
                 <h2>Reporting dashboard</h2>
                 <h3>Pie Chart Example</h3>
                

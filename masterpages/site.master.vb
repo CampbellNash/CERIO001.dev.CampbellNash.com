@@ -36,7 +36,11 @@ Partial Class masterpages_site
                 navloggedOut.Visible = True
                 navloggedin.Visible = False
             Else
-                btnLogOut.Visible = True
+                'lets add the user's firstname
+                hypHeaderUserFullName.Text = Session("Firstname") & " " & Session("Surname")
+                hypHeaderUserFullName.NavigateUrl = "#"
+                panloggedInHeader.Visible = True
+                btnLogout.Visible = True
                 btnGotoLogin.Visible = False
                 navloggedOut.Visible = False
                 navloggedin.Visible = True

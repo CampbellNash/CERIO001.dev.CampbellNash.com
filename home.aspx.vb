@@ -26,6 +26,7 @@ Imports Microsoft.VisualBasic
 Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
+Imports Telerik.Web.UI
 
 
 Partial Class home
@@ -37,15 +38,56 @@ Partial Class home
             Response.Redirect("~/login.aspx")
         End If
         If Not IsPostBack Then
-            'lets add the user's firstname
-            lblFirstname.Text = Session("FirstName")
-            lblFullname.Text = Session("Firstname") & " " & Session("Surname")
-            lblContactId.Text = Session("ContactID")
-
+            
+            LoadData()
             
            
         End If
     End Sub
+    Private isExport As Boolean = True
+
+    Protected Sub RadGrid1_ItemCommand(ByVal source As Object, ByVal e As GridCommandEventArgs)
+
+        isExport = True
+
+        RadGrid1.MasterTableView.HierarchyDefaultExpanded = True
+        ' for the first level
+        ' for the second level  
+        RadGrid1.MasterTableView.DetailTables(0).HierarchyDefaultExpanded = True
+
+
+    End Sub
+
+    Private Sub LoadData()
+        RadGrid1.DataSource = GetDataTable("SELECT CompanyID, CompanyName FROM Companies")
+    End Sub
+
+    Private Sub RadGrid1_PageIndexChanged(ByVal source As Object, ByVal e As GridPageChangedEventArgs) Handles RadGrid1.PageIndexChanged
+        LoadData()
+    End Sub
+
+    Protected Sub RadGrid1_PageSizeChanged(ByVal source As Object, ByVal e As GridPageSizeChangedEventArgs) Handles RadGrid1.PageSizeChanged
+        LoadData()
+    End Sub
+
+    Private Sub RadGrid1_SortCommand(ByVal source As Object, ByVal e As GridSortCommandEventArgs) Handles RadGrid1.SortCommand
+        LoadData()
+    End Sub
+
+    Public Function GetDataTable(ByVal query As String) As DataTable
+        Dim ConnString As String = ConfigurationManager.ConnectionStrings("CNashConnection").ConnectionString
+        Dim conn As SqlConnection = New SqlConnection(ConnString)
+        Dim adapter As SqlDataAdapter = New SqlDataAdapter
+        adapter.SelectCommand = New SqlCommand(query, conn)
+        Dim table1 As New DataTable
+        conn.Open()
+        Try
+            adapter.Fill(table1)
+        Finally
+            conn.Close()
+        End Try
+        Return table1
+    End Function
 
     
 

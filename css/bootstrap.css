@@ -4357,6 +4357,7 @@ input[type="submit"].btn.btn-mini {
     padding-right: 20px;
     padding-left: 20px;
     background-color: #FFFFFF;
+   
 }
 
 .navbar-inner:before,
@@ -4786,7 +4787,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #ffffff;
  
   
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff222222', endColorstr='#ff111111', GradientType=0);
+ 
 }
 
 .navbar-inverse .brand,
@@ -6192,6 +6193,22 @@ a.badge:focus {
 }
 
 /* Start of CampbellNash Bespoke CSS */
+.panHeaderStatus
+{
+    padding: 0px;
+    margin: 0px;
+    display: inline;
+    
+}
+.loggedInHeaderText
+{
+    display: inline-block;
+   
+}
+.companySelector
+{
+    margin-top: 15px;
+}
 .hp-header
 {
     background-color: #BD213A;

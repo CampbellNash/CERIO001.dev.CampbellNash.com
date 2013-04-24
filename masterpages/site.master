@@ -36,13 +36,23 @@
           </button>
           <a class="brand" href="/"><h1>
               <asp:Image ID="Image1" runat="server" ImageUrl="~/img/main-logo.png" AlternateText="CERICO / A Compliance and Due Diligence solution" ToolTip="CERICO / A Compliance and Due Diligence solution" /></h1></a>
-          <p class="navbar-text pull-right">
+          <div class="navbar-text pull-right">
               <a class="btn" href="../login.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
-              <asp:Panel ID="panloggedInHeader" runat="server">Logged in as <asp:Label runat="server" ID="lblFullnameHeader" />
-              <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout" Text="Logout" />
+              <asp:Panel ID="panloggedInHeader" runat="server" Visible="false" CssClass="panHeaderStatus pull-right"><span class="loggedInHeaderText">Logged in as <strong><asp:HyperLink ID="hypHeaderUserFullName" runat="server" /></strong></span>
+              <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout pull-right" Text="Logout" />
               <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
-               </asp:Panel>
-            </p>
+              
+                  <div class="companySelector">
+                Select Company: <asp:DropDownList ID="cboCompanySelector" runat="server" CssClass="dropdown-toggle">
+                    <asp:ListItem>View all</asp:ListItem>                
+                    <asp:ListItem>Company 1</asp:ListItem>
+                                    <asp:ListItem>Company 2</asp:ListItem>
+                                </asp:DropDownList>
+            </div> 
+              </asp:Panel>
+            </div>
+            
+            
             <div class="nav-collapse collapse">
             <!-- This is the menu if we are NOT logged in -->
                 <div id="navloggedOut" runat="server" visible="false">
