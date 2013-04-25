@@ -41,6 +41,7 @@ Partial Class mycompanies
                 'We found some customers so we can show them
                 rptMyCompanies.DataSource = MyCompanies
                 rptMyCompanies.DataBind()
+                rptFoundCompanies.Visible = True
             Else
                 'No customers were found
                 lblNoCompanies.Text = "No companies found!"
@@ -61,6 +62,9 @@ Partial Class mycompanies
     Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
         'First lets update the page title to refelct the Company we are dealing with.
         lblManageCompaniesPageTitle.Text = "Manage " & sender.CommandName
+        'Set the search button parameter
+        btnSearchCustomerCompany.CommandArgument = sender.CommandArgument
+        btnSearchSuppliers.CommandArgument = sender.CommandArgument
         'Go and see if we can get any customers
         Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(sender.CommandArgument)
         If MyCustomers.Tables(0).Rows.Count > 0 Then
@@ -89,8 +93,7 @@ Partial Class mycompanies
         End If
     End Sub
 
-
-    Protected Sub btnAddCompany_Click(sender As Object, e As EventArgs) Handles btnAddCompany.Click
+    Protected Sub btnAddCompany_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany.Click
         'Show the correct panels for this view
         panAddCompany.Visible = False
         panMyCompanies.Visible = False
@@ -119,8 +122,7 @@ Partial Class mycompanies
 
     End Sub
 
-
-    Protected Sub btnCancelAdd_Click(sender As Object, e As EventArgs) Handles btnCancelAdd.Click
+    Protected Sub btnCancelAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAdd.Click
         'Show the correct panels for this view
         panMyCompanies.Visible = True
         panAddCompany.Visible = False
@@ -138,7 +140,7 @@ Partial Class mycompanies
         lblManageCompaniesPageTitle.Text = "Manage My Companies"
     End Sub
 
-    Protected Sub btnGoToAdd_Click(sender As Object, e As EventArgs) Handles btnGoToAdd.Click
+    Protected Sub btnGoToAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany1.Click
 
         panSearchCompanies.Visible = False
         panAddCompany.Visible = True
@@ -147,12 +149,7 @@ Partial Class mycompanies
 
     End Sub
 
-    Protected Sub btnCancelSearch_Click(sender As Object, e As EventArgs) Handles btnCancelSearch.Click
 
-        panSearchCompanies.Visible = False
-        panMyCompanies.Visible = True
-
-    End Sub
 
 #End Region
 
@@ -173,6 +170,8 @@ Partial Class mycompanies
         panCustomers.CssClass = ""
         panMyCompanies.CssClass = ""
         panSubNav.CssClass = ""
+        rptSupplierSearch.Visible = False
+        txtSupplierSearch.Text = ""
     End Sub
 
 
@@ -193,9 +192,89 @@ Partial Class mycompanies
     Protected Sub btnCancelApplyCustomer_Click(sender As Object, e As EventArgs) Handles btnCancelApplyCustomer.Click
         panApplyCustomer.Visible = False
         panCustomers.Visible = True
+        txtSearchCustomerCompany.Text = ""
+        rptCustomerSearch.Visible = False
         panSuppliers.CssClass = ""
         panMyCompanies.CssClass = ""
         panSubNav.CssClass = ""
+    End Sub
+
+#End Region
+
+#Region " Manage Searches "
+
+    Protected Sub btnSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearch.Click
+        Dim FoundCompanies As DataSet = NashBLL.SearchForCompanies(txtSearch.Text, Session("ContactID"))
+        Dim ReturnValue As Integer = FoundCompanies.Tables(1).Rows(0)("ReturnValue")
+        If ReturnValue = 0 Then
+            'Either we have found 10 or less companiesso check to see if its more than one
+            If FoundCompanies.Tables(0).Rows.Count > 0 Then
+                'We have results that we can display so show them
+                rptFoundCompanies.DataSource = FoundCompanies
+                rptFoundCompanies.DataBind()
+                rptFoundCompanies.Visible = True
+                panNoResults1.Visible = False
+            Else
+                'No results were found so display and advise
+                panNoResults1.Visible = True
+                rptFoundCompanies.Visible = False
+            End If
+        Else
+            'Too many results found so advise to narrow the search
+            panTooManyRecords1.Visible = True
+        End If
+    End Sub
+
+    Protected Sub btnSearchCustomerCompany_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearchCustomerCompany.Click
+        Dim FoundCompanies As DataSet = NashBLL.SearchForCustomers(sender.CommandArgument, Session("ContactID"), txtSearchCustomerCompany.Text)
+        Dim ReturnValue As Integer = FoundCompanies.Tables(1).Rows(0)("ReturnValue")
+        If ReturnValue = 0 Then
+            'Either we have found 10 or less companiesso check to see if its more than one
+            If FoundCompanies.Tables(0).Rows.Count > 0 Then
+                'We have results that we can display so show them
+                rptCustomerSearch.DataSource = FoundCompanies
+                rptCustomerSearch.DataBind()
+                rptCustomerSearch.Visible = True
+                panNoResults2.Visible = False
+            Else
+                'No results were found so display and advise
+                panNoResults2.Visible = True
+                rptCustomerSearch.Visible = False
+            End If
+        Else
+            'Too many results found so advise to narrow the search
+            panTooManyRecords2.Visible = True
+        End If
+    End Sub
+
+    Protected Sub btnSearchSuppliers_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearchSuppliers.Click
+        Dim FoundCompanies As DataSet = NashBLL.SearchForSuppliers(sender.CommandArgument, Session("ContactID"), txtSupplierSearch.Text)
+        Dim ReturnValue As Integer = FoundCompanies.Tables(1).Rows(0)("ReturnValue")
+        If ReturnValue = 0 Then
+            'Either we have found 10 or less companiesso check to see if its more than one
+            If FoundCompanies.Tables(0).Rows.Count > 0 Then
+                'We have results that we can display so show them
+                rptSupplierSearch.DataSource = FoundCompanies
+                rptSupplierSearch.DataBind()
+                rptSupplierSearch.Visible = True
+                panNoResults3.Visible = False
+            Else
+                'No results were found so display and advise
+                panNoResults3.Visible = True
+                rptSupplierSearch.Visible = False
+            End If
+        Else
+            'Too many results found so advise to narrow the search
+            panTooManyRecords3.Visible = True
+        End If
+    End Sub
+
+    Protected Sub btnCancelSearch_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelSearch.Click
+        'Cancel the main company search
+        panSearchCompanies.Visible = False
+        panMyCompanies.Visible = True
+        txtSearch.Text = ""
+        rptFoundCompanies.Visible = False
     End Sub
 
 #End Region
@@ -218,6 +297,31 @@ Partial Class mycompanies
         End If
     End Sub
 
+    Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptFoundCompanies.ItemDataBound, _
+                                                                                                                                                rptCustomers.ItemDataBound, _
+                                                                                                                                                rptCustomerSearch.ItemDataBound, _
+                                                                                                                                                rptSupplierSearch.ItemDataBound
+        Dim btnCompanyName As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
+            drv = e.Item.DataItem
+            btnCompanyName.Text = drv("CompanyName")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
+        End If
+    End Sub
+
 
 #End Region
 
@@ -228,4 +332,9 @@ Partial Class mycompanies
 
     
    
+
+    
+
+    
+    
 End Class

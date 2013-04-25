@@ -1,14 +1,10 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
+    
             
             <div class="span9">
-                
-               
-                
-                    <asp:Panel ID="panMyCompanies" runat="server">
+              <asp:Panel ID="panMyCompanies" runat="server">
                          <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
                
                         <p><b>The list below shows the list of companies that you are responsible for.</b></p>
@@ -29,20 +25,50 @@
                         </p>
                        
                             <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success" />
-                            
-                       
+                     </asp:Panel>
 
-                        
-                    </asp:Panel>
                 <asp:Panel runat="server" ID="panSearchCompanies" Visible="False">
                     <h3>Search for your Company</h3>
                     Enter your Search term: <asp:TextBox ID="txtSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearch" runat="server" ValidationGroup="search"  CssClass="btn btn-warning" Text="Search" /><br />
                     <asp:RequiredFieldValidator ID="rfvSearch" ValidationGroup="search" ControlToValidate="txtSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
-                         
-                          
-
                     <br />
-                    <asp:LinkButton ID="btnGoToAdd" runat="server">Can't find your company? Click here to add a new one.</asp:LinkButton> <br />
+                    <h4>
+                        <asp:Label runat="server" ID="Label1" />
+                        Results found:</h4>
+                    <ul>
+                        <asp:Repeater ID="rptFoundCompanies" runat="server">
+                            <ItemTemplate>
+                                <li>
+                                    <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                </li>
+                            
+                            <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                <div class="popover-content">
+                                    <h5>
+                                        Full details for company</h5>
+                                    <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                    <h6>
+                                        <asp:Literal ID="litCompanyName" runat="server" />
+                                    </h6>
+                                    <h6>
+                                        <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                </div>
+                            </asp:Panel>
+                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                OffsetY="-300" PopDelay="50" />
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </ul>
+                    
+                    <asp:Panel ID="panNoResults1" runat="server" Visible="false">
+                        <p>No results found for the search you entered, please adjust and try again or <asp:LinkButton ID="btnAddCompany1" runat="server" Text="Click Here" /> to add one yourself.</p>
+                    </asp:Panel>
+                    
+                    <asp:Panel ID="panTooManyRecords1" runat="server" Visible="false">
+                        <p>Too many records found, please narrow your search and try again.</p>
+                    </asp:Panel>
+                    
                     <asp:LinkButton ID="btnCancelSearch" runat="server">Don't want to search right now? Click here to return to your home page</asp:LinkButton> 
 
                 </asp:Panel>
@@ -140,17 +166,11 @@
                                   </div>
                           </div>
                         
-                          
-                           
-                           
-                             
-                             <br />
+                          <br />
                            <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn btn-warning" Text="Add New Company" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn btn-danger" Text="Cancel" CausesValidation="False" />
                     </div> 
                    
                 </asp:Panel>
-
-                
                 <hr />
                 <asp:Panel ID="panCustomers" runat="server">
                     <div class="span6">
@@ -158,8 +178,21 @@
                             <ul>
                                 <asp:Repeater ID="rptCustomers" runat="server" OnItemDataBound="BindCompanies">
                                     <ItemTemplate>
-                                        <li>
-                                            <asp:LinkButton ID="btnCompanyName" runat="server" /></li>
+                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" /></li>
+                                        <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                            <div class="popover-content">
+                                                <h5>
+                                                    Full details for company</h5>
+                                                <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyName" runat="server" />
+                                                </h6>
+                                                <h6><asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                            </div>
+                                        </asp:Panel>
+                                            <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
+                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                                OffsetY="-300" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </ul>
@@ -171,34 +204,52 @@
                         </p>
 
                     </div>
+                    
                 </asp:Panel>
+
                 <asp:Panel runat="server" ID="panApplyCustomer" Visible="False">
                     <div class="span6">
                     <asp:Button ID="btnCancelApplyCustomer" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
                     <h4>Apply to be a Customer</h4>
-                        Customer search: <asp:TextBox ID="txtSeachCustomerCompany" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearchCustomerCompany" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="search" ControlToValidate="txtSeachCustomerCompany" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
-                        <ajaxToolkit:HoverMenuExtender ID="hme2" runat="Server"
-    TargetControlID="btnCustomerResult"
-    PopupControlID="PopupMenu"
-    HoverCssClass="popupHover"
-    PopupPosition="Right"
-    OffsetX="0"
-    OffsetY="-300"
-    PopDelay="50" />
+                        Customer search: <asp:TextBox ID="txtSearchCustomerCompany" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearchCustomerCompany" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="search"
+                        ControlToValidate="txtSearchCustomerCompany" CssClass="error" ForeColor="red"
+                        runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
                         <h5>Search Results: </h5>
-                        <asp:LinkButton ID="btnCustomerResult" runat="server">Campbell Nash - Select this company</asp:LinkButton>
-                        <asp:Panel CssClass="popover" ID="PopupMenu" runat="server">
-                            <div class="popover-content">
-                            <h5>Full details for company</h5>
-                            <asp:Image ID="Image1" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
-                            <h6>Campbell Nash </h6>
-                            <h6>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</h6>
-                            
-                            </div>
+                        <ul>
+                            <asp:Repeater ID="rptCustomerSearch" runat="server">
+                                <ItemTemplate>
+                                    <li>
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                    </li>
+                                    <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                        <div class="popover-content">
+                                            <h5>
+                                                Full details for company</h5>
+                                            <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                            <h6>
+                                                <asp:Literal ID="litCompanyName" runat="server" />
+                                            </h6>
+                                            <h6>
+                                                <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                        </div>
+                                    </asp:Panel>
+                                    <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                        OffsetY="-300" PopDelay="50" />
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                        <asp:Panel ID="panNoResults2" runat="server" Visible="false">
+                            <p>
+                                No results found for the search you entered, please adjust and try again.</p>
                         </asp:Panel>
-                    </div>
+                        <asp:Panel ID="panTooManyRecords2" runat="server" Visible="false">
+                            <p>
+                                Too many records found, please narrow your search and try again.</p>
+                        </asp:Panel>
                 </asp:Panel>
+
                 <asp:Panel ID="panSuppliers" runat="server">
                      <div class="span6">
                         <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
@@ -221,34 +272,48 @@
 
                     </div>
                 </asp:Panel>
+                
                 <asp:Panel ID="panAddSupplier" runat="server">
                     <div class="span6">
                         <asp:Button ID="btnCancelAddSupplier" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
                         <h4>Add a new supplier</h4> 
-                        Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="Button1" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="search" ControlToValidate="txtSupplierSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
-                        <ajaxToolkit:HoverMenuExtender ID="HoverMenuExtender1" runat="Server"
-    TargetControlID="btnSelectSupplier"
-    PopupControlID="panelSupplierPopup"
-    HoverCssClass="popupHover"
-    PopupPosition="Right"
-    OffsetX="0"
-    OffsetY="-300"
-    PopDelay="50" />
-                        <h5>Search Results: </h5>
-                        <asp:LinkButton ID="btnSelectSupplier" runat="server">Campbell Nash - Select this company</asp:LinkButton>
-                        <asp:Panel CssClass="popover" ID="panelSupplierPopup" runat="server">
-                            <div class="popover-content">
-                            <h5>Full details for company</h5>
-                            <asp:Image ID="Image2" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
-                            <h6>Campbell Nash </h6>
-                            <h6>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</h6>
-                            
-                            </div>
-                        
-</asp:Panel>
-                    </div>
-                    
+                        Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> 
+                        <asp:Button ID="btnSearchSuppliers" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="search"
+                            ControlToValidate="txtSupplierSearch" CssClass="error" ForeColor="red"
+                            runat="server" Display="Dynamic" ErrorMessage="Please enter a search term" />
+                        <ul>
+                            <asp:Repeater ID="rptSupplierSearch" runat="server">
+                                <ItemTemplate>
+                                    <li>
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                    </li>
+                                    <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                        <div class="popover-content">
+                                            <h5>
+                                                Full details for company</h5>
+                                            <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                            <h6>
+                                                <asp:Literal ID="litCompanyName" runat="server" />
+                                            </h6>
+                                            <h6>
+                                                <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                        </div>
+                                    </asp:Panel>
+                                    <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                        OffsetY="-300" PopDelay="50" />
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
+                        <asp:Panel ID="panNoResults3" runat="server" Visible="false">
+                            <p>
+                                No results found for the search you entered, please adjust and try again.</p>
+                        </asp:Panel>
+                        <asp:Panel ID="panTooManyRecords3" runat="server" Visible="false">
+                            <p>
+                                Too many records found, please narrow your search and try again.</p>
+                        </asp:Panel>
 
                 </asp:Panel>
 
@@ -260,8 +325,7 @@
                
             </asp:Panel>
                  </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+        
 
 
 
