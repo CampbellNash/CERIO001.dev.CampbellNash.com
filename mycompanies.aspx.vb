@@ -71,12 +71,12 @@ Partial Class mycompanies
             'We found some customers so we can show them
             rptCustomers.DataSource = MyCustomers
             rptCustomers.DataBind()
-            panCustomers.Visible = True
+            rptCustomers.Visible = True
             lblCompanyCustomers.Text = sender.CommandName
-
         Else
             'No customers were found
             lblNoCustomers.Text = "No customers found!"
+            rptCustomers.Visible = False
         End If
 
         'Go and see if we can get any suppliers
@@ -85,12 +85,15 @@ Partial Class mycompanies
             'We found some customers so we can show them
             rptSuppliers.DataSource = MySuppliers
             rptSuppliers.DataBind()
-            panSuppliers.Visible = True
+            rptSuppliers.Visible = True
             lblCompanySuppliers.Text = sender.CommandName
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
+            rptSuppliers.Visible = False
         End If
+        panCustomers.Visible = True
+        panSuppliers.Visible = True
     End Sub
 
     Protected Sub btnAddCompany_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany.Click
@@ -141,22 +144,126 @@ Partial Class mycompanies
     End Sub
 
     Protected Sub btnGoToAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany1.Click
-
         panSearchCompanies.Visible = False
         panAddCompany.Visible = True
+    End Sub
 
+    Protected Sub btnAddCompany2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddCompany2.Click
+        'Return to the company search screen
+        panAddCompany.Visible = False
+        panMyCompanies.Visible = False
+        panCustomers.Visible = False
+        panSuppliers.Visible = False
+        panSearchCompanies.Visible = True
 
+    End Sub
 
+    Protected Sub btnAddNewCompany_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddNewCompany.Click
+        Dim ParentCompanyID As Integer
+        Dim ContactID As Integer
+        Dim CompanyName As String
+        Dim Address1 As String
+        Dim Address2 As String
+        Dim Address3 As String
+        Dim Address4 As String
+        Dim City As String
+        Dim Postcode As String
+        Dim TelephoneNumber As String
+        Dim FaxNumber As String
+        Dim Telex As String
+        Dim WebURL As String
+        Dim EmailAddress As String
+        Dim FaceBookURL As String
+        Dim Twitter As String
+        Dim CountryID As Integer
+        Dim BusinessAreaID As Integer
+
+        ParentCompanyID = hidParentCompanyID.Value
+        ContactID = Session("ContactID")
+        CompanyName = txtCompanyName.Text
+        Address1 = txtAddress1.Text
+        If txtAddress2.Text = "" Then
+            Address2 = "None"
+        Else
+            Address2 = txtAddress2.Text
+        End If
+        If txtAddress3.Text = "" Then
+            Address3 = "None"
+        Else
+            Address3 = txtAddress3.Text
+        End If
+        If txtAddress4.Text = "" Then
+            Address4 = "None"
+        Else
+            Address4 = txtAddress4.Text
+        End If
+        City = txtCity.Text
+        Postcode = txtPostcode.Text
+        TelephoneNumber = txtTelephone.Text
+        If txtFaxNumber.Text = "" Then
+            FaxNumber = "None"
+        Else
+            FaxNumber = txtFaxNumber.Text
+        End If
+        If txtTelex.Text = "" Then
+            Telex = "None"
+        Else
+            Telex = txtTelex.Text
+        End If
+        If txtWebsite.Text = "" Then
+            WebURL = "None"
+        Else
+            WebURL = txtWebsite.Text
+        End If
+        EmailAddress = txtEmailAddress.Text
+        If txtTwitter.Text = "" Then
+            Twitter = "None"
+        Else
+            Twitter = txtTwitter.Text
+        End If
+        If txtFaceBook.Text = "" Then
+            FaceBookURL = "None"
+        Else
+            FaceBookURL = txtFaceBook.Text
+        End If
+        CountryID = cboCountries.SelectedValue
+        BusinessAreaID = cboBusinessArea.SelectedValue
+        'Now perform our update
+        Dim Result As Integer = NashBLL.AddNewCompany(ParentCompanyID, _
+                              ContactID, _
+                              CompanyName, _
+                              Address1, _
+                              Address2, _
+                              Address3, _
+                              Address4, _
+                              City, _
+                              Postcode, _
+                              TelephoneNumber, _
+                              FaxNumber, _
+                              Telex, _
+                              WebURL, _
+                              EmailAddress, _
+                              FaceBookURL, _
+                              Twitter, _
+                              CountryID, _
+                              BusinessAreaID)
+        If Result = -1 Then
+            'This update has failed so advise
+            lblAddCompany.Text = "There was an error with your form please check the completed items and try again."
+        Else
+            panAddCompany.Visible = False
+            panConfirmAdd.Visible = True
+        End If
     End Sub
 
 
 
 #End Region
 
-#Region "My Suppliers"
+#Region " My Suppliers "
 
 
-    Protected Sub btnAddSupplier_Click(sender As Object, e As EventArgs) Handles btnAddSupplier.Click
+    Protected Sub btnAddSupplier_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddSupplier.Click
         panAddSupplier.Visible = True
         panSuppliers.Visible = False
         panCustomers.CssClass = "fadePanel"
@@ -164,7 +271,7 @@ Partial Class mycompanies
         panSubNav.CssClass = "fadePanel"
     End Sub
 
-    Protected Sub btnCancelAddSupplier_Click(sender As Object, e As EventArgs) Handles btnCancelAddSupplier.Click
+    Protected Sub btnCancelAddSupplier_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAddSupplier.Click
         panAddSupplier.Visible = False
         panSuppliers.Visible = True
         panCustomers.CssClass = ""
@@ -178,10 +285,10 @@ Partial Class mycompanies
 
 #End Region
 
-#Region "My Customers"
+#Region " My Customers "
 
 
-    Protected Sub btnAddCustomer_Click(sender As Object, e As EventArgs) Handles btnAddCustomer.Click
+    Protected Sub btnAddCustomer_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCustomer.Click
         panApplyCustomer.Visible = True
         panCustomers.Visible = False
         panSuppliers.CssClass = "fadePanel"
@@ -189,7 +296,7 @@ Partial Class mycompanies
         panSubNav.CssClass = "fadePanel"
     End Sub
 
-    Protected Sub btnCancelApplyCustomer_Click(sender As Object, e As EventArgs) Handles btnCancelApplyCustomer.Click
+    Protected Sub btnCancelApplyCustomer_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelApplyCustomer.Click
         panApplyCustomer.Visible = False
         panCustomers.Visible = True
         txtSearchCustomerCompany.Text = ""
@@ -285,6 +392,7 @@ Partial Class mycompanies
     Protected Sub BindCompanies(sender As Object, e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
         Dim drv As DataRowView
+        Dim MyRepeater As Repeater = sender
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is a data item so we can populate our items
             btnCompanyName = e.Item.FindControl("btnCompanyName")
@@ -292,15 +400,14 @@ Partial Class mycompanies
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             btnCompanyName.CommandName = drv("CompanyName")
-
-
         End If
     End Sub
 
     Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptFoundCompanies.ItemDataBound, _
                                                                                                                                                 rptCustomers.ItemDataBound, _
                                                                                                                                                 rptCustomerSearch.ItemDataBound, _
-                                                                                                                                                rptSupplierSearch.ItemDataBound
+                                                                                                                                                rptSupplierSearch.ItemDataBound, _
+                                                                                                                                                rptSuppliers.ItemDataBound
         Dim btnCompanyName As LinkButton
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
@@ -335,6 +442,8 @@ Partial Class mycompanies
 
     
 
+    
+    
     
     
 End Class

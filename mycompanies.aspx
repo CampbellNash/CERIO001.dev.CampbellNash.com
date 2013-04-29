@@ -1,8 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-    
-            
+        <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
               <asp:Panel ID="panMyCompanies" runat="server">
                          <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
@@ -18,7 +17,7 @@
                             </asp:Repeater>
                         </ul>
                         <p>
-                            <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
+                            <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
                         <p>
                             If you wish to associate yourself with another company then click the button below.
@@ -62,15 +61,17 @@
                     </ul>
                     
                     <asp:Panel ID="panNoResults1" runat="server" Visible="false">
-                        <p>No results found for the search you entered, please adjust and try again or <asp:LinkButton ID="btnAddCompany1" runat="server" Text="Click Here" /> to add one yourself.</p>
+                        <p>No results found for the search you entered, please adjust and try again.</p>
                     </asp:Panel>
                     
                     <asp:Panel ID="panTooManyRecords1" runat="server" Visible="false">
                         <p>Too many records found, please narrow your search and try again.</p>
                     </asp:Panel>
                     
-                    <asp:LinkButton ID="btnCancelSearch" runat="server">Don't want to search right now? Click here to return to your home page</asp:LinkButton> 
-
+                    <p><asp:LinkButton ID="btnAddCompany1" runat="server" Text="Click Here" /> to add your company yourself.<br />
+                        Don't want to search right now?<asp:LinkButton ID="btnCancelSearch" runat="server"> Click here</asp:LinkButton> to return to your home page.
+                    </p> 
+                    
                 </asp:Panel>
 
                 <asp:Panel ID="panAddCompany" runat="server" Visible="false">
@@ -78,81 +79,118 @@
                         
                         <asp:Button ID="btnGoback" runat="server" CausesValidation="False" CssClass="btn btn-danger pull-right" Text="Go back and Search" />
                         <h4>Enter company details</h4>
-                        <p>Use the form below to add your company. Please ensure you have <a href="#">searched</a> for your company first. Items marked with a <span class="alert-error">*</span> are required.</p>
+                        <p>Use the form below to add your company. Please ensure you have 
+                            <asp:LinkButton ID="btnAddCompany2" runat="server" Text="Searched" /> for your company first. Items marked with a <span class="alert-error">*</span> are required.</p>
                         
                             <div class="control-group">
-                                <label class="control-label"><span class="alert-error">*</span> Title:</label>
-                                <div class="controls"><asp:TextBox ID="txtAddCompanayName" runat="server" CssClass="input-xxlarge" placeholder="Company name" TabIndex="1"></asp:TextBox><br />
-                                <asp:RequiredFieldValidator ID="rfvAddCompanayName" ControlToValidate="txtAddCompanayName" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the Company Name"></asp:RequiredFieldValidator>
+                                <label class="control-label"><span class="alert-error">*</span> Company Name:</label>
+                                <div class="controls"><asp:TextBox ID="txtCompanyName" runat="server" CssClass="input-xxlarge" placeholder="Company name" TabIndex="1" /><br />
+                                <asp:RequiredFieldValidator ID="rfvAddCompanayName" ControlToValidate="txtCompanyName" 
+                                    CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the Company Name" ValidationGroup="AddCompany" />
                                 </div>
-                            </div>  
-                            <div class="control-group">
-                                <label class="control-label"><span class="alert-error">*</span> Business area:</label>
-                                <div class="controls"><asp:DropDownList runat="server" ID="cboBusinessArea"/></div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label"><span class="alert-error">*</span> Address line 1:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="txtAddAddressLine1" CssClass="input-xlarge"></asp:TextBox></div>
+                                <label class="control-label">Parent Company:</label>
+                                <div class="controls">
+                                    <asp:TextBox ID="txtParentCompany" runat="server" CssClass="input-xxlarge" 
+                                    TabIndex="2" Enabled="false" placeholder="No Parent Company Assigned" /><br />
+                                    [<asp:LinkButton ID="btnParentCompany" runat="server" Text="Choose Company" />]
+                                    <asp:HiddenField ID="hidParentCompanyID" runat="server" Value="0" />
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="alert-error">*</span> Business area:</label>
+                                <div class="controls"><asp:DropDownList runat="server" ID="cboBusinessArea"/><br />
+                                    <asp:RequiredFieldValidator ID="rfvBusinessAreaID" ControlToValidate="cboBusinessArea"
+                                        CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please chose a business area"
+                                        ValidationGroup="AddCompany" /></div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label"><span class="alert-error">*</span> Address 1:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtAddress1" CssClass="input-xlarge" /><br />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ControlToValidate="txtAddress1"
+                                        CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the company street address"
+                                        ValidationGroup="AddCompany" /></div>
                             </div>
                             <div class="control-group">
                                 
                                 <label class="control-label">Address line 2:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox1" CssClass="input-xlarge"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtAddress2" CssClass="input-xlarge" /></div>
                             </div>
                             <div class="control-group">
                                 
                                 <label class="control-label">Address line 3:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox2" CssClass="input-xlarge"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtAddress3" CssClass="input-xlarge" /></div>
 
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Address line 4:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox3" CssClass="input-xlarge"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtAddress4" CssClass="input-xlarge"></asp:TextBox></div>
                             </div>
                             
                             <div class="control-group">
                                 <label class="control-label"><span class="alert-error">*</span> City:</label>
                                 <div class="controls">
-                                <asp:TextBox runat="server" ID="TextBox4" CssClass="input-large"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtCity" CssClass="input-large" /><br />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ControlToValidate="txtCity"
+                                        CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the company city"
+                                        ValidationGroup="AddCompany" />
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label"><span class="alert-error">*</span> Post code/Zip code:</label>
-                                    <div class="controls"><asp:TextBox runat="server" ID="txtPostCode" CssClass="input-small"></asp:TextBox></div>
+                                    <div class="controls"><asp:TextBox runat="server" ID="txtPostcode" CssClass="input-small" /><br />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ControlToValidate="txtPostcode"
+                                            CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the company postcode"
+                                            ValidationGroup="AddCompany" /></div>
                             </div>
                         
                             <div class="control-group">
                                  <label class="control-label"><span class="alert-error">*</span> Country:</label>
-                                 <div class="controls"><asp:DropDownList runat="server" ID="cboCountries"/></div>
+                                 <div class="controls"><asp:DropDownList runat="server" ID="cboCountries" />
+                                     <br />
+                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ControlToValidate="cboCountries"
+                                         CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please set the company country"
+                                         ValidationGroup="AddCompany" /></div>
                             </div>
                             
                             <div class="control-group">
                                 
                                 <label class="control-label"><span class="alert-error">*</span> Telephone Number:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox5" CssClass="input-large"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtTelephone" CssClass="input-large" /><br />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ControlToValidate="txtTelephone"
+                                        CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter the company telephone number"
+                                        ValidationGroup="AddCompany" /></div>
                             </div> 
                            
                             <div class="control-group">
-                                
-                                <label class="control-label">Fax number:</label>
-                                
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox6" CssClass="input-large"></asp:TextBox></div>
+                               <label class="control-label">Fax number:</label>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtFaxNumber" CssClass="input-large" /></div>
 
                             </div>
                         
                             <div class="control-group">
                                 <label class="control-label">Telex:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox7" CssClass="input-large"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtTelex" CssClass="input-large" /></div>
                             </div>
                         
                             <div class="control-group">
                                 <label class="control-label">Website URL:</label>
-                                <div class="controls"><asp:TextBox runat="server" ID="TextBox8" CssClass="input-large"></asp:TextBox></div>
+                                <div class="controls"><asp:TextBox runat="server" ID="txtWebsite" CssClass="input-xxlarge" /></div>
                             </div>
+                        <div class="control-group">
+                            <label class="control-label">
+                                Facebook URL:</label>
+                            <div class="controls">
+                                <asp:TextBox runat="server" ID="txtFaceBook" CssClass="input-xxlarge" /></div>
+                        </div>
                         
                         <div class="control-group">
                             <label class="control-label"><span class="alert-error">*</span> Email address:</label>
-                            <div class="controls"><asp:TextBox runat="server" ID="TextBox9" CssClass="input-xxlarge"></asp:TextBox></div>
+                            <div class="controls"><asp:TextBox runat="server" ID="txtEmailAddress" CssClass="input-xxlarge" /><br />
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator8" ControlToValidate="txtEmailAddress"
+                                    CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter a valid email address"
+                                    ValidationGroup="AddCompany" /></div>
 
                         </div>
                             
@@ -161,17 +199,25 @@
                               <div class="controls">
                               <div class="input-prepend">
                                   <span class="add-on">@</span>
-                                  <input class="span10" id="prependedInput" type="text" placeholder="Username">
+                                  <asp:TextBox runat="server" ID="txtTwitter" CssClass="input-xxlarge" placeholder="Username" />
                             </div>
                                   </div>
                           </div>
                         
                           <br />
-                           <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn btn-warning" Text="Add New Company" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn btn-danger" Text="Cancel" CausesValidation="False" />
+                           <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn btn-warning" Text="Add New Company" ValidationGroup="AddCompany" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn btn-danger" Text="Cancel" CausesValidation="False" />
+                           <p><asp:Label ID="lblAddCompany" runat="server" EnableViewState="false" CssClass="error" /></p>
                     </div> 
                    
                 </asp:Panel>
                 <hr />
+                
+                <asp:Panel ID="panConfirmAdd" runat="server" Visible="false">
+                    <h2>Add New Company</h2>
+                    <p>Your new company has been added!</p>
+                    <p><asp:HyperLink ID="hypRefreshPage" runat="server" NavigateUrl="~/mycompanies.aspx" Text="Click Here" /> to return to your home page.</p>
+                </asp:Panel>
+
                 <asp:Panel ID="panCustomers" runat="server">
                     <div class="span6">
                         <h4><asp:Label runat="server" ID="lblCompanyCustomers" /> Customers:</h4>
@@ -197,7 +243,7 @@
                                 </asp:Repeater>
                             </ul>
                         <p>
-                            <asp:Label ID="lblNoCustomers" runat="server" CssClass="failureNotification" />
+                            <asp:Label ID="lblNoCustomers" runat="server" CssClass="failureNotification" EnableViewState="false" />
                         </p>
                         <p>
                             <asp:Button ID="btnAddCustomer" runat="server" Text="Apply to be Customer" CssClass="btn" />
@@ -259,12 +305,27 @@
                                     <ItemTemplate>
                                         <li>
                                             <asp:LinkButton ID="btnCompanyName" runat="server" /></li>
+                                        <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                            <div class="popover-content">
+                                                <h5>
+                                                    Full details for company</h5>
+                                                <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyName" runat="server" />
+                                                </h6>
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                            </div>
+                                        </asp:Panel>
+                                        <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            OffsetY="-300" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </ul>
 
                         <p>
-                            <asp:Label ID="lblNoSuppliers" runat="server" CssClass="failureNotification" />
+                            <asp:Label ID="lblNoSuppliers" runat="server" CssClass="failureNotification" EnableViewState="false" />
                         </p>
                         <p>
                             <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn" />
@@ -316,19 +377,27 @@
                         </asp:Panel>
 
                 </asp:Panel>
-
-            </div>
-            <div class="span3">
-            <asp:Panel runat="server" ID="panSubNav">
-                
-                    <uc1:submenu1 ID="submenu11" runat="server" />      
-               
-            </asp:Panel>
-                 </div>
+        </div>
+  </Telerik:RadAjaxPanel>  
+  <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+        <AjaxSettings>
+            <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
+                <UpdatedControls>
+                    <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
+                        UpdatePanelRenderMode="Block" />
+                </UpdatedControls>
+            </Telerik:AjaxSetting>
+        </AjaxSettings>
+    </Telerik:RadAjaxManager>
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />          
+    
+    <div class="span3">
+        <asp:Panel runat="server" ID="panSubNav">
+            <uc1:submenu1 ID="submenu11" runat="server" />      
+        </asp:Panel>
+    </div>
         
-
-
-
+    
 
 </asp:Content>
 

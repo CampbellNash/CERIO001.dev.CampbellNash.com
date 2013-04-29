@@ -305,6 +305,57 @@ Namespace MasterClass
             'Send our dataset back to calling class
             Return MyDataSet
         End Function
+
+        Public Shared Function AddNewCompany(ByVal ParentCompanyID As Integer, _
+                                                ByVal ContactID As Integer, _
+                                                ByVal CompanyName As String, _
+                                                ByVal Address1 As String, _
+                                                ByVal Address2 As String, _
+                                                ByVal Address3 As String, _
+                                                ByVal Address4 As String, _
+                                                ByVal City As String, _
+                                                ByVal Postcode As String, _
+                                                ByVal TelephoneNumber As String, _
+                                                ByVal FaxNumber As String, _
+                                                ByVal Telex As String, _
+                                                ByVal WebURL As String, _
+                                                ByVal EmailAddress As String, _
+                                                ByVal FaceBookURL As String, _
+                                                ByVal Twitter As String, _
+                                                ByVal CountryID As Integer, _
+                                                ByVal BusinessAreaID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewCompany", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ParentCompanyID", ParentCompanyID)
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            ObjCmd.Parameters.AddWithValue("@CompanyName", CompanyName)
+            ObjCmd.Parameters.AddWithValue("@Address1", Address1)
+            ObjCmd.Parameters.AddWithValue("@Address2", Address2)
+            ObjCmd.Parameters.AddWithValue("@Address3", Address3)
+            ObjCmd.Parameters.AddWithValue("@Address4", Address4)
+            ObjCmd.Parameters.AddWithValue("@City", City)
+            ObjCmd.Parameters.AddWithValue("@Postcode", Postcode)
+            ObjCmd.Parameters.AddWithValue("@TelephoneNumber", TelephoneNumber)
+            ObjCmd.Parameters.AddWithValue("@FaxNumber", FaxNumber)
+            ObjCmd.Parameters.AddWithValue("@Telex", Telex)
+            ObjCmd.Parameters.AddWithValue("@WebURL", WebURL)
+            ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
+            ObjCmd.Parameters.AddWithValue("@FaceBookURL", FaceBookURL)
+            ObjCmd.Parameters.AddWithValue("@Twitter", Twitter)
+            ObjCmd.Parameters.AddWithValue("@CountryID", CountryID)
+            ObjCmd.Parameters.AddWithValue("@BusinessAreaID", BusinessAreaID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
 #End Region
 
 #Region " Eastern Tests "
