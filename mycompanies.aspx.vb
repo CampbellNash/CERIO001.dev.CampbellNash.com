@@ -358,7 +358,7 @@ Partial Class mycompanies
         Dim FoundCompanies As DataSet = NashBLL.SearchForSuppliers(sender.CommandArgument, Session("ContactID"), txtSupplierSearch.Text)
         Dim ReturnValue As Integer = FoundCompanies.Tables(1).Rows(0)("ReturnValue")
         If ReturnValue = 0 Then
-            'Either we have found 10 or less companiesso check to see if its more than one
+            'Either we have found 10 or less companies so check to see if its more than one
             If FoundCompanies.Tables(0).Rows.Count > 0 Then
                 'We have results that we can display so show them
                 rptSupplierSearch.DataSource = FoundCompanies
@@ -384,12 +384,57 @@ Partial Class mycompanies
         rptFoundCompanies.Visible = False
     End Sub
 
-#End Region
+    Protected Sub btnParentCompany_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnParentCompany.Click
+        panParent.Visible = True
+    End Sub
 
+    Protected Sub btnCancelParent_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancelParent.Click
+        panParent.Visible = False
+    End Sub
+
+    Protected Sub btnParentSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnParentSearch.Click
+        Dim FoundCompanies As DataSet = NashBLL.SearchForParentCompanies(txtParentSearch.Text)
+        Dim ReturnValue As Integer = FoundCompanies.Tables(1).Rows(0)("ReturnValue")
+        If ReturnValue = 0 Then
+            'Either we have found 10 or less companies so check to see if its more than one
+            If FoundCompanies.Tables(0).Rows.Count > 0 Then
+                'We have results that we can display so show them
+                rptParentCompany.DataSource = FoundCompanies
+                rptParentCompany.DataBind()
+                rptParentCompany.Visible = True
+            Else
+                'No results were found so display and advise
+                lblParentError.Text = "No companies found for the term you entered."
+                rptSupplierSearch.Visible = False
+            End If
+        Else
+            'Too many results found so advise to narrow the search
+            lblParentError.Text = "Too many records foundk, please narrow your search and try again"
+            rptSupplierSearch.Visible = False
+        End If
+    End Sub
+
+    Protected Sub ChooseParentCompany(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim MyButton As LinkButton = sender
+        txtParentCompany.Text = MyButton.Text
+        hidParentCompanyID.Value = sender.CommandArgument
+        txtParentSearch.Text = ""
+        rptParentCompany.Visible = False
+        panParent.Visible = False
+        btnRemoveParent.Enabled = True
+    End Sub
+
+    Protected Sub btnRemoveParent_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRemoveParent.Click
+        hidParentCompanyID.Value = "0"
+        txtParentCompany.Text = "No Parent Company"
+        btnRemoveParent.Enabled = False
+    End Sub
+
+#End Region
 
 #Region " Databindings "
 
-    Protected Sub BindCompanies(sender As Object, e As RepeaterItemEventArgs)
+    Protected Sub BindCompanies(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
@@ -407,7 +452,8 @@ Partial Class mycompanies
                                                                                                                                                 rptCustomers.ItemDataBound, _
                                                                                                                                                 rptCustomerSearch.ItemDataBound, _
                                                                                                                                                 rptSupplierSearch.ItemDataBound, _
-                                                                                                                                                rptSuppliers.ItemDataBound
+                                                                                                                                                rptSuppliers.ItemDataBound, _
+                                                                                                                                                rptParentCompany.ItemDataBound
         Dim btnCompanyName As LinkButton
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
@@ -423,6 +469,7 @@ Partial Class mycompanies
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -432,18 +479,4 @@ Partial Class mycompanies
 
 #End Region
 
-
-
-
-
-
-    
-   
-
-    
-
-    
-    
-    
-    
 End Class

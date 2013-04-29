@@ -94,10 +94,57 @@
                                 <div class="controls">
                                     <asp:TextBox ID="txtParentCompany" runat="server" CssClass="input-xxlarge" 
                                     TabIndex="2" Enabled="false" placeholder="No Parent Company Assigned" /><br />
-                                    [<asp:LinkButton ID="btnParentCompany" runat="server" Text="Choose Company" />]
+                                    [<asp:LinkButton ID="btnParentCompany" runat="server" Text="Choose Company" />]&nbsp;&nbsp;
+                                    [<asp:LinkButton ID="btnRemoveParent" runat="server" Text="Remove Company" Enabled="false" />]
                                     <asp:HiddenField ID="hidParentCompanyID" runat="server" Value="0" />
                                 </div>
                             </div>
+                            <asp:Panel ID="panParent" runat="server" Visible="false">
+                                <div class="control-group">
+                                    <div class="controls">
+                                <asp:Button ID="btnCancelParent" runat="server" CssClass="btn-small btn-danger" Text="Cancel"
+                                    CausesValidation="False" />
+                                <h4>
+                                    Find parent company</h4>
+                                Company search:
+                                <asp:TextBox ID="txtParentSearch" runat="server" CssClass="form-search search-query" placeholder="Search..."
+                                    TabIndex="1" />
+                                <asp:Button ID="btnParentSearch" runat="server" ValidationGroup="search" CssClass="btn-small btn-warning"
+                                    Text="Search" /><br />
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ValidationGroup="search"
+                                    ControlToValidate="txtParentSearch" CssClass="error" ForeColor="red"
+                                    runat="server" Display="Dynamic" ErrorMessage="Please enter a search term" />
+                                <h5>
+                                    Search Results:
+                                </h5>
+                                <ul>
+                                    <asp:Repeater ID="rptParentCompany" runat="server">
+                                        <ItemTemplate>
+                                            <li>
+                                                <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ChooseParentCompany" />
+                                            </li>
+                                            <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                                <div class="popover-content">
+                                                    <h5>
+                                                        Full details for company</h5>
+                                                    <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                    <h6>
+                                                        <asp:Literal ID="litCompanyName" runat="server" />
+                                                    </h6>
+                                                    <h6>
+                                                        <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                                </div>
+                                            </asp:Panel>
+                                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                                OffsetY="-300" PopDelay="50" />
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </ul>
+                                <p><asp:Label ID="lblParentError" runat="server" EnableViewState="false" CssClass="error" /></p>
+                              </div>
+                            </div>
+                            </asp:Panel>
                             <div class="control-group">
                                 <label class="control-label"><span class="alert-error">*</span> Business area:</label>
                                 <div class="controls"><asp:DropDownList runat="server" ID="cboBusinessArea"/><br />
