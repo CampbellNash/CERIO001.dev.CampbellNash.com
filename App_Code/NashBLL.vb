@@ -507,6 +507,46 @@ Namespace MasterClass
             Return MyDataSet
         End Function
 
+        Public Shared Function RequestCustomer(ByVal CompanyID As Integer, _
+                                               ByVal SupplierCompanyID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("RequestCustomer", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@SupplierCompanyID",
+                                           SupplierCompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function RequestSupplier(ByVal CompanyID As Integer, _
+                                               ByVal SupplierCompanyID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("RequestSupplier", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@SupplierCompanyID",
+                                           SupplierCompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
 
 
 #End Region

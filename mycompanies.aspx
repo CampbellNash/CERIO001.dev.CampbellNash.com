@@ -269,9 +269,9 @@
                     <div class="span6">
                         <h4><asp:Label runat="server" ID="lblCompanyCustomers" /> Customers:</h4>
                             <ul>
-                                <asp:Repeater ID="rptCustomers" runat="server" OnItemDataBound="BindCompanies">
+                                <asp:Repeater ID="rptCustomers" runat="server">
                                     <ItemTemplate>
-                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" /></li>
+                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Literal ID="litStatus" runat="server" /></li>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                 <h5>
@@ -313,7 +313,7 @@
                             <asp:Repeater ID="rptCustomerSearch" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForCustomer" />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
@@ -351,7 +351,7 @@
                                 <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindCompanies">
                                     <ItemTemplate>
                                         <li>
-                                            <asp:LinkButton ID="btnCompanyName" runat="server" /></li>
+                                            <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Literal ID="litStatus" runat="server" /></li>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                 <h5>
@@ -394,7 +394,7 @@
                             <asp:Repeater ID="rptSupplierSearch" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">

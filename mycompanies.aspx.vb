@@ -256,7 +256,37 @@ Partial Class mycompanies
         End If
     End Sub
 
+    Protected Sub ApplyForCustomer(ByVal sender As Object, ByVal e As System.EventArgs)
+        'First we make our request
+        NashBLL.RequestCustomer(btnSearchCustomerCompany.CommandArgument, sender.CommandArgument)
+        'Now rebind the repeater
+        Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(btnSearchCustomerCompany.CommandArgument)
+        rptCustomers.DataSource = MyCustomers
+        rptCustomers.DataBind()
+        rptCustomers.Visible = True
+        panApplyCustomer.Visible = False
+        panCustomers.Visible = True
+        panSuppliers.CssClass = ""
+        panMyCompanies.CssClass = ""
+        panSubNav.CssClass = ""
+        txtSearchCustomerCompany.Text = ""
+    End Sub
 
+    Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
+        'First we make our request
+        NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        'Now rebind the repeater
+        Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(btnSearchSuppliers.CommandArgument)
+        rptSuppliers.DataSource = MySuppliers
+        rptSuppliers.DataBind()
+        rptSuppliers.Visible = True
+        panAddSupplier.Visible = False
+        panSuppliers.Visible = True
+        panCustomers.CssClass = ""
+        panMyCompanies.CssClass = ""
+        panSubNav.CssClass = ""
+        txtSupplierSearch.Text = ""
+    End Sub
 
 #End Region
 
@@ -459,10 +489,12 @@ Partial Class mycompanies
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
+        Dim litStatus As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             btnCompanyName = e.Item.FindControl("btnCompanyName")
+            litStatus = e.Item.FindControl("litStatus")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
@@ -473,6 +505,14 @@ Partial Class mycompanies
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
+            Dim MyRepeater As Repeater = sender
+            If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
+                If UCase(drv("Approved")) = "Y" Then
+                    litStatus.Text = "Approved"
+                Else
+                    litStatus.Text = "Awaiting Approval"
+                End If
+            End If
         End If
     End Sub
 
