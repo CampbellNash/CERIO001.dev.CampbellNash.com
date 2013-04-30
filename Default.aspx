@@ -7,16 +7,16 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphHeroRight" Runat="Server">
      <div class="hpform-signin">
-                        <input type="text" class="input-block-level" placeholder="Email address - this will be your username" />
+                        <input type="text" class="input-block-level" placeholder="Username" />
                         <input type="password" class="input-block-level" placeholder="Password" />
                         <label><small>Tip: use at least one number and at least 7 characters.</small></label>
                         <label class="checkbox">
                           <input type="checkbox" value="remember-me" /> Remember me
                         </label>
-                        <button class="btn btn-large btn-success" type="submit">Sign up for CERICO</button>
-                        <label><a href="register.aspx">Register?</a></label>
-                        <label><a href="pricing">See plans and pricing</a></label>
-                    </div>
+                        <button class="btn btn-large btn-success" type="submit">Login to CERICO</button>
+                        <label><a href="register.aspx">Not Registered? Sign up now</a></label>
+                        <label><a href="pricing.aspx">See plans and pricing</a></label>
+     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphLowerSection" Runat="Server">
      <div class="row-fluid">
