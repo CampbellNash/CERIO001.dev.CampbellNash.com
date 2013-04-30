@@ -38,7 +38,7 @@ Partial Class masterpages_site
             Else
                 'lets add the user's firstname
                 hypHeaderUserFullName.Text = Session("Firstname") & " " & Session("Surname")
-                hypHeaderUserFullName.NavigateUrl = "#"
+                hypHeaderUserFullName.NavigateUrl = "~/mydetails.aspx"
                 panloggedInHeader.Visible = True
                 btnLogout.Visible = True
                 btnGotoLogin.Visible = False
