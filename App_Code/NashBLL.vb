@@ -102,6 +102,60 @@ Namespace MasterClass
             Return MyDataSet
         End Function
 
+        Public Shared Function SendMail(ByVal RecipientList As String, _
+                                        ByVal CCList As String, _
+                                        ByVal BCCList As String, _
+                                        ByVal MailBody As String, _
+                                        ByVal Subject As String, _
+                                        ByVal Attachment As String, _
+                                        ByVal IsHTML As Boolean) As Integer
+
+            Dim MyMailer As New MailMessage
+            Dim MySmtpClient As New SmtpClient()
+            Dim RecipientArray As Array = Split(RecipientList, ",")
+            Dim CCArray As Array = Split(CCList, ",")
+            Dim BCCArray As Array = Split(BCCList, ",")
+            Dim AttachmentArray = Split(Attachment, ",")
+            Dim LoopCount As Integer = 0
+            Try
+                'Send the email with details
+                MyMailer = New MailMessage
+                MyMailer.From = New MailAddress("support@campbellnash.com")
+                For LoopCount = LBound(RecipientArray) To UBound(RecipientArray)
+                    MyMailer.To.Add(New MailAddress(RecipientArray(LoopCount)))
+                Next
+                If CCList <> "" Then
+                    For LoopCount = LBound(CCArray) To UBound(CCArray)
+                        MyMailer.CC.Add(New MailAddress(CCArray(LoopCount)))
+                    Next
+                End If
+                If BCCList <> "" Then
+                    For LoopCount = LBound(BCCArray) To UBound(BCCArray)
+                        MyMailer.Bcc.Add(New MailAddress(BCCArray(LoopCount)))
+                    Next
+                End If
+                If Attachment <> "" Then
+                    For LoopCount = LBound(AttachmentArray) To UBound(AttachmentArray)
+                        MyMailer.Attachments.Add(New Attachment(AttachmentArray(LoopCount)))
+                    Next
+                End If
+                MyMailer.Subject = Subject
+                MyMailer.Body = MailBody
+                If IsHTML Then
+                    'Send a HTML formatted mail
+                    MyMailer.IsBodyHtml = True
+                Else
+                    'Send a non HTML mail
+                    MyMailer.IsBodyHtml = False
+                End If
+                'Now send the mail
+                MySmtpClient.Send(MyMailer)
+                Return 0
+            Catch
+                'Some kind of problem occurred
+                Return -1
+            End Try
+        End Function
 
 
 #End Region
@@ -182,18 +236,13 @@ Namespace MasterClass
         End Function
 
         Public Shared Function UpdateMyDetails(ByVal ContactID As Integer, _
-                                ByVal TitleID As Integer, _
-                                ByVal FirstName As String, _
-                                ByVal Surname As String, _
-                                ByVal EmailAddress As String, _
-                                ByVal TelephoneNumber As String, _
-                                ByVal MobileNumber As String, _
-                                ByVal FaceBook As String, _
-                                ByVal Twitter As String, _
-                                ByVal UserName As String, _
-                                ByVal Password As String, _
-                                ByVal ContactTypeID As Integer, _
-                                ByVal JobTitle As String) As Integer
+                                        ByVal TitleID As Integer, _
+                                          ByVal FirstName As String, _
+                                          ByVal Surname As String, _
+                                          ByVal EmailAddress As String, _
+                                          ByVal UserName As String, _
+                                          ByVal Password As String, _
+                                          ByVal VerificationCode As String) As Integer
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("UpdateMyDetails", Conn)
             Dim paramReturn As SqlParameter = Nothing
@@ -203,14 +252,8 @@ Namespace MasterClass
             ObjCmd.Parameters.AddWithValue("@FirstName", FirstName)
             ObjCmd.Parameters.AddWithValue("@Surname", Surname)
             ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
-            ObjCmd.Parameters.AddWithValue("@TelephoneNumber", TelephoneNumber)
-            ObjCmd.Parameters.AddWithValue("@MobileNumber", MobileNumber)
-            ObjCmd.Parameters.AddWithValue("@FaceBook", FaceBook)
-            ObjCmd.Parameters.AddWithValue("@Twitter", Twitter)
             ObjCmd.Parameters.AddWithValue("@UserName", UserName)
             ObjCmd.Parameters.AddWithValue("@Password", Password)
-            ObjCmd.Parameters.AddWithValue("@ContactTypeID", ContactTypeID)
-            ObjCmd.Parameters.AddWithValue("@JobTitle", JobTitle)
             paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
             paramReturn.Direction = ParameterDirection.ReturnValue
             Try
@@ -380,6 +423,53 @@ Namespace MasterClass
 
             'Send our dataset back to calling class
             Return MyDataSet
+        End Function
+
+        Public Shared Function AddNewUser(ByVal TitleID As Integer, _
+                                          ByVal FirstName As String, _
+                                          ByVal Surname As String, _
+                                          ByVal EmailAddress As String, _
+                                          ByVal UserName As String, _
+                                          ByVal Password As String, _
+                                         ByVal VerificationCode As String) As Integer
+
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewUser", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@TitleID", TitleID)
+            ObjCmd.Parameters.AddWithValue("@FirstName", FirstName)
+            ObjCmd.Parameters.AddWithValue("@Surname", Surname)
+            ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
+            ObjCmd.Parameters.AddWithValue("@UserName", UserName)
+            ObjCmd.Parameters.AddWithValue("@Password", Password)
+            ObjCmd.Parameters.AddWithValue("@VerificationCode", VerificationCode)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function VerifyUser(ByVal VerificationCode As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("VerifyUser", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@VerificationCode", VerificationCode)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
         End Function
 
 #End Region

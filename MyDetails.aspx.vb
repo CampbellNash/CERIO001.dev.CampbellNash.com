@@ -148,4 +148,5 @@ Partial Class mydetails
                 lblWarning.Text = "Duplicated username, please amend and try again."
         End Select
     End Sub
+
 End Class

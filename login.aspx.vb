@@ -47,14 +47,17 @@ Partial Class login
                 Session("FirstName") = dr("FirstName")
                 Session("ContactID") = CInt(dr("ContactID"))
                 Session("Surname") = dr("Surname")
+                Session("EmailAddress") = dr("EmailAddress")
                 'Now we can redirect to the home page
                 Response.Redirect("~/home.aspx")
             Case -1
                 'Incorrect user name
-                lblWarning.Text = "Incorrect username or password, please check your details and try again [1]"
+                lblWarning.Text = "<br />Incorrect username or password, please check your details and try again [1]"
+            Case -2
+                lblWarning.Text = "<br />Incorrect username or password, please check your details and try again [2]"
             Case Else
                 'Incorrect password
-                lblWarning.Text = "Incorrect username or password, please check your details and try again [2]"
+                lblWarning.Text = "<br />You have not verified your account, please check for your verification mail or contact us for more help [3]"
         End Select
 
     End Sub
