@@ -95,8 +95,8 @@ Partial Class register
                                                     txtFirstName.Text, _
                                                     txtSurname.Text, _
                                                     txtEmailAddress.Text, _
-                                                    txtUserName.Text, _
-                                                    txtPassword.Text, _
+                                                    txtRegisterUserName.Text, _
+                                                    txtRegisterPassword.Text, _
                                                     VerificationCode)
         Select Case Result
             'See what result we got back from SQL

@@ -13,7 +13,7 @@
                                 <asp:Label ID="Label1" runat="server" AssociatedControlID="cboTitle"><span class="alert-error">* </span>Title:
                                 </asp:Label></label>
                             <div class="controls">
-                                <asp:DropDownList ID="cboTitle" runat="server" /><br />
+                                <asp:DropDownList ID="cboTitle" runat="server" />
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="cboTitle"
                                     CssClass="alert-error" ErrorMessage="Please choose a title." ToolTip="Title is required."
                                     ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
@@ -23,7 +23,7 @@
                             <label class="control-label"><asp:Label ID="FirstNameLabel" runat="server" AssociatedControlID="txtFirstName"><span class="alert-error">* </span>First Name:
                             </asp:Label></label>
                             <div class="controls">
-                                <asp:TextBox ID="txtFirstName" runat="server" CssClass="input-xlarge"></asp:TextBox><br />
+                                <asp:TextBox ID="txtFirstName" runat="server" CssClass="input-xlarge"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFirstName"
                                     CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
                                     ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
@@ -32,7 +32,7 @@
                     <div class="control-group">
                             <label class="control-label"><asp:Label ID="SurnameLabel" runat="server" AssociatedControlID="txtSurname"><span class="alert-error">* </span>Surname:</asp:Label></label>
                                 <div class="controls">
-                                <asp:TextBox ID="txtSurname" runat="server" CssClass="input-xlarge"></asp:TextBox><br />
+                                <asp:TextBox ID="txtSurname" runat="server" CssClass="input-xlarge"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtSurname"
                                 CssClass="alert-error" ErrorMessage="Surname is required." ToolTip="Surname is required."
                                 ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
@@ -46,22 +46,35 @@
                                      ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
                                  <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmailAddress"
                                      ErrorMessage="Please enter a valid email" ValidationGroup="RegisterValidationGroup"
-                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" />
+                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" Display="Dynamic" />
                           </div>
                        </div>
                         
                          <div class="control-group">
-                             <label class="control-label"><asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="txtUserName"><span class="alert-error">* </span>Username:</asp:Label></label><div class="controls">
-                       <asp:TextBox ID="txtUserName" runat="server" CssClass="input-xlarge"></asp:TextBox><br />
-                            <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="txtUserName"
+                             <label class="control-label"><asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="txtRegisterUserName"><span class="alert-error">* </span>Username:</asp:Label></label><div class="controls">
+                       <asp:TextBox ID="txtRegisterUserName" runat="server" CssClass="input-xlarge"></asp:TextBox><br />
+                            <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="txtRegisterUserName"
                                 CssClass="alert-error" ErrorMessage="User Name is required." ToolTip="User Name is required."
                                 ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
                          </div>
                        </div>
                        <div class="control-group">
-                             <label class="control-label"><asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="txtPassword"><span class="alert-error">* </span>Password:</asp:Label></label><div class="controls">
-                           <asp:TextBox ID="txtPassword" runat="server" CssClass="input-xlarge" TextMode="Password" ></asp:TextBox><br />
-                            <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="txtPassword"
+                             <label class="control-label"><asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="txtRegisterPassword"><span class="alert-error">* </span>Password:</asp:Label></label><div class="controls">
+                           <asp:TextBox ID="txtRegisterPassword" runat="server" CssClass="input-xlarge" TextMode="Password" ></asp:TextBox><br />
+                            <ajaxToolkit:PasswordStrength ID="PS" runat="server"
+    TargetControlID="txtRegisterPassword"
+    DisplayPosition="RightSide"
+    StrengthIndicatorType="Text"
+    PreferredPasswordLength="6"
+    PrefixText="Strength:"
+    TextCssClass="alert-error"
+    MinimumNumericCharacters="1"
+    MinimumSymbolCharacters="0"
+    RequiresUpperAndLowerCaseCharacters="false"
+    TextStrengthDescriptions="Very Poor;Weak;Average;Strong;Excellent"
+    TextStrengthDescriptionStyles="label label-important;label label-info;label label-inverse;label label-warning;label label-success"
+    CalculationWeightings="70;30;0;0" />
+                            <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="txtRegisterPassword"
                                 CssClass="alert-error" ErrorMessage="Password is required." ToolTip="Password is required."
                                 ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
                         </div>
@@ -70,10 +83,10 @@
                              <label class="control-label"><span class="alert-error">* </span>Confirm Password:</label><div class="controls">
                            <asp:TextBox ID="txtPasswordConfirm" runat="server" CssClass="input-xlarge" TextMode="Password" ></asp:TextBox><br />
                                  <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtPasswordConfirm"
-                                     CssClass="alert-error" ErrorMessage="Password is required." ToolTip="Password is required."
+                                     CssClass="alert-error" ErrorMessage="Password is required." ToolTip="Confirm Password is required."
                                      ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
                            <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Passwords must match!"
-                               CssClass="alert-error" ControlToCompare="txtPassword" ControlToValidate="txtPasswordConfirm"
+                               CssClass="alert-error" ControlToCompare="txtRegisterPassword" ControlToValidate="txtPasswordConfirm"
                                ValidationGroup="RegisterValidationGroup" Display="Dynamic" />
                         </div>
                        </div>
