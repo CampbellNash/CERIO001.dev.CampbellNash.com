@@ -241,8 +241,7 @@ Namespace MasterClass
                                           ByVal Surname As String, _
                                           ByVal EmailAddress As String, _
                                           ByVal UserName As String, _
-                                          ByVal Password As String, _
-                                          ByVal VerificationCode As String) As Integer
+                                          ByVal Password As String) As Integer
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("UpdateMyDetails", Conn)
             Dim paramReturn As SqlParameter = Nothing
@@ -460,6 +459,25 @@ Namespace MasterClass
             Dim ObjCmd As SqlCommand = New SqlCommand("VerifyUser", Conn)
             Dim paramReturn As SqlParameter = Nothing
             ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@VerificationCode", VerificationCode)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function UnVerifyAccount(ByVal ContactID As Integer, _
+                                               ByVal VerificationCode As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("UnVerifyUser", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
             ObjCmd.Parameters.AddWithValue("@VerificationCode", VerificationCode)
             paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
             paramReturn.Direction = ParameterDirection.ReturnValue
