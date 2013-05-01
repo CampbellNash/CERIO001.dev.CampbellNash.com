@@ -17,7 +17,10 @@
     padding-top: 50px;
     padding-bottom: 50px;
 }
-
+.modalBackground
+{
+    background-color: #666666;
+}
 .dependant
 {
     border: 1px solid #FF9933;
@@ -5177,14 +5180,15 @@ input[type="submit"].btn.btn-mini {
   background-color: #fff;
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  background-color: #000000;
+.modal-backdrop
+{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    background-color: #666666;
 }
 
 .modal-backdrop.fade {
@@ -5246,11 +5250,14 @@ input[type="submit"].btn.btn-mini {
   line-height: 30px;
 }
 
-.modal-body {
-  position: relative;
-  max-height: 400px;
-  padding: 15px;
-  overflow-y: auto;
+.modal-body
+{
+    position: relative;
+    max-height: 550px;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+    max-width:800px;
 }
 
 .modal-form {

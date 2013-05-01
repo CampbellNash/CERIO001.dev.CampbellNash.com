@@ -21,8 +21,23 @@
          
 
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-    
+    <ajaxToolkit:ModalPopupExtender ID="MPE" runat="server"
+    TargetControlID="btnStart"
+    PopupControlID="panForm"
+    BackgroundCssClass="modal-backdrop" 
+    DropShadow="true" 
+    OkControlID="OkButton" 
+    OnOkScript="onOk()"
+    CancelControlID="btnClosePopUp" 
+    PopupDragHandleControlID="Panel3" >
+       
+    </ajaxToolkit:ModalPopupExtender>
         <h2 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h2>
+        <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
+             <p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p>
+             <p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
+            
+        <asp:LinkButton ID="btnStart" runat="server" CssClass="btn btn-success" Text="Start Questionnaire" />
         <asp:Panel ID="panNoQuery" runat="server" Visible="false">
             <p>Incorrect credentials passed for this function.</p>
             <p>Please use the navigation panel to the right to open this page.</p>
@@ -37,18 +52,15 @@
         </asp:Panel>
 
         
-        <asp:Panel ID="panForm" runat="server" Visible="true">
-            
-             <p>[Company Name]'s policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
-             <p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p>
-             <p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
-         
+        <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="modal-body">
+            <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-warning pull-right" Text="Close Questionnaire" />
+             
                 <h4>Progress</h4>
                <div class="progress">
                    <div class="bar" runat="server" id="divProgressbar"></div>
                    <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" Visible="false" />
                </div> 
-               <h4>Items marked with <span class="alert-error">*</span> are requried</h4>
+               <p>Items marked with <span class="alert-error">*</span> are requried</p>
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
                        <legend>1. Corporate details</legend>
