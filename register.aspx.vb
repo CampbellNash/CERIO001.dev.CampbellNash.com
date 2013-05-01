@@ -55,7 +55,7 @@ Partial Class register
             .Text = "--- Please Select ---",
             .Value = ""}
             cboTitle.Items.Insert(0, NewItem)
-
+            
         End If
 
         
@@ -76,13 +76,19 @@ Partial Class register
         Dim ScriptName As String = Right(Request.ServerVariables("SCRIPT_NAME"), Request.ServerVariables("SCRIPT_NAME").Length - 1)
         ApplicationArray = Split(ScriptName, "/")
         ApplicationName = ApplicationArray(0)
+        If InStr(ApplicationName, ".aspx") Then
+            'Makes sure if its a domain named server that the application name is not the page name 
+            ApplicationName = ""
+        End If
         ContentURL &= Page.Request.Url.Scheme & "://" & ServerName
         If CInt(ServerPort) <> 80 Then
             'Include the port if it's not normal 80
             ContentURL &= ":" & ServerPort
         End If
-        ContentURL &= "/" & ApplicationName & "/"
-        ContentURL &= "verify.aspx?v=" & VerificationCode
+        If ApplicationName <> "" Then
+            ContentURL &= "/" & ApplicationName
+        End If
+        ContentURL &= "/verify.aspx?v=" & VerificationCode
 
         'Now attempt to add our user
         Dim Result As Integer = NashBLL.AddNewUser(cboTitle.SelectedValue, _
