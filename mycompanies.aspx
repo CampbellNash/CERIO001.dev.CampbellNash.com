@@ -55,7 +55,7 @@
                             </asp:Panel>
                             <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
                                 PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                OffsetY="-300" PopDelay="50" />
+                                OffsetY="0" PopDelay="50" />
                             </ItemTemplate>
                         </asp:Repeater>
                     </ul>
@@ -137,7 +137,7 @@
                                             </asp:Panel>
                                             <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
                                                 PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                                OffsetY="-300" PopDelay="50" />
+                                                OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>
                                     </asp:Repeater>
                                 </ul>
@@ -285,7 +285,7 @@
                                         </asp:Panel>
                                             <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
                                                 PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                                OffsetY="-300" PopDelay="50" />
+                                                OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </ul>
@@ -329,7 +329,7 @@
                                     </asp:Panel>
                                     <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
                                         PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                        OffsetY="-300" PopDelay="50" />
+                                        OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
                             </asp:Repeater>
                         </ul>
@@ -366,7 +366,7 @@
                                         </asp:Panel>
                                         <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
                                             PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                            OffsetY="-300" PopDelay="50" />
+                                            OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </ul>
@@ -410,7 +410,7 @@
                                     </asp:Panel>
                                     <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
                                         PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                        OffsetY="-300" PopDelay="50" />
+                                        OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
                             </asp:Repeater>
                         </ul>
