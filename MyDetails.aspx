@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" AutoEventWireup="false" MasterPageFile="~/masterpages/templatefull.master" CodeFile="MyDetails.aspx.vb" Inherits="mydetails"  %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-    <div class="span6">
+    <div class="span9">
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
         <asp:HiddenField ID="hidEmailAddress" runat="server" />
             <h2 class="form-signin-heading">
