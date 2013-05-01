@@ -5,7 +5,7 @@
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
         <asp:HiddenField ID="hidEmailAddress" runat="server" />
             <h2 class="form-signin-heading">
-                CERICO Account Details</h2>
+                CERICO Personal Account Details</h2>
             <asp:Panel ID="panMain" runat="server" Visible="true">
                 <h3>
                     Use this section to keep your details up to date</h3>
