@@ -57,21 +57,21 @@
             <!-- This is the menu if we are NOT logged in -->
                 <div id="navloggedOut" runat="server" visible="false">
                     <ul class="nav">
-                      <li class="active"><a href="default.aspx">Home</a></li>
-                      <li><a href="about-CERICO.aspx">About</a></li>
-                      <li><a href="cerico-features-benefits.aspx">Features</a></li>
-                      <li><a href="pricing.aspx">Pricing</a></li>
-                      <li><a href="contact.aspx">Contact</a></li>
+                      <li class="active"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/default.aspx" Text="Home" /></li>
+                      <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/about-CERICO.aspx" Text="About" /></li>
+                      <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/cerico-features-benefits.aspx" Text="Features" /></li>
+                      <li><asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/pricing.aspx" Text="Pricing" /></li>
+                      <li><asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/contact.aspx" Text="Contact" /></li>
                     </ul>
                  </div>
             <!-- This is the menu if we are logged in -->
                 <div id="navloggedin" runat="server" visible="false">
                      <ul class="nav">
-                        <li id="menumycerico" runat="server"><a href="/mycerico.aspx">My CERICO</a></li>
-                        <li id="menusuppliers" runat="server"><a href="/mysuppliers.aspx" >Suppliers</a></li>
-                        <li id="menucustomers" runat="server"><a href="/mycustomers.aspx" >Customers</a></li>
-                        <li><a href="#about" >Help</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li id="menumycerico" runat="server"><asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/mycerico.aspx" Text="My CERICO" /></li>
+                        <li id="menusuppliers" runat="server"><asp:HyperLink ID="HyperLink7" runat="server" NavigateUrl="~/mysuppliers.aspx" Text="Suppliers" /></li>
+                        <li id="menucustomers" runat="server"><asp:HyperLink ID="HyperLink8" runat="server" NavigateUrl="~/mycustomers.aspx" Text="Customers" /></li>
+                        <li><asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="#" Text="Help" /></li>
+                        <li><asp:HyperLink ID="HyperLink10" runat="server" NavigateUrl="#" Text="Contact" /></li>
                     </ul>
                 </div>
             </div><!--/.nav-collapse -->
