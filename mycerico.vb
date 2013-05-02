@@ -26,7 +26,7 @@ Imports Microsoft.VisualBasic
 Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
-Partial Class mycompanies
+Partial Class mycerico
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -46,14 +46,14 @@ Partial Class mycompanies
                 'No customers were found
                 lblNoCompanies.Text = "No companies found!"
                 lblNoCompaniesHelp.Text = "- You have no companies associated, click the button add company to find or add your company"
-
+                panAllActionsDashbaord.Visible = False
             End If
             'Hide the other panels until clicked
             panCustomers.Visible = False
             panSuppliers.Visible = False
             panAddSupplier.Visible = False
             'Set the page title 
-            lblManageCompaniesPageTitle.Text = "Manage My Companies"
+            lblManageCompaniesPageTitle.Text = "My Companies"
         End If
     End Sub
 
@@ -92,8 +92,10 @@ Partial Class mycompanies
             lblNoSuppliers.Text = "No suppliers found!"
             rptSuppliers.Visible = False
         End If
-        panCustomers.Visible = True
-        panSuppliers.Visible = True
+        panCompanyCertification.Visible = True
+        panMyCompanies.Visible = False
+        panCustomers.Visible = False
+        panSuppliers.Visible = False
     End Sub
 
     Protected Sub btnAddCompany_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany.Click
@@ -102,6 +104,7 @@ Partial Class mycompanies
         panMyCompanies.Visible = False
         panCustomers.Visible = False
         panSuppliers.Visible = False
+        panAllActionsDashbaord.Visible = False
         panSearchCompanies.Visible = True
         'Set the page title 
         lblManageCompaniesPageTitle.Text = "Company Association"
@@ -125,12 +128,13 @@ Partial Class mycompanies
 
     End Sub
 
-    Protected Sub btnCancelAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAdd.Click
+    Protected Sub btnCancelAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAdd.Click, btnCancelCompanyCert.Click
         'Show the correct panels for this view
         panMyCompanies.Visible = True
         panAddCompany.Visible = False
+        panCompanyCertification.Visible = False
         'Set the page title 
-        lblManageCompaniesPageTitle.Text = "Manage My Companies"
+        lblManageCompaniesPageTitle.Text = "My Companies"
     End Sub
 
     Protected Sub btngoBack_Click(sender As Object, e As EventArgs) Handles btnGoback.Click
@@ -140,7 +144,7 @@ Partial Class mycompanies
         panSearchCompanies.Visible = True
 
         'Set the page title 
-        lblManageCompaniesPageTitle.Text = "Manage My Companies"
+        lblManageCompaniesPageTitle.Text = "My Companies"
     End Sub
 
     Protected Sub btnGoToAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany1.Click
@@ -453,6 +457,7 @@ Partial Class mycompanies
         'Cancel the main company search
         panSearchCompanies.Visible = False
         panMyCompanies.Visible = True
+        panAllActionsDashbaord.Visible = True
         txtSearch.Text = ""
         rptFoundCompanies.Visible = False
     End Sub

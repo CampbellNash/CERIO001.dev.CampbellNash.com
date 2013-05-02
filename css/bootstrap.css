@@ -6357,3 +6357,9 @@ a.badge:focus {
     height: 400px;
     overflow: auto;
 }
+
+.disabled, .disabled a, .disabled a:hover
+{
+    color: #CCCCCC;
+    text-decoration: none;
+}

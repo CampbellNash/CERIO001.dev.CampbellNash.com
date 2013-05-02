@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycustomers.vb" Inherits="mycustomers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
@@ -6,7 +6,7 @@
               <asp:Panel ID="panMyCompanies" runat="server">
                   <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" />       
                   <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
-                        
+                        <h2>My Customers</h2>
                         <p><b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b></p>
                         <ul>
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">

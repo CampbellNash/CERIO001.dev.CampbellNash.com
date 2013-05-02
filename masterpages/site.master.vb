@@ -44,6 +44,14 @@ Partial Class masterpages_site
                 btnGotoLogin.Visible = False
                 navloggedOut.Visible = False
                 navloggedin.Visible = True
+                'now lets manage the styles on the active page
+                If System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mycerico.aspx" Then
+                    menumycerico.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mysuppliers.aspx" Then
+                    menusuppliers.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mycustomers.aspx" Then
+                    menucustomers.Attributes.Add("class", "active")
+                End If
             End If
         End If
     End Sub

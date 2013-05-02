@@ -26,7 +26,7 @@ Imports Microsoft.VisualBasic
 Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
-Partial Class mycompanies
+Partial Class mycustomers
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load

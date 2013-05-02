@@ -1,27 +1,56 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-        <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
+    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
               <asp:Panel ID="panMyCompanies" runat="server">
-                  <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" />       
+                  <asp:Button ID="btnAddCompany" runat="server" Text="Invite a company to be your supplier &raquo;" CssClass="btn btn-success pull-right" />       
+                  
                   <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
+                  <p>To manage you supplier please select one of your companies from the table below:</p>
                         
-                        <p><b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b></p>
-                        <ul>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidator10" ValidationGroup="search" ControlToValidate="txtSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
+                 
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Company Name</th>
+                                    <th>Number of Suppliers</th>
+                                    <th>Status</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
                                 <ItemTemplate>
-                                    <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />&nbsp;<asp:Label ID="lblStatus" runat="server" />
-                                    </li>
+                                   <tr>
+                                       <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /></td> 
+                                       <td></td>
+                                       <td><asp:Label ID="lblStatus" runat="server" /></td>
+                                       
+                                   </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
-                        </ul>
+                            </tbody>
+                        </table>
+                   <div class="pagination">
+                            <ul>
+    <li><a href="#">Prev</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+                            </div>
                         <p>
                             <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
                         <p>
-                            If you wish to associate yourself with another company then click the "Start Company Association process" button.
+                            If you wish to invite another company to be a supplier then click the <strong>"Invite a company to be your supplier"</strong> button.
                         </p>
                        
                             
@@ -443,7 +472,5 @@
         </asp:Panel>
     </div>
         
-    
-
 </asp:Content>
 

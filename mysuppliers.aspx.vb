@@ -1,10 +1,10 @@
 ﻿Option Strict Off
 Option Explicit On
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-'  Page Title       : mycompanies.aspx.vb               '
-'  Description      : Shows the companies lists         ' 
-'  Author           : Brian McAulay                     '
-'  Creation Date    : 24 Mar 2013                       '
+'  Page Title       : mysuppliers.aspx.vb               '
+'  Description      : Shows the suppliers lists         ' 
+'  Author           : Stephen Davidson                  '
+'  Creation Date    : 2 May 2013                        '
 '  Version No       : 1                                 '
 '  Revision         :                                   '
 '  Revision Reason  :              		                '
@@ -26,7 +26,7 @@ Imports Microsoft.VisualBasic
 Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
-Partial Class mycompanies
+Partial Class mysuppliers
     Inherits System.Web.UI.Page
 
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -53,7 +53,7 @@ Partial Class mycompanies
             panSuppliers.Visible = False
             panAddSupplier.Visible = False
             'Set the page title 
-            lblManageCompaniesPageTitle.Text = "Manage My Companies"
+            lblManageCompaniesPageTitle.Text = "Manage My Suppliers"
         End If
     End Sub
 
@@ -61,7 +61,7 @@ Partial Class mycompanies
 
     Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
         'First lets update the page title to refelct the Company we are dealing with.
-        lblManageCompaniesPageTitle.Text = "Manage " & sender.CommandName
+        lblManageCompaniesPageTitle.Text = "Manage " & sender.CommandName & " Suppliers"
         'Set the search button parameter
         btnSearchCustomerCompany.CommandArgument = sender.CommandArgument
         btnSearchSuppliers.CommandArgument = sender.CommandArgument

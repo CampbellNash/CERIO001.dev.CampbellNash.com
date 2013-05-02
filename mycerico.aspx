@@ -1,28 +1,220 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycompanies.aspx.vb" Inherits="mycompanies" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycerico.vb" Inherits="mycerico" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	
+    <script type="text/javascript">
+        $(function () {
+
+            // Radialize the colors
+            Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                return {
+                    radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                    ]
+                };
+            });
+
+            // Build the chart
+            $('#container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Supplier Certication status'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    percentageDecimals: 1
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function () {
+                                return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Certified Suppliers',
+                    data: [
+                        ['Completed', 45.0],
+                       
+                        {
+                            name: 'In progress',
+                            y: 30.0,
+                            sliced: true,
+                            selected: true
+                        },
+                        ['Not Started', 25.0],
+                      
+                    ]
+                }]
+            });
+
+            $('#container2').highcharts({
+                chart: {
+                },
+                title: {
+                    text: 'Combination chart'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+                },
+                tooltip: {
+                    formatter: function () {
+                        var s;
+                        if (this.point.name) { // the pie chart
+                            s = '' +
+                                this.point.name + ': ' + this.y + ' fruits';
+                        } else {
+                            s = '' +
+                                this.x + ': ' + this.y;
+                        }
+                        return s;
+                    }
+                },
+                labels: {
+                    items: [{
+                        html: 'Total fruit consumption',
+                        style: {
+                            left: '40px',
+                            top: '8px',
+                            color: 'black'
+                        }
+                    }]
+                },
+                series: [{
+                    type: 'column',
+                    name: 'Jane',
+                    data: [3, 2, 1, 3, 4]
+                }, {
+                    type: 'column',
+                    name: 'John',
+                    data: [2, 3, 5, 7, 6]
+                }, {
+                    type: 'column',
+                    name: 'Joe',
+                    data: [4, 3, 3, 9, 0]
+                }, {
+                    type: 'spline',
+                    name: 'Average',
+                    data: [3, 2.67, 3, 6.33, 3.33],
+                    marker: {
+                        lineWidth: 2,
+                        lineColor: Highcharts.getOptions().colors[3],
+                        fillColor: 'white'
+                    }
+                }, {
+                    type: 'pie',
+                    name: 'Total consumption',
+                    data: [{
+                        name: 'Jane',
+                        y: 13,
+                        color: Highcharts.getOptions().colors[0] // Jane's color
+                    }, {
+                        name: 'John',
+                        y: 23,
+                        color: Highcharts.getOptions().colors[1] // John's color
+                    }, {
+                        name: 'Joe',
+                        y: 19,
+                        color: Highcharts.getOptions().colors[2] // Joe's color
+                    }],
+                    center: [100, 80],
+                    size: 100,
+                    showInLegend: false,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }]
+            });
+        });
+
+
+		</script> 
+   <script type="text/javascript">
+       function onRequestStart(sender, args) {
+           if (args.get_eventTarget().indexOf("Button1") >= 0)
+               args.set_enableAjax(false);
+           if (args.get_eventTarget().indexOf("ExportToExcelButton") >= 0 ||
+                   args.get_eventTarget().indexOf("ExportToWordButton") >= 0 ||
+                   args.get_eventTarget().indexOf("ExportToPdfButton") >= 0) {
+               args.set_enableAjax(false);
+           }
+       }
+    </script>
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
               <asp:Panel ID="panMyCompanies" runat="server">
-                  <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" />       
-                  <h2><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h2>
+                  <div class="span7">
+                      <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
+ <h2>My CERICO</h2>
+                  <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
                         
                         <p><b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b></p>
-                        <ul>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Company Name - Status</th>
+                                   
+                                    <th colspan="3">
+                                        Suppliers
+                                       
+                                    </th>
+
+                                    <th colspan="3">Customers</th>
+                                   
+                                    <th>Actions</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
                                 <ItemTemplate>
-                                    <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />&nbsp;<asp:Label ID="lblStatus" runat="server" />
-                                    </li>
+                                    <tr>
+                                        <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /> - <asp:Label ID="lblStatus" runat="server" /></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-small">View Details</asp:LinkButton> <asp:LinkButton ID="LinkButton2" runat="server" CssClass="btn btn-small">View Certifications</asp:LinkButton></td>
+                                    </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
-                        </ul>
+                            </tbody>
+                       </table>
                         <p>
                             <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
                         <p>
                             If you wish to associate yourself with another company then click the "Start Company Association process" button.
                         </p>
+
+                  </div>
+                  <div class="span5">
+                         
+                     
+                       <div class="pull-right">
+                     
+                      <div id="container" style="min-width: 500px; height: 200px; margin: 0 auto"></div>
+                           </div>
+                  </div>
+                     
+                 
                        
                             
                      </asp:Panel>
@@ -257,8 +449,265 @@
                     </div> 
                    
                 </asp:Panel>
-                <hr />
+                <asp:Panel ID="panCompanyCertification" runat="server" Visible="false">
+                    <asp:Button ID="btnCancelCompanyCert" runat="server" Text="Back" CssClass="btn btn-danger pull-right" />
+                    <h3>Company Certifcation for hello</h3>
+                    <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Certification name</th>
+                                    <th>Company</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Conflict Minerals</td>
+                                    <td>Petrofac</td>
+                                    <td>24/04/2013</td>
+                                    <td>09/05/2013</td>
+                                    <td>In progress (75%)</td>
+                                    <td>
+                                        <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-small btn-primary" NavigateUrl="~/standardquestionnaire.aspx?ci=2">GO</asp:HyperLink></td>
+                                  
+                                </tr>
 
+                            </tbody>
+                           
+
+                        </table>
+
+                </asp:Panel>
+                <hr />
+                <asp:Panel runat="server" ID="panAllActionsDashbaord">
+                    <div class="row-fluid">
+                     <div class="span12">
+                        <h4>My actions [All] - Actions relating to your companies</h4>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Action Title</th>
+                                    <th>Company</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="success">
+                                    <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="Button1" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="warning">
+                                    <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton18" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="error">
+                                    <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton19" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="error">
+                                    <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton20" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="info">
+                                    <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton21" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="info">
+                                     <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton13" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="info">
+                                   <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton14" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="info">
+                                     <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton15" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="info">
+                                     <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton16" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="info">
+                                     <td>New user request</td>
+                                    <td>hello</td>
+                                    <td>01/05/2013</td>
+                                    <td><asp:LinkButton ID="LinkButton17" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+
+                            </tbody>
+                           
+
+                        </table>
+                         <div class="pagination">
+                            <ul>
+    <li><a href="#">Prev</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+                            </div>
+                    </div>
+                      
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span6">
+                        <h4>My Supplier Actions [All]</h4>
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Action Title</th>
+                                    <th>Company</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="warning">
+                                    <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Campbell Nash</td>
+                                    <td>31/10/203</td>
+                                    
+                                    <td><asp:LinkButton ID="LinkButton3" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="warning">
+                                  <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Campbell Nash</td>
+                                    <td>31/10/203</td>
+                                    
+                                    <td><asp:LinkButton ID="LinkButton4" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="warning">
+                                   <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Campbell Nash</td>
+                                    <td>31/10/203</td>
+                                    
+                                    <td><asp:LinkButton ID="LinkButton5" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="info">
+                                  <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Campbell Nash</td>
+                                    <td>31/10/203</td>
+                                    
+                                    <td><asp:LinkButton ID="LinkButton6" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="info">
+                                   <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Campbell Nash</td>
+                                    <td>31/10/203</td>
+                                    
+                                    <td><asp:LinkButton ID="LinkButton7" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                            </tbody>
+                           
+
+                        </table>
+                            <div class="pagination pagination-mini">
+                            <ul>
+    <li><a href="#">Prev</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+                            </div>
+                    </div>
+                    <div class="span6">
+                        <h4>My Customer Actions [All]</h4>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Action Title</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="success">
+                                    <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Petrofac</td>
+                                    <td>In Progress</td>
+                                    <td>31/10/203</td>
+                                    <td><asp:LinkButton ID="LinkButton8" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="warning">
+                                   <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Petrofac</td>
+                                    <td>In Progress</td>
+                                    <td>31/10/203</td>
+                                    <td><asp:LinkButton ID="LinkButton9" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                 <tr class="error">
+                                   <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Petrofac</td>
+                                    <td>In Progress</td>
+                                    <td>31/10/203</td>
+                                    <td><asp:LinkButton ID="LinkButton10" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="error">
+                                 <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Petrofac</td>
+                                    <td>In Progress</td>
+                                    <td>31/10/203</td>
+                                    <td><asp:LinkButton ID="LinkButton11" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                                <tr class="info">
+                                   <td>Et inum vivem ortes auscepo straet</td>
+                                    <td>Petrofac</td>
+                                    <td>In Progress</td>
+                                    <td>31/10/203</td>
+                                    <td><asp:LinkButton ID="LinkButton12" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
+                                </tr>
+                            </tbody>
+                           
+
+                        </table>
+                        <div class="pagination pagination-mini">
+                            <ul>
+    <li><a href="#">Prev</a></li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">Next</a></li>
+  </ul>
+                            </div>
+                    </div>
+                    </div>
+                   
+                    
+                    
+                </asp:Panel>
                
                 
                 <asp:Panel ID="panConfirmAdd" runat="server" Visible="false">
