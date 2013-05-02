@@ -11,7 +11,7 @@
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />
+                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />&nbsp;<asp:Literal ID="litStatus" runat="server" />
                                     </li>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -38,7 +38,7 @@
                         <asp:Repeater ID="rptFoundCompanies" runat="server">
                             <ItemTemplate>
                                 <li>
-                                    <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                    <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="JoinCompany" />
                                 </li>
                             
                             <asp:Panel CssClass="popover" ID="panPopup" runat="server">

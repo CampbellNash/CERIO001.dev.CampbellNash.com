@@ -616,7 +616,7 @@ Namespace MasterClass
         End Function
 
         Public Shared Function RequestCustomer(ByVal CompanyID As Integer, _
-                                               ByVal SupplierCompanyID As Integer) As Integer
+                                               ByVal SupplierCompanyID As Integer) As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("RequestCustomer", Conn)
             Dim paramReturn As SqlParameter = Nothing
@@ -626,33 +626,74 @@ Namespace MasterClass
                                            SupplierCompanyID)
             paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
             paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
             Try
-                Conn.Open()
-                ObjCmd.ExecuteNonQuery()
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "CompanyDetails")
             Finally
-                Conn.Close()
+                sqlMyAdapter.SelectCommand.Connection.Close()
             End Try
-            Return paramReturn.Value
+
+            'Send our dataset back to calling class
+            Return MyDataSet
         End Function
 
         Public Shared Function RequestSupplier(ByVal CompanyID As Integer, _
-                                               ByVal SupplierCompanyID As Integer) As Integer
+                                               ByVal SupplierCompanyID As Integer) As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("RequestSupplier", Conn)
             Dim paramReturn As SqlParameter = Nothing
             ObjCmd.CommandType = CommandType.StoredProcedure
             ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
-            ObjCmd.Parameters.AddWithValue("@SupplierCompanyID",
-                                           SupplierCompanyID)
+            ObjCmd.Parameters.AddWithValue("@SupplierCompanyID", SupplierCompanyID)
             paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
             paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
             Try
-                Conn.Open()
-                ObjCmd.ExecuteNonQuery()
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "CompanyDetails")
             Finally
-                Conn.Close()
+                sqlMyAdapter.SelectCommand.Connection.Close()
             End Try
-            Return paramReturn.Value
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function JoinCustomer(ByVal ContactID As Integer, ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("JoinCompany", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "CompanyDetails")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
         End Function
 
 

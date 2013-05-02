@@ -45,7 +45,7 @@ Partial Class mycompanies
             Else
                 'No customers were found
                 lblNoCompanies.Text = "No companies found!"
-                lblNoCompaniesHelp.Text = "- You have no companies associated, click the button add company so find or add your company"
+                lblNoCompaniesHelp.Text = "- You have no companies associated, click the button add company to find or add your company"
 
             End If
             'Hide the other panels until clicked
@@ -258,7 +258,16 @@ Partial Class mycompanies
 
     Protected Sub ApplyForCustomer(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        NashBLL.RequestCustomer(btnSearchCustomerCompany.CommandArgument, sender.CommandArgument)
+        Dim MailData As DataSet = NashBLL.RequestCustomer(btnSearchCustomerCompany.CommandArgument, sender.CommandArgument)
+        Dim dr As DataRow = MailData.Tables(0).Rows(0)
+        'Create the main mail body
+        Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
+            "A user on CERICO has requested to be accepted as a customer of your company " & dr("CompanyName") & "." & vbCrLf & vbLf & _
+            "Please login to your account at our web site to find out more details." & vbCrLf & vbLf & _
+            "Thank you," & vbCrLf & vbLf & _
+            "CERICO Admin Team."
+        'Now send this mail to the company owner
+        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "Company Customer Request", "", False)
         'Now rebind the repeater
         Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(btnSearchCustomerCompany.CommandArgument)
         rptCustomers.DataSource = MyCustomers
@@ -274,7 +283,16 @@ Partial Class mycompanies
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        Dim dr As DataRow = MailData.Tables(0).Rows(0)
+        'Create the main mail body
+        Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
+            "A user on CERICO has requested to be accepted as a supplier to your company " & dr("CompanyName") & "." & vbCrLf & vbLf & _
+            "Please login to your account at our web site to find out more details." & vbCrLf & vbLf & _
+            "Thank you," & vbCrLf & vbLf & _
+            "CERICO Admin Team."
+        'Now send this mail to the company owner
+        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "Company Supplier Request", "", False)
         'Now rebind the repeater
         Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(btnSearchSuppliers.CommandArgument)
         rptSuppliers.DataSource = MySuppliers
@@ -287,6 +305,31 @@ Partial Class mycompanies
         panSubNav.CssClass = ""
         txtSupplierSearch.Text = ""
     End Sub
+
+    Protected Sub JoinCompany(ByVal sender As Object, ByVal e As System.EventArgs)
+        'First we make our request
+        Dim MailData As DataSet = NashBLL.JoinCustomer(Session("ContactID"), sender.CommandArgument)
+        Dim dr As DataRow = MailData.Tables(0).Rows(0)
+        'Create the main mail body
+        Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
+            "A user on CERICO has requested to be a member of your company " & dr("CompanyName") & "." & vbCrLf & vbLf & _
+            "Please login to your account at our web site to find out more details." & vbCrLf & vbLf & _
+            "Thank you," & vbCrLf & vbLf & _
+            "CERICO Admin Team."
+        'Now send this mail to the company owner
+        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "New Company Member Application", "", False)
+
+        'Now rebind the repeater
+        Dim MyCompanies As DataSet = NashBLL.GetMyCompanies(Session("ContactID"))
+        rptMyCompanies.DataSource = MyCompanies
+        rptMyCompanies.DataBind()
+        panAddCompany.Visible = False
+        panMyCompanies.Visible = True
+        panCustomers.Visible = False
+        panSuppliers.Visible = False
+        panSearchCompanies.Visible = False
+    End Sub
+
 
 #End Region
 
@@ -466,15 +509,22 @@ Partial Class mycompanies
 
     Protected Sub BindCompanies(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
+        Dim litStatus As Literal
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is a data item so we can populate our items
             btnCompanyName = e.Item.FindControl("btnCompanyName")
+            litStatus = e.Item.FindControl("litStatus")
             drv = e.Item.DataItem
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             btnCompanyName.CommandName = drv("CompanyName")
+            If UCase(drv("Approved")) = "Y" Then
+                litStatus.Text = "Approved"
+            Else
+                litStatus.Text = "Awaiting approval"
+            End If
         End If
     End Sub
 
