@@ -265,6 +265,43 @@ Partial Class mysuppliers
         End If
     End Sub
 
+    Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptSupplierSearch.ItemDataBound, rptSuppliers.ItemDataBound
+
+        Dim btnCompanyName As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
+        Dim lblStatus As Label
+
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+
+            lblStatus = e.Item.FindControl("lblStatus")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
+            drv = e.Item.DataItem
+            btnCompanyName.Text = "Select " & drv("CompanyName")
+            btnCompanyName.ToolTip = "Select " & drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
+            Dim MyRepeater As Repeater = sender
+            If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
+                If UCase(drv("Approved")) = "Y" Then
+                    lblStatus.Text = "Approved"
+                Else
+                    lblStatus.Text = "Awaiting Approval"
+                End If
+            End If
+        End If
+    End Sub
 
 
 
