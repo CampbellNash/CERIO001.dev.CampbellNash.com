@@ -17,7 +17,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Company Name</th>
+                                    <th>My Companies</th>
                                     <th>Number of Suppliers</th>
                                     <th>Status</th>
                                     
