@@ -563,8 +563,8 @@ Partial Class mycompanies
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
-            btnCompanyName.Text = "Associate with " & drv("CompanyName")
-            btnCompanyName.ToolTip = "Associate with " & drv("CompanyName")
+            btnCompanyName.Text = "Select " & drv("CompanyName")
+            btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             hypCompanyNameSR.Text = drv("CompanyName")
             hypCompanyNameSR.NavigateUrl = "#"

@@ -220,7 +220,7 @@
                      </asp:Panel>
                 
 
-                <asp:Panel runat="server" ID="panSearchCompanies" Visible="False">
+                <asp:Panel runat="server" ID="panSearchCompanies" Visible="False" DefaultButton="btnSearch">
                     <h3>Search for your Company</h3>
                     Enter your Search term: <asp:TextBox ID="txtSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearch" runat="server" ValidationGroup="search"  CssClass="btn btn-warning" Text="Search" /><br />
                     <asp:RequiredFieldValidator ID="rfvSearch" ValidationGroup="search" ControlToValidate="txtSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
@@ -291,7 +291,7 @@
                                     <asp:HiddenField ID="hidParentCompanyID" runat="server" Value="0" />
                                 </div>
                             </div>
-                            <asp:Panel ID="panParent" runat="server" Visible="false">
+                            <asp:Panel ID="panParent" runat="server" Visible="false" DefaultButton="btnParentSearch">
                                 <div class="control-group">
                                     <div class="controls">
                                 <asp:Button ID="btnCancelParent" runat="server" CssClass="btn-small btn-danger" Text="Cancel"
@@ -313,7 +313,7 @@
                                     <asp:Repeater ID="rptParentCompany" runat="server">
                                         <ItemTemplate>
                                             <li>
-                                                <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ChooseParentCompany" />
+                                                <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> - <asp:LinkButton ID="btnCompanyName" CssClass="btn btn-small btn-success" runat="server" OnClick="ChooseParentCompany" />
                                             </li>
                                             <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                                 <div class="popover-content">
@@ -327,7 +327,7 @@
                                                         <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                                 </div>
                                             </asp:Panel>
-                                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender3" runat="Server" TargetControlID="hypCompanyNameSR"
                                                 PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
                                                 OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>

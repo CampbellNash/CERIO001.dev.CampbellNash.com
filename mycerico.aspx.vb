@@ -32,7 +32,7 @@ Partial Class mycerico
     Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
         If Not Session("UserLoggedIn") Then
             'User is not logged in so send to login page
-            Response.Redirect("~/login.aspx")
+            Response.Redirect("~/default.aspx")
         End If
         If Not IsPostBack Then
             'Go and see if we can get any companies
@@ -584,8 +584,8 @@ Partial Class mycerico
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
-            btnCompanyName.Text = "Associate with " & drv("CompanyName")
-            btnCompanyName.ToolTip = "Associate with " & drv("CompanyName")
+            btnCompanyName.Text = "Select " & drv("CompanyName")
+            btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             hypCompanyNameSR.Text = drv("CompanyName")
             hypCompanyNameSR.NavigateUrl = "#"

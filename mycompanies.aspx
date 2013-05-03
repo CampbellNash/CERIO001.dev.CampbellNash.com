@@ -121,7 +121,7 @@
                                     <asp:Repeater ID="rptParentCompany" runat="server">
                                         <ItemTemplate>
                                             <li>
-                                                <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ChooseParentCompany" />
+                                                <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> - <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ChooseParentCompany" />
                                             </li>
                                             <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                                 <div class="popover-content">
@@ -135,7 +135,7 @@
                                                         <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                                 </div>
                                             </asp:Panel>
-                                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="hypCompanyNameSR"
                                                 PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
                                                 OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>
