@@ -55,65 +55,6 @@
               <p><a class="btn" href="#">View details &raquo;</a></p>
             </div><!--/span-->
           </div><!--/row-->
-    <div class="row-fluid">
-        <div class="span12">
-            <div class="gap"></div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <section id="Introducing">
-            <h2>Introducing CERICO</h2>
-            <p>Ensuring compliance with UK and International Anti-Bribery and
-Corruption legislation can be a challenge.
-In particular, you need to be sure that your supply chain is compliant with
-your company policies. This is where Pinsent Masons CERICO comes in.
-It gives you a process for vetting new and existing suppliers and, in turn,
-their suppliers. </p>
-            <p>It ensures consistent application of company policies
-and keeps an auditable record of the results as a shield against future
-problems.
-When your company’s reputation is at risk, never mind the maximum
-penalty of 10 years imprisonment under the Act, you can’t afford to take
-a chance.</p>
-            </section>
-            
-            
-
-        </div>
-
-    </div>
-     <div class="row-fluid">
-        <div class="span12">
-            <div class="gap"></div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <section id="How">
-                <h2>How it Works</h2>
-                <p>When you start to do business with a new supplier, the system requires
-the purchasing department and the supplier to complete questionnaires
-to check compliance with your company policies.
-In addition, it allows the purchasing department to upload the results of
-third party checks, such as Factiva and incorporate these into the overall
-checks for reputational risk.
-The questionnaires can be customised and they are designed to highlight
-contradictory responses between in-house and supplier statements.
-It is also possible to trigger customisable workfl ows based on the
-questionnaire responses.</p>
-                <p>For example, high-risk responses can trigger
-requests for exemptions or further analysis.
-The supplier’s responses can be made legally binding and part of the
-contract with the supplier to enforce compliance. Once the questionnaires
-have been completed, they are locked and uploaded to the system so
-that they cannot be altered later. </p>
-                <p>This prevents collusion and tampering
-to provide a formal archive.</p>
-            </section>
-
-        </div>
-
-    </div>
-</asp:Content>
+   
+    </asp:Content>
 
