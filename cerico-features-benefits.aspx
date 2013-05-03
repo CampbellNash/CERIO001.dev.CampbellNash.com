@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="cerico-features-benefits.aspx.vb" Inherits="cerico_features_benefits" %>
 
+<%@ Register src="controls/homepageLogin.ascx" tagname="homepageLogin" tagprefix="uc1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
       <h1>CERICO Features & benefits</h1>
     <h3>a dueDILIGENCE solution</h3>
@@ -7,17 +9,9 @@
             <p><a href="#" class="btn btn-info btn-large">Another option &raquo;</a></p>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphHeroRight" Runat="Server">
-    <div class="hpform-signin">
-                        <input type="text" class="input-block-level" placeholder="Email address - this will be your username" />
-                        <input type="password" class="input-block-level" placeholder="Password" />
-                        <label><small>Tip: use at least one number and at least 7 characters.</small></label>
-                        <label class="checkbox">
-                          <input type="checkbox" value="remember-me" /> Remember me
-                        </label>
-                        <button class="btn btn-large btn-success" type="submit">Sign up for CERIO</button>
-                        <label><a href="register.aspx">Register?</a></label>
-                        <label><a href="#">See plans and pricing</a></label>
-                    </div>
+   
+    <uc1:homepageLogin ID="homepageLogin1" runat="server" />
+   
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphLowerSection" Runat="Server">
       <div class="row-fluid">

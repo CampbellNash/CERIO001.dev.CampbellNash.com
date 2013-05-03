@@ -45,6 +45,18 @@ Partial Class masterpages_site
                 navloggedOut.Visible = False
                 navloggedin.Visible = True
                 'now lets manage the styles on the active page
+                If System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "default.aspx" Then
+                    menuhome.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "about-cerico.aspx" Then
+                    menuabout.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "cerico-features-benefits.aspx" Then
+                    menufeatures.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "pricing.aspx" Then
+                    menupricing.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "contact.aspx" Then
+                    menucontact.Attributes.Add("class", "active")
+                End If
+                'now lets manage the styles on the active page when logged in
                 If System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mycerico.aspx" Then
                     menumycerico.Attributes.Add("class", "active")
                 ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mysuppliers.aspx" Then

@@ -57,11 +57,11 @@
             <!-- This is the menu if we are NOT logged in -->
                 <div id="navloggedOut" runat="server" visible="false">
                     <ul class="nav">
-                      <li class="active"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/default.aspx" Text="Home" /></li>
-                      <li><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/about-CERICO.aspx" Text="About" /></li>
-                      <li><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/cerico-features-benefits.aspx" Text="Features" /></li>
-                      <li><asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/pricing.aspx" Text="Pricing" /></li>
-                      <li><asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/contact.aspx" Text="Contact" /></li>
+                      <li id="menuhome" runat="server"><asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/default.aspx" Text="Home" /></li>
+                      <li id="menuabout" runat="server"><asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/about-CERICO.aspx" Text="About" /></li>
+                      <li id="menufeatures" runat="server"><asp:HyperLink ID="HyperLink3" runat="server" NavigateUrl="~/cerico-features-benefits.aspx" Text="Features" /></li>
+                      <li id="menupricing" runat="server"><asp:HyperLink ID="HyperLink4" runat="server" NavigateUrl="~/pricing.aspx" Text="Pricing" /></li>
+                      <li id="menucontact" runat="server"><asp:HyperLink ID="HyperLink5" runat="server" NavigateUrl="~/contact.aspx" Text="Contact" /></li>
                     </ul>
                  </div>
             <!-- This is the menu if we are logged in -->

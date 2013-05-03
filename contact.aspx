@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/landing.master" AutoEventWireup="false" CodeFile="contact.aspx.vb" Inherits="contact" %>
 
+<%@ Register src="controls/homepageLogin.ascx" tagname="homepageLogin" tagprefix="uc1" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcHeroLeft" Runat="Server">
      <h1>Contact CERICO</h1>
     <h3>a dueDILIGENCE solution</h3>
@@ -7,6 +9,9 @@
             
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphHeroRight" Runat="Server">
+
+    <uc1:homepageLogin ID="homepageLogin1" runat="server" />
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="cphLowerSection" Runat="Server">
     
