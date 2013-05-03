@@ -273,7 +273,7 @@
                             <ul>
                                 <asp:Repeater ID="rptCustomers" runat="server">
                                     <ItemTemplate>
-                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:label ID="lblStatus" runat="server" /></li>
+                                        <li><asp:HyperLink ID="hypCompanyNameSR" runat="server" /> - <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:label ID="lblStatus" runat="server" /></li>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                 <h5>
@@ -315,7 +315,7 @@
                             <asp:Repeater ID="rptCustomerSearch" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForCustomer" />
+                                       <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> -  <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForCustomer" />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
@@ -352,7 +352,7 @@
                                 <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindCompanies">
                                     <ItemTemplate>
                                         <li>
-                                            <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Label ID="lblStatus" runat="server" /></li>
+                                            <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> - <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Label ID="lblStatus" runat="server" /></li>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                  <h5>Full Company details </h5>
@@ -394,7 +394,7 @@
                             <asp:Repeater ID="rptSupplierSearch" runat="server">
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" />
+                                        <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> -  <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
@@ -424,7 +424,7 @@
 
                 </asp:Panel>
         </div>
-  </Telerik:RadAjaxPanel>  
+     </Telerik:RadAjaxPanel>  
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
             <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">

@@ -550,14 +550,14 @@ Partial Class mycompanies
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
-        Dim litStatus As Literal
+        Dim lblStatus As Label
         Dim hypCompanyNameSR As HyperLink
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             hypCompanyNameSR = e.Item.FindControl("hypCompanyNameSR")
-            litStatus = e.Item.FindControl("litStatus")
+            lblStatus = e.Item.FindControl("lblStatus")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
@@ -574,9 +574,9 @@ Partial Class mycompanies
             Dim MyRepeater As Repeater = sender
             If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
                 If UCase(drv("Approved")) = "Y" Then
-                    litStatus.Text = "Approved"
+                    lblStatus.Text = "Approved"
                 Else
-                    litStatus.Text = "Awaiting Approval"
+                    lblStatus.Text = "Awaiting Approval"
                 End If
             End If
         End If
