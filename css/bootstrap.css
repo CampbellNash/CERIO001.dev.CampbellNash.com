@@ -17,6 +17,22 @@
     padding-top: 50px;
     padding-bottom: 50px;
 }
+.gapright
+{
+    margin-right: 5px;
+}
+.gapleft
+{
+    margin-left: 5px;
+}
+.gapbottom
+{
+    margin-bottom: 5px;
+}
+.gaptop
+{
+    margin-top: 5px;
+}
 .modalBackground
 {
     background-color: #666666;
@@ -3446,8 +3462,7 @@ input[type="button"].btn-block {
   background-image: -o-linear-gradient(top, #62c462, #51a351);
   background-image: linear-gradient(to bottom, #62c462, #51a351);
   background-repeat: repeat-x;
-  border-color: #51a351 #51a351 #387038;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border:none;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
@@ -5702,6 +5717,18 @@ a.badge:focus {
 .badge-important[href] {
   background-color: #953b39;
 }
+
+.label-loginpanel,
+.badge-loginpanel {
+  background-color: #ffffff;
+}
+
+.label-loginpanel[href], .badge-loginpanel[href]
+{
+    background-color: #ffffff;
+    color: #CC3300;
+}
+
 
 .label-warning,
 .badge-warning {
