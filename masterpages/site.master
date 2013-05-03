@@ -38,16 +38,19 @@
               <asp:Image ID="Image1" runat="server" ImageUrl="~/img/main-logo.png" AlternateText="CERICO / A Compliance and Due Diligence solution" ToolTip="CERICO / A Compliance and Due Diligence solution" /></h1></a>
           <div class="navbar-text pull-right">
               <a class="btn" href="../default.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
-              <asp:Panel ID="panloggedInHeader" runat="server" Visible="false" CssClass="panHeaderStatus pull-right"><span class="loggedInHeaderText">Logged in as <strong><asp:HyperLink ID="hypHeaderUserFullName" runat="server" /></strong></span>
-              <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout pull-right" Text="Logout" />
+              
+              <asp:Panel ID="panloggedInHeader" runat="server" Visible="false" CssClass="panHeaderStatus pull-right">
+                  <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout pull-right gapleft" Text="Logout" />
+                  <span class="loggedInHeaderText">Logged in as <strong><asp:HyperLink ID="hypHeaderUserFullName" runat="server" /></strong></span>
+              
               <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
               
-                  <div class="companySelector">
-                Select Company: <asp:DropDownList ID="cboCompanySelector" runat="server" CssClass="dropdown-toggle">
+                  <div class="companySelector" >
+                <!--Select Company: <asp:DropDownList ID="cboCompanySelector" runat="server" CssClass="dropdown-toggle">
                     <asp:ListItem>View all</asp:ListItem>                
                     <asp:ListItem>Company 1</asp:ListItem>
                                     <asp:ListItem>Company 2</asp:ListItem>
-                                </asp:DropDownList>
+                                </asp:DropDownList>-->
             </div> 
               </asp:Panel>
             </div>
