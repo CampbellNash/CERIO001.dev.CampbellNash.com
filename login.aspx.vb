@@ -49,7 +49,7 @@ Partial Class login
                 Session("Surname") = dr("Surname")
                 Session("EmailAddress") = dr("EmailAddress")
                 'Now we can redirect to the home page
-                Response.Redirect("~/home.aspx")
+                Response.Redirect("~/mycerico.aspx")
             Case -1
                 'Incorrect user name
                 lblWarning.Text = "<br />Incorrect username or password, please check your details and try again [1]"

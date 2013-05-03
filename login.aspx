@@ -15,9 +15,6 @@
                         <label>Password (<asp:LinkButton ID="btnForgot" runat="server" Text="forgot password!" CausesValidation="false" />)</label>
                         <asp:TextBox ID="txtPassword" runat="server" CssClass="input-block-level" placeholder="Password" TabIndex="2" TextMode="Password" />
                         <asp:RequiredFieldValidator ID="rfvPassword" ControlToValidate="txtPassword" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter your password"></asp:RequiredFieldValidator>
-                        <label class="checkbox">
-                          <input type="checkbox" value="remember-me" /> Remember me
-                        </label>
                         <asp:LinkButton ID="btnLogin" runat="server" class="btn">Sign in</asp:LinkButton>
                         <asp:Label ID="lblWarning" runat="server" CssClass="alert-error" />
                         </asp:Panel>
