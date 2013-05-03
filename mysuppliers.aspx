@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-   
+   <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
          
             <div class="span9">
                 <h2>Manage Suppliers</h2>
@@ -72,12 +72,25 @@
                      <div class="span9">
                           
                         <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
-
-                            <ul>
-                                <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindCompanies">
+                            <div runat="server" id="divSuppliers">
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Supplier Name</th>
+                                    
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindSuppliers">
                                     <ItemTemplate>
-                                        <li>
-                                            <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Label ID="lblStatus" runat="server" /></li>
+                                        <tr>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
+                                            <td>
+                                            <asp:Label ID="lblStatus" runat="server" />
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                  <h5>Full Company details </h5>
@@ -92,10 +105,20 @@
                                         <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
                                             PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
                                             OffsetY="0" PopDelay="50" />
+                                                </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary">View Details</asp:LinkButton>
+                                                <asp:LinkButton ID="btnSupplierUsers" runat="server" CssClass="btn btn-mini btn-primary">View Users</asp:LinkButton>
+                                                <asp:LinkButton ID="btnSupplierCerts" runat="server" CssClass="btn btn-mini btn-primary">Manage Certifcations</asp:LinkButton>
+                                                <asp:LinkButton ID="btnSupplierEmail" runat="server" CssClass="btn btn-mini btn-primary">Email</asp:LinkButton>
+                                            </td>
+                                        </tr>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                            </ul>
-
+                            </tbody>
+                                 </table>
+                         <h4>Want to add more suppliers? Click the button below.</h4>
+                         </div>
                         <p>
                             <asp:Label ID="lblNoSuppliers" runat="server" CssClass="failureNotification" EnableViewState="false" />
                         </p>
@@ -202,7 +225,7 @@
               
         </div>
         
-      
+    </Telerik:RadAjaxPanel>  
   
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>

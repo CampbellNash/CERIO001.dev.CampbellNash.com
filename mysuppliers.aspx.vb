@@ -80,6 +80,8 @@ Partial Class mysuppliers
             lblNoSuppliers.Text = "No suppliers found!"
             lblCompanySuppliers.Text = sender.CommandName
             rptSuppliers.Visible = False
+            divSuppliers.Visible = False
+
         End If
         panMyCompanies.Visible = False
         panSuppliers.Visible = True
@@ -212,7 +214,41 @@ Partial Class mysuppliers
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             btnCompanyName.CommandName = drv("CompanyName")
+
             lblTotalSuppliers.Text = drv("TotalSuppliers")
+            If UCase(drv("Approved")) = "Y" Then
+                lblStatus.Text = "Approved"
+                lblStatus.CssClass = "label label-success"
+
+            Else
+                lblStatus.Text = "Awaiting approval"
+                lblStatus.CssClass = "label"
+                btnCompanyName.Enabled = False
+                btnCompanyName.Attributes.Remove("href")
+                btnCompanyName.CssClass = "disabled"
+
+
+            End If
+        End If
+    End Sub
+
+    Protected Sub BindSuppliers(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
+        Dim btnCompanyName As LinkButton
+
+        Dim lblStatus As Label
+        Dim drv As DataRowView
+        Dim MyRepeater As Repeater = sender
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is a data item so we can populate our items
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+
+            lblStatus = e.Item.FindControl("lblStatus")
+            drv = e.Item.DataItem
+            btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+            btnCompanyName.CommandName = drv("CompanyName")
+
+
             If UCase(drv("Approved")) = "Y" Then
                 lblStatus.Text = "Approved"
                 lblStatus.CssClass = "label label-success"
