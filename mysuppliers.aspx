@@ -10,7 +10,7 @@
                      
                   
                   
-                  <p>To manage you supplier please select one of your companies from the table below:</p>
+                  <p>To manage your supplier's please select one of your companies from the table below:</p>
                         
                    
                         
