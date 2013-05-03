@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycerico.vb" Inherits="mycerico" %>
+﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycerico.aspx.vb" Inherits="mycerico" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -185,13 +185,13 @@
                                 <ItemTemplate>
                                     <tr>
                                         <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /> - <asp:Label ID="lblStatus" runat="server" /></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td><asp:LinkButton ID="LinkButton1" runat="server" CssClass="btn btn-small">View Details</asp:LinkButton> <asp:LinkButton ID="LinkButton2" runat="server" CssClass="btn btn-small">View Certifications</asp:LinkButton></td>
+                                        <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="2" /></td>
+                                        <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
+                                        <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="1" CssClass="label" /></td>
+                                        <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" /></td>
+                                        <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
+                                        <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
+                                        <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small">View Details</asp:LinkButton> <asp:LinkButton ID="LinkButton2" runat="server" CssClass="btn btn-small">View Certifications</asp:LinkButton></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>

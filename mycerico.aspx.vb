@@ -514,33 +514,49 @@ Partial Class mycerico
 
     Protected Sub BindCompanies(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
-
+        Dim lblTotalCustomers As Label
+        Dim lblApprovedCustomers As Label
+        Dim lblUnapprovedCustomers As Label
+        Dim lblTotalSuppliers As Label
+        Dim lblApprovedSuppliers As Label
+        Dim lblUnapprovedSuppliers As Label
         Dim lblStatus As Label
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
+       
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is a data item so we can populate our items
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-
+            lblTotalCustomers = e.Item.FindControl("lblTotalCustomers")
+            lblApprovedCustomers = e.Item.FindControl("lblApprovedCustomers")
+            lblUnapprovedCustomers = e.Item.FindControl("lblUnapprovedCustomers")
+            lblTotalSuppliers = e.Item.FindControl("lblTotalSuppliers")
+            lblApprovedSuppliers = e.Item.FindControl("lblApprovedSuppliers")
+            lblUnapprovedSuppliers = e.Item.FindControl("lblUnapprovedSuppliers")
             lblStatus = e.Item.FindControl("lblStatus")
+            'Now get our data item
             drv = e.Item.DataItem
+            'Bind our data to the controls now
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             btnCompanyName.CommandName = drv("CompanyName")
-
+            lblTotalCustomers.Text = drv("TotalCustomers")
+            lblApprovedCustomers.Text = drv("ApprovedCustomers")
+            lblUnapprovedCustomers.Text = drv("UnapprovedCustomers")
+            lblTotalSuppliers.Text = drv("TotalSuppliers")
+            lblApprovedSuppliers.Text = drv("ApprovedSuppliers")
+            lblUnapprovedSuppliers.Text = drv("UnapprovedSuppliers")
             If UCase(drv("Approved")) = "Y" Then
                 lblStatus.Text = "Approved"
                 lblStatus.CssClass = "label label-success"
-
             Else
                 lblStatus.Text = "Awaiting approval"
                 lblStatus.CssClass = "label"
                 btnCompanyName.Enabled = False
                 btnCompanyName.Attributes.Remove("href")
                 btnCompanyName.CssClass = "disabled"
-
-
             End If
+            
         End If
     End Sub
 
