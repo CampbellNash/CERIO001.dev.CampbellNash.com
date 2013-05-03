@@ -5,7 +5,7 @@
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <h2 class="form-signin-heading">CERICO Registration</h2>
              <asp:Panel ID="panMain" runat="server" Visible="true">
-                <h3>Supplier&#39;s get certified and customers gain confidence, make the connections all for £20 pa.</h3>
+                <h3>Supplier&#39;s get certified and customers gain confidence, make the connections for NO upfront costs.</h3>
                 <p>Items marked with <span class="alert-error">*</span> are requried</p>
                     <div class="form-signin form-horizontal">
                         <div class="control-group">
@@ -91,7 +91,9 @@
                         </div>
                        </div>
                        <p><asp:Label ID="lblResult" runat="server" CssClass="alert-error" EnableViewState="false" /></p>
-                         <asp:Button ID="btnRegister" runat="server" Text="Register with CERICO" ValidationGroup="RegisterValidationGroup" CssClass="btn btn-success pull-right" /> 
+                         
+                        <asp:Button ID="btnRegister" runat="server" Text="Register with CERICO" ValidationGroup="RegisterValidationGroup" CssClass="btn btn-large btn-success pull-right" />
+                         <asp:HyperLink ID="hypCancelRegister" runat="server" CssClass="btn btn-danger btn-large pull-right gapright" NavigateUrl="~/Default.aspx">Cancel</asp:HyperLink>
                     </div>
                     </asp:panel>
                     <asp:Panel ID="panSuccess" runat="server" Visible="false">
