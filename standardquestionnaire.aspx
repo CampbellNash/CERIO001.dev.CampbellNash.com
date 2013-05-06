@@ -58,7 +58,7 @@
             <p><asp:HyperLink ID="hypMyCerico" runat="server" NavigateUrl="~/mycerico.aspx" Text="Click Here" /> to return to your home page.</p>
         </asp:Panel>
         
-        <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="modal-body">
+        <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="">
             <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-warning pull-right" Text="Close Questionnaire" />
              
                 <h4>Progress</h4>

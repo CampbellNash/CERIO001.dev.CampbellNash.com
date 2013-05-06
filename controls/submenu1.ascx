@@ -1,4 +1,23 @@
 ﻿<%@ Control Language="VB" AutoEventWireup="false" CodeFile="submenu1.ascx.vb" Inherits="controls_submenu1" %>
+<script type="text/javascript">
+        //<![CDATA[
+    function openRadWin(URL) {
+        var oWindow = radopen(URL, "rwMyWindow");
+        //oWindow.moveTo(400, 50); 
+    }
+    
+    function RefreshPage(){
+        window.location = 'mycerico.aspx';
+    }
+ //]]>                                                                        
+</script>
+<Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
+    <Windows>
+        <Telerik:RadWindow runat="server" ID="rwMyWindow" DestroyOnClose="false" Width="1000px"
+            Height="800px" Modal="true" InitialBehaviors="Reload" VisibleStatusbar="false"
+            Behaviors="Close" ReloadOnShow="true" OnClientClose="RefreshPage" />
+    </Windows>
+</Telerik:RadWindowManager>
 <div class="well sidebar-nav">
                     <ul class="nav nav-list">
                         <li class="nav-header">Main Navigation</li>
@@ -12,7 +31,7 @@
                     
                     <ul class="nav nav-list">
                         <li class="nav-header">Latest Assigned Actions</li>
-                        <li class="active"><asp:HyperLink ID="hypQuestionnaire" runat="server" NavigateUrl="~/standardquestionnaire.aspx?ci=2" Text="Complete Conflict Minerals with Petrofac" /></li>
+                        <li class="active"><asp:HyperLink ID="hypQuestionnaire" runat="server" NavigateUrl="JavaScript:openRadWin('questionnairepopup.aspx?ci=2');" Text="Complete Conflict Minerals with Petrofac" /></li>
                         <li><a href="#">Start Due Dilligence with Apple</a></li>
                         <li><a href="#">Respond to supplier request from Campbell Nash</a></li>
                         <li><a href="#">Respond to supplier request from Apple</a></li>
