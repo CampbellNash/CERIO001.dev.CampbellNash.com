@@ -157,32 +157,73 @@ Namespace MasterClass
             End Try
         End Function
 
-        Public Shared Function SendUserAndPassword(ByVal EmailAddress As String) As String
-            Dim Conn As SqlConnection = New SqlConnection(strConnString)
-            Dim ObjCmd As SqlCommand = New SqlCommand("SendUserAndPassword", Conn)
-            Dim rsMain As SqlDataReader
-            Dim UserData As String = ""
-            ObjCmd.CommandType = CommandType.StoredProcedure
-            ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
-            Conn.Open()
-            rsMain = ObjCmd.ExecuteReader()
-            rsMain.Read()
-            If rsMain("Email") = "-1" Then
-                'Not a verified account
-                UserData = "-1"
-            ElseIf rsMain("Email") = "-2" Then
-                'No such user was found
-                UserData = "-2"
-            Else
-                'We got a record back so we can send the items back to .NET
-                UserData = rsMain("Email") & "," & rsMain("Password") & "," & rsMain("FirstName")
-            End If
+        Public Shared Function SendUserAndPAssword(ByVal EmailAddress As String) As String
+            Return ""
+        End Function
 
-            'Close any connections & recordsets now
-            rsMain.Close()
-            Conn.Close()
-            'Inform our calling site of the result
-            SendUserAndPassword = UserData
+        Public Shared Function UploadFile(ByVal CompanyID As Integer, _
+                                          ByVal ContactID As Integer, _
+                                          ByVal FileName As String) As Integer
+
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("AddNewFile", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            ObjCmd.Parameters.AddWithValue("@FileName", FileName)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function GetCompanyFiles(ByVal CompanyID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetCompanyFiles", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "FileList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+
+        End Function
+
+        Public Shared Function DeleteFile(ByVal FileID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteFile", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@FileID", FileID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
         End Function
 
 #End Region
@@ -698,6 +739,7 @@ Namespace MasterClass
         End Function
 
         Public Shared Function JoinCustomer(ByVal ContactID As Integer, ByVal CompanyID As Integer) As DataSet
+            'This is the request to join an existing company as a member of it e.g. employee or director etc
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("JoinCompany", Conn)
             Dim paramReturn As SqlParameter = Nothing
@@ -723,11 +765,76 @@ Namespace MasterClass
             Return MyDataSet
         End Function
 
+        Public Shared Function ThisIsNotOneOfMyCompanies(ByVal ContactID As Integer, _
+                                                         ByVal CompanyID As Integer) As Boolean
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("CheckMyCompanies", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Select Case paramReturn.Value
+                Case 0
+                    'This is not one of my companies so return true
+                    Return True
+                Case Else
+                    'This is one of my companies so return false
+                    Return False
+            End Select
+
+        End Function
 
 
 #End Region
 
 #Region " Questionnaires "
+
+        Public Shared Function CloseQuestionnaire(ByVal CompanyID As Integer, _
+                                                  ByVal ContactID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("CloseQuestionnaire", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return 0
+
+        End Function
+
+        Public Shared Function GetQuestionnaireCloser(ByVal CompanyID As Integer) As String
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetQuestionnaireCloser", Conn)
+            Dim rsMain As SqlDataReader
+            Dim Name As String = ""
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            Try
+                Conn.Open()
+                rsMain = ObjCmd.ExecuteReader(CommandBehavior.CloseConnection)
+                'Get our record
+                rsMain.Read()
+                Name = rsMain("CloserName")
+            Finally
+                'Destroy object
+                ObjCmd.Dispose()
+                Conn.Close()
+            End Try
+            'Send login details back to page
+            Return Name
+        End Function
 
         Public Shared Function GetMyQuestionnaire(ByVal CompanyID As Integer) As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)

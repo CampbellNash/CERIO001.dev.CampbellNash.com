@@ -27,10 +27,13 @@ Imports MasterClass
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
 Imports Telerik.Web.UI
+Imports System.Reflection
+
 Partial Class standardquestionnaire
     Inherits System.Web.UI.Page
     Public gbLoopCount As Integer
     Public CompanyID As Integer
+    Public ReadOnlyMode As Boolean = False
 
 #Region " User Defined Functions "
 
@@ -80,8 +83,8 @@ Partial Class standardquestionnaire
 
 #End Region
 
-    Protected Sub Page_Load(sender As Object, e As EventArgs) Handles Me.Load
-        'Always reset our gloabl loopcount
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
+        'Always reset our global loopcount
         gbLoopCount = 0
         If Not Session("UserLoggedIn") Then
             'User is not logged in so send to login page
@@ -97,7 +100,16 @@ Partial Class standardquestionnaire
             CompanyID = Request.QueryString("ci")
         End If
 
+        If NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), CompanyID) Then
+            hidReadOnly.Value = "True"
+        End If
+
+        If hidReadOnly.Value = "True" Then
+            ReadOnlyMode = True
+        End If
+
         If Not IsPostBack Then
+
             btnSave.CommandArgument = 1
             'Populate the form elements
             cboBusinessType.DataSource = NashBLL.GetBusinessAreas
@@ -119,7 +131,45 @@ Partial Class standardquestionnaire
             btnNext.CommandArgument = 1
             btnPrev.Visible = False
             divProgressbar.Attributes.Add("style", "width: 16.6%;")
+            'We need to check if our viewer can fill any items on this form
+            If ReadOnlyMode Then
+                'This is someone from another company viewing my company questionnaire so make it read only
+                'or the original company viewing after it was saved & closed
+                For Each Control In panForm.Controls
+                    DisableControls(Control)
+                Next
+                'Hide these buttons as we're now read only
+                btnSave.Visible = False
+                btnClose.Visible = False
+            End If
         End If
+    End Sub
+
+    Private Sub DisableControls(ByVal control As System.Web.UI.Control)
+       
+        For Each Item As System.Web.UI.Control In control.Controls
+
+            'Get the Enabled property by reflection.
+            Dim ControlType As Type = Item.GetType
+            Dim ControlProperty As PropertyInfo = ControlType.GetProperty("Enabled")
+            'Set it to False to disable the control or hide it if its a button or linkbutton.
+            If Not ControlProperty Is Nothing Then
+                If ControlType.Name.ToLower = "linkbutton" OrElse ControlType.Name.ToLower = "button" Then
+                    'This is a linkbutton or a button inside a repeater or panel
+                    Item.Visible = False
+                Else
+                    'Not a button or linkbutton so show it but make it disabled
+                    ControlProperty.SetValue(Item, False, Nothing)
+                End If
+            End If
+            ' Recurse into child controls.
+            If Item.Controls.Count > 0 Then
+                'This is possibly a repeater or panel control that has other child elements
+                Me.DisableControls(Item)
+            End If
+
+        Next
+
     End Sub
 
     Private Sub LoadQuestionnaire()
@@ -311,6 +361,18 @@ Partial Class standardquestionnaire
         Else
             txtIntermediaries.Text = ""
         End If
+        'Now we need to decide if we have it closed or not
+        If Not IsDBNull(FormData("DateCompleted")) Then
+            'This questionnaire is now closed
+            chkSignOff.Checked = True
+            hidReadOnly.Value = "True"
+            ReadOnlyMode = True
+            litUsername.Text = NashBLL.GetQuestionnaireCloser(CompanyID)
+            btnClose.Visible = False
+        Else
+            litUsername.Text = Session("FirstName") & " " & Session("Surname")
+        End If
+
     End Sub
 
     Private Sub BindRepeaters()
@@ -431,7 +493,7 @@ Partial Class standardquestionnaire
         BindRepeaters()
     End Sub
 
-    Protected Sub rblIndependent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblIndependent.SelectedIndexChanged
+    Protected Sub rblIndependent_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles rblIndependent.SelectedIndexChanged
         If rblIndependent.SelectedIndex = 1 Then
             panIndependentAudit.Visible = True
         Else
@@ -439,7 +501,8 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+    Protected Sub btnSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnSave.Click, _
+                                                                                btnClose.Click
         'Do our update to the db and then show the confirmation panels
         Dim LoopCount As Integer = 0
         Dim CompanyName As String = ""
@@ -698,11 +761,25 @@ Partial Class standardquestionnaire
         'Update any new lines that were added
         UpdateNewLines()
         'Finally show our confirmation panels
-        panSaveDraft.Visible = True
-        panForm.Visible = False
+        If sender.CommandName = "Close" Then
+            'We are closing our form now
+            If chkSignOff.Checked Then
+                'Close the questionnaire
+                NashBLL.CloseQuestionnaire(CompanyID, Session("ContactID"))
+                panForm.Visible = False
+                panClosed.Visible = True
+            Else
+                'Not checked the box to finalise
+                lblErrorMessage.Text = "Please check the sign off box and try again!"
+            End If
+        Else
+            panSaveDraft.Visible = True
+            panForm.Visible = False
+        End If
+
     End Sub
 
-    Protected Sub btnReOpen_Click(sender As Object, e As EventArgs) Handles btnReOpen.Click
+    Protected Sub btnReOpen_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnReOpen.Click
         Response.Redirect("~/standardquestionnaire.aspx?ci=" & CompanyID)
         'ReOpen(sender.CommandArgument)
     End Sub
@@ -760,7 +837,7 @@ Partial Class standardquestionnaire
 
 #Region " Navigation Buttons "
 
-    Protected Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
+    Protected Sub btnNext_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnNext.Click
         Dim CompanyPercentage As Double = 0
         Dim ThereWasAnError As Boolean = False
 
@@ -781,7 +858,7 @@ Partial Class standardquestionnaire
                 btnSave.CommandArgument = 2
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 2
-                
+
                 'First we need to check our director percentage
                 For Each Item As RepeaterItem In rptShareholders.Items
                     Dim txtPercentOwned As TextBox = Item.FindControl("txtPercentOwned")
@@ -868,13 +945,22 @@ Partial Class standardquestionnaire
                 divProgressbar.Attributes.Add("style", "width: 100%;")
                 lblProgress.Width = "1000"
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
+                'Now rebind our files list
+                Dim FileList As DataSet = NashBLL.GetCompanyFiles(CompanyID)
+                rptFiles.DataSource = FileList
+                rptFiles.DataBind()
             Case Else
 
         End Select
+        If ReadOnlyMode Then
+            'Make sure we don't ever show the save or close buttons
+            btnSave.Visible = False
+            btnClose.Visible = False
+        End If
         'lblErrorMessage.Text &= "Next Page value = " & btnNext.CommandArgument & "<br />"
     End Sub
 
-    Protected Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
+    Protected Sub btnPrev_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnPrev.Click
         btnClose.Visible = False
         Select Case sender.CommandArgument
             Case 1
@@ -964,13 +1050,18 @@ Partial Class standardquestionnaire
 
         End Select
         'lblErrorMessage.Text &= "Prev Page Value = " & btnPrev.CommandArgument & "<br />"
+        If ReadOnlyMode Then
+            'Make sure we don't ever show the save or close buttons
+            btnSave.Visible = False
+            btnClose.Visible = False
+        End If
     End Sub
 
 #End Region
 
 #Region " Select Minerals & Countries "
 
-    Protected Sub SelectMineral(sender As Object, e As EventArgs)
+    Protected Sub SelectMineral(ByVal sender As Object, ByVal e As EventArgs)
         For Each Item As RepeaterItem In rptMinerals.Items
             Dim ButtonList As RadioButtonList = Item.FindControl("rblMineral")
             Dim panMineral As Panel = Item.FindControl("panMineral")
@@ -995,7 +1086,7 @@ Partial Class standardquestionnaire
         CheckMinerals()
     End Sub
 
-    Protected Sub CheckCountry(sender As Object, e As EventArgs)
+    Protected Sub CheckCountry(ByVal sender As Object, ByVal e As EventArgs)
         CheckMinerals()
     End Sub
 
@@ -1004,7 +1095,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage New Lines "
 
-    Protected Sub btnAddPurpose_Click(sender As Object, e As EventArgs) Handles btnAddPurpose.Click
+    Protected Sub btnAddPurpose_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddPurpose.Click
         'Call the main routine
         AddPurpose()
         'Now we can finally add our new line
@@ -1045,7 +1136,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeletePurposeLine(sender As Object, e As EventArgs)
+    Protected Sub DeletePurposeLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1080,7 +1171,7 @@ Partial Class standardquestionnaire
         rptPurpose.DataBind()
     End Sub
 
-    Protected Sub btnAddProcess_Click(sender As Object, e As EventArgs) Handles btnAddProcess.Click
+    Protected Sub btnAddProcess_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddProcess.Click
         AddProcess()
         'Now we can finally add our new line
         NashBLL.AddProcessLine(CompanyID)
@@ -1120,7 +1211,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteProcessLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteProcessLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1155,7 +1246,7 @@ Partial Class standardquestionnaire
         rptProcess.DataBind()
     End Sub
 
-    Protected Sub btnAddComponent_Click(sender As Object, e As EventArgs) Handles btnAddComponent.Click
+    Protected Sub btnAddComponent_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddComponent.Click
         AddComponent()
         'Now we can finally add our new line
         NashBLL.AddComponentLine(CompanyID)
@@ -1195,7 +1286,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteComponentLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteComponentLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1230,7 +1321,7 @@ Partial Class standardquestionnaire
         rptComponent.DataBind()
     End Sub
 
-    Protected Sub btnAddScrapSource_Click(sender As Object, e As EventArgs) Handles btnAddScrapSource.Click
+    Protected Sub btnAddScrapSource_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddScrapSource.Click
         AddScrapSource()
         'Now we can finally add our new line
         NashBLL.AddScrapLine(CompanyID)
@@ -1270,7 +1361,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteScrapLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteScrapLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1305,7 +1396,7 @@ Partial Class standardquestionnaire
         rptScrap.DataBind()
     End Sub
 
-    Protected Sub btnAddRecycled_Click(sender As Object, e As EventArgs) Handles btnAddRecycled.Click
+    Protected Sub btnAddRecycled_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddRecycled.Click
         AddRecycled()
         'Now we can finally add our new line
         NashBLL.AddRecycleLine(CompanyID)
@@ -1345,7 +1436,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteRecyleLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteRecyleLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1380,7 +1471,7 @@ Partial Class standardquestionnaire
         rptRecycled.DataBind()
     End Sub
 
-    Protected Sub btnAddExtraction_Click(sender As Object, e As EventArgs) Handles btnAddExtraction.Click
+    Protected Sub btnAddExtraction_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddExtraction.Click
         AddExtraction()
         'Now we can finally add our new line
         NashBLL.AddExtractionLine(CompanyID)
@@ -1432,7 +1523,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteExtractionLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteExtractionLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
@@ -1479,7 +1570,7 @@ Partial Class standardquestionnaire
         rptExtraction.DataBind()
     End Sub
 
-    Protected Sub btnAddFacility_Click(sender As Object, e As EventArgs) Handles btnAddFacility.Click
+    Protected Sub btnAddFacility_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddFacility.Click
         AddFacility()
         'Now we can finally add our new line
         NashBLL.AddFacilityLine(CompanyID)
@@ -1517,7 +1608,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteFacilityLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteFacilityLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtFacilityName As TextBox
@@ -1550,7 +1641,7 @@ Partial Class standardquestionnaire
         rptFacility.DataBind()
     End Sub
 
-    Protected Sub btnAddTransporter_Click(sender As Object, e As EventArgs) Handles btnAddTransporter.Click
+    Protected Sub btnAddTransporter_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddTransporter.Click
         AddTransporter()
         'Now we can finally add our new line
         NashBLL.AddTransportLine(CompanyID)
@@ -1588,7 +1679,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteTransportLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteTransportLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtTransporterName As TextBox
@@ -1621,7 +1712,7 @@ Partial Class standardquestionnaire
         rptTransport.DataBind()
     End Sub
 
-    Protected Sub btnAddOtherPayment_Click(sender As Object, e As EventArgs) Handles btnAddOtherPayment.Click
+    Protected Sub btnAddOtherPayment_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddOtherPayment.Click
         AddOtherPayment()
         'Now we can finally add our new line
         NashBLL.AddOtherPaymentLine(CompanyID)
@@ -1659,7 +1750,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteOtherPaymentLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteOtherPaymentLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtPaymentAmount As TextBox
@@ -1692,7 +1783,7 @@ Partial Class standardquestionnaire
         rptOtherPayment.DataBind()
     End Sub
 
-    Protected Sub btnAddOtherTax_Click(sender As Object, e As EventArgs) Handles btnAddOtherTax.Click
+    Protected Sub btnAddOtherTax_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddOtherTax.Click
         AddOtherTax()
         'Now we can finally add our new line
         NashBLL.AddOtherTaxLine(CompanyID)
@@ -1730,7 +1821,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteOtherTaxLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteOtherTaxLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtPaymentAmount As TextBox
@@ -1763,7 +1854,7 @@ Partial Class standardquestionnaire
         rptOtherTaxes.DataBind()
     End Sub
 
-    Protected Sub btnAddTax_Click(sender As Object, e As EventArgs) Handles btnAddTax.Click
+    Protected Sub btnAddTax_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddTax.Click
         AddTax()
         'Now we can finally add our new line
         NashBLL.AddTaxLine(CompanyID)
@@ -1804,7 +1895,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteTaxLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteTaxLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim cboCountryID As DropDownList
@@ -1847,7 +1938,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage parent company "
 
-    Protected Sub rblParent_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblParent.SelectedIndexChanged
+    Protected Sub rblParent_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles rblParent.SelectedIndexChanged
         If rblParent.SelectedIndex = 0 Then
             'Hide the current panels
             panParentCompanies.Visible = False
@@ -1862,7 +1953,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub btnAddNewParent_Click(sender As Object, e As EventArgs) Handles btnAddNewParent.Click
+    Protected Sub btnAddNewParent_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddNewParent.Click
         AddNewParent()
         'Now we can finally add our new line
         NashBLL.AddParentCompanyLine(CompanyID)
@@ -1911,7 +2002,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteParentLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteParentLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtParentCompanyName As TextBox
@@ -1959,7 +2050,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage shareholders "
 
-    Protected Sub btnAddNewShareholder_Click(sender As Object, e As EventArgs) Handles btnAddNewShareholder.Click
+    Protected Sub btnAddNewShareholder_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddNewShareholder.Click
         AddNewShareholder()
         'Now we can finally add our new line
         NashBLL.AddShareholderLine(CompanyID)
@@ -2002,7 +2093,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteShareholderLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteShareholderLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtShareholderName As TextBox
@@ -2044,7 +2135,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage Directors "
 
-    Protected Sub btnAddNewDirector_Click(sender As Object, e As EventArgs) Handles btnAddNewDirector.Click
+    Protected Sub btnAddNewDirector_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddNewDirector.Click
         AddNewDirector()
         'Now we can finally add our new line
         NashBLL.AddDirectorLine(CompanyID)
@@ -2087,7 +2178,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteDirectorLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteDirectorLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim LoopCount As Integer = 1
         Dim txtDirectorName As TextBox
@@ -2130,7 +2221,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage Government Employees "
 
-    Protected Sub chkGovernmentEmployee_CheckedChanged(sender As Object, e As EventArgs) Handles chkGovernmentEmployee.CheckedChanged
+    Protected Sub chkGovernmentEmployee_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles chkGovernmentEmployee.CheckedChanged
         If chkGovernmentEmployee.Checked Then
             panGovernmanetEmployee.Visible = True
             gbLoopCount = 0
@@ -2142,7 +2233,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub btnAddNewRelative_Click(sender As Object, e As EventArgs) Handles btnAddNewRelative.Click
+    Protected Sub btnAddNewRelative_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddNewRelative.Click
         AddNewRelative()
         'Now we can finally add our new line
         NashBLL.AddRelativeLine(CompanyID)
@@ -2200,7 +2291,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub DeleteRelativeLine(sender As Object, e As EventArgs)
+    Protected Sub DeleteRelativeLine(ByVal sender As Object, ByVal e As EventArgs)
         'Deletes a row from the table
         Dim txtPersonName As TextBox
         Dim txtRelativeName As TextBox
@@ -2257,7 +2348,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage Scrap Radios "
 
-    Protected Sub rblScrap_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblScrap.SelectedIndexChanged
+    Protected Sub rblScrap_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles rblScrap.SelectedIndexChanged
         If rblScrap.SelectedIndex = 1 Then
             'Reset the loop count and go and get the relatives list
             gbLoopCount = 0
@@ -2274,7 +2365,7 @@ Partial Class standardquestionnaire
 
 #Region " Manage Recycled Radios "
 
-    Protected Sub rblRecycled_SelectedIndexChanged(sender As Object, e As EventArgs) Handles rblRecycled.SelectedIndexChanged
+    Protected Sub rblRecycled_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs) Handles rblRecycled.SelectedIndexChanged
         If rblRecycled.SelectedIndex = 1 Then
             gbLoopCount = 0
             Dim RecycleList As DataSet = NashBLL.QuestionnaireGetMineralRecycleDetails(CompanyID)
@@ -2288,21 +2379,41 @@ Partial Class standardquestionnaire
 
 #End Region
 
-#Region " Manage Uploads "
+#Region " Manage Files "
 
-    Protected Sub btnUpload_Click(sender As Object, e As EventArgs) Handles btnUpload.Click
-        lblErrorMessage.Text = "Executed the upload function"
+    Protected Sub btnUpload_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnUpload.Click
+        'lblErrorMessage.Text = "Executed the upload function"
         For Each File As UploadedFile In rauUploader.UploadedFiles
-            File.SaveAs(MapPath("~/userfiles/" & CompanyID & Now.ToString("_dd_MMM_yyyy_HH_mm_ss_") & File.FileName), True)
+            File.SaveAs(MapPath("~/userfiles/" & CompanyID & Now.ToString("_ddMMyyyyHHmmss_") & Replace(File.FileName, " ", "_")), True)
+            'Now we have to save the file in the db
+            NashBLL.UploadFile(CompanyID, Session("ContactID"), CompanyID & Now.ToString("_ddMMyyyyHHmmss_") & Replace(File.FileName, " ", "_"))
         Next
+        'Now rebind our list
+        Dim FileList As DataSet = NashBLL.GetCompanyFiles(CompanyID)
+        rptFiles.DataSource = FileList
+        rptFiles.DataBind()
+    End Sub
 
+    Protected Sub DownloadFile(ByVal sender As Object, ByVal e As EventArgs)
+        'This will force a download of a file
+    End Sub
+
+    Protected Sub DeleteFile(ByVal sender As Object, ByVal e As EventArgs)
+        'First we need to try to delete the file from the file I/O 
+        File.Delete(MapPath("~/userfiles/") & sender.CommandName)
+        'Now delete from the DB
+        NashBLL.DeleteFile(sender.CommandArgument)
+        'Finally rebind our list
+        Dim FileList As DataSet = NashBLL.GetCompanyFiles(CompanyID)
+        rptFiles.DataSource = FileList
+        rptFiles.DataBind()
     End Sub
 
 #End Region
 
 #Region " Databindings "
 
-    Protected Sub rptParentCompany_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptParentCompany.ItemDataBound
+    Protected Sub rptParentCompany_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptParentCompany.ItemDataBound
         Dim txtParentCompanyName As TextBox
         Dim txtParentCompanyNumber As TextBox
         Dim txtParentCountry As TextBox
@@ -2363,7 +2474,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptShareholders_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptShareholders.ItemDataBound
+    Protected Sub rptShareholders_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptShareholders.ItemDataBound
         Dim txtShareholderName As TextBox
         Dim txtShareholderNationality As TextBox
         Dim txtPercentOwned As TextBox
@@ -2415,7 +2526,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptDirectors_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptDirectors.ItemDataBound
+    Protected Sub rptDirectors_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptDirectors.ItemDataBound
         Dim txtDirectorName As TextBox
         Dim txtDirectorNationality As TextBox
         Dim txtDirectorJobTitle As TextBox
@@ -2468,7 +2579,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptGovtEmployees_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptGovtEmployees.ItemDataBound
+    Protected Sub rptGovtEmployees_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptGovtEmployees.ItemDataBound
         Dim txtPersonName As TextBox
         Dim txtRelativeName As TextBox
         Dim txtRelationshipType As TextBox
@@ -2548,7 +2659,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptPurpose_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptPurpose.ItemDataBound
+    Protected Sub rptPurpose_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptPurpose.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtDescription As TextBox
@@ -2584,7 +2695,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptProcess_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptProcess.ItemDataBound
+    Protected Sub rptProcess_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptProcess.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtDescription As TextBox
@@ -2620,7 +2731,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptComponent_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptComponent.ItemDataBound
+    Protected Sub rptComponent_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptComponent.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtDescription As TextBox
@@ -2656,7 +2767,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptMineralsPopup_itemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptMineralsPopup.ItemDataBound
+    Protected Sub rptMineralsPopup_itemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptMineralsPopup.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim litMineralNamePopup As Literal
         Dim drv As DataRowView
@@ -2672,7 +2783,7 @@ Partial Class standardquestionnaire
 
     End Sub
 
-    Protected Sub rptSmelterList_itemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptSmelterList.ItemDataBound
+    Protected Sub rptSmelterList_itemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptSmelterList.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim litSmelterName As Literal
         Dim litSmelterLocation As Literal
@@ -2693,7 +2804,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptDangerousCountries_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptDangerousCountries.ItemDataBound
+    Protected Sub rptDangerousCountries_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptDangerousCountries.ItemDataBound
         Dim litCountryName As Literal
         Dim rblDangerousCounrty As RadioButtonList
         Dim drv As DataRowView
@@ -2706,7 +2817,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptrelationshipCategories_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptrelationshipCategories.ItemDataBound
+    Protected Sub rptrelationshipCategories_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptrelationshipCategories.ItemDataBound
         Dim litRelationshipCategory As Literal
         Dim drv As DataRowView
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -2716,7 +2827,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptScrap_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptScrap.ItemDataBound
+    Protected Sub rptScrap_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptScrap.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtDescription As TextBox
@@ -2756,7 +2867,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptRecycled_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptRecycled.ItemDataBound
+    Protected Sub rptRecycled_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptRecycled.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtDescription As TextBox
@@ -2796,7 +2907,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptExtraction_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptExtraction.ItemDataBound
+    Protected Sub rptExtraction_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptExtraction.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboMinerals As DropDownList
         Dim txtQuantity As TextBox
@@ -2852,7 +2963,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptFacility_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptFacility.ItemDataBound
+    Protected Sub rptFacility_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptFacility.ItemDataBound
         Dim txtFacilityName As TextBox
         Dim txtLocation As TextBox
         Dim btnDeleteFacility As Button
@@ -2894,7 +3005,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptTransport_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptTransport.ItemDataBound
+    Protected Sub rptTransport_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptTransport.ItemDataBound
         Dim txtTransporterName As TextBox
         Dim txtTransporterAddress As TextBox
         Dim btnDeleteTransport As Button
@@ -2936,7 +3047,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptOtherPayment_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptOtherPayment.ItemDataBound
+    Protected Sub rptOtherPayment_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptOtherPayment.ItemDataBound
         Dim txtPaymentAmount As TextBox
         Dim txtPaymentDetails As TextBox
         Dim btnDeleteOtherPayment As Button
@@ -2978,7 +3089,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptOtherTaxes_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptOtherTaxes.ItemDataBound
+    Protected Sub rptOtherTaxes_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptOtherTaxes.ItemDataBound
         Dim txtPaymentAmount As TextBox
         Dim txtPaymentDetails As TextBox
         Dim btnDeleteOtherTax As Button
@@ -3020,7 +3131,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptTaxes_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptTaxes.ItemDataBound
+    Protected Sub rptTaxes_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptTaxes.ItemDataBound
         Dim LoopCount As Integer = 1
         Dim cboCountryID As DropDownList
         Dim txtTaxDetails As TextBox
@@ -3060,7 +3171,7 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
-    Protected Sub rptMinerals_ItemDataBound(sender As Object, e As RepeaterItemEventArgs) Handles rptMinerals.ItemDataBound
+    Protected Sub rptMinerals_ItemDataBound(ByVal sender As Object, ByVal e As RepeaterItemEventArgs) Handles rptMinerals.ItemDataBound
         Dim litMineralName As Literal
         Dim rblMineral As RadioButtonList
         Dim txtMineralDetails As TextBox
@@ -3082,7 +3193,24 @@ Partial Class standardquestionnaire
         End If
     End Sub
 
+    Protected Sub rptFiles_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptFiles.ItemDataBound
+        Dim btnViewFile As LinkButton
+        Dim btnDeleteFile As LinkButton
+        Dim drv As DataRowView
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is the datarow so we can bind our data
+            btnViewFile = e.Item.FindControl("btnViewFile")
+            btnDeleteFile = e.Item.FindControl("btnDeleteFile")
+            drv = e.Item.DataItem
+            btnViewFile.Text = drv("FileName")
+            btnDeleteFile.CommandArgument = drv("FileID")
+            btnDeleteFile.CommandName = drv("FileName")
+            btnViewFile.Enabled = True
+        End If
+    End Sub
+
 #End Region
+
 
 
 End Class

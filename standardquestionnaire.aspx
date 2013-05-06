@@ -21,6 +21,7 @@
          
 
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+    <asp:HiddenField ID="hidReadOnly" runat="server" Value="False" />
     <ajaxToolkit:ModalPopupExtender ID="MPE" runat="server"
     TargetControlID="btnStart"
     PopupControlID="panForm"
@@ -29,7 +30,7 @@
     OkControlID="OkButton" 
     OnOkScript="onOk()"
     CancelControlID="btnClosePopUp" 
-    PopupDragHandleControlID="Panel3" >
+    PopupDragHandleControlID="Panel3" Enabled="false" >
        
     </ajaxToolkit:ModalPopupExtender>
         <h2 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h2>
@@ -51,6 +52,11 @@
             <p><asp:LinkButton ID="btnReOpen" runat="server" CssClass="btn btn-warning" Text="Re Open" /></p>
         </asp:Panel>
 
+        <asp:Panel ID="panClosed" runat="server" Visible="false">
+            <p>Thank you for your answers!</p>
+            <p>Your customers &amp; suppliers can now access your ceritfication</p>
+            <p><asp:HyperLink ID="hypMyCerico" runat="server" NavigateUrl="~/mycerico.aspx" Text="Click Here" /> to return to your home page.</p>
+        </asp:Panel>
         
         <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="modal-body">
             <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-warning pull-right" Text="Close Questionnaire" />
@@ -58,7 +64,7 @@
                 <h4>Progress</h4>
                <div class="progress">
                    <div class="bar" runat="server" id="divProgressbar"></div>
-                   <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" Visible="false" />
+                   <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" Visible="true" />
                </div> 
                <p>Items marked with <span class="alert-error">*</span> are requried</p>
                <div class="form-signin form-horizontal">
@@ -960,7 +966,16 @@
                        <asp:Panel ID="panUpload" runat="server" Visible="false">
                            <legend>11. Your Policies</legend>
                            <div class="control-group">
-                               <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
+                                <label>Do you have a policy on the sourcing of conflict minerals? Yes/No – if yes, please provide </label>
+                                <br />
+                                <asp:Repeater ID="rptFiles" runat="server">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="btnViewFile" runat="server" OnClick="DownloadFile" />&nbsp;&nbsp;
+                                        <asp:LinkButton ID="btnDeleteFile" runat="server" OnClick="DeleteFile" Text="Delete" CssClass="btn btn-danger" /><br />
+                                        <AjaxToolkit:ConfirmButtonExtender ID="cbeDecline" runat="server" TargetControlID="btnDeleteFile"
+                                            ConfirmText="This will permanently remove this file!&#10;&#10;Are you sure?" />
+                                    </ItemTemplate>
+                                </asp:Repeater><br />
                                <Telerik:RadProgressManager runat="server" ID="RadProgressManager1" />
                                <Telerik:RadAsyncUpload ID="rauUploader" runat="server" MultipleFileSelection="Automatic" OnClientFilesUploaded="UploadFile" />
                                <Telerik:RadProgressArea runat="server" ID="RadProgressArea1" />
@@ -983,23 +998,20 @@
                        <div class="control-group">
                        <label>I have the authority to bind the Supplier</label>
                        <label>Name:</label><asp:Literal ID="litUsername" runat="server" Text="Stephen Davidson" />
-                           
-                       <label>Position:</label><asp:Literal ID="litPosition" runat="server" Text="Web developer" />
-                          
                        <label>Signature checkbox:</label>
-                           
-                                <asp:CheckBox ID="chkSignOff" runat="server" />
-                              
-                           </div>
+                           <asp:CheckBox ID="chkSignOff" runat="server" />
+                       </div>
                    </asp:Panel>
                   <p></p>
                     <p>
                         <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;
                         <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
                         <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" />&nbsp;&nbsp;
-                        <asp:Button ID="btnClose" runat="server" CssClass="btn btn-success" Text="Save &amp; Close" Visible="false" />
+                        <asp:Button ID="btnClose" runat="server" CssClass="btn btn-success" Text="Save &amp; Close" Visible="false" CommandName="Close" />
+                        <AjaxToolkit:ConfirmButtonExtender ID="cbeClose" runat="server" TargetControlID="btnClose"
+                            ConfirmText="This will close this questionnaire!&#10;&#10;All your customers &amp; Suppliers will be notified.&#10;&#10;Are you sure?" />
                     </p>
-                   <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger" EnableViewState="true" /></p>
+                   <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger"  /></p>
                </div>
           
         </asp:Panel>

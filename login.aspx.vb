@@ -45,8 +45,8 @@ Partial Class login
                 'We can login this user now
                 Session("UserLoggedIn") = True
                 Session("FirstName") = dr("FirstName")
-                Session("ContactID") = CInt(dr("ContactID"))
                 Session("Surname") = dr("Surname")
+                Session("ContactID") = CInt(dr("ContactID"))
                 Session("EmailAddress") = dr("EmailAddress")
                 'Now we can redirect to the home page
                 Response.Redirect("~/mycerico.aspx")
