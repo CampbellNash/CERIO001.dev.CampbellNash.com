@@ -584,11 +584,12 @@ Partial Class mycerico
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
-            btnCompanyName.Text = "Select " & drv("CompanyName")
+            btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             hypCompanyNameSR.Text = drv("CompanyName")
-            hypCompanyNameSR.NavigateUrl = "#"
+            hypCompanyNameSR.NavigateUrl = ""
+            hypCompanyNameSR.Enabled = False
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
