@@ -118,11 +118,21 @@ Partial Class mysuppliers
 
 #Region " My Suppliers "
 
+    Protected Sub GetSupplierDetails(ByVal sender As Object, ByVal e As System.EventArgs)
+        'lets go get the company details
+        Dim SupplierDetails As DataSet = NashBLL.GetCompanyDetailsByID(sender.CommandArgument)
+        Dim dr As DataRow = SupplierDetails.Tables(0).Rows(0)
+        lblCompanyNameDetail.Text = dr("CompanyName")
+        lblCompanyNameDetailTab.Text = dr("CompanyName")
+        lblBusinessAreaDetail.text = dr("BusinessArea")
+        panSupplierDetails.Visible = True
+
+    End Sub
 
     Protected Sub btnAddSupplier_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddSupplier.Click
         panAddSupplier.Visible = True
         panSuppliers.Visible = False
-
+        panSupplierDetails.Visible = False
         panMyCompanies.CssClass = "fadePanel"
         panSubNav.CssClass = "fadePanel"
     End Sub
@@ -130,6 +140,7 @@ Partial Class mysuppliers
     Protected Sub btnCancelAddSupplier_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAddSupplier.Click
         panAddSupplier.Visible = False
         panSuppliers.Visible = False
+        panSupplierDetails.Visible = False
         panMyCompanies.Visible = True
 
         panMyCompanies.CssClass = ""
@@ -151,19 +162,12 @@ Partial Class mysuppliers
         lblManageCompaniesPageTitle.Text = ""
     End Sub
 
-    
-
-
 
 #End Region
 
 
 
 #Region " Manage Searches "
-
-
-
-
 
     Protected Sub btnSearchSuppliers_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSearchSuppliers.Click
         Dim FoundCompanies As DataSet = NashBLL.SearchForSuppliers(sender.CommandArgument, Session("ContactID"), txtSupplierSearch.Text)
@@ -186,13 +190,6 @@ Partial Class mysuppliers
             panTooManyRecords3.Visible = True
         End If
     End Sub
-
-
-
-
-
-
-
 
 
 #End Region
@@ -265,9 +262,12 @@ Partial Class mysuppliers
         End If
     End Sub
 
+   
+
     Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptSupplierSearch.ItemDataBound, rptSuppliers.ItemDataBound
 
         Dim btnCompanyName As LinkButton
+        Dim btnSupplierDetails As LinkButton
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
@@ -278,7 +278,7 @@ Partial Class mysuppliers
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-
+            btnSupplierDetails = e.Item.FindControl("btnSupplierDetails")
             lblStatus = e.Item.FindControl("lblStatus")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
@@ -288,6 +288,8 @@ Partial Class mysuppliers
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
+            btnSupplierDetails.Text = "View " & drv("CompanyName")
+            btnSupplierDetails.CommandArgument = drv("CompanyID")
 
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
@@ -306,5 +308,6 @@ Partial Class mysuppliers
 
 
 #End Region
+
 
 End Class

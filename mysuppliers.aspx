@@ -107,10 +107,8 @@
                                             OffsetY="0" PopDelay="50" />
                                                 </td>
                                             <td>
-                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary">View Details</asp:LinkButton>
-                                                <asp:LinkButton ID="btnSupplierUsers" runat="server" CssClass="btn btn-mini btn-primary">View Users</asp:LinkButton>
-                                                <asp:LinkButton ID="btnSupplierCerts" runat="server" CssClass="btn btn-mini btn-primary">Manage Certifcations</asp:LinkButton>
-                                                <asp:LinkButton ID="btnSupplierEmail" runat="server" CssClass="btn btn-mini btn-primary">Email</asp:LinkButton>
+                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary" OnClick="GetSupplierDetails" />
+                                               
                                             </td>
                                         </tr>
                                     </ItemTemplate>
@@ -221,6 +219,40 @@
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
                        </div>
+                </asp:Panel>
+
+                <asp:Panel ID="panSupplierDetails" runat="server" Visible="false">
+                    
+                        <div class="span12">
+                            <h3>Supplier Details</h3>
+                            <div class="tabbable">
+                              <ul class="nav nav-tabs">
+                                <li class="active"><a href="#pane1" data-toggle="tab"><asp:Label runat="server" ID="lblCompanyNameDetailTab" /> Company Details</a></li>
+                                <li><a href="#pane2" data-toggle="tab">Company Users</a></li>
+                                <li><a href="#pane3" data-toggle="tab">Company Certiifcations</a></li>
+                                
+                              </ul>
+                              <div class="tab-content">
+                                <div id="pane1" class="tab-pane active">
+                                 <h4><asp:Label runat="server" ID="lblCompanyNameDetail" /></h4>
+                                    <label>Business Area: </label><asp:Label runat="server" ID="lblBusinessAreaDetail" />
+
+                                
+                                </div>
+                                <div id="pane2" class="tab-pane">
+                                <h4>Company Users for company name</h4>
+                                  <p> and so on ...</p>
+                                </div>
+                                <div id="pane3" class="tab-pane">
+                                  <h4>Company Certs for company name</h4>
+                                </div>
+                                
+                              </div><!-- /.tab-content -->
+                            </div><!-- /.tabbable -->
+                        </div>
+                        
+                    
+                    
                 </asp:Panel>
               
         </div>
