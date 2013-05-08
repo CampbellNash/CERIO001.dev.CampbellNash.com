@@ -26,6 +26,7 @@
                         <li><a href="../MyDetails.aspx">Manage my Personal Details</a></li>
                         <li><a href="#">Invite Supplier</a></li>
                         <li><a href="#">Request a Customer</a></li>
+                        
                        
                     </ul>
                     
