@@ -54,6 +54,11 @@ Partial Class mycerico
             panAddSupplier.Visible = False
             'Set the page title 
             lblManageCompaniesPageTitle.Text = "My Companies"
+            'Now go and get the list of companies we're waiting on the company owner to approve us as members of
+            Dim MyUnapprovedCompanies As DataSet = NashBLL.GetMyUnApprovedCompanies(Session("ContactID"))
+            rptUnapproved.DataSource = MyUnapprovedCompanies
+            rptUnapproved.DataBind()
+
         End If
     End Sub
 
@@ -92,6 +97,29 @@ Partial Class mycerico
             lblNoSuppliers.Text = "No suppliers found!"
             rptSuppliers.Visible = False
         End If
+        'Now go and check our certifications
+        Dim MyCertificates As DataSet = NashBLL.CheckMyCertifications(sender.CommandArgument)
+        Dim dr As DataRow = MyCertificates.Tables(0).Rows(0)
+        If UCase(dr("InProgress")) = "N" Then
+            'This questionnaire has not yet started
+            litDateStarted.Text = "Not Started"
+            litDueDate.Text = "Not Started"
+            litProgress.Text = "Not Started"
+        ElseIf UCase(dr("InProgress")) = "Y" Then
+            litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
+            litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
+            Dim Progress As Integer = (dr("CurrentPage") / 6) * 100
+            If Progress = 100 Then
+                'Only show complete when its closed
+                Progress = 95
+            End If
+            litProgress.Text = "In Progress (" & Progress & "%)"
+        Else
+            litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
+            litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
+            litProgress.Text = "Completed"
+        End If
+        litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
         panCompanyCertification.Visible = True
         panMyCompanies.Visible = False
         panCustomers.Visible = False
@@ -584,27 +612,58 @@ Partial Class mycerico
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
-            btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
-            hypCompanyNameSR.Text = drv("CompanyName")
-            hypCompanyNameSR.NavigateUrl = ""
-            hypCompanyNameSR.Enabled = False
+            'hypCompanyNameSR.Text = drv("CompanyName")
+            'hypCompanyNameSR.NavigateUrl = "#"
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
             Dim MyRepeater As Repeater = sender
-            If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
-                If UCase(drv("Approved")) = "Y" Then
-                    litStatus.Text = "Approved"
-                Else
-                    litStatus.Text = "Awaiting Approval"
+            'If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
+            'If UCase(drv("Approved")) = "Y" Then
+            'litStatus.Text = "Approved"
+            'Else
+            'litStatus.Text = "Awaiting Approval"
+            'End If
+            'End If
+        End If
+    End Sub
+
+    Protected Sub rptUnapproved_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptUnapproved.ItemDataBound
+        Dim litDescription As Literal
+        Dim btnCompanyName As LinkButton
+        Dim litDateCreated As Literal
+        Dim btnAction As LinkButton
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is our data item so we can start populating it
+            litDateCreated = e.Item.FindControl("litDateCreated")
+            litDescription = e.Item.FindControl("litDescription")
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+            btnAction = e.Item.FindControl("btnAction")
+            drv = e.Item.DataItem
+            litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
+            litDescription.Text = drv("Description")
+            btnCompanyName.Text = drv("CompanyName")
+            If UCase(Left(drv("Description"), 7)) <> "APPLIED" Then
+                'Change the text on our button to Approve
+                btnAction.Text = "View &amp; Approve"
+                btnAction.CommandName = "Approve"
+            Else
+                'This is someone we're waiting on acting to approve us
+                If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
+                    'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
+                    btnAction.Text = "Send Reminder"
+                    btnAction.CommandName = "Reminder"
                 End If
             End If
         End If
     End Sub
 
-
 #End Region
+
 
 End Class
