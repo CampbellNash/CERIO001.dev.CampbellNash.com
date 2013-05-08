@@ -451,7 +451,7 @@
                 </asp:Panel>
                 <asp:Panel ID="panCompanyCertification" runat="server" Visible="false">
                     <asp:Button ID="btnCancelCompanyCert" runat="server" Text="Back" CssClass="btn btn-danger pull-right" />
-                    <h3>Company Certifcation for hello</h3>
+                    <h3><asp:Literal ID="litCompanyRef" runat="server" /></h3>
                     <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -467,11 +467,11 @@
                                 <tr>
                                     <td>Conflict Minerals</td>
                                     <td>Petrofac</td>
-                                    <td>24/04/2013</td>
-                                    <td>09/05/2013</td>
-                                    <td>In progress (75%)</td>
+                                    <td><asp:Literal ID="litDateStarted" runat="server" /></td>   
+                                    <td><asp:Literal ID="litDueDate" runat="server" /></td>
+                                    <td><asp:Literal ID="litProgress" runat="server"  Text="In progress (75%)" /></td>
                                     <td>
-                                        <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-small btn-primary" NavigateUrl="~/standardquestionnaire.aspx?ci=2">GO</asp:HyperLink></td>
+                                        <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-small btn-primary" NavigateUrl="#">GO</asp:HyperLink></td>
                                   
                                 </tr>
 
@@ -496,70 +496,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="success">
-                                    <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="Button1" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="warning">
-                                    <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton18" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="error">
-                                    <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton19" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="error">
-                                    <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton20" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="info">
-                                    <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton21" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="info">
-                                     <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton13" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="info">
-                                   <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton14" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="info">
-                                     <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton15" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="info">
-                                     <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton16" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="info">
-                                     <td>New user request</td>
-                                    <td>hello</td>
-                                    <td>01/05/2013</td>
-                                    <td><asp:LinkButton ID="LinkButton17" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-
+                                <asp:Repeater ID="rptUnapproved" runat="server">
+                                    <ItemTemplate>
+                                        <tr class="success">
+                                            <td><asp:Literal ID="litDescription" runat="server" /></td>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
+                                            <td><asp:Literal ID="litDateCreated" runat="server" /></td>
+                                            <td><asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
                             </tbody>
-                           
-
                         </table>
                          <div class="pagination">
                             <ul>
@@ -798,7 +745,7 @@
                         <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
 
                             <ul>
-                                <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindCompanies">
+                                <asp:Repeater ID="rptSuppliers" runat="server">
                                     <ItemTemplate>
                                         <li>
                                             <asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:Label ID="lblStatus" runat="server" /></li>
