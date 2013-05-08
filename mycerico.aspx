@@ -141,8 +141,6 @@
                 }]
             });
         });
-
-
 		</script> 
    <script type="text/javascript">
        function onRequestStart(sender, args) {
