@@ -162,7 +162,7 @@ Partial Class mysuppliers
         lblManageCompaniesPageTitle.Text = ""
     End Sub
 
-
+    
 #End Region
 
 
@@ -191,6 +191,31 @@ Partial Class mysuppliers
         End If
     End Sub
 
+    Protected Sub btnInvite_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnInvite.Click
+        'Make sure the pop up stays alive until we're finished checking the situation
+        MPE1.Show()
+        Dim Result As Integer = NashBLL.CheckEmailAddressExists(txtSupplierEmailAddress.Text)
+        Select Case Result
+            Case 0
+                'User was found so we need to do something else here
+                panUserExists.Visible = True
+            Case Else
+                'User was not found so we need to invite them and create their company
+                panInviteSent.Visible = True
+        End Select
+        panInviteStart.Visible = False
+    End Sub
+
+    Protected Sub btnClosePopUp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnClosePopUp.Click
+        'Clear our modal window ready for next search
+        panInviteStart.Visible = True
+        panUserExists.Visible = False
+        panInviteSent.Visible = False
+        txtSupplierFirstname.Text = ""
+        txtSupplierSurname.Text = ""
+        txtSupplierEmailAddress.Text = ""
+
+    End Sub
 
 #End Region
 
@@ -288,8 +313,8 @@ Partial Class mysuppliers
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
-            btnSupplierDetails.Text = "View " & drv("CompanyName")
-            btnSupplierDetails.CommandArgument = drv("CompanyID")
+            'btnSupplierDetails.Text = "View " & drv("CompanyName")
+            'btnSupplierDetails.CommandArgument = drv("CompanyID")
 
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
@@ -309,5 +334,7 @@ Partial Class mysuppliers
 
 #End Region
 
+
+    
 
 End Class

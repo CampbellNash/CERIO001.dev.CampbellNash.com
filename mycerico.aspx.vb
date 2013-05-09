@@ -58,7 +58,14 @@ Partial Class mycerico
             Dim MyUnapprovedCompanies As DataSet = NashBLL.GetMyUnApprovedCompanies(Session("ContactID"))
             rptUnapproved.DataSource = MyUnapprovedCompanies
             rptUnapproved.DataBind()
-
+            'Now go and get the list of unapproved suppliers
+            Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(Session("ContactID"))
+            rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
+            rptUnapprovedSuppliers.DataBind()
+            'Now go and get the list of unapproved customers
+            Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(Session("ContactID"))
+            rptUnapprovedCustomers.DataSource = UnapprovedCustomers
+            rptUnapprovedCustomers.DataBind()
         End If
     End Sub
 
@@ -120,6 +127,7 @@ Partial Class mycerico
             litProgress.Text = "Completed"
         End If
         litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
+        
         panCompanyCertification.Visible = True
         panMyCompanies.Visible = False
         panCustomers.Visible = False
@@ -648,6 +656,7 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
+            btnAction.CommandArgument = drv("CompanyID")
             If UCase(Left(drv("Description"), 7)) <> "APPLIED" Then
                 'Change the text on our button to Approve
                 btnAction.Text = "View &amp; Approve"
@@ -663,7 +672,61 @@ Partial Class mycerico
         End If
     End Sub
 
+    Protected Sub rptUnapprovedSuppliers_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptUnapprovedSuppliers.ItemDataBound
+        Dim litDescription As Literal
+        Dim btnCompanyName As LinkButton
+        Dim litDateCreated As Literal
+        Dim btnAction As LinkButton
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is our data item so we can start populating it
+            litDateCreated = e.Item.FindControl("litDateCreated")
+            litDescription = e.Item.FindControl("litDescription")
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+            btnAction = e.Item.FindControl("btnAction")
+            drv = e.Item.DataItem
+            litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
+            litDescription.Text = drv("Description")
+            btnCompanyName.Text = drv("CompanyName")
+            btnAction.CommandArgument = drv("CompanyID")
+            'This is someone we're waiting on acting to approve us
+            If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
+                'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
+                btnAction.Text = "Send Reminder"
+                btnAction.CommandName = "Reminder"
+            End If
+        End If
+
+    End Sub
+
+    Protected Sub rptUnapprovedCustomers_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptUnapprovedCustomers.ItemDataBound
+        Dim litDescription As Literal
+        Dim btnCompanyName As LinkButton
+        Dim litDateCreated As Literal
+        Dim btnAction As LinkButton
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            'This is our data item so we can start populating it
+            litDateCreated = e.Item.FindControl("litDateCreated")
+            litDescription = e.Item.FindControl("litDescription")
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+            btnAction = e.Item.FindControl("btnAction")
+            drv = e.Item.DataItem
+            litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
+            litDescription.Text = drv("Description")
+            btnCompanyName.Text = drv("CompanyName")
+            btnAction.CommandArgument = drv("CompanyID")
+            btnAction.Text = "View &amp; Approve"
+            btnAction.CommandName = "Approve"
+
+        End If
+
+    End Sub
+
 #End Region
 
 
+    
 End Class

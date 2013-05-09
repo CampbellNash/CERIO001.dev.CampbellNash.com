@@ -584,6 +584,23 @@ Namespace MasterClass
             Return paramReturn.Value
         End Function
 
+        Public Shared Function CheckEmailAddressExists(ByVal EmailAddress As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("CheckEmailAddress", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
 #End Region
 
 #Region " Eastern Tests "
@@ -843,6 +860,55 @@ Namespace MasterClass
             Return MyDataSet
         End Function
 
+        Public Shared Function GetMyUnapprovedSuppliers(ByVal ContactID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetAllMyUnapprovedSuppliers", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "MyCompanies")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function GetMyUnapprovedCustomers(ByVal ContactID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetAllMyUnapprovedCustomers", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "MyCompanies")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
 
 #End Region
 

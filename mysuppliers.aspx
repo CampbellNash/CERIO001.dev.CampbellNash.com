@@ -7,22 +7,14 @@
                 <h2>Manage Suppliers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
               <asp:Panel ID="panMyCompanies" runat="server">
-                     
-                  
-                  
-                  <p>To manage your supplier's please select one of your companies from the table below:</p>
-                        
-                   
-                        
-                        <table class="table table-bordered">
+               <p>To manage your supplier's please select one of your companies from the table below:</p>
+                <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>My Companies</th>
                                     <th>Number of Suppliers</th>
                                     <th>Status</th>
-                                    
-                                    
-                                </tr>
+                                 </tr>
                             </thead>
                             <tbody>
                             <asp:Repeater ID="rptMyCompanies" runat="server" OnItemDataBound="BindCompanies">
@@ -49,26 +41,10 @@
                         <p>
                             <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
-                       
-                       
-                            
                      </asp:Panel>
-                
-
-                
-
-                
                 <hr />
 
-               
-                
-                
-
-                
-
-                
-
-                <asp:Panel ID="panSuppliers" runat="server">
+              <asp:Panel ID="panSuppliers" runat="server">
                      <div class="span9">
                           
                         <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
@@ -177,37 +153,46 @@
                             </div>
                               
                              <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
-                    <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />
-                    <h4>Invite Supplier</h4>
-                    Please enter the supplier details below and click the submit button. <br />
-                                 Items marked with <span class="alert-error">* </span> are required.
-                    <label><span class="alert-error">* </span> Firstname:</label><asp:TextBox ID="txtSupplierFirstname" CssClass="input-large" runat="server" />
-                                 <asp:RequiredFieldValidator ID="rfvSupplier1" runat="server" ControlToValidate="txtSupplierFirstname"
-                                    CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
-                                    ValidationGroup="InviteSupplier" Display="Dynamic" />
-                    <label><span class="alert-error">* </span> Surname:</label><asp:TextBox ID="txtSupplierSurname" CssClass="input-large" runat="server" />
-                                 <asp:RequiredFieldValidator ID="rfvSupplier2" runat="server" ControlToValidate="txtSupplierSurname"
-                                CssClass="alert-error" ErrorMessage="Surname is required." ToolTip="Surname is required."
-                                ValidationGroup="InviteSupplier" Display="Dynamic" />
-                    <label><span class="alert-error">* </span> Email:</label><asp:TextBox ID="txtSupplierEmailAddress" CssClass="input-xlarge" runat="server" />
-                                 <asp:RequiredFieldValidator ID="rfvSupplier3" runat="server" ControlToValidate="txtSupplierEmailAddress"
-                                     CssClass="alert-error" ErrorMessage="Email address is required." ToolTip="Email address is required."
-                                     ValidationGroup="InviteSupplier" Display="Dynamic" />
-                                 <asp:RegularExpressionValidator ID="rfvSupplier4" runat="server" ControlToValidate="txtSupplierEmailAddress"
-                                     ErrorMessage="Please enter a valid email" ValidationGroup="InviteSupplier"
-                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" Display="Dynamic" />
-                                 <br />
-                    <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
+                                <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />
+                                <h4>Invite Supplier</h4>
+                                <asp:Panel ID="panInviteStart" runat="server" Visible="true">
+                                    Please enter the supplier details below and click the submit button. <br />
+                                                 Items marked with <span class="alert-error">* </span> are required.
+                                    <label><span class="alert-error">* </span> Firstname:</label><asp:TextBox ID="txtSupplierFirstname" CssClass="input-large" runat="server" />
+                                                 <asp:RequiredFieldValidator ID="rfvSupplier1" runat="server" ControlToValidate="txtSupplierFirstname"
+                                                    CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
+                                                    ValidationGroup="InviteSupplier" Display="Dynamic" />
+                                    <label><span class="alert-error">* </span> Surname:</label><asp:TextBox ID="txtSupplierSurname" CssClass="input-large" runat="server" />
+                                                 <asp:RequiredFieldValidator ID="rfvSupplier2" runat="server" ControlToValidate="txtSupplierSurname"
+                                                CssClass="alert-error" ErrorMessage="Surname is required." ToolTip="Surname is required."
+                                                ValidationGroup="InviteSupplier" Display="Dynamic" />
+                                    <label><span class="alert-error">* </span> Email:</label><asp:TextBox ID="txtSupplierEmailAddress" CssClass="input-xlarge" runat="server" />
+                                                 <asp:RequiredFieldValidator ID="rfvSupplier3" runat="server" ControlToValidate="txtSupplierEmailAddress"
+                                                     CssClass="alert-error" ErrorMessage="Email address is required." ToolTip="Email address is required."
+                                                     ValidationGroup="InviteSupplier" Display="Dynamic" />
+                                                 <asp:RegularExpressionValidator ID="rfvSupplier4" runat="server" ControlToValidate="txtSupplierEmailAddress"
+                                                     ErrorMessage="Please enter a valid email" ValidationGroup="InviteSupplier"
+                                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" Display="Dynamic" />
+                                                 <br />
+                                    <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
+                                </asp:Panel>
                                 
-                </asp:Panel>
-                 <ajaxToolkit:ModalPopupExtender ID="MPE" runat="server"
+                                <asp:Panel ID="panInviteSent" runat="server" Visible="false">
+                                    <p>Invite has been sent to the company being invited.</p>    
+                                </asp:Panel>
+
+                                <asp:Panel ID="panUserExists" runat="server" Visible="false">
+                                    <p>User is already a registered user and has been invited to add their company.</p>
+                                </asp:Panel>
+                            
+                            </asp:Panel>
+    <ajaxToolkit:ModalPopupExtender ID="MPE1" runat="server"
     TargetControlID="btnInviteSuppliers"
     PopupControlID="panInviteSupplier"
     BackgroundCssClass="modal-backdrop" 
     DropShadow="true" 
     OkControlID="OkButton" 
     OnOkScript="onOk()"
-    CancelControlID="btnClosePopUp" 
     PopupDragHandleControlID="Panel3" ></ajaxToolkit:ModalPopupExtender>
                 
                           

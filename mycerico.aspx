@@ -485,7 +485,7 @@
                 <asp:Panel runat="server" ID="panAllActionsDashbaord">
                     <div class="row-fluid">
                      <div class="span12">
-                        <h4>My actions [All] - Actions relating to your companies</h4>
+                        <h4><asp:Literal ID="litActions" runat="server" Text="My actions [All] - Actions relating to your companies" /></h4>
                         <table class="table table-condensed">
                             <thead>
                                 <tr>
@@ -524,7 +524,8 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span6">
-                        <h4>My Supplier Actions [All]</h4>
+                        <h4>
+                            <asp:Literal ID="litSupplierActions" runat="server" Text="My Supplier Actions [All]" /></h4>
                             <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -535,42 +536,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="warning">
-                                    <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Campbell Nash</td>
-                                    <td>31/10/203</td>
-                                    
-                                    <td><asp:LinkButton ID="LinkButton3" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="warning">
-                                  <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Campbell Nash</td>
-                                    <td>31/10/203</td>
-                                    
-                                    <td><asp:LinkButton ID="LinkButton4" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="warning">
-                                   <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Campbell Nash</td>
-                                    <td>31/10/203</td>
-                                    
-                                    <td><asp:LinkButton ID="LinkButton5" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="info">
-                                  <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Campbell Nash</td>
-                                    <td>31/10/203</td>
-                                    
-                                    <td><asp:LinkButton ID="LinkButton6" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="info">
-                                   <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Campbell Nash</td>
-                                    <td>31/10/203</td>
-                                    
-                                    <td><asp:LinkButton ID="LinkButton7" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                            </tbody>
+                                <asp:Repeater ID="rptUnapprovedSuppliers" runat="server">
+                                    <ItemTemplate>
+                                        <tr class="warning">
+                                            <td>
+                                                <asp:Literal ID="litDescription" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:Literal ID="litDateCreated" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
+                                            </td>
+                                        </tr>
+                                        </ItemTemplate>
+                                </asp:Repeater>
+                             </tbody>
                            
 
                         </table>
@@ -587,7 +571,8 @@
                             </div>
                     </div>
                     <div class="span6">
-                        <h4>My Customer Actions [All]</h4>
+                        <h4>
+                            <asp:Literal ID="litCustomerActions" runat="server" Text="My Customer Actions [All]" /></h4>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -599,41 +584,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="success">
-                                    <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Petrofac</td>
-                                    <td>In Progress</td>
-                                    <td>31/10/203</td>
-                                    <td><asp:LinkButton ID="LinkButton8" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="warning">
-                                   <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Petrofac</td>
-                                    <td>In Progress</td>
-                                    <td>31/10/203</td>
-                                    <td><asp:LinkButton ID="LinkButton9" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                 <tr class="error">
-                                   <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Petrofac</td>
-                                    <td>In Progress</td>
-                                    <td>31/10/203</td>
-                                    <td><asp:LinkButton ID="LinkButton10" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="error">
-                                 <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Petrofac</td>
-                                    <td>In Progress</td>
-                                    <td>31/10/203</td>
-                                    <td><asp:LinkButton ID="LinkButton11" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
-                                <tr class="info">
-                                   <td>Et inum vivem ortes auscepo straet</td>
-                                    <td>Petrofac</td>
-                                    <td>In Progress</td>
-                                    <td>31/10/203</td>
-                                    <td><asp:LinkButton ID="LinkButton12" runat="server" Text="Click here" CssClass="btn btn-small btn-primary" /></td>
-                                </tr>
+                                <asp:Repeater ID="rptUnapprovedCustomers" runat="server">
+                                    <ItemTemplate>
+                                        <tr class="warning">
+                                            <td>
+                                                <asp:Literal ID="litDescription" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:Literal ID="litDateCreated" runat="server" />
+                                            </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
+                                            </td>
+                                        </tr>
+                                    </ItemTemplate>
+                                </asp:Repeater>
+                                 
                             </tbody>
                            
 
