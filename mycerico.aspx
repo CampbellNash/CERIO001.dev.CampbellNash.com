@@ -578,7 +578,6 @@
                                 <tr>
                                     <th>Action Title</th>
                                     <th>Company</th>
-                                    <th>Status</th>
                                     <th>Date</th>
                                     <th>Action</th>
                                 </tr>
