@@ -213,11 +213,7 @@
                       <div id="container" style="min-width: 500px; height: 200px; margin: 0 auto"></div>
                            </div>
                   </div>
-                     
-                 
-                       
-                            
-                     </asp:Panel>
+                  </asp:Panel>
                 
 
                 <asp:Panel runat="server" ID="panSearchCompanies" Visible="False" DefaultButton="btnSearch">

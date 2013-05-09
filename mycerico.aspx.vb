@@ -55,15 +55,15 @@ Partial Class mycerico
             'Set the page title 
             lblManageCompaniesPageTitle.Text = "My Companies"
             'Now go and get the list of companies we're waiting on the company owner to approve us as members of
-            Dim MyUnapprovedCompanies As DataSet = NashBLL.GetMyUnApprovedCompanies(Session("ContactID"))
+            Dim MyUnapprovedCompanies As DataSet = NashBLL.GetAllMyUnApprovedCompanies(Session("ContactID"))
             rptUnapproved.DataSource = MyUnapprovedCompanies
             rptUnapproved.DataBind()
             'Now go and get the list of unapproved suppliers
-            Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(Session("ContactID"))
+            Dim UnapprovedSuppliers As DataSet = NashBLL.GetAllMyUnapprovedSuppliers(Session("ContactID"))
             rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
             rptUnapprovedSuppliers.DataBind()
             'Now go and get the list of unapproved customers
-            Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(Session("ContactID"))
+            Dim UnapprovedCustomers As DataSet = NashBLL.GetAllMyUnapprovedCustomers(Session("ContactID"))
             rptUnapprovedCustomers.DataSource = UnapprovedCustomers
             rptUnapprovedCustomers.DataBind()
         End If
@@ -127,7 +127,22 @@ Partial Class mycerico
             litProgress.Text = "Completed"
         End If
         litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
-        
+        litActions.Text = "My actions [" & sender.CommandName & "] - Actions relating to your companies"
+        'Now we need to filter the supplier actions for this company
+        Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
+        rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
+        rptUnapprovedSuppliers.DataBind()
+        litSupplierActions.Text = "My Supplier Actions [" & sender.CommandName & "]"
+        'Now filter our customers
+        Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(sender.CommandArgument)
+        rptUnapprovedCustomers.DataSource = UnapprovedCustomers
+        rptUnapprovedCustomers.DataBind()
+        litCustomerActions.Text = "My Customer Actions [" & sender.CommandName & "]"
+        'Now filter our company members and join requests
+        Dim UnapprovedCompanies As DataSet = NashBLL.GetMyUnapprovedCompanies(sender.CommandArgument)
+        rptUnapproved.DataSource = UnapprovedCompanies
+        rptUnapproved.DataBind()
+
         panCompanyCertification.Visible = True
         panMyCompanies.Visible = False
         panCustomers.Visible = False
@@ -166,11 +181,13 @@ Partial Class mycerico
 
     Protected Sub btnCancelAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAdd.Click, btnCancelCompanyCert.Click
         'Show the correct panels for this view
-        panMyCompanies.Visible = True
-        panAddCompany.Visible = False
-        panCompanyCertification.Visible = False
+        'panMyCompanies.Visible = True
+        'panAddCompany.Visible = False
+        'panCompanyCertification.Visible = False
         'Set the page title 
-        lblManageCompaniesPageTitle.Text = "My Companies"
+        'lblManageCompaniesPageTitle.Text = "My Companies"
+        'Whole page needs rebound from here in case of any changes so just re-load whole thing
+        Response.Redirect("~/mycerico.aspx")
     End Sub
 
     Protected Sub btngoBack_Click(sender As Object, e As EventArgs) Handles btnGoback.Click
