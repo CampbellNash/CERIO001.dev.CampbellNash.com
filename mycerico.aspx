@@ -155,8 +155,31 @@
            }
        }
     </script>
+
+    <script type="text/javascript">
+        //<![CDATA[
+        function openCertRadWin(URL) {
+            var oWindow = radopen(URL, "rwCertificates");
+            //oWindow.moveTo(400, 50); 
+        }
+
+        function RefreshCertificates() {
+            //window.location = 'mycerico.aspx';
+            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnRefreshCertification').click();
+        }
+ //]]>                                                                        
+    </script>
+    <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
+        <Windows>
+            <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Width="1000px"
+                Height="800px" Modal="true" InitialBehaviors="Reload" VisibleStatusbar="false"
+                Behaviors="Close" ReloadOnShow="true" OnClientClose="RefreshCertificates" />
+        </Windows>
+    </Telerik:RadWindowManager>
+    
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
+            <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
               <asp:Panel ID="panMyCompanies" runat="server">
                   <div class="span7">
                       <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
@@ -191,7 +214,8 @@
                                         <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" /></td>
                                         <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
-                                        <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small">View Details</asp:LinkButton> <asp:LinkButton ID="LinkButton2" runat="server" CssClass="btn btn-small">View Certifications</asp:LinkButton></td>
+                                        <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
+                                            <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -467,7 +491,7 @@
                                     <td><asp:Literal ID="litDueDate" runat="server" /></td>
                                     <td><asp:Literal ID="litProgress" runat="server"  Text="In progress (75%)" /></td>
                                     <td>
-                                        <asp:HyperLink ID="HyperLink1" runat="server" CssClass="btn btn-small btn-primary" NavigateUrl="#">GO</asp:HyperLink></td>
+                                        <asp:HyperLink ID="hypCertification" runat="server" CssClass="btn btn-small btn-primary" NavigateUrl="#" Text="Go" /></td>
                                   
                                 </tr>
 
