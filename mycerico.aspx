@@ -217,6 +217,7 @@
                                         <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
                                             <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
+                                    
                                 </ItemTemplate>
                             </asp:Repeater>
                             </tbody>
@@ -524,6 +525,21 @@
                                             <td><asp:Literal ID="litDateCreated" runat="server" /></td>
                                             <td><asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
                                         </tr>
+                                        <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                            <div class="popover-content">
+                                                <h5>
+                                                    Full details for company</h5>
+                                                <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyName" runat="server" />
+                                                </h6>
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                            </div>
+                                        </asp:Panel>
+                                        <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </tbody>
@@ -545,7 +561,7 @@
                     <div class="row-fluid">
                         <div class="span6">
                         <h4>
-                            <asp:Literal ID="litSupplierActions" runat="server" Text="My Supplier Actions [All]" /></h4>
+                            <asp:Literal ID="litSupplierActions" runat="server" Text="Companies who supply to my companies [All]" /></h4>
                             <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -572,6 +588,21 @@
                                                 <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
                                             </td>
                                         </tr>
+                                        <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                            <div class="popover-content">
+                                                <h5>
+                                                    Full details for company</h5>
+                                                <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyName" runat="server" />
+                                                </h6>
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                            </div>
+                                        </asp:Panel>
+                                        <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>
                                 </asp:Repeater>
                              </tbody>
@@ -592,7 +623,7 @@
                     </div>
                     <div class="span6">
                         <h4>
-                            <asp:Literal ID="litCustomerActions" runat="server" Text="My Customer Actions [All]" /></h4>
+                            <asp:Literal ID="litCustomerActions" runat="server" Text="Companies my companies supply to [All]" /></h4>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -619,6 +650,21 @@
                                                 <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
                                             </td>
                                         </tr>
+                                        <asp:Panel CssClass="popover" ID="panPopup" runat="server">
+                                            <div class="popover-content">
+                                                <h5>
+                                                    Full details for company</h5>
+                                                <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyName" runat="server" />
+                                                </h6>
+                                                <h6>
+                                                    <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                            </div>
+                                        </asp:Panel>
+                                        <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                                  

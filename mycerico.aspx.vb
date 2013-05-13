@@ -704,6 +704,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -712,11 +716,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             If UCase(Left(drv("Description"), 7)) <> "APPLIED" Then
                 'Change the text on our button to Approve
                 btnAction.Text = "View &amp; Approve"
@@ -737,6 +748,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -745,11 +760,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             'This is someone we're waiting on acting to approve us
             If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                 'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
@@ -765,6 +787,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -773,11 +799,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             btnAction.Text = "View &amp; Approve"
             btnAction.CommandName = "Approve"
 
