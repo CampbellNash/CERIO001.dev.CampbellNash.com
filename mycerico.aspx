@@ -2,160 +2,6 @@
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	
-    <script type="text/javascript">
-        $(function () {
-
-            // Radialize the colors
-            Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
-                return {
-                    radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-                    stops: [
-                        [0, color],
-                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-                    ]
-                };
-            });
-
-            // Build the chart
-            $('#container').highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
-                },
-                title: {
-                    text: 'Supplier Certication status'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                    percentageDecimals: 1
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            formatter: function () {
-                                return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    name: 'Certified Suppliers',
-                    data: [
-                        ['Completed', 45.0],
-                       
-                        {
-                            name: 'In progress',
-                            y: 30.0,
-                            sliced: true,
-                            selected: true
-                        },
-                        ['Not Started', 25.0],
-                      
-                    ]
-                }]
-            });
-
-            $('#container2').highcharts({
-                chart: {
-                },
-                title: {
-                    text: 'Combination chart'
-                },
-                xAxis: {
-                    categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
-                },
-                tooltip: {
-                    formatter: function () {
-                        var s;
-                        if (this.point.name) { // the pie chart
-                            s = '' +
-                                this.point.name + ': ' + this.y + ' fruits';
-                        } else {
-                            s = '' +
-                                this.x + ': ' + this.y;
-                        }
-                        return s;
-                    }
-                },
-                labels: {
-                    items: [{
-                        html: 'Total fruit consumption',
-                        style: {
-                            left: '40px',
-                            top: '8px',
-                            color: 'black'
-                        }
-                    }]
-                },
-                series: [{
-                    type: 'column',
-                    name: 'Jane',
-                    data: [3, 2, 1, 3, 4]
-                }, {
-                    type: 'column',
-                    name: 'John',
-                    data: [2, 3, 5, 7, 6]
-                }, {
-                    type: 'column',
-                    name: 'Joe',
-                    data: [4, 3, 3, 9, 0]
-                }, {
-                    type: 'spline',
-                    name: 'Average',
-                    data: [3, 2.67, 3, 6.33, 3.33],
-                    marker: {
-                        lineWidth: 2,
-                        lineColor: Highcharts.getOptions().colors[3],
-                        fillColor: 'white'
-                    }
-                }, {
-                    type: 'pie',
-                    name: 'Total consumption',
-                    data: [{
-                        name: 'Jane',
-                        y: 13,
-                        color: Highcharts.getOptions().colors[0] // Jane's color
-                    }, {
-                        name: 'John',
-                        y: 23,
-                        color: Highcharts.getOptions().colors[1] // John's color
-                    }, {
-                        name: 'Joe',
-                        y: 19,
-                        color: Highcharts.getOptions().colors[2] // Joe's color
-                    }],
-                    center: [100, 80],
-                    size: 100,
-                    showInLegend: false,
-                    dataLabels: {
-                        enabled: false
-                    }
-                }]
-            });
-        });
-
-
-		</script> 
-   <script type="text/javascript">
-       function onRequestStart(sender, args) {
-           if (args.get_eventTarget().indexOf("Button1") >= 0)
-               args.set_enableAjax(false);
-           if (args.get_eventTarget().indexOf("ExportToExcelButton") >= 0 ||
-                   args.get_eventTarget().indexOf("ExportToWordButton") >= 0 ||
-                   args.get_eventTarget().indexOf("ExportToPdfButton") >= 0) {
-               args.set_enableAjax(false);
-           }
-       }
-    </script>
-
     <script type="text/javascript">
         //<![CDATA[
         function openCertRadWin(URL) {
@@ -167,37 +13,42 @@
             //window.location = 'mycerico.aspx';
             document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnRefreshCertification').click();
         }
- //]]>                                                                        
+        //]]>           
+       
+        
+
     </script>
     <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
         <Windows>
-            <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Width="1000px"
-                Height="800px" Modal="true" InitialBehaviors="Reload" VisibleStatusbar="false"
-                Behaviors="Close" ReloadOnShow="true" OnClientClose="RefreshCertificates" />
+            <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false"
+                 Modal="true"  VisibleStatusbar="True" 
+                Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="700" Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666" AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True" Overlay="True" EnableShadow="True" />
         </Windows>
     </Telerik:RadWindowManager>
     
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
             <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
-              <asp:Panel ID="panMyCompanies" runat="server">
-                  <div class="span7">
+               
+                <asp:Panel ID="panMyCompanies" runat="server" >
+                  <h2>My CERICO</h2>
                       <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
- <h2>My CERICO</h2>
+
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
                         
-                        <p><b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b></p>
-                        <table class="table table-bordered">
+                        <b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b>
+                        <table class="table table-striped table-condensed table-bordered" >
+                            <caption><a href="#" id="tablelegend" class="btn pull-right" rel="popover" data-placement="left"  title="My Companies table help" data-original-title="My Companies table help">My Companies table help</a></caption>
                             <thead>
                                 <tr>
                                     <th>Company Name - Status</th>
                                    
-                                    <th colspan="3">
+                                    <th colspan="4">
                                         Suppliers
                                        
                                     </th>
 
-                                    <th colspan="3">Customers</th>
+                                    <th colspan="4">Customers</th>
                                    
                                     <th>Actions</th>
                                     
@@ -208,12 +59,14 @@
                                 <ItemTemplate>
                                     <tr>
                                         <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /> - <asp:Label ID="lblStatus" runat="server" /></td>
-                                        <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="2" /></td>
+                                        <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="2" CssClass="label label-inverse" title="Total Number of Suppliers"  /></td>
                                         <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="1" CssClass="label" /></td>
-                                        <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" /></td>
+                                        <td><asp:Label ID="lblNonCompliantSuppliers" runat="server" Text="1" CssClass="label label-important" /></td>
+                                        <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" CssClass="label label-inverse" /></td>
                                         <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
+                                        <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="1" CssClass="label label-important" /></td>
                                         <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
                                             <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
@@ -228,16 +81,9 @@
                         <p>
                             If you wish to associate yourself with another company then click the "Start Company Association process" button.
                         </p>
-
-                  </div>
-                  <div class="span5">
-                         
-                     
-                       <div class="pull-right">
-                     
-                      <div id="container" style="min-width: 500px; height: 200px; margin: 0 auto"></div>
-                           </div>
-                  </div>
+                       <hr  />
+                 
+                 
                   </asp:Panel>
                 
 
@@ -267,7 +113,7 @@
                                 </div>
                             </asp:Panel>
                             <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="hypCompanyNameSR"
-                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                 OffsetY="0" PopDelay="50" />
                             </ItemTemplate>
                         </asp:Repeater>
@@ -349,7 +195,7 @@
                                                 </div>
                                             </asp:Panel>
                                             <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender3" runat="Server" TargetControlID="hypCompanyNameSR"
-                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                                 OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>
                                     </asp:Repeater>
@@ -502,12 +348,13 @@
                         </table>
 
                 </asp:Panel>
-                <hr />
+               
                 <asp:Panel runat="server" ID="panAllActionsDashbaord">
                     <div class="row-fluid">
                      <div class="span12">
-                        <h4><asp:Literal ID="litActions" runat="server" Text="My actions [All] - Actions relating to your companies" /></h4>
-                        <table class="table table-condensed">
+                       
+                        <table class="table table-condensed table-bordered">
+                            <caption><span class="label label-inverse pull-left"><asp:Literal ID="litActions" runat="server" Text="My actions [All] - Actions relating to your companies" /></span></caption>
                             <thead>
                                 <tr>
                                     <th>Action Title</th>
@@ -519,7 +366,7 @@
                             <tbody>
                                 <asp:Repeater ID="rptUnapproved" runat="server">
                                     <ItemTemplate>
-                                        <tr class="success">
+                                        <tr class="info">
                                             <td><asp:Literal ID="litDescription" runat="server" /></td>
                                             <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
                                             <td><asp:Literal ID="litDateCreated" runat="server" /></td>
@@ -539,7 +386,7 @@
                                         </asp:Panel>
                                         <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
                                             PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
-                                            OffsetY="0" PopDelay="50" />
+                                            OffsetY="-50" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
                             </tbody>
@@ -560,9 +407,8 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span6">
-                        <h4>
-                            <asp:Literal ID="litSupplierActions" runat="server" Text="Companies who supply to my companies [All]" /></h4>
-                            <table class="table table-bordered">
+                        <table class="table table-condensed table-bordered">
+                                <caption><span class="label label-inverse pull-left"><asp:Literal ID="litSupplierActions" runat="server" Text="Companies who supply to my companies [All]" /></span></caption>
                             <thead>
                                 <tr>
                                     <th>Action Title</th>
@@ -574,7 +420,7 @@
                             <tbody>
                                 <asp:Repeater ID="rptUnapprovedSuppliers" runat="server">
                                     <ItemTemplate>
-                                        <tr class="warning">
+                                        <tr class="info">
                                             <td>
                                                 <asp:Literal ID="litDescription" runat="server" />
                                             </td>
@@ -601,7 +447,7 @@
                                             </div>
                                         </asp:Panel>
                                         <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
-                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                             OffsetY="0" PopDelay="50" />
                                         </ItemTemplate>
                                 </asp:Repeater>
@@ -622,9 +468,9 @@
                             </div>
                     </div>
                     <div class="span6">
-                        <h4>
-                            <asp:Literal ID="litCustomerActions" runat="server" Text="Companies my companies supply to [All]" /></h4>
-                        <table class="table table-bordered">
+                       
+                        <table class="table table-condensed table-bordered">
+                            <caption><span class="label label-inverse pull-left"><asp:Literal ID="litCustomerActions" runat="server" Text="Companies my companies supply to [All]" /></span></caption>
                             <thead>
                                 <tr>
                                     <th>Action Title</th>
@@ -636,7 +482,7 @@
                             <tbody>
                                 <asp:Repeater ID="rptUnapprovedCustomers" runat="server">
                                     <ItemTemplate>
-                                        <tr class="warning">
+                                        <tr class="info">
                                             <td>
                                                 <asp:Literal ID="litDescription" runat="server" />
                                             </td>
@@ -663,7 +509,7 @@
                                             </div>
                                         </asp:Panel>
                                         <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
-                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                             OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -689,8 +535,6 @@
                     
                     
                 </asp:Panel>
-               
-                
                 <asp:Panel ID="panConfirmAdd" runat="server" Visible="false">
                     <h2>Add New Company</h2>
                     <p>Your new company has been added!</p>
@@ -716,7 +560,7 @@
                                             </div>
                                         </asp:Panel>
                                             <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
-                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                                 OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -759,7 +603,7 @@
                                         </div>
                                     </asp:Panel>
                                     <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
-                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                         OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -795,7 +639,7 @@
                                             </div>
                                         </asp:Panel>
                                         <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
-                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                            PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                             OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
@@ -838,7 +682,7 @@
                                         </div>
                                     </asp:Panel>
                                     <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
-                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
+                                        PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
                                         OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -872,6 +716,15 @@
             <uc1:submenu1 ID="submenu11" runat="server" />      
         </asp:Panel>
     </div>
+    
+    <script>
+        $(function () {
+            $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label label-success">Green</label> - Approved </br> <label class="label">Gray</label> - Awaiting Approval</br><label class="label label-important">Red</label> - Not Certified' });
+            
+        });
+
+       
+    </script>
         
     
 
