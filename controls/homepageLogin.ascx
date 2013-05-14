@@ -21,7 +21,10 @@
                 <label>Email Address:</label>
                 <asp:TextBox ID="txtEmailAddress" runat="server" TextMode="SingleLine" CssClass="input-block-level" MaxLength="50" />
                 <asp:RequiredFieldValidator ID="rfvEmail" runat="server" ControlToValidate="txtEmailAddress" Display="Dynamic" ForeColor="#ffffcc" ValidationGroup="Forgot" ErrorMessage="Please enter email address" />
-               <br />
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmailAddress"
+                                     ErrorMessage="Please enter a valid email" ValidationGroup="Forgot"
+                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ForeColor="#ffffcc" Display="Dynamic"  /> 
+              <br />
                 <asp:Button ID="btnSend" Text="Send password &raquo;" runat="server" CssClass="btn btn-large btn-success" ValidationGroup="Forgot" AlternateText="Send password" ToolTip="Send password" ImageAlign="Right" />&nbsp;&nbsp;<asp:Button ID="btnCancelForgot" runat="server" Text="Cancel" CssClass="btn btn-danger btn-large" AlternateText="Cancel" ToolTip="Cancel" ImageAlign="Right"  />
             </asp:Panel>
             
@@ -35,6 +38,7 @@
                 Your account is still awaiting approval, when this happens you will receive a mail confirming your account is ready to use. Click the button below to return to the login page.
              
             </asp:Panel>
+    
                         
                        
                        

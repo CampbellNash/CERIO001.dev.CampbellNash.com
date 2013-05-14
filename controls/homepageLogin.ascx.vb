@@ -30,6 +30,17 @@ Imports System.Net.Security
 Partial Class controls_homepageLogin
     Inherits System.Web.UI.UserControl
 
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        'let checkt to see if the user is logged in and hide the login panel if required.
+        If Not IsPostBack Then
+            If Not Session("UserLoggedIn") Then
+                panFormWrapper.Visible = True
+            Else
+                panFormWrapper.Visible = False
+            End If
+        End If
+    End Sub
+
     Protected Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
         'We can try to log our user in now
         Dim loginDetails As DataSet = NashBLL.LoginUser(txtUserName.Text, txtPassword.Text)
@@ -81,22 +92,21 @@ Partial Class controls_homepageLogin
         Dim Subject As String = ""
         Dim RecipientList As String = ""
         'Try
-        Dim UserData As String = NashBLL.SendUserAndPassword(txtEmailAddress.Text)
-        If UserData = "-1" Then
+        Dim EmailResult As String = NashBLL.SendUserAndPAssword(txtEmailAddress.Text)
+        If EmailResult = "-1" Then
             'This account has not been verified yet so halt and advise
             panForgot.Visible = False
             panNotActivated.Visible = True
             Return
-        ElseIf UserData = "-2" Then
+        ElseIf EmailResult = "-2" Then
             'Account was not found
             lblLoginError.Text = "Sorry we were unable to find an account matching the email address you entered. Please verify &amp; try again."
             Return
         Else
-            Dim MyArray As Array = Split(UserData, ",")
+            Dim MyArray As Array = Split(EmailResult, ",")
             'We found a user for the entered email address so we can send the mail now
             MailBody = "Dear " & MyArray(2) & "," & vbCrLf & vbLf & _
             "Please find your login details for our site below." & vbCrLf & vbLf & _
-            "Username: " & MyArray(0) & vbCrLf & _
             "Password: " & MyArray(1) & vbCrLf & vbLf & _
             "Visit 'web site address here' and login with these details." & vbCrLf & vbLf & _
             "If you have any further problems then please consult your support team."

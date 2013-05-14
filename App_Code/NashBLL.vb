@@ -158,8 +158,23 @@ Namespace MasterClass
         End Function
 
         Public Shared Function SendUserAndPAssword(ByVal EmailAddress As String) As String
-            Return ""
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("SendUserAndPassword", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
         End Function
+
+
 
         Public Shared Function UploadFile(ByVal CompanyID As Integer, _
                                           ByVal ContactID As Integer, _

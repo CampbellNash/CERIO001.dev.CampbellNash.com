@@ -40,7 +40,7 @@
               <a class="btn" href="../default.aspx" runat="server" id="btnGotoLogin">Sign In &raquo;</a>
               
               <asp:Panel ID="panloggedInHeader" runat="server" Visible="false" CssClass="panHeaderStatus pull-right">
-                  <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout pull-right gapleft" Text="Logout" />
+                  <asp:Button ID="btnLogout" runat="server" ImageUrl="~/img/logoutIcon.png" ToolTip="Log me out" AlternateText="Log me out" CssClass="btn btn-logout pull-right gapleft" Text="Logout" CausesValidation="false" />
                   <span class="loggedInHeaderText">Logged in as <strong><asp:HyperLink ID="hypHeaderUserFullName" runat="server" /></strong></span>
               
               <%-- <a class="btn btn-logout" href="default.aspx" runat="server" id="btnLogOut">Log out <img alt="" src="img/logoutIcon.png" /></a> --%>
