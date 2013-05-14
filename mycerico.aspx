@@ -28,6 +28,7 @@
     
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
+
             <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
                
                 <asp:Panel ID="panMyCompanies" runat="server" >
