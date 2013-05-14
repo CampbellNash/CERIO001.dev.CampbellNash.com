@@ -39,19 +39,21 @@
            var oWnd = GetRadWindow();
            oWnd.close(arg);
        }
- 
+     
+              
+       
+   
        
    </script>
          
          <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
              <asp:Button ID="btnUpload" runat="server" Style="visibility: hidden; float: right" />
              <asp:HiddenField ID="hidReadOnly" runat="server" Value="False" />
-        <h2 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h2>
-        <p><span class="label label-info">Petrofac's</span> policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p>
-             <p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p>
-             <p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>
+             <a href="#" id="moreinfo" class="btn pull-right" rel="popover" data-placement="bottom"  title="More info" data-original-title="More info">More info</a>
+             <h4 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h4>
+        
             
-        <asp:LinkButton ID="btnStart" runat="server" CssClass="btn btn-success" Text="Start Questionnaire" />
+        
         <asp:Panel ID="panNoQuery" runat="server" Visible="false">
             <p>Incorrect credentials passed for this function.</p>
             <p>Please use the navigation panel to the right to open this page.</p>
@@ -72,7 +74,7 @@
         </asp:Panel>
         
         <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="">
-            <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-warning pull-right" Text="Close Questionnaire" />
+            
              
                 <h4>Progress</h4>
                <div class="progress">
@@ -1026,7 +1028,32 @@
                     </p>
                    <p><asp:Label ID="lblErrorMessage" runat="server" CssClass="alert-danger"  /></p>
                </div>
-          
+               <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-transition.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-alert.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-modal.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-dropdown.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-scrollspy.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-tab.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-tooltip.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-popover.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-button.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-collapse.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-carousel.js" type="text/javascript"></script>
+    <script src="/js/bootstrap-typeahead.js" type="text/javascript"></script>
+    <script src="/js/highcharts.js"></script>
+    <script src="/js/modules/exporting.js"></script>
+        <script>
+            $(function () {
+                $("#moreinfo").popover({ html: true, trigger: 'hover', content: '<p><span class="label label-info">Petrofacs</span> policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p><p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p><p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>' });
+
+            });
+
+        </script>
         </asp:Panel>
 </Telerik:RadAjaxPanel>
     <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
@@ -1040,6 +1067,7 @@
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />
     </div>
+    
 </form>
 </body>
 </html>
