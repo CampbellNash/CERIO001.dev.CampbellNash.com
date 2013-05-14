@@ -11,7 +11,7 @@
     }
  //]]>                                                                        
 </script>
-<Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
+<Telerik:RadWindowManager ID="UserWindowManager1" runat="server" Skin="Black">
     <Windows>
         <Telerik:RadWindow runat="server" ID="rwMyWindow" DestroyOnClose="false" Width="1000px"
             Height="800px" Modal="true" InitialBehaviors="Reload" VisibleStatusbar="false"

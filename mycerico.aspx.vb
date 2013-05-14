@@ -55,15 +55,15 @@ Partial Class mycerico
             'Set the page title 
             lblManageCompaniesPageTitle.Text = "My Companies"
             'Now go and get the list of companies we're waiting on the company owner to approve us as members of
-            Dim MyUnapprovedCompanies As DataSet = NashBLL.GetMyUnApprovedCompanies(Session("ContactID"))
+            Dim MyUnapprovedCompanies As DataSet = NashBLL.GetAllMyUnApprovedCompanies(Session("ContactID"))
             rptUnapproved.DataSource = MyUnapprovedCompanies
             rptUnapproved.DataBind()
             'Now go and get the list of unapproved suppliers
-            Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(Session("ContactID"))
+            Dim UnapprovedSuppliers As DataSet = NashBLL.GetAllMyUnapprovedSuppliers(Session("ContactID"))
             rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
             rptUnapprovedSuppliers.DataBind()
             'Now go and get the list of unapproved customers
-            Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(Session("ContactID"))
+            Dim UnapprovedCustomers As DataSet = NashBLL.GetAllMyUnapprovedCustomers(Session("ContactID"))
             rptUnapprovedCustomers.DataSource = UnapprovedCustomers
             rptUnapprovedCustomers.DataBind()
         End If
@@ -107,11 +107,14 @@ Partial Class mycerico
         'Now go and check our certifications
         Dim MyCertificates As DataSet = NashBLL.CheckMyCertifications(sender.CommandArgument)
         Dim dr As DataRow = MyCertificates.Tables(0).Rows(0)
+        'Set our pop up URL
+        hypCertification.NavigateUrl = "JavaScript:openCertRadWin('questionnairepopup.aspx?ci=" & sender.CommandArgument & "');"
         If UCase(dr("InProgress")) = "N" Then
             'This questionnaire has not yet started
             litDateStarted.Text = "Not Started"
             litDueDate.Text = "Not Started"
             litProgress.Text = "Not Started"
+            hypCertification.Text = "Start this Certification"
         ElseIf UCase(dr("InProgress")) = "Y" Then
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
@@ -121,17 +124,64 @@ Partial Class mycerico
                 Progress = 95
             End If
             litProgress.Text = "In Progress (" & Progress & "%)"
+            hypCertification.Text = "Continue this Certification"
         Else
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
             litProgress.Text = "Completed"
+            hypCertification.Text = "View"
         End If
+        'This is our hidden button that refreshes the page after the pop up window is closed
+        btnRefreshCertification.CommandArgument = sender.CommandArgument
         litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
-        
+        litActions.Text = "My actions [" & sender.CommandName & "] - Actions relating to your companies"
+        'Now we need to filter the supplier actions for this company
+        Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
+        rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
+        rptUnapprovedSuppliers.DataBind()
+        litSupplierActions.Text = "My Supplier Actions [" & sender.CommandName & "]"
+        'Now filter our customers
+        Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(sender.CommandArgument)
+        rptUnapprovedCustomers.DataSource = UnapprovedCustomers
+        rptUnapprovedCustomers.DataBind()
+        litCustomerActions.Text = "My Customer Actions [" & sender.CommandName & "]"
+        'Now filter our company members and join requests
+        Dim UnapprovedCompanies As DataSet = NashBLL.GetMyUnapprovedCompanies(sender.CommandArgument)
+        rptUnapproved.DataSource = UnapprovedCompanies
+        rptUnapproved.DataBind()
+
         panCompanyCertification.Visible = True
         panMyCompanies.Visible = False
         panCustomers.Visible = False
         panSuppliers.Visible = False
+    End Sub
+
+    Protected Sub btnRefreshCertification_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefreshCertification.Click
+        Dim MyCertificates As DataSet = NashBLL.CheckMyCertifications(sender.CommandArgument)
+        Dim dr As DataRow = MyCertificates.Tables(0).Rows(0)
+        If UCase(dr("InProgress")) = "N" Then
+            'This questionnaire has not yet started
+            litDateStarted.Text = "Not Started"
+            litDueDate.Text = "Not Started"
+            litProgress.Text = "Not Started"
+            hypCertification.Text = "Start this Certification"
+        ElseIf UCase(dr("InProgress")) = "Y" Then
+            litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
+            litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
+            Dim Progress As Integer = (dr("CurrentPage") / 6) * 100
+            If Progress = 100 Then
+                'Only show complete when its closed
+                Progress = 95
+            End If
+            litProgress.Text = "In Progress (" & Progress & "%)"
+            hypCertification.Text = "Continue this Certification"
+        Else
+            litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
+            litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
+            litProgress.Text = "Completed"
+            hypCertification.Text = "View"
+        End If
+
     End Sub
 
     Protected Sub btnAddCompany_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnAddCompany.Click
@@ -166,11 +216,13 @@ Partial Class mycerico
 
     Protected Sub btnCancelAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAdd.Click, btnCancelCompanyCert.Click
         'Show the correct panels for this view
-        panMyCompanies.Visible = True
-        panAddCompany.Visible = False
-        panCompanyCertification.Visible = False
+        'panMyCompanies.Visible = True
+        'panAddCompany.Visible = False
+        'panCompanyCertification.Visible = False
         'Set the page title 
-        lblManageCompaniesPageTitle.Text = "My Companies"
+        'lblManageCompaniesPageTitle.Text = "My Companies"
+        'Whole page needs rebound from here in case of any changes so just re-load whole thing
+        Response.Redirect("~/mycerico.aspx")
     End Sub
 
     Protected Sub btngoBack_Click(sender As Object, e As EventArgs) Handles btnGoback.Click
@@ -557,6 +609,8 @@ Partial Class mycerico
         Dim lblApprovedSuppliers As Label
         Dim lblUnapprovedSuppliers As Label
         Dim lblStatus As Label
+        Dim btnViewApproved As LinkButton
+        Dim btnViewCertifications As LinkButton
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
        
@@ -570,12 +624,18 @@ Partial Class mycerico
             lblApprovedSuppliers = e.Item.FindControl("lblApprovedSuppliers")
             lblUnapprovedSuppliers = e.Item.FindControl("lblUnapprovedSuppliers")
             lblStatus = e.Item.FindControl("lblStatus")
+            btnViewApproved = e.Item.FindControl("btnViewapproved")
+            btnViewCertifications = e.Item.FindControl("btnViewCertifications")
             'Now get our data item
             drv = e.Item.DataItem
             'Bind our data to the controls now
             btnCompanyName.Text = drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
             btnCompanyName.CommandName = drv("CompanyName")
+            btnViewApproved.CommandArgument = drv("CompanyID")
+            btnViewApproved.CommandName = drv("CompanyName")
+            btnViewCertifications.CommandArgument = drv("CompanyID")
+            btnViewCertifications.CommandName = drv("CompanyName")
             lblTotalCustomers.Text = drv("TotalCustomers")
             lblApprovedCustomers.Text = drv("ApprovedCustomers")
             lblUnapprovedCustomers.Text = drv("UnapprovedCustomers")
@@ -644,6 +704,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -652,11 +716,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             If UCase(Left(drv("Description"), 7)) <> "APPLIED" Then
                 'Change the text on our button to Approve
                 btnAction.Text = "View &amp; Approve"
@@ -677,6 +748,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -685,11 +760,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             'This is someone we're waiting on acting to approve us
             If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                 'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
@@ -705,6 +787,10 @@ Partial Class mycerico
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
         Dim btnAction As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -713,11 +799,18 @@ Partial Class mycerico
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnAction = e.Item.FindControl("btnAction")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
             btnAction.CommandArgument = drv("CompanyID")
+            litCompanyName.Text = drv("CompanyName")
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
             btnAction.Text = "View &amp; Approve"
             btnAction.CommandName = "Approve"
 
@@ -728,5 +821,6 @@ Partial Class mycerico
 #End Region
 
 
+    
     
 End Class
