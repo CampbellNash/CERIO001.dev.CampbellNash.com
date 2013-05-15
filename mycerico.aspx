@@ -3,6 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript">
+
+        function pageLoad() {
+            $(function () {
+                $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label">Gray</label> - Awaiting Approval<br/><label class="label label-success">Green</label> - Compliant </br><label class="label label-important">Red</label> - Non Compliant' });
+
+            });
+        }
+
+       
         //<![CDATA[
         function openCertRadWin(URL) {
             var oWindow = radopen(URL, "rwCertificates");
@@ -22,22 +31,22 @@
         <Windows>
             <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false"
                  Modal="true"  VisibleStatusbar="True" 
-                Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="700" Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666" AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True" Overlay="True" EnableShadow="True" />
+                Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750" Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666" AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True" Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
         </Windows>
     </Telerik:RadWindowManager>
     
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
-
-            <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
+            <h2>My CERICO</h2>
+            <asp:Button ID="btnRefreshCertification" runat="server" CssClass="pull-right" Style="visibility: hidden" />
                
                 <asp:Panel ID="panMyCompanies" runat="server" >
-                  <h2>My CERICO</h2>
+                  
                       <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
 
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
                         
-                        <b>The list below shows the list of companies that you are responsible for. Click on the Company to view more details.</b>
+                        The list below shows the list of companies that you are responsible for. Click on the Company to view more details. If you wish to associate yourself with another company then click the "Start Company Association process" button.
                         <table class="table table-striped table-condensed table-bordered" >
                             <caption><a href="#" id="tablelegend" class="btn pull-right" rel="popover" data-placement="left"  title="My Companies table help" data-original-title="My Companies table help">My Companies table help</a></caption>
                             <thead>
@@ -61,12 +70,14 @@
                                     <tr>
                                         <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /> - <asp:Label ID="lblStatus" runat="server" /></td>
                                         <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="2" CssClass="label label-inverse" title="Total Number of Suppliers"  /></td>
-                                        <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="1" CssClass="label" /></td>
+                                        <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
+                                        
                                         <td><asp:Label ID="lblNonCompliantSuppliers" runat="server" Text="1" CssClass="label label-important" /></td>
                                         <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" CssClass="label label-inverse" /></td>
+                                         <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
                                         <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
-                                        <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
+                                       
                                         <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="1" CssClass="label label-important" /></td>
                                         <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
                                             <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
@@ -79,9 +90,7 @@
                         <p>
                             <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
-                        <p>
-                            If you wish to associate yourself with another company then click the "Start Company Association process" button.
-                        </p>
+                        
                        <hr  />
                  
                  
@@ -89,7 +98,8 @@
                 
 
                 <asp:Panel runat="server" ID="panSearchCompanies" Visible="False" DefaultButton="btnSearch">
-                    <h3>Search for your Company</h3>
+                   <a href="mycerico.aspx">Back to All My Companies</a> &raquo; Start Company Association process &raquo; Company Search<br />
+                    <h3>Company Search</h3>
                     Enter your Search term: <asp:TextBox ID="txtSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearch" runat="server" ValidationGroup="search"  CssClass="btn btn-warning" Text="Search" /><br />
                     <asp:RequiredFieldValidator ID="rfvSearch" ValidationGroup="search" ControlToValidate="txtSearch" CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
                     <br />
@@ -98,7 +108,7 @@
                         <asp:Repeater ID="rptFoundCompanies" runat="server">
                             <ItemTemplate>
                                 <li>
-                                    <asp:HyperLink ID="hypCompanyNameSR" runat="server" /> - <asp:LinkButton ID="btnCompanyName" CssClass="btn-small btn-info" runat="server" OnClick="JoinCompany" />
+                                    <asp:LinkButton ID="btnCompanyName" CssClass="btn-small btn-info" runat="server" OnClick="JoinCompany" />
                                 </li>
                             
                             <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -113,9 +123,9 @@
                                         <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                 </div>
                             </asp:Panel>
-                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="hypCompanyNameSR"
-                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Top" OffsetX="0"
-                                OffsetY="0" PopDelay="50" />
+                            <AjaxToolkit:HoverMenuExtender ID="HoverMenuExtender2" runat="Server" TargetControlID="btnCompanyName"
+                                PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="right" OffsetX="10"
+                                OffsetY="-100" PopDelay="50" />
                             </ItemTemplate>
                         </asp:Repeater>
                     </ul>
@@ -129,7 +139,7 @@
                     </asp:Panel>
                     
                     <p><asp:LinkButton ID="btnAddCompany1" runat="server" Text="Click Here" /> to add your company yourself.<br />
-                        Don't want to search right now?<asp:LinkButton ID="btnCancelSearch" runat="server"> Click here</asp:LinkButton> to return to your home page.
+                        Don't want to search right now?<asp:LinkButton ID="btnCancelSearch" runat="server"> Click here</asp:LinkButton> to return to the mycerico page.
                     </p> 
                     
                 </asp:Panel>
@@ -317,10 +327,11 @@
                     </div> 
                    
                 </asp:Panel>
+                
                 <asp:Panel ID="panCompanyCertification" runat="server" Visible="false">
                     <asp:Button ID="btnCancelCompanyCert" runat="server" Text="Back" CssClass="btn btn-danger pull-right" />
-                    <h3><asp:Literal ID="litCompanyRef" runat="server" /></h3>
-                    <table class="table table-condensed">
+                    <asp:Literal ID="litCompanyRef" runat="server" />
+                    <table class="table table-striped table-condensed table-bordered">
                             <thead>
                                 <tr>
                                     <th>Certification name</th>
@@ -392,7 +403,7 @@
                                 </asp:Repeater>
                             </tbody>
                         </table>
-                         <div class="pagination">
+                         <div class="pagination pagination-mini">
                             <ul>
     <li><a href="#">Prev</a></li>
     <li><a href="#">1</a></li>
@@ -536,6 +547,7 @@
                     
                     
                 </asp:Panel>
+                
                 <asp:Panel ID="panConfirmAdd" runat="server" Visible="false">
                     <h2>Add New Company</h2>
                     <p>Your new company has been added!</p>
@@ -617,6 +629,7 @@
                             <p>
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
+                    </div>
                 </asp:Panel>
 
                 <asp:Panel ID="panSuppliers" runat="server">
@@ -696,7 +709,7 @@
                             <p>
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
-
+                        </div>
                 </asp:Panel>
         </div>
   </Telerik:RadAjaxPanel>  
@@ -718,14 +731,7 @@
         </asp:Panel>
     </div>
     
-    <script>
-        $(function () {
-            $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label label-success">Green</label> - Approved </br> <label class="label">Gray</label> - Awaiting Approval</br><label class="label label-important">Red</label> - Not Certified' });
-            
-        });
-
-       
-    </script>
+  
         
     
 

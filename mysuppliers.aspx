@@ -1,12 +1,20 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-   <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+   
          
             <div class="span9">
                 <h2>Manage Suppliers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
               <asp:Panel ID="panMyCompanies" runat="server">
+                <div class="form-signin form-horizontal">
+                  <div class="control-group">
+                  <label class="control-label">Select from your companies:</label>
+                            <div class="controls">
+                                    <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationShipDropDown" />
+                            </div>
+                    </div>
+                    </div>
                <p>To manage your supplier's please select one of your companies from the table below:</p>
                 <table class="table table-bordered">
                             <thead>
@@ -64,7 +72,7 @@
                                 <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindSuppliers">
                                     <ItemTemplate>
                                         <tr>
-                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetSupplierDetails" /></td>
                                             <td>
                                             <asp:Label ID="lblStatus" runat="server" />
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -83,7 +91,7 @@
                                             OffsetY="0" PopDelay="50" />
                                                 </td>
                                             <td>
-                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary" OnClick="GetSupplierDetails" />
+                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary"  />
                                                
                                             </td>
                                         </tr>
@@ -226,7 +234,7 @@
                                 </div>
                                 <div id="pane2" class="tab-pane">
                                 <h4>Company Users for company name</h4>
-                                  <p> and so on ...</p>
+                                  <asp:Repeater ID="rptStaffMembers" runat="server" />
                                 </div>
                                 <div id="pane3" class="tab-pane">
                                   <h4>Company Certs for company name</h4>
@@ -242,7 +250,7 @@
               
         </div>
         
-    </Telerik:RadAjaxPanel>  
+    
   
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>

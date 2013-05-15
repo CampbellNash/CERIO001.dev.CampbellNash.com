@@ -75,6 +75,19 @@
                             <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="txtPassword"><span class="alert-error">* </span>Password:</asp:Label></label><div
                                 class="controls">
                                 <asp:TextBox ID="txtPassword" runat="server" CssClass="input-xlarge" TextMode="Password"></asp:TextBox><br />
+                                 <ajaxToolkit:PasswordStrength ID="PS" runat="server"
+    TargetControlID="txtPassword"
+    DisplayPosition="RightSide"
+    StrengthIndicatorType="Text"
+    PreferredPasswordLength="6"
+    PrefixText="Strength:"
+    TextCssClass="alert-error"
+    MinimumNumericCharacters="1"
+    MinimumSymbolCharacters="0"
+    RequiresUpperAndLowerCaseCharacters="false"
+    TextStrengthDescriptions="Very Poor;Weak;Average;Strong;Excellent"
+    TextStrengthDescriptionStyles="label label-important;label label-info;label label-inverse;label label-warning;label label-success"
+    CalculationWeightings="70;30;0;0" />
                                 <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="txtPassword"
                                     CssClass="alert-error" ErrorMessage="Password is required." ToolTip="Password is required."
                                     ValidationGroup="RegisterValidationGroup" Display="Dynamic" />

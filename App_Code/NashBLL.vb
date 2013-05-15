@@ -157,21 +157,32 @@ Namespace MasterClass
             End Try
         End Function
 
-        Public Shared Function SendUserAndPAssword(ByVal EmailAddress As String) As String
+        Public Shared Function SendUserAndPassword(ByVal EmailAddress As String) As String
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("SendUserAndPassword", Conn)
-            Dim paramReturn As SqlParameter = Nothing
+            Dim rsMain As SqlDataReader
+            Dim EmailResult As String = ""
             ObjCmd.CommandType = CommandType.StoredProcedure
             ObjCmd.Parameters.AddWithValue("@EmailAddress", EmailAddress)
-            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
-            paramReturn.Direction = ParameterDirection.ReturnValue
-            Try
-                Conn.Open()
-                ObjCmd.ExecuteNonQuery()
-            Finally
-                Conn.Close()
-            End Try
-            Return paramReturn.Value
+            Conn.Open()
+            rsMain = ObjCmd.ExecuteReader()
+            rsMain.Read()
+            If rsMain("Email") = "-1" Then
+                'This account has not been verified
+                EmailResult = "-1"
+            ElseIf rsMain("Email") = "-2" Then
+                'No such user was found
+                EmailResult = "-2"
+            Else
+                'We got a record back so we can send the items back to .NET
+                EmailResult = rsMain("Email") & "," & rsMain("Username") & "," & rsMain("Password") & "," & rsMain("FirstName")
+            End If
+
+            'Close any connections & recordsets now
+            rsMain.Close()
+            Conn.Close()
+            'Inform our calling site of the result
+            SendUserAndPassword = EmailResult
         End Function
 
 
