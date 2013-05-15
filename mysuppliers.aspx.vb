@@ -41,6 +41,15 @@ Partial Class mysuppliers
                 'We found some customers so we can show them
                 rptMyCompanies.DataSource = MyCompanies
                 rptMyCompanies.DataBind()
+                'Populate the drop down
+                cboCompanies.DataSource = NashBLL.GetMyCompanies(Session("ContactID"))
+                cboCompanies.DataValueField = "CompanyID"
+                cboCompanies.DataTextField = "Companyname"
+                cboCompanies.DataBind()
+                Dim NewItem As New ListItem
+                NewItem.Text = "--- Please Select --"
+                NewItem.Value = ""
+                cboCompanies.Items.Insert(0, NewItem)
 
             Else
                 'No customers were found
@@ -60,31 +69,40 @@ Partial Class mysuppliers
 
 #Region " Manage My Companies "
 
-    Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
+    Protected Sub GetMyRelationShipDropDown(ByVal sender As Object, ByVal e As EventArgs)
+        GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+    End Sub
+
+    Private Sub GetMyRelationshipsByID(ByVal CompanyID As Integer, ByVal CompanyName As String)
         'First lets update the page title to refelct the Company we are dealing with.
-        lblManageCompaniesPageTitle.Text = "<a href=""mysuppliers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & sender.CommandName & " </span>  &raquo; Suppliers "
+        lblManageCompaniesPageTitle.Text = "<a href=""mysuppliers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & CompanyID & " </span>  &raquo; Suppliers "
         'Set the search button parameter
 
-        btnSearchSuppliers.CommandArgument = sender.CommandArgument
+        btnSearchSuppliers.CommandArgument = CompanyID
 
         'Go and see if we can get any suppliers
-        Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(sender.CommandArgument)
+        Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(CompanyID)
         If MySuppliers.Tables(0).Rows.Count > 0 Then
             'We found some customers so we can show them
             rptSuppliers.DataSource = MySuppliers
             rptSuppliers.DataBind()
             rptSuppliers.Visible = True
-            lblCompanySuppliers.Text = sender.CommandName
+            lblCompanySuppliers.Text = CompanyID
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
-            lblCompanySuppliers.Text = sender.CommandName
+            lblCompanySuppliers.Text = CompanyName
             rptSuppliers.Visible = False
             divSuppliers.Visible = False
 
         End If
         panMyCompanies.Visible = False
         panSuppliers.Visible = True
+
+    End Sub
+
+    Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
+        GetMyRelationshipsByID(sender.commandargument, sender.commandname)
     End Sub
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -112,7 +130,7 @@ Partial Class mysuppliers
         txtSupplierSearch.Text = ""
     End Sub
 
-   
+
 
 #End Region
 
@@ -124,7 +142,12 @@ Partial Class mysuppliers
         Dim dr As DataRow = SupplierDetails.Tables(0).Rows(0)
         lblCompanyNameDetail.Text = dr("CompanyName")
         lblCompanyNameDetailTab.Text = dr("CompanyName")
-        lblBusinessAreaDetail.text = dr("BusinessArea")
+        lblBusinessAreaDetail.Text = dr("BusinessArea")
+        'This is for the users
+        Dim companyusers As DataTable = SupplierDetails.Tables(1)
+        rptStaffMembers.DataSource = companyusers.DefaultView
+        rptStaffMembers.DataBind()
+
         panSupplierDetails.Visible = True
 
     End Sub
@@ -162,7 +185,7 @@ Partial Class mysuppliers
         lblManageCompaniesPageTitle.Text = ""
     End Sub
 
-    
+
 #End Region
 
 
@@ -287,7 +310,7 @@ Partial Class mysuppliers
         End If
     End Sub
 
-   
+
 
     Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptSupplierSearch.ItemDataBound, rptSuppliers.ItemDataBound
 
@@ -335,6 +358,6 @@ Partial Class mysuppliers
 #End Region
 
 
-    
+
 
 End Class

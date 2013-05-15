@@ -41,6 +41,15 @@ Partial Class mycustomers
                 'We found some customers so we can show them
                 rptMyCompanies.DataSource = MyCompanies
                 rptMyCompanies.DataBind()
+                'Populate the drop down
+                cboCompanies.DataSource = NashBLL.GetMyCompanies(Session("ContactID"))
+                cboCompanies.DataValueField = "CompanyID"
+                cboCompanies.DataTextField = "Companyname"
+                cboCompanies.DataBind()
+                Dim NewItem As New ListItem
+                NewItem.Text = "--- Please Select --"
+                NewItem.Value = ""
+                cboCompanies.Items.Insert(0, NewItem)
 
             Else
                 'No customers were found

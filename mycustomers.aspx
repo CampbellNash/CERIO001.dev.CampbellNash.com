@@ -7,7 +7,14 @@
                   <h2>Manage Customers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
                <asp:Panel ID="panMyCompanies" runat="server">
-                     
+                   <div class="form-signin form-horizontal">
+                  <div class="control-group">
+                  <label class="control-label">Select from your companies:</label>
+                            <div class="controls">
+                                    <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationships" />
+                            </div>
+                    </div>
+                    </div>
                   
                   
                   <p>To manage your customers please select one of your companies from the table below:</p>
