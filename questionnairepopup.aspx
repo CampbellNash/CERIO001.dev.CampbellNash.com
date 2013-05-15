@@ -11,7 +11,7 @@
     <Telerik:RadScriptManager ID="RadScriptManager1" runat="server">
     </Telerik:RadScriptManager>
 
-     <div class="span12">
+     
    <script type="text/javascript">
        function UploadFile()
        {
@@ -47,9 +47,12 @@
    </script>
          
          <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+         <div class="container-fluid">
+             <div class="row-fluid">
+             <div class="span12">
              <asp:Button ID="btnUpload" runat="server" Style="visibility: hidden; float: right" />
              <asp:HiddenField ID="hidReadOnly" runat="server" Value="False" />
-             <a href="#" id="moreinfo" class="btn pull-right" rel="popover" data-placement="bottom"  title="More info" data-original-title="More info">More info</a>
+             <a href="#" id="moreinfo" class="btn pull-right" rel="popover" data-placement="bottom"  title="Conflict Minerals – Due Diligence Questionnaire" data-original-title="Conflict Minerals – Due Diligence Questionnaire">More info</a>
              <h4 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h4>
         
             
@@ -76,16 +79,19 @@
         <asp:Panel ID="panForm" runat="server" Visible="true" CssClass="">
             
              
-                <h4>Progress</h4>
+                <h5>Questionnaire Progress</h5>
                <div class="progress">
                    <div class="bar" runat="server" id="divProgressbar"></div>
                    <asp:Label ID="lblProgress" runat="server" CssClass="bar" Width="166px" Visible="true" />
-               </div> 
+               </div>
+            <asp:LinkButton ID="btnTopSave" runat="server" CssClass="btn btn-mini pull-right btn-warning" Text="Save Draft" CausesValidation="false" />
+            <asp:LinkButton ID="btnTopNext" runat="server" CssClass="btn btn-mini pull-right" Text="Next Page &raquo;" ValidationGroup="Questions" />
+                        <asp:LinkButton ID="btnTopPrev" runat="server" CssClass="btn btn-mini pull-right" Text=" &laquo; Prev Page" />
+                        
                <p>Items marked with <span class="alert-error">*</span> are requried</p>
                <div class="form-signin form-horizontal">
                     <asp:Panel ID="panPage1" runat="server" Visible="false">
-                       <legend>1. Corporate details</legend>
-                       <label>Full name and address of supplier</label>
+                       <legend>1. Full name and address of supplier</legend>
                        <div class="control-group">
                            <label class="control-label"><span class="alert-error">*</span>Company Name:</label>
                            <div class="controls">
@@ -1017,12 +1023,13 @@
                            <asp:CheckBox ID="chkSignOff" runat="server" />
                        </div>
                    </asp:Panel>
-                  <p></p>
+                 
                     <p>
-                        <asp:Button ID="btnPrev" runat="server" CssClass="btn" Text=" &lt;&lt; Prev Page" />&nbsp;&nbsp;
-                        <asp:Button ID="btnNext" runat="server" CssClass="btn" Text="Next Page &gt;&gt;" ValidationGroup="Questions" />&nbsp;&nbsp;
-                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-warning" Text="Save Draft" CausesValidation="false" />&nbsp;&nbsp;
-                        <asp:Button ID="btnClose" runat="server" CssClass="btn btn-success" Text="Save &amp; Close" Visible="false" CommandName="Close" />
+                        <asp:Button ID="btnSave" runat="server" CssClass="btn btn-mini pull-right btn-warning" Text="Save Draft" CausesValidation="false" />
+                        <asp:Button ID="btnPrev" runat="server" CssClass="btn btn-mini pull-right" Text=" &laquo; Prev Page" />
+                        <asp:Button ID="btnNext" runat="server" CssClass="btn btn-mini pull-right" Text="Next Page &raquo;" ValidationGroup="Questions" />
+                        
+                        <asp:Button ID="btnClose" runat="server" CssClass="btn btn-mini btn-success" Text="Save &amp; Close" Visible="false" CommandName="Close" />
                         <AjaxToolkit:ConfirmButtonExtender ID="cbeClose" runat="server" TargetControlID="btnClose"
                             ConfirmText="This will close this questionnaire!&#10;&#10;All your customers &amp; suppliers will be notified.&#10;&#10;Are you sure?" />
                     </p>
@@ -1055,6 +1062,9 @@
 
         </script>
         </asp:Panel>
+                 </div>
+                 </div>
+             </div>
 </Telerik:RadAjaxPanel>
     <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
@@ -1066,7 +1076,7 @@
         </AjaxSettings>
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />
-    </div>
+    
     
 </form>
 </body>

@@ -129,7 +129,9 @@ Partial Class standardquestionnaire
             'Set our initial navigation configuration
             panPage1.Visible = True
             btnNext.CommandArgument = 1
+            btnTopNext.CommandArgument = 1
             btnPrev.Visible = False
+            btnTopPrev.Visible = False
             divProgressbar.Attributes.Add("style", "width: 16.6%;")
             'We need to check if our viewer can fill any items on this form
             If ReadOnlyMode Then
@@ -141,6 +143,7 @@ Partial Class standardquestionnaire
                 'Hide these buttons as we're now read only
                 btnSave.Visible = False
                 btnClose.Visible = False
+
             End If
         End If
     End Sub
@@ -837,7 +840,7 @@ Partial Class standardquestionnaire
 
 #Region " Navigation Buttons "
 
-    Protected Sub btnNext_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnNext.Click
+    Protected Sub btnNext_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnNext.Click, btnTopNext.Click
         Dim CompanyPercentage As Double = 0
         Dim ThereWasAnError As Boolean = False
 
@@ -849,13 +852,17 @@ Partial Class standardquestionnaire
                 panPage4.Visible = False
                 panPage5.Visible = False
                 panPage6.Visible = False
+                btnTopNext.CommandArgument = 2
                 btnNext.CommandArgument = 2
+                btnTopPrev.Visible = True
                 btnPrev.Visible = True
+                btnPrev.CommandArgument = 1
                 btnPrev.CommandArgument = 1
                 lblProgress.Width = "333"
                 divProgressbar.Attributes.Add("style", "width: 33.2%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = 2
+                btnTopSave.CommandArgument = 2
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 2
 
@@ -876,10 +883,14 @@ Partial Class standardquestionnaire
                 End If
                 If CheckMinerals() Then
                     btnNext.CommandArgument = 5
+                    btnTopNext.CommandArgument = 5
                     btnSave.CommandArgument = 3
+                    btnTopSave.CommandArgument = 3
                 Else
                     btnNext.CommandArgument = 3
+                    btnTopNext.CommandArgument = 3
                     btnSave.CommandArgument = 3
+                    btnTopSave.CommandArgument = 3
                 End If
                 panPage1.Visible = False
                 panPage2.Visible = False
@@ -888,9 +899,11 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnPrev.Visible = True
+                btnTopPrev.Visible = True
                 divProgressbar.Attributes.Add("style", "width: 49.4%;")
                 lblProgress.Width = "499"
                 btnPrev.CommandArgument = 2
+                btnTopPrev.CommandArgument = 2
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 3
                 panPage1.Visible = False
@@ -900,13 +913,18 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnNext.Visible = True
+                btnTopNext.Visible = True
                 btnNext.CommandArgument = 4
+                btnTopNext.CommandArgument = 4
+                btnTopPrev.Visible = True
                 btnPrev.Visible = True
+                btnPrev.CommandArgument = 3
                 btnPrev.CommandArgument = 3
                 lblProgress.Width = "632"
                 divProgressbar.Attributes.Add("style", "width: 65.4%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                btnTopSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
 
             Case 4
@@ -917,13 +935,18 @@ Partial Class standardquestionnaire
                 panPage5.Visible = True
                 panPage6.Visible = False
                 btnNext.Visible = True
+                btnTopNext.Visible = True
                 btnNext.CommandArgument = 5
+                btnTopNext.CommandArgument = 5
+                btnTopPrev.Visible = True
                 btnPrev.Visible = True
+                btnTopPrev.CommandArgument = 4
                 btnPrev.CommandArgument = 4
                 lblProgress.Width = "798"
                 divProgressbar.Attributes.Add("style", "width: 81.6%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                btnTopSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 5
                 panPage1.Visible = False
@@ -933,13 +956,19 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = True
                 btnNext.Visible = False
+                btnTopNext.Visible = False
+                btnTopPrev.Visible = True
                 btnPrev.Visible = True
                 If CheckMinerals() Then
                     btnPrev.CommandArgument = 3
+                    btnTopPrev.CommandArgument = 3
                     btnSave.CommandArgument = 6
+                    btnTopSave.CommandArgument = 6
                 Else
                     btnPrev.CommandArgument = 5
+                    btnTopPrev.CommandArgument = 5
                     btnSave.CommandArgument = 6
+                    btnTopSave.CommandArgument = 6
                 End If
                 btnClose.Visible = True
                 divProgressbar.Attributes.Add("style", "width: 100%;")
@@ -955,12 +984,13 @@ Partial Class standardquestionnaire
         If ReadOnlyMode Then
             'Make sure we don't ever show the save or close buttons
             btnSave.Visible = False
+            btnTopSave.Visible = False
             btnClose.Visible = False
         End If
         'lblErrorMessage.Text &= "Next Page value = " & btnNext.CommandArgument & "<br />"
     End Sub
 
-    Protected Sub btnPrev_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnPrev.Click
+    Protected Sub btnPrev_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnPrev.Click, btnTopPrev.Click
         btnClose.Visible = False
         Select Case sender.CommandArgument
             Case 1
@@ -971,11 +1001,14 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnNext.CommandArgument = 1
+                btnTopNext.CommandArgument = 1
                 btnPrev.Visible = False
+                btnTopPrev.Visible = False
                 divProgressbar.Attributes.Add("style", "width: 16.6%;")
                 lblProgress.Width = "166"
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                btnTopSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 2
                 panPage1.Visible = False
@@ -985,12 +1018,16 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnNext.CommandArgument = 2
+                btnTopNext.CommandArgument = 2
                 btnPrev.Visible = True
+                btnTopPrev.Visible = True
                 btnPrev.CommandArgument = 1
+                btnTopPrev.CommandArgument = 1
                 lblProgress.Width = "333"
                 divProgressbar.Attributes.Add("style", "width: 33.2%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                btnTopSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 3
                 panPage1.Visible = False
@@ -1001,14 +1038,21 @@ Partial Class standardquestionnaire
                 panPage6.Visible = False
                 If CheckMinerals() Then
                     btnNext.CommandArgument = 5
+                    btnTopNext.CommandArgument = 5
                     btnSave.CommandArgument = 3
+                    btnTopSave.CommandArgument = 3
                 Else
                     btnNext.CommandArgument = 3
+                    btnTopNext.CommandArgument = 3
                     btnSave.CommandArgument = 3
+                    btnTopSave.CommandArgument = 3
                 End If
                 btnPrev.Visible = True
+                btnTopPrev.Visible = True
                 btnNext.Visible = True
+                btnTopNext.Visible = True
                 btnPrev.CommandArgument = 2
+                btnTopPrev.CommandArgument = 2
                 lblProgress.Width = "499"
                 divProgressbar.Attributes.Add("style", "width: 49.4%;")
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
@@ -1020,13 +1064,18 @@ Partial Class standardquestionnaire
                 panPage5.Visible = False
                 panPage6.Visible = False
                 btnNext.CommandArgument = 4
+                btnTopNext.CommandArgument = 4
                 btnPrev.Visible = True
+                btnTopPrev.Visible = True
                 btnNext.Visible = True
+                btnTopNext.Visible = True
                 btnPrev.CommandArgument = 3
+                btnTopPrev.CommandArgument = 3
                 lblProgress.Width = "632"
                 divProgressbar.Attributes.Add("style", "width: 65.4%;")
                 'Save the current page for saving and re-opening this form
                 btnSave.CommandArgument = sender.CommandArgument
+                btnTopSave.CommandArgument = sender.CommandArgument
                 RadAjaxPanel1.FocusControl(lblProgress.ClientID)
             Case 5
                 panPage1.Visible = False
@@ -1036,12 +1085,17 @@ Partial Class standardquestionnaire
                 panPage5.Visible = True
                 panPage6.Visible = False
                 btnNext.CommandArgument = 5
+                btnTopNext.CommandArgument = 5
                 btnPrev.Visible = True
+                btnTopPrev.Visible = True
                 btnNext.Visible = True
+                btnTopNext.Visible = True
                 If CheckMinerals() Then
                     btnPrev.CommandArgument = 3
+                    btnTopPrev.CommandArgument = 3
                 Else
                     btnPrev.CommandArgument = 4
+                    btnTopPrev.CommandArgument = 4
                 End If
                 lblProgress.Width = "798"
                 divProgressbar.Attributes.Add("style", "width: 81.6%;")
@@ -1053,6 +1107,7 @@ Partial Class standardquestionnaire
         If ReadOnlyMode Then
             'Make sure we don't ever show the save or close buttons
             btnSave.Visible = False
+            btnTopSave.Visible = False
             btnClose.Visible = False
         End If
     End Sub
