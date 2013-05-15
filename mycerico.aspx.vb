@@ -133,7 +133,7 @@ Partial Class mycerico
         End If
         'This is our hidden button that refreshes the page after the pop up window is closed
         btnRefreshCertification.CommandArgument = sender.CommandArgument
-        litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
+        litCompanyRef.Text = "<a href=""mycerico.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & dr("CompanyName") & " </span>  &raquo; Company Certifications"
         litActions.Text = "My actions [" & sender.CommandName & "] - Actions relating to your companies"
         'Now we need to filter the supplier actions for this company
         Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
@@ -668,12 +668,10 @@ Partial Class mycerico
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
         Dim litStatus As Literal
-        Dim hypCompanyNameSR As HyperLink
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-            hypCompanyNameSR = e.Item.FindControl("hypCompanyNameSR")
             litStatus = e.Item.FindControl("litStatus")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
@@ -683,8 +681,6 @@ Partial Class mycerico
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
-            'hypCompanyNameSR.Text = drv("CompanyName")
-            'hypCompanyNameSR.NavigateUrl = "#"
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
