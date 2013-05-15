@@ -98,10 +98,12 @@ Partial Class controls_homepageLogin
                 'This account has not been verified yet so halt and advise
                 panForgot.Visible = False
                 panNotActivated.Visible = True
+                lblLoginError.Text = ""
                 Return
             ElseIf EmailResult = "-2" Then
                 'Account was not found
                 lblLoginError.Text = "Sorry we were unable to find an account matching the email address you entered. Please verify &amp; try again."
+
                 Return
             Else
                 Dim MyArray As Array = Split(EmailResult, ",")
