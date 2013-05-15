@@ -28,15 +28,16 @@
                 <asp:Button ID="btnSend" Text="Send password &raquo;" runat="server" CssClass="btn btn-large btn-success" ValidationGroup="Forgot" AlternateText="Send password" ToolTip="Send password" ImageAlign="Right" />&nbsp;&nbsp;<asp:Button ID="btnCancelForgot" runat="server" Text="Cancel" CssClass="btn btn-danger btn-large" AlternateText="Cancel" ToolTip="Cancel" ImageAlign="Right"  />
             </asp:Panel>
             
-            <asp:Panel ID="panConfirmSend" runat="server" Visible="false">
-                <p>Thank you!</p>
-                <p>We have sent a mail containing your login credentials to the address you entered, please check for this mail in all your mailbox folders and follow the instructions given.</p>
+            <asp:Panel ID="panConfirmSend" runat="server" Visible="false" CssClass="alert alert-success gaptop">
+                <strong>Thank you!</strong><br />
+                <small>We have sent a mail containing your login credentials to the address you entered, please check for this mail in all your mailbox folders and follow the instructions given. Click the button below to return to the login page.</small><br />
+                <asp:Button ID="btnCancel2" runat="server" Text="Return to Login" CssClass="btn btn-danger btn-large" AlternateText="Return to Login" ToolTip="Return to Login" ImageAlign="Right"  />
             </asp:Panel>
          <asp:Panel ID="panNotActivated" runat="server" Visible="false" CssClass="alert alert-block gaptop">
              <asp:Button ID="btnReturn" runat="server" Text="&times;" type="button" class="close"  />  
-              According to our records you have a pending account with us.
-                Your account is still awaiting approval, when this happens you will receive a mail confirming your account is ready to use. Click the button below to return to the login page.
-             
+              <strong>According to our records you have a pending account with us.</strong><br />
+              <small>Your account is still awaiting approval, when this happens you will receive a mail confirming your account is ready to use. Click the button below to return to the login page.</small><br />
+             <asp:Button ID="btnCancel3" runat="server" Text="Return to Login" CssClass="btn btn-danger btn-large" AlternateText="Return to Login" ToolTip="Return to Login" ImageAlign="Right"  />
             </asp:Panel>
     
                         

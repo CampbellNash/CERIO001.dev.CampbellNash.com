@@ -78,51 +78,54 @@ Partial Class controls_homepageLogin
         txtEmailAddress.Text = ""
     End Sub
 
-    Protected Sub btnCancelForgot_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancelForgot.Click, btnReturn.Click
+    Protected Sub btnCancelForgot_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancelForgot.Click, btnReturn.Click, btnCancel2.Click, btnCancel3.Click
         'User is cancelling password request
         panFormWrapper.Visible = True
         panForgot.Visible = False
         lblLoginError.Text = ""
         panWarning.Visible = False
         panNotActivated.Visible = False
+        panConfirmSend.Visible = False
     End Sub
 
-    Protected Sub btnSend_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSend.Click
+    Protected Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
         Dim MailBody As String = ""
         Dim Subject As String = ""
         Dim RecipientList As String = ""
-        'Try
-        Dim EmailResult As String = NashBLL.SendUserAndPAssword(txtEmailAddress.Text)
-        If EmailResult = "-1" Then
-            'This account has not been verified yet so halt and advise
-            panForgot.Visible = False
-            panNotActivated.Visible = True
-            Return
-        ElseIf EmailResult = "-2" Then
-            'Account was not found
-            lblLoginError.Text = "Sorry we were unable to find an account matching the email address you entered. Please verify &amp; try again."
-            Return
-        Else
-            Dim MyArray As Array = Split(EmailResult, ",")
-            'We found a user for the entered email address so we can send the mail now
-            MailBody = "Dear " & MyArray(2) & "," & vbCrLf & vbLf & _
-            "Please find your login details for our site below." & vbCrLf & vbLf & _
-            "Password: " & MyArray(1) & vbCrLf & vbLf & _
-            "Visit 'web site address here' and login with these details." & vbCrLf & vbLf & _
-            "If you have any further problems then please consult your support team."
-            Subject = "Login details from CERICO"
-            RecipientList = MyArray(0)
-            'Now send the mail
-            NashBLL.SendMail(RecipientList, "", "", MailBody, Subject, "", False)
-            'Inform the user now
-            lblLoginError.Text = ""
-            panForgot.Visible = False
-            panConfirmSend.Visible = True
-        End If
+        Try
+            Dim EmailResult As String = NashBLL.SendUserAndPassword(txtEmailAddress.Text)
+            If EmailResult = "-1" Then
+                'This account has not been verified yet so halt and advise
+                panForgot.Visible = False
+                panNotActivated.Visible = True
+                Return
+            ElseIf EmailResult = "-2" Then
+                'Account was not found
+                lblLoginError.Text = "Sorry we were unable to find an account matching the email address you entered. Please verify &amp; try again."
+                Return
+            Else
+                Dim MyArray As Array = Split(EmailResult, ",")
+                'We found a user for the entered email address so we can send the mail now
+                MailBody = "Dear " & MyArray(3) & "," & vbCrLf & vbLf & _
+                "Please find your login details for our site below." & vbCrLf & vbLf & _
+                "Username: " & MyArray(1) & vbCrLf & vbLf & _
+                "Password: " & MyArray(2) & vbCrLf & vbLf & _
+                "Visit 'web site address here' and login with these details." & vbCrLf & vbLf & _
+                "If you have any further problems then please consult your support team."
+                Subject = "Login details from CERICO"
+                RecipientList = MyArray(0)
+                'Now send the mail
+                NashBLL.SendMail(RecipientList, "", "", MailBody, Subject, "", False)
+                'Inform the user now
+                lblLoginError.Text = ""
+                panForgot.Visible = False
+                panConfirmSend.Visible = True
+            End If
 
-        'Catch
-
-        'End Try
+        Catch
+            lblLoginError.Visible = True
+            lblLoginError.Text = "There has been an error - " & ErrorToString()
+        End Try
     End Sub
 
 
