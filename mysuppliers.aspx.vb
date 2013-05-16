@@ -48,7 +48,7 @@ Partial Class mysuppliers
                 cboCompanies.DataBind()
                 Dim NewItem As New ListItem
                 NewItem.Text = "--- Please Select --"
-                NewItem.Value = ""
+                NewItem.Value = "0"
                 cboCompanies.Items.Insert(0, NewItem)
 
             Else
@@ -88,6 +88,7 @@ Partial Class mysuppliers
             rptSuppliers.DataBind()
             rptSuppliers.Visible = True
             lblCompanySuppliers.Text = CompanyName
+            divSuppliers.Visible = True
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
@@ -95,9 +96,11 @@ Partial Class mysuppliers
             rptSuppliers.Visible = False
             divSuppliers.Visible = False
 
+
         End If
         panMyCompanies.Visible = False
         panSuppliers.Visible = True
+
 
     End Sub
 
@@ -141,8 +144,8 @@ Partial Class mysuppliers
         Dim SupplierDetails As DataSet = NashBLL.GetCompanyDetailsByID(sender.CommandArgument)
         Dim dr As DataRow = SupplierDetails.Tables(0).Rows(0)
         lblCompanyNameDetail.Text = dr("CompanyName")
-        lblCompanyNameDetailTab.Text = dr("CompanyName")
-        lblBusinessAreaDetail.Text = dr("BusinessArea")
+        'lblCompanyNameDetailTab.Text = dr("CompanyName")
+        litBusinessAreaDetail.Text = dr("BusinessArea")
         'This is for the users
         Dim companyusers As DataTable = SupplierDetails.Tables(1)
         rptStaffMembers.DataSource = companyusers.DefaultView
@@ -171,6 +174,7 @@ Partial Class mysuppliers
         rptSupplierSearch.Visible = False
         txtSupplierSearch.Text = ""
         lblManageCompaniesPageTitle.Text = ""
+        cboCompanies.SelectedIndex = 0
     End Sub
 
     Protected Sub btnCancelSearch_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelSearch.Click
@@ -183,6 +187,7 @@ Partial Class mysuppliers
         rptSupplierSearch.Visible = False
         txtSupplierSearch.Text = ""
         lblManageCompaniesPageTitle.Text = ""
+        cboCompanies.SelectedIndex = 0
     End Sub
 
 
@@ -279,19 +284,19 @@ Partial Class mysuppliers
 
     Protected Sub BindSuppliers(ByVal sender As Object, ByVal e As RepeaterItemEventArgs)
         Dim btnCompanyName As LinkButton
-
+        Dim btnSupplierDetails As LinkButton
         Dim lblStatus As Label
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is a data item so we can populate our items
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-
+            btnSupplierDetails = e.Item.FindControl("btnSupplierDetails")
             lblStatus = e.Item.FindControl("lblStatus")
             drv = e.Item.DataItem
             btnCompanyName.Text = drv("CompanyName")
-            btnCompanyName.CommandArgument = drv("CompanyID")
-            btnCompanyName.CommandName = drv("CompanyName")
+            btnSupplierDetails.CommandArgument = drv("CompanyID")
+            btnSupplierDetails.CommandName = drv("CompanyName")
 
 
             If UCase(drv("Approved")) = "Y" Then
@@ -336,8 +341,10 @@ Partial Class mysuppliers
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
-            'btnSupplierDetails.Text = "View " & drv("CompanyName")
-            'btnSupplierDetails.CommandArgument = drv("CompanyID")
+            btnSupplierDetails.Text = "View " & drv("CompanyName")
+            btnSupplierDetails.CommandArgument = drv("CompanyID")
+            btnSupplierDetails.ToolTip = "Select " & drv("CompanyName")
+
 
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _

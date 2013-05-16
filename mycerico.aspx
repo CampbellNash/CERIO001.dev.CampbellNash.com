@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycerico.aspx.vb" Inherits="mycerico" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+   
     <script type="text/javascript">
 
         function pageLoad() {
@@ -47,8 +47,7 @@
             <asp:Button ID="btnShowTooltip" runat="server" CssClass="pull-right" Style="visibility: hidden" />
                 <asp:Panel ID="panMyCompanies" runat="server" >
  
-                      <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
-
+                  <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
                         
                         The list below shows the list of companies that you are responsible for. Click on the Company to view more details. If you wish to associate yourself with another company then click the "Start Company Association process" button.
@@ -438,7 +437,7 @@
                                 </asp:Repeater>
                             </tbody>
                         </table>
-                         <div class="pagination pagination-mini">
+                         <div class="pagination pagination-mini hidden">
                             <ul>
     <li><a href="#">Prev</a></li>
     <li><a href="#">1</a></li>
@@ -510,7 +509,7 @@
                            
 
                         </table>
-                            <div class="pagination pagination-mini">
+                            <div class="pagination pagination-mini hidden">
                             <ul>
     <li><a href="#">Prev</a></li>
     <li><a href="#">1</a></li>
@@ -579,7 +578,7 @@
                            
 
                         </table>
-                        <div class="pagination pagination-mini">
+                        <div class="pagination pagination-mini hidden">
                             <ul>
     <li><a href="#">Prev</a></li>
     <li><a href="#">1</a></li>

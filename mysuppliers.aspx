@@ -1,12 +1,14 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
+    
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
          
             <div class="span9">
                 <h2>Manage Suppliers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
               <asp:Panel ID="panMyCompanies" runat="server">
+                
                   <div class="alert alert-info">
                     <div class="form-horizontal">
                       <div class="control-group">
@@ -67,7 +69,7 @@
                                     <th>Supplier Name</th>
                                     
                                     <th>System Status</th>
-                                    <th>Compliance Status</th>
+                                    <th>Compliance Status (against selected company)</th>
                                     <th>Actions</th>
                                     
                                     
@@ -77,7 +79,7 @@
                                 <asp:Repeater ID="rptSuppliers" runat="server" OnItemDataBound="BindSuppliers">
                                     <ItemTemplate>
                                         <tr>
-                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetSupplierDetails" /></td>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server"  /></td>
                                             <td>
                                             <asp:Label ID="lblStatus" runat="server" />
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -96,7 +98,10 @@
                                             OffsetY="0" PopDelay="50" />
                                                 </td>
                                             <td>
-                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary"  />
+                                                <span class="label label-important">Non Compliant</span>
+                                            </td>
+                                            <td>
+                                                <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary" Text="View details" OnClick="GetSupplierDetails" />
                                                
                                             </td>
                                         </tr>
@@ -116,9 +121,9 @@
                     </div>
                 </asp:Panel>
                 
-                <asp:Panel ID="panAddSupplier" runat="server" DefaultButton="btnSearchSuppliers">
+              <asp:Panel ID="panAddSupplier" runat="server" DefaultButton="btnSearchSuppliers">
                     <div class="span9">
-                        <asp:Button ID="btnCancelSearch" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False"  />
+                        <asp:Button ID="btnCancelSearch" runat="server" CssClass="btn-small btn-danger" Text="Cancel Search" CausesValidation="False"  />
                         <h4>Add a new supplier</h4> 
                         <p>The supplier you are looking for may already exist on our system, please use the search feature below to find them.</p>
                         Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> 
@@ -126,11 +131,12 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="search"
                             ControlToValidate="txtSupplierSearch" CssClass="error" ForeColor="red"
                             runat="server" Display="Dynamic" ErrorMessage="Please enter a search term" />
-                        <ul>
+                        <ul class="unstyled">
                             <asp:Repeater ID="rptSupplierSearch" runat="server">
+                                <HeaderTemplate><h4>Supplier Search Results</h4></HeaderTemplate>
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" />
+                                       <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" CssClass="btn btn-success"  />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
@@ -147,25 +153,30 @@
                                         PopupControlID="panPopUp" HoverCssClass="popupHover" PopupPosition="Right" OffsetX="0"
                                         OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
+                                <FooterTemplate>
+                                  
+                                </FooterTemplate>
                             </asp:Repeater>
                         </ul>
-                        <asp:Panel ID="panNoResults3" runat="server" Visible="false">
-                            
-                            <div class="alert">
+                          <br />
+                                    <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-
-                                <h4>Search results</h4>
-                                No results found for the search you entered, please adjust and try again.</div>    
-                            <div class="alert alert-info">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <h4>The Supplier Does not exist!</h4>
-                                If you cannot find the supplier you wish to add then you can invite them to the system by clicking the "Invite Supplier" button. In doing so they will be automatically connected to you once they setup thier account.<br />
+                                <h4>Can't find the supplier your looking for?</h4>
+                                If you cannot find the supplier you wish to add then you can invite them to the system by clicking the "Invite Supplier" button. In doing so they will be automatically connected to you once they setup their account.<br />
                                 <asp:LinkButton ID="btnInviteSuppliers" runat="server" CssClass="btn-small btn-success pull-left" Text="Invite Supplier &raquo;" />
                                 
                                 <br />
                             </div>
-                              
-                             <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
+                        <ajaxToolkit:ModalPopupExtender ID="MPE1" runat="server"
+                        TargetControlID="btnInviteSuppliers"
+                        PopupControlID="panInviteSupplier"
+                        BackgroundCssClass="modal-backdrop" 
+                        DropShadow="true" 
+                        OkControlID="OkButton" 
+                        OnOkScript="onOk()"
+                        PopupDragHandleControlID="Panel3" >
+                        </ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
                                 <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />
                                 <h4>Invite Supplier</h4>
                                 <asp:Panel ID="panInviteStart" runat="server" Visible="true">
@@ -199,14 +210,17 @@
                                 </asp:Panel>
                             
                             </asp:Panel>
-    <ajaxToolkit:ModalPopupExtender ID="MPE1" runat="server"
-    TargetControlID="btnInviteSuppliers"
-    PopupControlID="panInviteSupplier"
-    BackgroundCssClass="modal-backdrop" 
-    DropShadow="true" 
-    OkControlID="OkButton" 
-    OnOkScript="onOk()"
-    PopupDragHandleControlID="Panel3" ></ajaxToolkit:ModalPopupExtender>
+                        <asp:Panel ID="panNoResults3" runat="server" Visible="false">
+                            
+                            <div class="alert">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Search results</h4>
+                                No results found for the search you entered, please adjust and try again.
+                            </div>    
+                            
+                              
+                             
+    
                 
                           
                              
@@ -218,31 +232,66 @@
                         </asp:Panel>
                        </div>
                 </asp:Panel>
-
-                <asp:Panel ID="panSupplierDetails" runat="server" Visible="false">
+               
+              <asp:Panel ID="panSupplierDetails" runat="server" Visible="false">
                     
                         <div class="span12">
-                            <h3>Supplier Details</h3>
+                            <hr />
+                            <h4 ><asp:Label runat="server" ID="lblCompanyNameDetail" /> Details</h4>
                             <div class="tabbable">
                               <ul class="nav nav-tabs">
-                                <li class="active"><a href="#pane1" data-toggle="tab"><asp:Label runat="server" ID="lblCompanyNameDetailTab" /> Company Details</a></li>
+                                <li class="active"><a href="#pane1" data-toggle="tab"> Company Details</a></li>
                                 <li><a href="#pane2" data-toggle="tab">Company Users</a></li>
-                                <li><a href="#pane3" data-toggle="tab">Company Certiifcations</a></li>
+                                <li><a href="#pane3" data-toggle="tab">Company Certifcations</a></li>
                                 
                               </ul>
                               <div class="tab-content">
                                 <div id="pane1" class="tab-pane active">
-                                 <h4><asp:Label runat="server" ID="lblCompanyNameDetail" /></h4>
-                                    <label>Business Area: </label><asp:Label runat="server" ID="lblBusinessAreaDetail" />
-
-                                
+                                    <dl class="dl-horizontal">
+                                      <dt>Business Area:</dt>
+                                      <dd><asp:literal runat="server" ID="litBusinessAreaDetail" /></dd>
+                                        <dt>test</dt>
+                                        <dd>test</dd>
+                                    </dl>
+                                 
                                 </div>
                                 <div id="pane2" class="tab-pane">
                                 <h4>Company Users for company name</h4>
                                   <asp:Repeater ID="rptStaffMembers" runat="server" />
                                 </div>
                                 <div id="pane3" class="tab-pane">
-                                  <h4>Company Certs for company name</h4>
+                                  <h4>Certifcation status</h4>
+                                    <table class="table table-bordered table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>Certification name</th>
+                                                <th>Mandatory</th>
+                                                <th>Issue Date</th>
+                                                <th>Due date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Conflict Minerals</td>
+                                                <td>
+                                                    <div class="onoffswitch">
+    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+    <label class="onoffswitch-label" for="myonoffswitch">
+        <div class="onoffswitch-inner"></div>
+        <div class="onoffswitch-switch"></div>
+    </label>
+</div>
+
+                                                </td>
+                                                <td>12 May 2013</td>
+                                                <td>12 Jun 2013</td>
+                                                <td>
+                                                 In Progress (33%)
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 
                               </div><!-- /.tab-content -->
@@ -254,7 +303,12 @@
                 </asp:Panel>
               
         </div>
-        
+       
+            <div class="span3">
+            <asp:Panel runat="server" ID="panSubNav">
+                <uc1:submenu1 ID="submenu11" runat="server" />      
+            </asp:Panel>
+            </div>
     </Telerik:RadAjaxPanel>  
   
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
@@ -269,11 +323,7 @@
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />          
     
-    <div class="span3">
-        <asp:Panel runat="server" ID="panSubNav">
-            <uc1:submenu1 ID="submenu11" runat="server" />      
-        </asp:Panel>
-    </div>
+    
         
 </asp:Content>
 
