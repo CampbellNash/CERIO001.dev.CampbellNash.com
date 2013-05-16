@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="VB" AutoEventWireup="false" CodeFile="homepageLogin.ascx.vb" Inherits="controls_homepageLogin" %>
+ <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
 <div class="hpform-signin">
          <asp:Label ID="lblLoginError" runat="server" CssClass="requried" />
           <asp:Panel ID="panFormWrapper" runat="server" defaultbutton="btnLogin">
@@ -38,10 +39,17 @@
               <strong>According to our records you have a pending account with us.</strong><br />
               <small>Your account is still awaiting approval, when this happens you will receive a mail confirming your account is ready to use. Click the button below to return to the login page.</small><br />
              <asp:Button ID="btnCancel3" runat="server" Text="Return to Login" CssClass="btn btn-danger btn-large" AlternateText="Return to Login" ToolTip="Return to Login" ImageAlign="Right"  />
-            </asp:Panel>
-    
-                        
-                       
-                       
-                        
+            </asp:Panel>         
      </div>
+     </Telerik:RadAjaxPanel>
+  <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+        <AjaxSettings>
+            <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
+                <UpdatedControls>
+                    <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
+                        UpdatePanelRenderMode="Block" />
+                </UpdatedControls>
+            </Telerik:AjaxSetting>
+        </AjaxSettings>
+    </Telerik:RadAjaxManager>
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />    
