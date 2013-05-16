@@ -781,13 +781,15 @@ Namespace MasterClass
         End Function
 
         Public Shared Function RequestSupplier(ByVal CompanyID As Integer, _
-                                               ByVal SupplierCompanyID As Integer) As DataSet
+                                               ByVal SupplierCompanyID As Integer, _
+                                               ByVal ContactID As Integer) As DataSet
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim ObjCmd As SqlCommand = New SqlCommand("RequestSupplier", Conn)
             Dim paramReturn As SqlParameter = Nothing
             ObjCmd.CommandType = CommandType.StoredProcedure
             ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
             ObjCmd.Parameters.AddWithValue("@SupplierCompanyID", SupplierCompanyID)
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
             paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
             paramReturn.Direction = ParameterDirection.ReturnValue
             Dim MyDataSet As DataSet

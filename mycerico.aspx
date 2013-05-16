@@ -3,10 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript">
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of 0f91d8f... General updates
         function pageLoad() {
             $(function () {
                 $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label">Gray</label> - Awaiting Approval<br/><label class="label label-success">Green</label> - Compliant </br><label class="label label-important">Red</label> - Non Compliant' });
@@ -14,10 +11,7 @@
             });
         }
 
-<<<<<<< HEAD
-=======
-       
->>>>>>> parent of 0f91d8f... General updates
+
         //<![CDATA[
         function openCertRadWin(URL) {
             var oWindow = radopen(URL, "rwCertificates");
@@ -28,6 +22,11 @@
             //window.location = 'mycerico.aspx';
             document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnRefreshCertification').click();
         }
+
+        function ShowTooltipForm() {
+            //window.location = 'mycerico.aspx';
+            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnShowTooltip').click();
+             }
         //]]>           
        
         
@@ -44,17 +43,10 @@
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
             <h2>My CERICO</h2>
-<<<<<<< HEAD
-            <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
-            <asp:Button ID="btnShowTooltip" runat="server" Style="visibility: hidden" />
-                <asp:Panel ID="panMyCompanies" runat="server" >
-                 
-=======
             <asp:Button ID="btnRefreshCertification" runat="server" CssClass="pull-right" Style="visibility: hidden" />
-               
+            <asp:Button ID="btnShowTooltip" runat="server" CssClass="pull-right" Style="visibility: hidden" />
                 <asp:Panel ID="panMyCompanies" runat="server" >
-                  
->>>>>>> parent of 0f91d8f... General updates
+ 
                       <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
 
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
@@ -395,7 +387,37 @@
                                             <td><asp:Literal ID="litDescription" runat="server" /></td>
                                             <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
                                             <td><asp:Literal ID="litDateCreated" runat="server" /></td>
-                                            <td><asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" /></td>
+                                            
+                                            <td>
+                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
+                                                <Telerik:RadToolTip ID="MyTooltip" runat="server" 
+                                                        Skin="MetroTouch" 
+                                                        Modal="true" 
+                                                        ManualClose="true" 
+                                                        TargetControlID="btnAction" 
+                                                        RelativeTo="Element" 
+                                                        Width="400" 
+                                                        Height="400" 
+                                                        ShowEvent="OnClick" 
+                                                        HideEvent="ManualClose" 
+                                                        EnableShadow="true">
+                                                        
+                                                        <h5><asp:Literal ID="litTitle" runat="server" /></h5>
+                                                        <asp:Panel ID="panReminder" runat="server" Visible="false">
+                                                            <p>Click the button below to remind this company to review your request to join.</p>
+                                                            <p>
+                                                                <asp:LinkButton ID="btnSendReminder" runat="server" Text="Send Reminder" CssClass="btn btn-small btn-primary" /></p>
+                                                        </asp:Panel>
+
+                                                        <asp:Panel ID="panShowUserDetails" runat="server" Visible="false">
+                                                            <p>Review the details below and click the button to accept this user as a company member.</p>
+                                                            <p><asp:Literal ID="litDetails" runat="server" /></p>
+                                                            <p>
+                                                                <asp:LinkButton ID="btnApproveUser" runat="server" Text="Approve User" CssClass="btn btn-small btn-primary" /></p>
+                                                        </asp:Panel>
+
+                                                </Telerik:RadToolTip>
+                                            </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
@@ -457,6 +479,14 @@
                                             </td>
                                             <td>
                                                 <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
+                                                <Telerik:RadToolTip ID="RadToolTip1" runat="server" Skin="MetroTouch" Modal="true"
+                                                    ManualClose="true" TargetControlID="btnAction" RelativeTo="Element" Width="400"
+                                                    Height="400" ShowEvent="OnClick">
+                                                    <h5>
+                                                        Dynamic tooltip for approvals & reminders.</h5>
+                                                    <p>
+                                                      This is bound during the SQL process and will be unique to each button.</p>
+                                               </Telerik:RadToolTip>
                                             </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -519,6 +549,12 @@
                                             </td>
                                             <td>
                                                 <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
+                                                <Telerik:RadToolTip ID="RadToolTip1" runat="server" Skin="MetroTouch" Modal="true"
+                                                   ManualClose="true" TargetControlID="btnAction" RelativeTo="Element" Width="400"
+                                                   Height="400" ShowEvent="OnClick">
+                                                    <h5>Dynamic tooltip for approvals & reminders.</h5>
+                                                    <p>This is bound during the SQL process and will be unique to each button.</p>    
+                                                </Telerik:RadToolTip>
                                             </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -744,11 +780,6 @@
         </asp:Panel>
     </div>
     
-<<<<<<< HEAD
-    
-=======
-  
->>>>>>> parent of 0f91d8f... General updates
         
     
 

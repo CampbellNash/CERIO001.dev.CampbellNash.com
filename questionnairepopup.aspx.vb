@@ -84,13 +84,15 @@ Partial Class standardquestionnaire
 #End Region
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
-        'Always reset our global loopcount
-        gbLoopCount = 0
+
         If Not Session("UserLoggedIn") Then
             'User is not logged in so send to login page
-            Response.Redirect("~/login.aspx")
+            panForm.Visible = False
+            panWindowClose.Visible = True
+            Return
         End If
-
+        'Always reset our global loopcount
+        gbLoopCount = 0
         'Check our query string value
         If Not Request.QueryString.HasKeys Or Not IsNumeric(Request.QueryString("ci")) Then
             panNoQuery.Visible = True

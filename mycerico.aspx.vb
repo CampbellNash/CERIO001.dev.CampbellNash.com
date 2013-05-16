@@ -375,7 +375,7 @@ Partial Class mycerico
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument, Session("ContactID"))
         Dim dr As DataRow = MailData.Tables(0).Rows(0)
         'Create the main mail body
         Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
@@ -609,11 +609,13 @@ Partial Class mycerico
         Dim lblApprovedSuppliers As Label
         Dim lblUnapprovedSuppliers As Label
         Dim lblStatus As Label
+        Dim lblNonCompliantSuppliers As Label
+        Dim lblNonCompliantCustomers As Label
         Dim btnViewApproved As LinkButton
         Dim btnViewCertifications As LinkButton
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
-       
+
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is a data item so we can populate our items
             btnCompanyName = e.Item.FindControl("btnCompanyName")
@@ -623,6 +625,8 @@ Partial Class mycerico
             lblTotalSuppliers = e.Item.FindControl("lblTotalSuppliers")
             lblApprovedSuppliers = e.Item.FindControl("lblApprovedSuppliers")
             lblUnapprovedSuppliers = e.Item.FindControl("lblUnapprovedSuppliers")
+            lblNonCompliantSuppliers = e.Item.FindControl("lblNonCompliantSuppliers")
+            lblNonCompliantCustomers = e.Item.FindControl("lbloNonCompliantCustomers")
             lblStatus = e.Item.FindControl("lblStatus")
             btnViewApproved = e.Item.FindControl("btnViewapproved")
             btnViewCertifications = e.Item.FindControl("btnViewCertifications")
@@ -642,6 +646,8 @@ Partial Class mycerico
             lblTotalSuppliers.Text = drv("TotalSuppliers")
             lblApprovedSuppliers.Text = drv("ApprovedSuppliers")
             lblUnapprovedSuppliers.Text = drv("UnapprovedSuppliers")
+            'lblNonCompliantCustomers.Text = drv("NonCompliantCustomers")
+            'lblNonCompliantSuppliers.Text = drv("NonCompliantSuppliers")
             If UCase(drv("Approved")) = "Y" Then
                 lblStatus.Text = "Approved"
                 lblStatus.CssClass = "label label-success"
@@ -652,7 +658,7 @@ Partial Class mycerico
                 btnCompanyName.Attributes.Remove("href")
                 btnCompanyName.CssClass = "disabled"
             End If
-            
+
         End If
     End Sub
 
@@ -704,7 +710,12 @@ Partial Class mycerico
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
+        Dim Tooltip As Telerik.Web.UI.RadToolTip
+        Dim litTitle As Literal
+        Dim panReminder As Panel
+        Dim panShowUserDetails As Panel
         Dim drv As DataRowView
+
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             'This is our data item so we can start populating it
@@ -716,11 +727,16 @@ Partial Class mycerico
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
+            Tooltip = e.Item.FindControl("MyTooltip")
+            litTitle = Tooltip.FindControl("litTitle")
+            panReminder = Tooltip.FindControl("panReminder")
+            panShowUserDetails = Tooltip.FindControl("panShowUserDetails")
+
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
-            btnAction.CommandArgument = drv("CompanyID")
+            btnAction.CommandArgument = drv("MyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -728,12 +744,19 @@ Partial Class mycerico
                 'Change the text on our button to Approve
                 btnAction.Text = "View &amp; Approve"
                 btnAction.CommandName = "Approve"
+                litTitle.Text = "View &amp; Approve"
+                panShowUserDetails.Visible = True
             Else
                 'This is someone we're waiting on acting to approve us
                 If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                     'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
+                    litTitle.Text = "Send Reminder"
                     btnAction.Text = "Send Reminder"
                     btnAction.CommandName = "Reminder"
+                    panReminder.Visible = True
+                Else
+                    litTitle.Text = "View"
+                    panReminder.Visible = True
                 End If
             End If
         End If
