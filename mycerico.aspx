@@ -77,12 +77,12 @@
                                         <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="1" CssClass="label" /></td>
                                         <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
                                         
-                                        <td><asp:Label ID="lblNonCompliantSuppliers" runat="server" Text="1" CssClass="label label-important" /></td>
+                                        <td><asp:Label ID="lblNonCompliantSuppliers" runat="server" Text="0" CssClass="label label-important" /></td>
                                         <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" CssClass="label label-inverse" /></td>
                                          <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
                                         <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
                                        
-                                        <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="1" CssClass="label label-important" /></td>
+                                        <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="0" CssClass="label label-important" /></td>
                                         <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
                                             <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
