@@ -100,12 +100,13 @@ Partial Class mysuppliers
         End If
         panMyCompanies.Visible = True
         panSuppliers.Visible = True
-
+        panAddSupplier.Visible = False
 
     End Sub
 
     Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
         GetMyRelationshipsByID(sender.commandargument, sender.commandname)
+
     End Sub
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
