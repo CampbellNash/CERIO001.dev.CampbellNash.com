@@ -55,7 +55,14 @@
              <a href="#" id="moreinfo" class="btn pull-right" rel="popover" data-placement="bottom"  title="Conflict Minerals – Due Diligence Questionnaire" data-original-title="Conflict Minerals – Due Diligence Questionnaire">More info</a>
              <h4 runat="server" id="placeholder">Conflict Minerals – Due Diligence Questionnaire</h4>
         
-            
+        <asp:Panel ID="panWindowClose" runat="server" Visible="false">
+            <script type="text/javascript">
+                // This will force the pop to close in event of no login
+                // That in turn will cause the underlying page to be posted back
+                // leading to the login page bei9ng displayed. 
+                Close();
+            </script>
+        </asp:Panel> 
         
         <asp:Panel ID="panNoQuery" runat="server" Visible="false">
             <p>Incorrect credentials passed for this function.</p>

@@ -133,7 +133,7 @@ Partial Class mycerico
         End If
         'This is our hidden button that refreshes the page after the pop up window is closed
         btnRefreshCertification.CommandArgument = sender.CommandArgument
-        litCompanyRef.Text = "<a href=""mycerico.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & dr("CompanyName") & " </span>  &raquo; Company Certifications"
+        litCompanyRef.Text = "Company Certifications for " & dr("CompanyName")
         litActions.Text = "My actions [" & sender.CommandName & "] - Actions relating to your companies"
         'Now we need to filter the supplier actions for this company
         Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
@@ -375,7 +375,7 @@ Partial Class mycerico
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument, Session("ContactID"))
         Dim dr As DataRow = MailData.Tables(0).Rows(0)
         'Create the main mail body
         Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
@@ -674,10 +674,12 @@ Partial Class mycerico
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
         Dim litStatus As Literal
+        Dim hypCompanyNameSR As HyperLink
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
             btnCompanyName = e.Item.FindControl("btnCompanyName")
+            hypCompanyNameSR = e.Item.FindControl("hypCompanyNameSR")
             litStatus = e.Item.FindControl("litStatus")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
@@ -687,6 +689,8 @@ Partial Class mycerico
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
+            'hypCompanyNameSR.Text = drv("CompanyName")
+            'hypCompanyNameSR.NavigateUrl = "#"
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -710,6 +714,10 @@ Partial Class mycerico
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
+        Dim Tooltip As Telerik.Web.UI.RadToolTip
+        Dim litTitle As Literal
+        Dim panReminder As Panel
+        Dim panShowUserDetails As Panel
         Dim drv As DataRowView
 
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -722,11 +730,16 @@ Partial Class mycerico
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
+            Tooltip = e.Item.FindControl("MyTooltip")
+            litTitle = Tooltip.FindControl("litTitle")
+            panReminder = Tooltip.FindControl("panReminder")
+            panShowUserDetails = Tooltip.FindControl("panShowUserDetails")
+
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
-            btnAction.CommandArgument = drv("CompanyID")
+            btnAction.CommandArgument = drv("MyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -734,12 +747,19 @@ Partial Class mycerico
                 'Change the text on our button to Approve
                 btnAction.Text = "View &amp; Approve"
                 btnAction.CommandName = "Approve"
+                litTitle.Text = "View &amp; Approve"
+                panShowUserDetails.Visible = True
             Else
                 'This is someone we're waiting on acting to approve us
                 If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                     'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
+                    litTitle.Text = "Send Reminder"
                     btnAction.Text = "Send Reminder"
                     btnAction.CommandName = "Reminder"
+                    panReminder.Visible = True
+                Else
+                    litTitle.Text = "View"
+                    panReminder.Visible = True
                 End If
             End If
         End If
@@ -822,7 +842,4 @@ Partial Class mycerico
 
 #End Region
 
-
-    
-    
 End Class
