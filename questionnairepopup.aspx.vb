@@ -859,7 +859,7 @@ Partial Class standardquestionnaire
                 btnTopPrev.Visible = True
                 btnPrev.Visible = True
                 btnPrev.CommandArgument = 1
-                btnPrev.CommandArgument = 1
+                btnTopPrev.CommandArgument = 1
                 lblProgress.Width = "333"
                 divProgressbar.Attributes.Add("style", "width: 33.2%;")
                 'Save the current page for saving and re-opening this form
