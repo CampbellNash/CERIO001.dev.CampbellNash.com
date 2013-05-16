@@ -283,7 +283,7 @@ Partial Class mycompanies
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
+        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, Session("ContactID"), sender.CommandArgument)
         Dim dr As DataRow = MailData.Tables(0).Rows(0)
         'Create the main mail body
         Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
