@@ -599,7 +599,7 @@
                 <asp:Panel ID="panConfirmAdd" runat="server" Visible="false">
                     <h2>Add New Company</h2>
                     <p>Your new company has been added!</p>
-                    <p><asp:HyperLink ID="hypRefreshPage" runat="server" NavigateUrl="~/mycompanies.aspx" Text="Click Here" /> to return to your home page.</p>
+                    <p><asp:HyperLink ID="hypRefreshPage" runat="server" NavigateUrl="~/mycerico.aspx" Text="Click Here" /> to return to your home page.</p>
                 </asp:Panel>
 
                 <asp:Panel ID="panCustomers" runat="server">
