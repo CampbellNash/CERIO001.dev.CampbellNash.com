@@ -98,7 +98,7 @@ Partial Class mysuppliers
 
 
         End If
-        panMyCompanies.Visible = False
+        panMyCompanies.Visible = True
         panSuppliers.Visible = True
 
 
@@ -159,8 +159,8 @@ Partial Class mysuppliers
         panAddSupplier.Visible = True
         panSuppliers.Visible = False
         panSupplierDetails.Visible = False
-        panMyCompanies.CssClass = "fadePanel"
-        panSubNav.CssClass = "fadePanel"
+        panMyCompanies.CssClass = ""
+        panSubNav.CssClass = ""
     End Sub
 
     Protected Sub btnCancelAddSupplier_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelAddSupplier.Click
@@ -341,9 +341,9 @@ Partial Class mysuppliers
             btnCompanyName.Text = "Select " & drv("CompanyName")
             btnCompanyName.ToolTip = "Select " & drv("CompanyName")
             btnCompanyName.CommandArgument = drv("CompanyID")
-            btnSupplierDetails.Text = "View " & drv("CompanyName")
-            btnSupplierDetails.CommandArgument = drv("CompanyID")
-            btnSupplierDetails.ToolTip = "Select " & drv("CompanyName")
+            'btnSupplierDetails.Text = "View " & drv("CompanyName")
+            'btnSupplierDetails.CommandArgument = drv("CompanyID")
+            'btnSupplierDetails.ToolTip = "Select " & drv("CompanyName")
 
 
             litCompanyName.Text = drv("CompanyName")

@@ -2,12 +2,12 @@
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
     
-    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-         
+
+          <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
                 <h2>Manage Suppliers</h2>
-                <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
-              <asp:Panel ID="panMyCompanies" runat="server">
+                <asp:Label runat="server" ID="lblManageCompaniesPageTitle" Visible="false" />
+                <asp:Panel ID="panMyCompanies" runat="server">
                 
                   <div class="alert alert-info">
                     <div class="form-horizontal">
@@ -61,7 +61,7 @@
               <asp:Panel ID="panSuppliers" runat="server">
                      <div class="span9">
                           
-                        <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
+                        <h4>Suppliers to <asp:Label runat="server" ID="lblCompanySuppliers" /></h4>
                             <div runat="server" id="divSuppliers">
                             <table class="table table-bordered">
                             <thead>
@@ -117,7 +117,7 @@
                         <p>
                             <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn btn-success pull-left gapright" />
                         </p>
-                            <asp:Button ID="btnCancelAddSupplier" runat="server" Text="Cancel" CssClass="btn btn-danger pull-left" />
+                            <asp:Button ID="btnCancelAddSupplier" runat="server" Text="Cancel" CssClass="btn btn-danger pull-left" Visible="false" />
                     </div>
                 </asp:Panel>
                 
@@ -177,11 +177,13 @@
                         PopupDragHandleControlID="Panel3" >
                         </ajaxToolkit:ModalPopupExtender>
                         <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
-                                <asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />
-                                <h4>Invite Supplier</h4>
+                                
+                                
                                 <asp:Panel ID="panInviteStart" runat="server" Visible="true">
-                                    Please enter the supplier details below and click the submit button. <br />
-                                                 Items marked with <span class="alert-error">* </span> are required.
+                                    Please enter the supplier details below and click the submit button. Items marked with <span class="alert-error">* </span> are required.
+                                    <form>
+                                    <fieldset>
+                                        <legend><asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />Invite Supplier</legend>
                                     <label><span class="alert-error">* </span> Firstname:</label><asp:TextBox ID="txtSupplierFirstname" CssClass="input-large" runat="server" />
                                                  <asp:RequiredFieldValidator ID="rfvSupplier1" runat="server" ControlToValidate="txtSupplierFirstname"
                                                     CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
@@ -190,7 +192,7 @@
                                                  <asp:RequiredFieldValidator ID="rfvSupplier2" runat="server" ControlToValidate="txtSupplierSurname"
                                                 CssClass="alert-error" ErrorMessage="Surname is required." ToolTip="Surname is required."
                                                 ValidationGroup="InviteSupplier" Display="Dynamic" />
-                                    <label><span class="alert-error">* </span> Email:</label><asp:TextBox ID="txtSupplierEmailAddress" CssClass="input-xlarge" runat="server" />
+                                    <label><span class="alert-error">* </span> Email:</label><asp:TextBox ID="txtSupplierEmailAddress" CssClass="input-xxlarge" runat="server" />
                                                  <asp:RequiredFieldValidator ID="rfvSupplier3" runat="server" ControlToValidate="txtSupplierEmailAddress"
                                                      CssClass="alert-error" ErrorMessage="Email address is required." ToolTip="Email address is required."
                                                      ValidationGroup="InviteSupplier" Display="Dynamic" />
@@ -198,7 +200,13 @@
                                                      ErrorMessage="Please enter a valid email" ValidationGroup="InviteSupplier"
                                                      ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" Display="Dynamic" />
                                                  <br />
+                                                <label><span class="alert-error">* </span>Company name:</label><asp:TextBox ID="txtSupplierCompanyName" CssClass="input-xlarge" runat="server" />
+                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtSupplierCompanyName"
+                                                    CssClass="alert-error" ErrorMessage="Company Name is required." ToolTip="Company Name is required."
+                                                    ValidationGroup="InviteSupplier" Display="Dynamic" />
                                     <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
+                                        </fieldset>
+                                        </form>
                                 </asp:Panel>
                                 
                                 <asp:Panel ID="panInviteSent" runat="server" Visible="false">
@@ -309,7 +317,7 @@
                 <uc1:submenu1 ID="submenu11" runat="server" />      
             </asp:Panel>
             </div>
-    </Telerik:RadAjaxPanel>  
+   </Telerik:RadAjaxPanel>  
   
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
