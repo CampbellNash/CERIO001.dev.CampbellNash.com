@@ -6,7 +6,7 @@
 
         function pageLoad() {
             $(function () {
-                $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label">Gray</label> - Awaiting Approval<br/><label class="label label-success">Green</label> - Compliant </br><label class="label label-important">Red</label> - Non Compliant' });
+                $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label">Grey</label> - Awaiting Approval<br/><label class="label label-success">Green</label> - Compliant </br><label class="label label-important">Red</label> - Non Compliant' });
 
             });
         }
