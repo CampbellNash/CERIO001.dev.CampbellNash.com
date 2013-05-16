@@ -61,6 +61,7 @@ Partial Class mysuppliers
 
             panSuppliers.Visible = False
             panAddSupplier.Visible = False
+            panSupplierDetails.Visible = False
 
             'Set the page title 
             lblManageCompaniesPageTitle.Text = ""
@@ -89,13 +90,14 @@ Partial Class mysuppliers
             rptSuppliers.Visible = True
             lblCompanySuppliers.Text = CompanyName
             divSuppliers.Visible = True
+            panSupplierDetails.Visible = False
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
             lblCompanySuppliers.Text = CompanyName
             rptSuppliers.Visible = False
             divSuppliers.Visible = False
-
+            panSupplierDetails.Visible = False
 
         End If
         panMyCompanies.Visible = True
