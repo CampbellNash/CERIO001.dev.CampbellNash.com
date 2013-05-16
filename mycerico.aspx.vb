@@ -609,8 +609,6 @@ Partial Class mycerico
         Dim lblApprovedSuppliers As Label
         Dim lblUnapprovedSuppliers As Label
         Dim lblStatus As Label
-        Dim lblNonCompliantSuppliers As Label
-        Dim lblNonCompliantCustomers As Label
         Dim btnViewApproved As LinkButton
         Dim btnViewCertifications As LinkButton
         Dim drv As DataRowView
@@ -625,8 +623,6 @@ Partial Class mycerico
             lblTotalSuppliers = e.Item.FindControl("lblTotalSuppliers")
             lblApprovedSuppliers = e.Item.FindControl("lblApprovedSuppliers")
             lblUnapprovedSuppliers = e.Item.FindControl("lblUnapprovedSuppliers")
-            lblNonCompliantSuppliers = e.Item.FindControl("lblNonCompliantSuppliers")
-            lblNonCompliantCustomers = e.Item.FindControl("lbloNonCompliantCustomers")
             lblStatus = e.Item.FindControl("lblStatus")
             btnViewApproved = e.Item.FindControl("btnViewapproved")
             btnViewCertifications = e.Item.FindControl("btnViewCertifications")
@@ -646,8 +642,6 @@ Partial Class mycerico
             lblTotalSuppliers.Text = drv("TotalSuppliers")
             lblApprovedSuppliers.Text = drv("ApprovedSuppliers")
             lblUnapprovedSuppliers.Text = drv("UnapprovedSuppliers")
-            'lblNonCompliantCustomers.Text = drv("NonCompliantCustomers")
-            'lblNonCompliantSuppliers.Text = drv("NonCompliantSuppliers")
             If UCase(drv("Approved")) = "Y" Then
                 lblStatus.Text = "Approved"
                 lblStatus.CssClass = "label label-success"
