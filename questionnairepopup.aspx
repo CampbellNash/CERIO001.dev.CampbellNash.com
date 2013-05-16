@@ -315,15 +315,15 @@
                                                 <tr>
                                                     <td>
                                                         <asp:TextBox ID="txtShareholderName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter shareholder name" />
-                                                        <asp:RequiredFieldValidator ID="rfvParent" runat="server" ControlToValidate="txtShareholderName" Display="Dynamic" ErrorMessage="Please enter shareholder name" ValidationGroup="Questions" CssClass="alert-error" />
+                                                        <asp:RequiredFieldValidator ID="rfvParent" runat="server" SetFocusOnError="true" ControlToValidate="txtShareholderName" Display="Dynamic" ErrorMessage="Please enter shareholder name" ValidationGroup="Questions" CssClass="alert-error" />
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txtShareholderNationality" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company number" />
-                                                        <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" ControlToValidate="txtShareholderNationality" Display="Dynamic" ErrorMessage="Please enter nationality" ValidationGroup="Questions" CssClass="alert-error" />
+                                                        <asp:RequiredFieldValidator ID="rfvCompanyNumber" runat="server" SetFocusOnError="true" ControlToValidate="txtShareholderNationality" Display="Dynamic" ErrorMessage="Please enter nationality" ValidationGroup="Questions" CssClass="alert-error" />
                                                     </td>
                                                     <td>
                                                         <asp:TextBox ID="txtPercentOwned" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="&#37; company owned" />
-                                                        <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
+                                                        <asp:RequiredFieldValidator ID="rfvPercentOwned" runat="server" SetFocusOnError="true" ControlToValidate="txtPercentOwned" Display="Dynamic" ErrorMessage="Please enter &#37; of company owned" ValidationGroup="Questions" CssClass="alert-error" />
                                                     </td>
                                                     <td>
                                                         <asp:Button ID="btnDeleteShareholder" runat="server" CssClass="btn btn-danger" Text="Delete" OnClick="DeleteShareholderLine" /><asp:HiddenField ID="hidItemID" runat="server" />
