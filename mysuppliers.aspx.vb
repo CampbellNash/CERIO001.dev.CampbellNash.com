@@ -75,7 +75,7 @@ Partial Class mysuppliers
 
     Private Sub GetMyRelationshipsByID(ByVal CompanyID As Integer, ByVal CompanyName As String)
         'First lets update the page title to refelct the Company we are dealing with.
-        lblManageCompaniesPageTitle.Text = "<a href=""mysuppliers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & CompanyID & " </span>  &raquo; Suppliers "
+        lblManageCompaniesPageTitle.Text = "<a href=""mysuppliers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & CompanyName & " </span>  &raquo; Suppliers "
         'Set the search button parameter
 
         btnSearchSuppliers.CommandArgument = CompanyID
@@ -87,7 +87,7 @@ Partial Class mysuppliers
             rptSuppliers.DataSource = MySuppliers
             rptSuppliers.DataBind()
             rptSuppliers.Visible = True
-            lblCompanySuppliers.Text = CompanyID
+            lblCompanySuppliers.Text = CompanyName
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"

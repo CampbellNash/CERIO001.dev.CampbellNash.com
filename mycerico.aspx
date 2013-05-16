@@ -3,6 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript">
+        function pageLoad() {
+            $(function () {
+                $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label">Gray</label> - Awaiting Approval<br/><label class="label label-success">Green</label> - Compliant </br><label class="label label-important">Red</label> - Non Compliant' });
+
+            });
+        }
+
         //<![CDATA[
         function openCertRadWin(URL) {
             var oWindow = radopen(URL, "rwCertificates");
@@ -33,11 +40,11 @@
     
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
-
+            <h2>My CERICO</h2>
             <asp:Button ID="btnRefreshCertification" runat="server" Style="visibility: hidden" />
             <asp:Button ID="btnShowTooltip" runat="server" Style="visibility: hidden" />
                 <asp:Panel ID="panMyCompanies" runat="server" >
-                  <h2>My CERICO</h2>
+                 
                       <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
 
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
@@ -769,14 +776,7 @@
         </asp:Panel>
     </div>
     
-    <script>
-        $(function () {
-            $("#tablelegend").popover({ html: true, trigger: 'hover', content: '<label class="label label-inverse">Black</label> - Total</br><label class="label label-success">Green</label> - Approved </br> <label class="label">Gray</label> - Awaiting Approval</br><label class="label label-important">Red</label> - Not Certified' });
-            
-        });
-
-       
-    </script>
+    
         
     
 

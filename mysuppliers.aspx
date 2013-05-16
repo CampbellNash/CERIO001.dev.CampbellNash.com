@@ -1,20 +1,23 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-   
+    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
          
             <div class="span9">
                 <h2>Manage Suppliers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
               <asp:Panel ID="panMyCompanies" runat="server">
-                <div class="form-signin form-horizontal">
-                  <div class="control-group">
-                  <label class="control-label">Select from your companies:</label>
-                            <div class="controls">
-                                    <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationShipDropDown" />
-                            </div>
-                    </div>
-                    </div>
+                  <div class="alert alert-info">
+                    <div class="form-horizontal">
+                      <div class="control-group">
+                      <label class="control-label">Select from your companies:</label>
+                                <div class="controls">
+                                        <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationShipDropDown" />
+                                </div>
+                        </div>
+                        </div>
+                </div>      
+                <!-- Now using a drop down menu to select your companies
                <p>To manage your supplier's please select one of your companies from the table below:</p>
                 <table class="table table-bordered">
                             <thead>
@@ -49,6 +52,7 @@
                         <p>
                             <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
                         </p>
+                      -->
                      </asp:Panel>
                 <hr />
 
@@ -62,7 +66,8 @@
                                 <tr>
                                     <th>Supplier Name</th>
                                     
-                                    <th>Status</th>
+                                    <th>System Status</th>
+                                    <th>Compliance Status</th>
                                     <th>Actions</th>
                                     
                                     
@@ -250,7 +255,7 @@
               
         </div>
         
-    
+    </Telerik:RadAjaxPanel>  
   
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
