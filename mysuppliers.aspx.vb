@@ -107,16 +107,16 @@ Partial Class mysuppliers
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument, Session("ContactID"))
+        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument)
         Dim dr As DataRow = MailData.Tables(0).Rows(0)
         'Create the main mail body
         Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
-            "The company" & dr("CompanyName") & " has added you to it's supplier list." & vbCrLf & vbLf & _
+            "A user on CERICO has requested to be accepted as a supplier to your company " & dr("CompanyName") & "." & vbCrLf & vbLf & _
             "Please login to your account at our web site to find out more details." & vbCrLf & vbLf & _
             "Thank you," & vbCrLf & vbLf & _
             "CERICO Admin Team."
         'Now send this mail to the company owner
-        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "New Customer Addded", "", False)
+        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "Company Supplier Request", "", False)
         'Now rebind the repeater
         Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(btnSearchSuppliers.CommandArgument)
         rptSuppliers.DataSource = MySuppliers

@@ -1,0 +1,71 @@
+[33m0f91d8f[m HEAD@{0}: pull --progress --prune: Fast-forward
+[33m6edf998[m HEAD@{1}: commit: Changing selection to drop down
+[33ma869754[m HEAD@{2}: commit: Removed all curved corners and other style changes
+[33m2d3040c[m HEAD@{3}: commit: Layout and style changes
+[33me67a96f[m HEAD@{4}: commit: Added in buttons to top of form
+[33m179ddef[m HEAD@{5}: commit: Final tweak!
+[33me6aab37[m HEAD@{6}: commit: Added in the password strength check
+[33mbbf1ec1[m HEAD@{7}: commit: Completed the forgot password process
+[33m62a9941[m HEAD@{8}: commit: No Change
+[33m59c072c[m HEAD@{9}: commit: Reformatted the page better
+[33md78af07[m HEAD@{10}: commit: Added in Actual name of company
+[33m1de55e8[m HEAD@{11}: commit: Various UI changes
+[33mb2d8a8e[m HEAD@{12}: pull --progress --prune: Merge made by the 'recursive' strategy.
+[33m15e1458[m HEAD@{13}: pull --progress --prune: Fast-forward
+[33m58c72c1[m HEAD@{14}: pull --progress --prune: Merge made by the 'recursive' strategy.
+[33mf6c6bd7[m HEAD@{15}: pull --progress --prune: Merge made by the 'recursive' strategy.
+[33m7cdb2d2[m HEAD@{16}: checkout: moving from temp to master
+[33m35e398f[m HEAD@{17}: checkout: moving from master to temp
+[33m35e398f[m HEAD@{18}: pull --progress --prune: Fast-forward
+[33m5277655[m HEAD@{19}: pull --progress --prune: Fast-forward
+[33m6530093[m HEAD@{20}: pull --progress --prune: Fast-forward
+[33mc9a5a1c[m HEAD@{21}: pull --progress --prune: Fast-forward
+[33m9df67fa[m HEAD@{22}: pull --progress --prune: Merge made by the 'recursive' strategy.
+[33mdfded5e[m HEAD@{23}: pull --progress --prune: Fast-forward
+[33mfd258c7[m HEAD@{24}: pull --progress --prune: Fast-forward
+[33m3124f72[m HEAD@{25}: pull --progress --prune: Fast-forward
+[33m99cdf7c[m HEAD@{26}: checkout: moving from HighChart-Charting to master
+[33m5226d02[m HEAD@{27}: checkout: moving from master to HighChart-Charting
+[33m29496aa[m HEAD@{28}: checkout: moving from HighChart-Charting to master
+[33m5226d02[m HEAD@{29}: checkout: moving from master to HighChart-Charting
+[33m29496aa[m HEAD@{30}: merge origin/HighChart-Charting: Merge made by the 'recursive' strategy.
+[33mff899da[m HEAD@{31}: checkout: moving from HighChart-Charting to master
+[33m5226d02[m HEAD@{32}: checkout: moving from master to HighChart-Charting
+[33mff899da[m HEAD@{33}: pull --progress --prune: Fast-forward
+[33m06df45c[m HEAD@{34}: checkout: moving from HighChart-Charting to master
+[33m5226d02[m HEAD@{35}: merge origin/master: Merge made by the 'recursive' strategy.
+[33m0c59b5e[m HEAD@{36}: checkout: moving from master to HighChart-Charting
+[33m06df45c[m HEAD@{37}: pull --progress --prune: Fast-forward
+[33ma70d531[m HEAD@{38}: checkout: moving from BrandingRHS to master
+[33mbf9b2da[m HEAD@{39}: checkout: moving from master to BrandingRHS
+[33ma70d531[m HEAD@{40}: pull --progress --prune: Fast-forward
+[33m6a0ba42[m HEAD@{41}: pull --progress --prune: Fast-forward
+[33m97b5891[m HEAD@{42}: checkout: moving from BrandingRHS to master
+[33mbf9b2da[m HEAD@{43}: checkout: moving from master to BrandingRHS
+[33m97b5891[m HEAD@{44}: pull --progress --prune: Fast-forward
+[33m7247049[m HEAD@{45}: pull --progress --prune: Fast-forward
+[33m2dbdc92[m HEAD@{46}: pull --progress --prune: Fast-forward
+[33m51485eb[m HEAD@{47}: checkout: moving from temp to master
+[33m4a7bcc0[m HEAD@{48}: checkout: moving from master to temp
+[33m4a7bcc0[m HEAD@{49}: merge origin/temp: Fast-forward
+[33m1d9be54[m HEAD@{50}: checkout: moving from temp to master
+[33m4a7bcc0[m HEAD@{51}: checkout: moving from master to temp
+[33m1d9be54[m HEAD@{52}: checkout: moving from temp to master
+[33m4a7bcc0[m HEAD@{53}: reset: moving to 5dda9cd4bdffc1d348f41991272f15044fac0cd5^
+[33m5dda9cd[m HEAD@{54}: checkout: moving from 1d9be54260ec17a247c450b7380bdd3138eff739 to temp
+[33m1d9be54[m HEAD@{55}: checkout: moving from master to 1d9be54260ec17a247c450b7380bdd3138eff739^0
+[33m3e1ebb7[m HEAD@{56}: rebase finished: returning to refs/heads/master
+[33mf609607[m HEAD@{57}: pull --progress --rebase --prune: Added graph
+[33mebc4667[m HEAD@{58}: checkout: moving from master to ebc4667962a83e3208c15c0e78c1d5739089ee45^0
+[33mb6cd73b[m HEAD@{59}: rebase finished: returning to refs/heads/master
+[33m466f5ae[m HEAD@{60}: pull --progress --rebase --prune: Updated company form and sub menu controls
+[33mf6db79a[m HEAD@{61}: checkout: moving from master to f6db79ad929b15b4dca336aee8d207633d4b2930^0
+[33m6cce372[m HEAD@{62}: rebase finished: returning to refs/heads/master
+[33me855353[m HEAD@{63}: checkout: moving from master to e855353b1bfc9a69ae0b0541c1bf430294f52b3d^0
+[33m7143624[m HEAD@{64}: rebase finished: returning to refs/heads/master
+[33mae0f3b4[m HEAD@{65}: pull --progress --rebase --prune: Added detail to home page
+[33m3db228e[m HEAD@{66}: checkout: moving from master to 3db228e95c47029b5e7c8df145202b0cdddcf1b5^0
+[33m56fbf04[m HEAD@{67}: rebase finished: returning to refs/heads/master
+[33m5e247ec[m HEAD@{68}: checkout: moving from master to 5e247ecf11cb869ec1d0c35db062417ee77515cd^0
+[33m0cd7c87[m HEAD@{69}: revert: Revert "Text change"
+[33m08167ef[m 
