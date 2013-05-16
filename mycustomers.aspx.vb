@@ -67,42 +67,57 @@ Partial Class mycustomers
 
 #Region " Manage My Companies "
 
-    Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
+    Protected Sub GetMyRelationShipDropDown(ByVal sender As Object, ByVal e As EventArgs)
+        GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+    End Sub
+
+    Private Sub GetMyRelationshipsByID(ByVal CompanyID As Integer, ByVal CompanyName As String)
         'First lets update the page title to refelct the Company we are dealing with.
-        lblManageCompaniesPageTitle.Text = "<a href=""mycustomers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & sender.CommandName & " </span>  &raquo; Customers"
-
+        lblManageCompaniesPageTitle.Text = "<a href=""mycustomers.aspx"">Back to All My Companies</a> &raquo; <span class=""label label-info"">" & CompanyName & " </span>  &raquo; Suppliers "
         'Set the search button parameter
-        btnSearchCustomerCompany.CommandArgument = sender.CommandArgument
 
-        'Go and see if we can get any customers
-        Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(sender.CommandArgument)
-        If MyCustomers.Tables(0).Rows.Count > 0 Then
+        btnSearchCustomerCompany.CommandArgument = CompanyID
+
+        'Go and see if we can get any suppliers
+        Dim MySuppliers As DataSet = NashBLL.GetMyCustomers(CompanyID)
+        If MySuppliers.Tables(0).Rows.Count > 0 Then
             'We found some customers so we can show them
-            rptCustomers.DataSource = MyCustomers
+            rptCustomers.DataSource = MySuppliers
             rptCustomers.DataBind()
             rptCustomers.Visible = True
-            lblCompanyCustomers.Text = sender.CommandName
+            lblCompanyCustomers.Text = CompanyName
+            'divSuppliers.Visible = True
         Else
             'No customers were found
             lblNoCustomers.Text = "No customers found!"
+            lblCompanyCustomers.Text = CompanyName
             rptCustomers.Visible = False
-            lblCompanyCustomers.Text = sender.CommandName
-        End If
+            'divSuppliers.Visible = False
+            lblCompanyCustomers.Text = CompanyName
 
+
+        End If
         panMyCompanies.Visible = False
         panCustomers.Visible = True
 
+
+    End Sub
+
+    Protected Sub GetMyRelationships(ByVal sender As Object, ByVal e As EventArgs)
+        GetMyRelationshipsByID(sender.commandargument, sender.commandname)
     End Sub
 
     
 
-   
 
-   
 
-    
 
-    
+
+
+
+
+
+
 
     Protected Sub ApplyForCustomer(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
@@ -129,7 +144,7 @@ Partial Class mycustomers
         txtSearchCustomerCompany.Text = ""
     End Sub
 
-    
+
 
     Protected Sub JoinCompany(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
@@ -151,7 +166,7 @@ Partial Class mycustomers
 
         panMyCompanies.Visible = True
         panCustomers.Visible = False
-        
+
     End Sub
 
 
