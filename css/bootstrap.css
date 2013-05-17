@@ -3413,12 +3413,15 @@ input[type="button"].btn-block {
 
 .btn-success {
   color: #ffffff;
-
   background-color: #51a351;
-  
   border:none;
   text-shadow:none;
  
+}
+
+.btn-success a:link
+{
+    color: #FFFFFF;
 }
 
 .btn-success:hover,
@@ -6162,7 +6165,7 @@ a.badge:focus {
 .hp-header
 {
     background-color: #BD213A;
-   
+   margin-top: 100px;
     
 }
 .mainContent

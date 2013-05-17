@@ -137,16 +137,13 @@
                                 <HeaderTemplate><h4>Supplier Search Results</h4></HeaderTemplate>
                                 <ItemTemplate>
                                     <li>
-                                       <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier" CssClass="btn btn-success"  />
+                                       <span class="btn btn-success"><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier"  /></span>
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
-                                             <h5>Full Company details </h5>
+                                             <h5>Quick Veiw for <asp:Literal ID="litCompanyName" runat="server" /></h5>
                                             <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
-                                            <h6>
-                                                <asp:Literal ID="litCompanyName" runat="server" />
-                                            </h6>
-                                            <h6>
+                                               <h6>
                                                 <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                         </div>
                                     </asp:Panel>
