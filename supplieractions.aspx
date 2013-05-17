@@ -4,7 +4,6 @@
 <html>
 <head>
     <link id="Link1" href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" runat="server" />
-    <link id="Link2" href="~/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen"
         runat="server" />
     <title>CERICO Supplier Management</title>
     <script type="text/javascript">
