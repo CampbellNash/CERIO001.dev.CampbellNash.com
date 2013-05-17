@@ -28,8 +28,10 @@
               <br />
                 <asp:Button ID="btnSend" Text="Send password &raquo;" runat="server" CssClass="btn btn-large btn-success" ValidationGroup="Forgot" AlternateText="Send password" ToolTip="Send password" ImageAlign="Right" />&nbsp;&nbsp;<asp:Button ID="btnCancelForgot" runat="server" Text="Cancel" CssClass="btn btn-danger btn-large" AlternateText="Cancel" ToolTip="Cancel" ImageAlign="Right"  />
             </asp:Panel>
-            
-            <asp:Panel ID="panConfirmSend" runat="server" Visible="false" CssClass="alert alert-success gaptop">
+          <asp:Panel runat="server" ID="panLoggedIn" Visible="false">
+              <h2>You are already logged into the CERICO system, click <a href="../mycerico.aspx">here</a> to goto your home page</h2>
+          </asp:Panel>  
+         <asp:Panel ID="panConfirmSend" runat="server" Visible="false" CssClass="alert alert-success gaptop">
                 <strong>Thank you!</strong><br />
                 <small>We have sent a mail containing your login credentials to the address you entered, please check for this mail in all your mailbox folders and follow the instructions given. Click the button below to return to the login page.</small><br />
                 <asp:Button ID="btnCancel2" runat="server" Text="Return to Login" CssClass="btn btn-danger btn-large" AlternateText="Return to Login" ToolTip="Return to Login" ImageAlign="Right"  />

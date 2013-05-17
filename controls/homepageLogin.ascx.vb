@@ -31,12 +31,14 @@ Partial Class controls_homepageLogin
     Inherits System.Web.UI.UserControl
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        'let checkt to see if the user is logged in and hide the login panel if required.
+        'lets check to see if the user is logged in and hide the login panel if required.
         If Not IsPostBack Then
             If Not Session("UserLoggedIn") Then
                 panFormWrapper.Visible = True
+                panLoggedIn.Visible = False
             Else
                 panFormWrapper.Visible = False
+                panLoggedIn.Visible = True
             End If
         End If
     End Sub
