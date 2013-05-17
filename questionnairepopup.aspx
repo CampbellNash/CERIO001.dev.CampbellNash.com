@@ -1,10 +1,23 @@
 ﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="questionnairepopup.aspx.vb" Inherits="standardquestionnaire" EnableEventValidation="false" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" runat="server" />
-    <link href="~/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen" runat="server" />
     <title>CERICO Questionnaire's</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" runat="server" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+    <![endif]-->
+    <!-- Google Fonts --!>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800' rel='stylesheet' type='text/css'>
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/img/apple-touch-icon-144-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/img/apple-touch-icon-114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/img/apple-touch-icon-72-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="~/img/apple-touch-icon-57-precomposed.png" />
+    <link rel="shortcut icon" href="~/img/favicon.png" />
+    
 </head>
 <body>
     <form id="form1" runat="server">
@@ -1066,8 +1079,7 @@
     <script src="/js/bootstrap-collapse.js" type="text/javascript"></script>
     <script src="/js/bootstrap-carousel.js" type="text/javascript"></script>
     <script src="/js/bootstrap-typeahead.js" type="text/javascript"></script>
-    <script src="/js/highcharts.js"></script>
-    <script src="/js/modules/exporting.js"></script>
+ 
        
         </asp:Panel>
                  </div>
@@ -1083,7 +1095,7 @@
             </Telerik:AjaxSetting>
         </AjaxSettings>
     </Telerik:RadAjaxManager>
-    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />
     
     
 </form>
