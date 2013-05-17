@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycustomers.aspx.vb" Inherits="mycustomers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-        <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+      
             <div class="span9">
              
                   <h2>Manage Customers</h2>
@@ -12,7 +12,7 @@
                           <div class="control-group">
                           <label class="control-label">Select from your companies:</label>
                                     <div class="controls">
-                                            <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationships" />
+                                            <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationShipDropDown" />
                                     </div>
                             </div>
                         </div>
@@ -72,22 +72,36 @@
                
 
                 <asp:Panel ID="panCustomers" runat="server">
-                    <div class="span6">
-                        <h4><asp:Label runat="server" ID="lblCompanyCustomers" /> Customers:</h4>
+                    <div class="span12">
+                        <h4>Customers to <asp:Label runat="server" ID="lblCompanyCustomers" /></h4>
                         
-                            <ul>
+                           <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Customer name</th>
+                                    <th>System status</th>
+                                    <th>Your Status (against this company)</th>
+                                    <th>Your Compliance Status (against this company)</th>
+                                    <th>Portal Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
                                 <asp:Repeater ID="rptCustomers" runat="server">
                                     <ItemTemplate>
-                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:label ID="lblStatus" runat="server" /></li>
+                                        <tr>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
+                                            <td><asp:label ID="lblStatus" runat="server" /></td> 
+                                            <td><asp:label ID="lblYourStatus" runat="server" Text="Connected" /></td>
+                                            <td><asp:label ID="lblComplianceStatus" runat="server" Text="Non Compliant" /></td>
+                                            <td><asp:HyperLink ID="hypPortalLink" runat="server" CssClass="btn btn-success" /></td>
+                                        </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                 <h5>
-                                                    Full details for company</h5>
+                                                    Quick Veiw for <asp:Literal ID="litCompanyName" runat="server" /></h5>
                                                 <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
-                                                <h6>
-                                                    <asp:Literal ID="litCompanyName" runat="server" />
-                                                </h6>
-                                                <h6><asp:Literal ID="litCompanyAddress" runat="server" /></h6>
+                                               <h6><asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                             </div>
                                         </asp:Panel>
                                             <AjaxToolkit:HoverMenuExtender ID="hme2" runat="Server" TargetControlID="btnCompanyName"
@@ -95,7 +109,8 @@
                                                 OffsetY="0" PopDelay="50" />
                                     </ItemTemplate>
                                 </asp:Repeater>
-                            </ul>
+                            </tbody>
+                               </table>
                         <p>
                             <asp:Label ID="lblNoCustomers" runat="server" CssClass="failureNotification" EnableViewState="false" />
                         </p>
@@ -152,13 +167,14 @@
                             <p>
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
+                        </div>
                 </asp:Panel>
 
                 
                 
                 
         </div>
-  </Telerik:RadAjaxPanel>  
+ 
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
             <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">

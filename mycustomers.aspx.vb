@@ -68,7 +68,11 @@ Partial Class mycustomers
 #Region " Manage My Companies "
 
     Protected Sub GetMyRelationShipDropDown(ByVal sender As Object, ByVal e As EventArgs)
-        GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+        If cboCompanies.SelectedValue = "" Then
+           
+        Else
+            GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+        End If
     End Sub
 
     Private Sub GetMyRelationshipsByID(ByVal CompanyID As Integer, ByVal CompanyName As String)
@@ -79,14 +83,15 @@ Partial Class mycustomers
         btnSearchCustomerCompany.CommandArgument = CompanyID
 
         'Go and see if we can get any suppliers
-        Dim MySuppliers As DataSet = NashBLL.GetMyCustomers(CompanyID)
-        If MySuppliers.Tables(0).Rows.Count > 0 Then
+        Dim MyCustomers As DataSet = NashBLL.GetMyCustomers(CompanyID)
+        If MyCustomers.Tables(0).Rows.Count > 0 Then
             'We found some customers so we can show them
-            rptCustomers.DataSource = MySuppliers
+            rptCustomers.DataSource = MyCustomers
             rptCustomers.DataBind()
             rptCustomers.Visible = True
             lblCompanyCustomers.Text = CompanyName
             'divSuppliers.Visible = True
+            panCustomers.Visible = True
         Else
             'No customers were found
             lblNoCustomers.Text = "No customers found!"
@@ -94,7 +99,6 @@ Partial Class mycustomers
             rptCustomers.Visible = False
             'divSuppliers.Visible = False
             lblCompanyCustomers.Text = CompanyName
-
 
         End If
         panMyCompanies.Visible = False
@@ -181,8 +185,7 @@ Partial Class mycustomers
         panApplyCustomer.Visible = True
         panCustomers.Visible = False
 
-        panMyCompanies.CssClass = "fadePanel"
-        panSubNav.CssClass = "fadePanel"
+        
     End Sub
 
     Protected Sub btnCancelApplyCustomer_Click(ByVal sender As Object, ByVal e As EventArgs) Handles btnCancelApplyCustomer.Click
@@ -267,7 +270,63 @@ Partial Class mycustomers
         End If
     End Sub
 
-    
+    Protected Sub rptFoundCompanies_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptCustomerSearch.ItemDataBound, rptCustomers.ItemDataBound
+
+        Dim btnCompanyName As LinkButton
+        Dim btnSupplierDetails As LinkButton
+        Dim panPopUp As Panel
+        Dim imgCompanyLogo As Image
+        Dim litCompanyName As Literal
+        Dim litCompanyAddress As Literal
+        Dim lblStatus As Label
+        Dim hypPortalLink As HyperLink
+        Dim lblYourStatus As Label
+        Dim lblComplianceStatus As Label
+        Dim drv As DataRowView
+
+        If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
+            btnCompanyName = e.Item.FindControl("btnCompanyName")
+            btnSupplierDetails = e.Item.FindControl("btnSupplierDetails")
+            lblStatus = e.Item.FindControl("lblStatus")
+            hypPortalLink = e.Item.FindControl("hypPortalLink")
+            lblYourStatus = e.Item.FindControl("lblYourStatus")
+            lblComplianceStatus = e.Item.FindControl("lblComplianceStatus")
+            panPopUp = e.Item.FindControl("panPopUp")
+            litCompanyName = panPopUp.FindControl("litCompanyName")
+            litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
+            imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
+
+            drv = e.Item.DataItem
+            btnCompanyName.Text = "Select " & drv("CompanyName")
+            btnCompanyName.ToolTip = "Select " & drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+            'btnSupplierDetails.Text = "View " & drv("CompanyName")
+            'btnSupplierDetails.CommandArgument = drv("CompanyID")
+            'btnSupplierDetails.ToolTip = "Select " & drv("CompanyName")
+
+
+            litCompanyName.Text = drv("CompanyName")
+            'These need to be made dynamic
+            lblYourStatus.Text = "Connected"
+            lblYourStatus.CssClass = "label label-success"
+            lblComplianceStatus.Text = "Non Compliant"
+            lblComplianceStatus.CssClass = "label label-important"
+            hypPortalLink.Text = "Visit " & drv("CompanyName") & " Portal"
+
+            litCompanyAddress.Text = drv("Address1") & "<br />" & _
+                drv("City") & "<br />" & drv("PostZipCode")
+            Dim MyRepeater As Repeater = sender
+            If MyRepeater.ID = "rptCustomers" Or MyRepeater.ID = "rptSuppliers" Then
+                If UCase(drv("Approved")) = "Y" Then
+                    lblStatus.Text = "Approved"
+                    lblStatus.CssClass = "label label-success"
+                Else
+                    lblStatus.Text = "Awaiting Approval"
+                    lblStatus.CssClass = "label"
+                End If
+            End If
+        End If
+    End Sub
 
 
 #End Region
