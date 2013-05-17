@@ -34,17 +34,17 @@
         
 
     </script>
-    <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
+    <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="MetroTouch">
                 <Windows>
-                    <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Modal="true"
-                        VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
+                    <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Modal="True"
+                        VisibleStatusbar="False" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="740"
                         Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666"
-                        AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True"
-                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
+                        AutoSize="False" KeepInScreenBounds="True" OnClientShow=""
+                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" ClientIDMode="AutoID" />
                     <Telerik:RadWindow runat="server" ID="rwSupplierActions" DestroyOnClose="false" Modal="true"
                         VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
                         Height="500" ReloadOnShow="True" OnClientClose="UpdateSupplierActions" BackColor="#666666"
-                        AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True"
+                        AutoSize="False" KeepInScreenBounds="True"
                         Overlay="True" EnableShadow="True" ShowContentDuringLoad="False" />
                 </Windows>
             </Telerik:RadWindowManager>
@@ -732,6 +732,11 @@
                         </div>
                 </asp:Panel>
         </div>
+             <div class="span3">
+        <asp:Panel runat="server" ID="panSubNav">
+            <uc1:submenu1 ID="submenu11" runat="server" />      
+        </asp:Panel>
+    </div>
   </Telerik:RadAjaxPanel>  
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
@@ -743,13 +748,9 @@
             </Telerik:AjaxSetting>
         </AjaxSettings>
     </Telerik:RadAjaxManager>
-    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />          
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />          
     
-    <div class="span3">
-        <asp:Panel runat="server" ID="panSubNav">
-            <uc1:submenu1 ID="submenu11" runat="server" />      
-        </asp:Panel>
-    </div>
+   
     
         
     
