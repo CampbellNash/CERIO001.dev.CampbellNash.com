@@ -75,6 +75,8 @@ Partial Class mysuppliers
             panSuppliers.Visible = False
             panAddSupplier.Visible = False
             panSupplierDetails.Visible = False
+            rptSupplierSearch.Visible = False
+            txtSupplierSearch.Text = ""
         Else
             GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
         End If
