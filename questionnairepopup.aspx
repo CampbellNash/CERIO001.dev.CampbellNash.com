@@ -121,7 +121,7 @@
                        <div class="control-group">
                            <label class="control-label"><span class="alert-error">*</span>Company Name:</label>
                            <div class="controls">
-                                <asp:TextBox ID="txtCompanyName" runat="server" TextMode="SingleLine" CssClass="input-xxlarge" placeholder="Enter company name" />
+                                <asp:TextBox ID="txtCompanyName" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company name" />
                                 <asp:RequiredFieldValidator ID="rfvCompanyName" runat="server" ControlToValidate="txtCompanyName" Display="Dynamic" ErrorMessage="Please enter company name" ValidationGroup="Questions" CssClass="alert-error" />
                            </div>
                        </div>
@@ -209,7 +209,7 @@
                         <div class="control-group">
                             <label class="control-label"><span class="alert-error">*</span>Web Address:</label>
                             <div class="controls">  
-                                <asp:TextBox ID="txtWebAddress" runat="server" TextMode="SingleLine" CssClass="input-xxlarge" placeholder="Enter company web address" />
+                                <asp:TextBox ID="txtWebAddress" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company web address" />
                                 <asp:RequiredFieldValidator ID="rfvWebAddress" runat="server" ControlToValidate="txtWebAddress" Display="Dynamic" ErrorMessage="Please enter web address" ValidationGroup="Questions" CssClass="alert-error" />
                             </div>
 
@@ -234,7 +234,7 @@
                         <div class="control-group">
                              <label class="control-label"> <span class="alert-error">*</span>Contact Email:</label>
                             <div class="controls"> 
-                            <asp:TextBox ID="txtContactEmail" runat="server" TextMode="SingleLine" CssClass="input-xxlarge" placeholder="Enter company conytact email" />
+                            <asp:TextBox ID="txtContactEmail" runat="server" TextMode="SingleLine" CssClass="input-xlarge" placeholder="Enter company conytact email" />
                              <asp:RequiredFieldValidator ID="rfvContactEmail" runat="server" ControlToValidate="txtContactEmail" Display="Dynamic" ErrorMessage="Please enter company contact email" ValidationGroup="Questions" CssClass="alert-error" />
                               <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtContactEmail" ErrorMessage="Please enter a valid email" ValidationGroup="Questions" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error"></asp:RegularExpressionValidator>
                         
@@ -248,7 +248,7 @@
                         <div class="control-group">
                             <label class="control-label"><span class="alert-error">*</span>2.1 Please list the countries in which the supplier operates or sources materials from:</label>
                             <div class="controls">
-                                 <asp:TextBox ID="txtCountryList" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter at least one country" />
+                                 <asp:TextBox ID="txtCountryList" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter at least one country" />
                                 <span class="help-block">Enter a country on each line</span>
                                 <asp:RequiredFieldValidator ID="rfvCountryList" runat="server" ControlToValidate="txtCountryList" Display="Dynamic" ErrorMessage="Please enter at least one country" ValidationGroup="Questions" CssClass="alert-error" />
                        
@@ -492,7 +492,7 @@
                                            <asp:ListItem Text="Yes" Selected="False" />
                                        </asp:RadioButtonList>
                                        <asp:Panel ID="panMineral" runat="server" Visible="false">
-                                           <asp:TextBox ID="txtMineralDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Cassiterite" />
+                                           <asp:TextBox ID="txtMineralDetails" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for Cassiterite" />
                                            <span class="help-block">Enter details</span>
                                            <asp:RequiredFieldValidator ID="rfvMineral" runat="server" ControlToValidate="txtMineralDetails" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
                                        </asp:Panel>
@@ -578,7 +578,7 @@
                                                        <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" />
                                                    </td>
                                                    <td>
-                                                       <asp:TextBox ID="txtScrap" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                       <asp:TextBox ID="txtScrap" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for this mineral" />
                                                        <span class="help-block">Enter details</span>
                                                        <asp:RequiredFieldValidator ID="rfvScrap" runat="server" ControlToValidate="txtScrap" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
                                                    </td>
@@ -622,7 +622,7 @@
                                                        <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" />
                                                    </td>
                                                    <td>
-                                                       <asp:TextBox ID="txtRecycled" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                       <asp:TextBox ID="txtRecycled" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for this mineral" />
                                                        <span class="help-block">Enter details</span>
                                                        <asp:RequiredFieldValidator ID="rfvRecycled" runat="server" ControlToValidate="txtRecycled" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" />
                                                     </td>
@@ -662,7 +662,7 @@
                                                        <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                    </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtPurpose" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <asp:TextBox ID="txtPurpose" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for this mineral" />
                                                     <span class="help-block">Enter details</span>
                                                     <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtPurpose" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                    <td>
@@ -693,7 +693,7 @@
                                                        <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                    </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtProcess" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <asp:TextBox ID="txtProcess" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for this mineral" />
                                                     <span class="help-block">Enter details</span>
                                                     <asp:RequiredFieldValidator ID="rfvPurpose" runat="server" ControlToValidate="txtProcess" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                    <td>
@@ -725,7 +725,7 @@
                                                    <asp:RequiredFieldValidator ID="rfvMinerals" runat="server" ControlToValidate="cboMinerals" Display="Dynamic" ErrorMessage="Select a mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                </td>
                                                 <td>
-                                                    <asp:TextBox ID="txtComponent" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for this mineral" />
+                                                    <asp:TextBox ID="txtComponent" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for this mineral" />
                                                     <span class="help-block">Enter details</span>
                                                     <asp:RequiredFieldValidator ID="rfvComponent" runat="server" ControlToValidate="txtComponent" Display="Dynamic" ErrorMessage="Enter the details for this mineral" ValidationGroup="Questions" CssClass="alert-error" /></td>
                                                <td>
@@ -865,7 +865,7 @@
                                        <asp:ListItem Text="Yes" Selected="False" />
                                    </asp:RadioButtonList>
                                    <asp:Panel ID="panIndependentAudit" runat="server" Visible="false">
-                                       <asp:TextBox ID="txtIndependentAudit" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Enter the details for Independent Audit" />
+                                       <asp:TextBox ID="txtIndependentAudit" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Enter the details for Independent Audit" />
                                        <asp:RequiredFieldValidator ID="rfvIndependent" runat="server" ControlToValidate="txtIndependentAudit" Display="Dynamic" ErrorMessage="Please enter audit details" ValidationGroup="Questions" CssClass="alert-error" />
                                    </asp:Panel>
 
@@ -892,7 +892,7 @@
                                             <asp:RequiredFieldValidator ID="rfvTransportName" runat="server" ControlToValidate="txtTransporterName" Display="Dynamic" ErrorMessage="Please enter a name" ValidationGroup="Questions" CssClass="alert-error" />
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="txtTransporterAddress" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter address" Rows="4" />
+                                            <asp:TextBox ID="txtTransporterAddress" runat="server" TextMode="MultiLine" CssClass="input-xlarge" placeholder="Enter address" Rows="4" />
                                             <asp:RequiredFieldValidator ID="rfvTransportAddress" runat="server" ControlToValidate="txtTransporterAddress" Display="Dynamic" ErrorMessage="Please enter address" ValidationGroup="Questions" CssClass="alert-error" />
                                         </td>
                                         <td>
@@ -906,12 +906,12 @@
                        </div>
                        <div class="control-group">
                            <label>8.2 What countries are the minerals transported through? </label>
-                            <asp:TextBox ID="txtTransportCountries" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please list the countries" />
+                            <asp:TextBox ID="txtTransportCountries" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Please list the countries" />
                            <asp:RequiredFieldValidator ID="rfvTransportCountries" runat="server" ControlToValidate="txtTransportCountries" Display="Dynamic" ErrorMessage="Please enter a country name" ValidationGroup="Questions" CssClass="alert-error" />    
                        </div>
                       <legend>9. Supply Chain</legend>
                       <label>9.1 Please identify all upstream intermediaries, consolidators and other actors in your supply chain</label>
-                       <asp:TextBox ID="txtIntermediaries" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" Rows="4" placeholder="Please identify all upstream intermediaries, consolidators and other actors" />
+                       <asp:TextBox ID="txtIntermediaries" runat="server" TextMode="MultiLine" CssClass="input-xlarge" Rows="4" placeholder="Please identify all upstream intermediaries, consolidators and other actors" />
                        <asp:RequiredFieldValidator ID="rfvIntermediaries" runat="server" ControlToValidate="txtIntermediaries" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
                        <legend>10. Taxes & payments</legend>
                        <label><strong>Please disclose:</strong></label>
@@ -930,7 +930,7 @@
                                                 <asp:RequiredFieldValidator ID="rfvCountry" runat="server" ControlToValidate="cboCountryID" Display="Dynamic" ErrorMessage="Please select country" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="txtTaxDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                                <asp:TextBox ID="txtTaxDetails" runat="server" TextMode="MultiLine" CssClass="input-xlarge" placeholder="Enter payment details" Rows="4" />
                                                 <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtTaxDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
@@ -962,7 +962,7 @@
                                                    <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
                                            </td>
                                            <td>
-                                               <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                               <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xlarge" placeholder="Enter payment details" Rows="4" />
                                                <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtPaymentDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
                                            </td>
                                            <td>
@@ -994,7 +994,7 @@
                                                     <asp:RequiredFieldValidator ID="rfvPaymentAmount" runat="server" ControlToValidate="txtPaymentAmount" Display="Dynamic" ErrorMessage="Please enter payment amount" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
-                                                <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xxlarge" placeholder="Enter payment details" Rows="4" />
+                                                <asp:TextBox ID="txtPaymentDetails" runat="server" TextMode="MultiLine" CssClass="input-xlarge" placeholder="Enter payment details" Rows="4" />
                                                 <asp:RequiredFieldValidator ID="rfvPaymentDetails" runat="server" ControlToValidate="txtPaymentDetails" Display="Dynamic" ErrorMessage="Please enter details" ValidationGroup="Questions" CssClass="alert-error" />
                                             </td>
                                             <td>
