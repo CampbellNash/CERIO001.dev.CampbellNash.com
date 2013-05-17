@@ -264,6 +264,7 @@ body
     color: #333333;
     background-color: #ffffff;
     padding-top: 100px;
+    
 }
 
 a {
@@ -4348,6 +4349,7 @@ input[type="submit"].btn.btn-mini {
 .nav-collapse.collapse {
   height: auto;
   overflow: visible;
+
 }
 
 .navbar .brand
@@ -4356,7 +4358,7 @@ input[type="submit"].btn.btn-mini {
     float: left;
     padding: 30px 20px 0px 20px;
     margin-left: -20px;
-    font-size: 20px;
+    font-size: 60px;
     font-weight: 200;
     color: #777777;
     text-shadow: 0 1px 0 #ffffff;
@@ -4515,7 +4517,7 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-fixed-top .navbar-inner, .navbar-static-top .navbar-inner
 {
-    border-width: 0 0 0px 0;
+   border-width: 1px 0 0;
 }
 
 .navbar-fixed-bottom .navbar-inner {
