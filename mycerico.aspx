@@ -37,8 +37,8 @@
     <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="MetroTouch">
                 <Windows>
                     <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Modal="True"
-                        VisibleStatusbar="False" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="740"
-                        Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666"
+                        VisibleStatusbar="False" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="780"
+                        Height="550" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666"
                         AutoSize="False" KeepInScreenBounds="True" OnClientShow=""
                         Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" ClientIDMode="AutoID" />
                     <Telerik:RadWindow runat="server" ID="rwSupplierActions" DestroyOnClose="false" Modal="true"
