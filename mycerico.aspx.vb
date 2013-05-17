@@ -605,7 +605,7 @@ Partial Class mycerico
     Protected Sub btnUpdateClientActions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUpdateClientActions.Click
         'This routine gets fired when the pop up window closes
         'lblTest.Text &= " Submitted!<br>"
-        'Response.Redirect("~/default.aspx")
+        Response.Redirect("~/mycerico.aspx")
     End Sub
 
 #End Region

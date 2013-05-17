@@ -17,10 +17,10 @@
         }
 
         function Close() {
-            //var arg = new Object();
-            //var oWnd = GetRadWindow();
-            //oWnd.close(arg);
-            GetRadWindow().Close();
+            var arg = new Object();
+            var oWnd = GetRadWindow();
+            oWnd.close(arg);
+            
         }
      
     </script>
@@ -35,8 +35,7 @@
             <div class="container-fluid">
                 <div class="row-fluid">
                     <div class="span12">
-                        
-                        <h4 runat="server" id="placeholder">
+                       <h4 runat="server" id="placeholder">
                             My Cerico – Manage My Companies</h4>
                         <script type="text/javascript">
                             Close();
