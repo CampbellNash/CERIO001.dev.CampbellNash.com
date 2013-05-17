@@ -48,7 +48,7 @@ Partial Class mysuppliers
                 cboCompanies.DataBind()
                 Dim NewItem As New ListItem
                 NewItem.Text = "--- Please Select --"
-                NewItem.Value = "0"
+                NewItem.Value = ""
                 cboCompanies.Items.Insert(0, NewItem)
 
             Else
@@ -71,7 +71,14 @@ Partial Class mysuppliers
 #Region " Manage My Companies "
 
     Protected Sub GetMyRelationShipDropDown(ByVal sender As Object, ByVal e As EventArgs)
-        GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+        If cboCompanies.SelectedValue = "" Then
+            panSuppliers.Visible = False
+            panAddSupplier.Visible = False
+            panSupplierDetails.Visible = False
+        Else
+            GetMyRelationshipsByID(cboCompanies.SelectedValue, cboCompanies.SelectedItem.Text)
+        End If
+
     End Sub
 
     Private Sub GetMyRelationshipsByID(ByVal CompanyID As Integer, ByVal CompanyName As String)
@@ -91,6 +98,7 @@ Partial Class mysuppliers
             lblCompanySuppliers.Text = CompanyName
             divSuppliers.Visible = True
             panSupplierDetails.Visible = False
+            panAddSupplier.Visible = False
         Else
             'No customers were found
             lblNoSuppliers.Text = "No suppliers found!"
@@ -98,11 +106,12 @@ Partial Class mysuppliers
             rptSuppliers.Visible = False
             divSuppliers.Visible = False
             panSupplierDetails.Visible = False
-
+            panAddSupplier.Visible = False
         End If
         panMyCompanies.Visible = True
         panSuppliers.Visible = True
         panAddSupplier.Visible = False
+
 
     End Sub
 

@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mysuppliers.aspx.vb" Inherits="mysuppliers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
-    
-
+   
+  
           <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
             <div class="span9">
                 <h2>Manage Suppliers</h2>
@@ -15,6 +15,7 @@
                       <label class="control-label">Select from your companies:</label>
                                 <div class="controls">
                                         <asp:DropDownList runat="server" ID="cboCompanies" AutoPostBack="true" OnSelectedIndexChanged="GetMyRelationShipDropDown" />
+                                        
                                 </div>
                         </div>
                         </div>
