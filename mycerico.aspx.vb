@@ -596,6 +596,18 @@ Partial Class mycerico
         btnRemoveParent.Enabled = False
     End Sub
 
+    
+
+#End Region
+
+#Region " Manage My Cerico Items "
+
+    Protected Sub btnUpdateClientActions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUpdateClientActions.Click
+        'This routine gets fired when the pop up window closes
+        'lblTest.Text &= " Submitted!<br>"
+        'Response.Redirect("~/default.aspx")
+    End Sub
+
 #End Region
 
 #Region " Databindings "
@@ -705,15 +717,11 @@ Partial Class mycerico
         Dim litDescription As Literal
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
-        Dim btnAction As LinkButton
+        Dim hypAction As HyperLink
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
         Dim litCompanyAddress As Literal
-        Dim Tooltip As Telerik.Web.UI.RadToolTip
-        Dim litTitle As Literal
-        Dim panReminder As Panel
-        Dim panShowUserDetails As Panel
         Dim drv As DataRowView
 
 
@@ -722,41 +730,30 @@ Partial Class mycerico
             litDateCreated = e.Item.FindControl("litDateCreated")
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-            btnAction = e.Item.FindControl("btnAction")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
             imgCompanyLogo = panPopUp.FindControl("imgCompanyLogo")
-            Tooltip = e.Item.FindControl("MyTooltip")
-            litTitle = Tooltip.FindControl("litTitle")
-            panReminder = Tooltip.FindControl("panReminder")
-            panShowUserDetails = Tooltip.FindControl("panShowUserDetails")
-
+            hypAction = e.Item.FindControl("hypAction")
             drv = e.Item.DataItem
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
-            btnAction.CommandArgument = drv("MyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
             If UCase(Left(drv("Description"), 7)) <> "APPLIED" Then
                 'Change the text on our button to Approve
-                btnAction.Text = "View &amp; Approve"
-                btnAction.CommandName = "Approve"
-                litTitle.Text = "View &amp; Approve"
-                panShowUserDetails.Visible = True
+                hypAction.Text = "View &amp; Approve"
+                hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("MYID") & "&Method=Approve&Type=Staff');"
             Else
                 'This is someone we're waiting on acting to approve us
                 If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                     'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
-                    litTitle.Text = "Send Reminder"
-                    btnAction.Text = "Send Reminder"
-                    btnAction.CommandName = "Reminder"
-                    panReminder.Visible = True
+                    hypAction.Text = "Send Reminder"
+                    hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("MYID") & "&Method=Reminder&Type=Staff');"
                 Else
-                    litTitle.Text = "View"
-                    panReminder.Visible = True
+                    'TODO : do some extra stuff
                 End If
             End If
         End If
@@ -766,7 +763,7 @@ Partial Class mycerico
         Dim litDescription As Literal
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
-        Dim btnAction As LinkButton
+        Dim hypAction As HyperLink
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
@@ -778,7 +775,7 @@ Partial Class mycerico
             litDateCreated = e.Item.FindControl("litDateCreated")
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-            btnAction = e.Item.FindControl("btnAction")
+            hypAction = e.Item.FindControl("hypAction")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
@@ -787,15 +784,16 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
-            btnAction.CommandArgument = drv("CompanyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
             'This is someone we're waiting on acting to approve us
             If DateDiff(DateInterval.Day, CDate(drv("DateApplied")), Now()) > 14 Then
                 'This item has been waiting for more than 2 weeks so allow a reminder mail to be sent
-                btnAction.Text = "Send Reminder"
-                btnAction.CommandName = "Reminder"
+                hypAction.Text = "Send Reminder"
+                hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=Remind&Type=Supplier');"
+            Else
+                hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=View&Type=Supplier');"
             End If
         End If
 
@@ -805,7 +803,7 @@ Partial Class mycerico
         Dim litDescription As Literal
         Dim btnCompanyName As LinkButton
         Dim litDateCreated As Literal
-        Dim btnAction As LinkButton
+        Dim hypAction As HyperLink
         Dim panPopUp As Panel
         Dim imgCompanyLogo As Image
         Dim litCompanyName As Literal
@@ -817,7 +815,7 @@ Partial Class mycerico
             litDateCreated = e.Item.FindControl("litDateCreated")
             litDescription = e.Item.FindControl("litDescription")
             btnCompanyName = e.Item.FindControl("btnCompanyName")
-            btnAction = e.Item.FindControl("btnAction")
+            hypAction = e.Item.FindControl("hypAction")
             panPopUp = e.Item.FindControl("panPopUp")
             litCompanyName = panPopUp.FindControl("litCompanyName")
             litCompanyAddress = panPopUp.FindControl("litCompanyAddress")
@@ -826,12 +824,11 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
-            btnAction.CommandArgument = drv("CompanyID")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
-            btnAction.Text = "View &amp; Approve"
-            btnAction.CommandName = "Approve"
+            hypAction.Text = "View &amp; Approve"
+            hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=Remind&Type=Supplier');"
 
         End If
 
@@ -840,6 +837,7 @@ Partial Class mycerico
 #End Region
 
 
+    
     
     
 End Class

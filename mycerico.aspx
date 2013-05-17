@@ -18,14 +18,16 @@
             //oWindow.moveTo(400, 50); 
         }
 
+        function openSupplierActionWin(URL) {
+            var oWindow = radopen(URL, "rwSupplierActions");
+        }
+
         function RefreshCertificates() {
-            //window.location = 'mycerico.aspx';
             document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnRefreshCertification').click();
         }
 
-        function ShowTooltipForm() {
-            //window.location = 'mycerico.aspx';
-            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnShowTooltip').click();
+        function UpdateSupplierActions() {
+            document.getElementById('ctl00_ctl00_cphMainContent_cpcMainContent_btnUpdateClientActions').click();
              }
         //]]>           
        
@@ -33,18 +35,27 @@
 
     </script>
     <Telerik:RadWindowManager ID="RadWindowManager1" runat="server" Skin="Black">
-        <Windows>
-            <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false"
-                 Modal="true"  VisibleStatusbar="True" 
-                Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750" Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666" AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True" Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
-        </Windows>
-    </Telerik:RadWindowManager>
+                <Windows>
+                    <Telerik:RadWindow runat="server" ID="rwCertificates" DestroyOnClose="false" Modal="true"
+                        VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
+                        Height="500" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666"
+                        AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True"
+                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
+                    <Telerik:RadWindow runat="server" ID="rwSupplierActions" DestroyOnClose="false" Modal="true"
+                        VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
+                        Height="500" ReloadOnShow="true" OnClientClose="UpdateSupplierActions" BackColor="#666666"
+                        AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True"
+                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
+                </Windows>
+            </Telerik:RadWindowManager>
     
         <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+            
             <div class="span9">
             <h2>My CERICO</h2>
+            <asp:Label ID="lblTest" runat="server" CssClass="alert-danger" />
             <asp:Button ID="btnRefreshCertification" runat="server" CssClass="pull-right" Style="visibility: hidden" />
-            <asp:Button ID="btnShowTooltip" runat="server" CssClass="pull-right" Style="visibility: hidden" />
+            <asp:Button ID="btnUpdateClientActions" runat="server" CssClass="pull-right" Style="visibility: hidden" />
                 <asp:Panel ID="panMyCompanies" runat="server" >
  
                   <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
@@ -388,34 +399,7 @@
                                             <td><asp:Literal ID="litDateCreated" runat="server" /></td>
                                             
                                             <td>
-                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
-                                                <Telerik:RadToolTip ID="MyTooltip" runat="server" 
-                                                        Skin="MetroTouch" 
-                                                        Modal="true" 
-                                                        ManualClose="true" 
-                                                        TargetControlID="btnAction" 
-                                                        RelativeTo="Element" 
-                                                        Width="400" 
-                                                        Height="400" 
-                                                        ShowEvent="OnClick" 
-                                                        HideEvent="ManualClose" 
-                                                        EnableShadow="true">
-                                                        
-                                                        <h5><asp:Literal ID="litTitle" runat="server" /></h5>
-                                                        <asp:Panel ID="panReminder" runat="server" Visible="false">
-                                                            <p>Click the button below to remind this company to review your request to join.</p>
-                                                            <p>
-                                                                <asp:LinkButton ID="btnSendReminder" runat="server" Text="Send Reminder" CssClass="btn btn-small btn-primary" /></p>
-                                                        </asp:Panel>
-
-                                                        <asp:Panel ID="panShowUserDetails" runat="server" Visible="false">
-                                                            <p>Review the details below and click the button to accept this user as a company member.</p>
-                                                            <p><asp:Literal ID="litDetails" runat="server" /></p>
-                                                            <p>
-                                                                <asp:LinkButton ID="btnApproveUser" runat="server" Text="Approve User" CssClass="btn btn-small btn-primary" /></p>
-                                                        </asp:Panel>
-
-                                                </Telerik:RadToolTip>
+                                                <asp:HyperLink ID="hypAction" runat="server" CssClass="btn btn-small btn-primary" Text="View" />
                                             </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -477,15 +461,8 @@
                                                 <asp:Literal ID="litDateCreated" runat="server" />
                                             </td>
                                             <td>
-                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
-                                                <Telerik:RadToolTip ID="RadToolTip1" runat="server" Skin="MetroTouch" Modal="true"
-                                                    ManualClose="true" TargetControlID="btnAction" RelativeTo="Element" Width="400"
-                                                    Height="400" ShowEvent="OnClick">
-                                                    <h5>
-                                                        Dynamic tooltip for approvals & reminders.</h5>
-                                                    <p>
-                                                      This is bound during the SQL process and will be unique to each button.</p>
-                                               </Telerik:RadToolTip>
+                                                <asp:HyperLink ID="hypAction" runat="server" CssClass="btn btn-small btn-primary"
+                                                    Text="View" />
                                             </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
@@ -547,13 +524,8 @@
                                                 <asp:Literal ID="litDateCreated" runat="server" />
                                             </td>
                                             <td>
-                                                <asp:LinkButton ID="btnAction" runat="server" Text="View" CssClass="btn btn-small btn-primary" />
-                                                <Telerik:RadToolTip ID="RadToolTip1" runat="server" Skin="MetroTouch" Modal="true"
-                                                   ManualClose="true" TargetControlID="btnAction" RelativeTo="Element" Width="400"
-                                                   Height="400" ShowEvent="OnClick">
-                                                    <h5>Dynamic tooltip for approvals & reminders.</h5>
-                                                    <p>This is bound during the SQL process and will be unique to each button.</p>    
-                                                </Telerik:RadToolTip>
+                                                <asp:HyperLink ID="hypAction" runat="server" CssClass="btn btn-small btn-primary"
+                                                    Text="View" />
                                             </td>
                                         </tr>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
