@@ -11,6 +11,7 @@
         <siteMapNode url="~/home.aspx" title="Your Home page"  description="" >
 			<siteMapNode url="~/mycerico.aspx" title="My CERICO"  description="" />
 			<siteMapNode url="~/mysuppliers.aspx" title="My Suppliers"  description="" />
+			<siteMapNode url="~/mycustomers.aspx" title="My Customers"  description="" />
 			<siteMapNode url="~/mycompanies.aspx" title="My Companies"  description="" />
 			<siteMapNode url="~/standardquestionnaire.aspx" title="Conflict Minerals – Due Diligence Questionnaire" description=""/>
 		</siteMapNode>
