@@ -43,9 +43,9 @@
                         Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
                     <Telerik:RadWindow runat="server" ID="rwSupplierActions" DestroyOnClose="false" Modal="true"
                         VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
-                        Height="500" ReloadOnShow="true" OnClientClose="UpdateSupplierActions" BackColor="#666666"
+                        Height="500" ReloadOnShow="True" OnClientClose="UpdateSupplierActions" BackColor="#666666"
                         AutoSizeBehaviors="HeightProportional" AutoSize="False" KeepInScreenBounds="True"
-                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" />
+                        Overlay="True" EnableShadow="True" ShowContentDuringLoad="False" />
                 </Windows>
             </Telerik:RadWindowManager>
     

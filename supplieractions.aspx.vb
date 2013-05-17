@@ -32,6 +32,13 @@ Partial Class supplieractions
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-
+        If Not Session("UserLoggedIn") Then
+            panMain.Visible = False
+            panCloseWindow.Visible = True
+            Return
+        End If
+        If Not IsPostBack Then
+            panMain.Visible = True
+        End If
     End Sub
 End Class
