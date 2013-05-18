@@ -676,6 +676,7 @@ Namespace MasterClass
 #Region " Customers & Suppliers "
 
         Public Shared Function GetMySuppliers(ByVal CompanyID As Integer) As DataSet
+
             Dim Conn As SqlConnection = New SqlConnection(strConnString)
             Dim paramReturn As SqlParameter = Nothing
             Dim ObjCmd As SqlCommand = New SqlCommand("GetMySuppliers", Conn)
