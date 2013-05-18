@@ -310,6 +310,7 @@ Partial Class mysuppliers
         Dim btnCompanyName As LinkButton
         Dim btnSupplierDetails As LinkButton
         Dim lblStatus As Label
+        Dim litCompliance As Literal
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
         If e.Item.ItemType = ListItemType.Item Or e.Item.ItemType = ListItemType.AlternatingItem Then
@@ -317,10 +318,17 @@ Partial Class mysuppliers
             btnCompanyName = e.Item.FindControl("btnCompanyName")
             btnSupplierDetails = e.Item.FindControl("btnSupplierDetails")
             lblStatus = e.Item.FindControl("lblStatus")
+            litCompliance = e.Item.FindControl("litCompliance")
             drv = e.Item.DataItem
             btnCompanyName.Text = drv("CompanyName")
             btnSupplierDetails.CommandArgument = drv("CompanyID")
             btnSupplierDetails.CommandName = drv("CompanyName")
+            If drv("Compliant") = "N" Then
+                'This is not compliant
+                litCompliance.Text = "<span class='label label-important'>Non Compliant</span>"
+            Else
+                litCompliance.Text = "<span class='label label-important'>Compliant</span>"
+            End If
 
 
             If UCase(drv("Approved")) = "Y" Then

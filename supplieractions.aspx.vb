@@ -33,12 +33,46 @@ Partial Class supplieractions
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
         If Not Session("UserLoggedIn") Then
-            panMain.Visible = False
             panCloseWindow.Visible = True
             Return
         End If
         If Not IsPostBack Then
-            panMain.Visible = True
+
+            Select Case Request.QueryString("Type")
+                'See what type of request we're handling
+                Case "Staff"
+                    Dim PersonaDetails As DataSet = NashBLL.GetStaffMemberDetails(Request.QueryString("ID"))
+                    Dim MyDetails As DataRow = PersonaDetails.Tables(0).Rows(0)
+                    Dim CompanyName As String = PersonaDetails.Tables(1).Rows(0)("CompanyName")
+                    Dim EmailAddress = MyDetails("EmailAddress")
+                    litStaffName.Text = MyDetails("FirstName") & " " & MyDetails("Surname")
+                    litStaffDetails.Text = MyDetails("EmailAddress") & "<br />" & MyDetails("TelephoneNumber")
+                    panStaff.Visible = True
+                    
+                Case "Supplier"
+
+                Case Else
+                    'This is the customer area
+            End Select
         End If
+    End Sub
+
+    Protected Sub btnApprove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnApprove.Click
+        'We're approving a new staff member so send the mail
+        Dim PersonaDetails As DataSet = NashBLL.GetStaffMemberDetails(Request.QueryString("ID"))
+        Dim MyDetails As DataRow = PersonaDetails.Tables(0).Rows(0)
+        Dim CompanyName As String = PersonaDetails.Tables(1).Rows(0)("CompanyName")
+        Dim EmailAddress = MyDetails("EmailAddress")
+        NashBLL.ApproveStaffMember(Request.QueryString("ID"), Session("ContactID"))
+        Dim MailBody As String = "Dear " & MyDetails("FirstName") & "," & vbCrLf & vbLf & _
+        "Your apllication to join '" & CompanyName & "' has been accepted and approved '" & vbCrLf & vbLf & _
+        "Please login to your account at our web site using the link below to find out more details." & vbCrLf & vbLf & _
+        "http://cerio-live.azurewebsites.net/default.aspx" & vbCrLf & vbLf & _
+        "Thank you," & vbCrLf & vbLf & _
+        "CERICO Admin Team."
+        'Now send this mail to the new staff member
+        NashBLL.SendMail(EmailAddress, "", "", MailBody, "Application to join company", "", False)
+        panStaff.Visible = False
+        panSuccess.Visible = True
     End Sub
 End Class

@@ -1032,6 +1032,48 @@ Namespace MasterClass
             Return Compliant
         End Function
 
+        Public Shared Function GetStaffMemberDetails(ByVal MYID As Integer) As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetStaffMemberDetails", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@MYID", MYID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "MyDetails")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function ApproveStaffMember(ByVal MYID As Integer, ByVal ContactID As Integer) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("ApproveStaffMember", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@MYID", MYID)
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
 
 #End Region
 

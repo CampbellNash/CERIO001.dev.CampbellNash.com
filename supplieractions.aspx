@@ -30,13 +30,32 @@
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
     <div>
        <asp:Panel ID="panCloseWindow" runat="server" Visible="false">
-       <script type="text/javascript">
-           WindowClose();
-       </script>
-    </asp:Panel>
-    <asp:Panel ID="panMain" runat="server" Visible="true">
-        <h4>Please see below for further action</h4>
-    </asp:Panel>
+            <script type="text/javascript">
+                WindowClose();
+            </script>
+        </asp:Panel>
+    
+        <asp:Panel ID="panStaff" runat="server" Visible="false">
+            <h4>Please see below for further action</h4>
+              <div class="popover-content">
+                    <h4>
+                        Details for new staff member</h4>
+                    <h5>
+                        <asp:Literal ID="litStaffName" runat="server" Text="Brian McAulay" />
+                    </h5>
+                    <h5>
+                        <asp:Literal ID="litStaffDetails" runat="server" Text="6A Darroch Way<br>Glasgow<br>G67 1PZ<br>brian@zungalow.com" /></h5>
+                    <p><asp:LinkButton ID="btnApprove" runat="server" Text="Approve" CssClass="btn-info" />&nbsp;&nbsp;<asp:LinkButton
+                            ID="btnDecline" runat="server" Text="Decline" CssClass="btn-info" /></p>
+                </div>
+            
+        </asp:Panel>
+
+        <asp:Panel ID="panSuccess" runat="server" Visible="false">
+            <p>You request has been completed.</p>
+            <p>Click <a href="JavaScript:WindowClose();">Here</a> to close this window to complete the process.</p>
+        </asp:Panel>
+    
     </div>
     </Telerik:RadAjaxPanel>
     

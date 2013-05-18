@@ -99,7 +99,7 @@
                                             OffsetY="0" PopDelay="50" />
                                                 </td>
                                             <td>
-                                                <span class="label label-important">Non Compliant</span>
+                                                <asp:Literal ID="litCompliance" runat="server" Text="<span class='label label-important'>Non Compliant</span>" />
                                             </td>
                                             <td>
                                                 <asp:LinkButton ID="btnSupplierDetails" runat="server" CssClass="btn btn-mini btn-primary" Text="View details" OnClick="GetSupplierDetails" />

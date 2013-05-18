@@ -168,6 +168,9 @@ Partial Class mycerico
         panMyCompanies.Visible = False
         panCustomers.Visible = False
         panSuppliers.Visible = False
+        'This make sure we rebind the filtered repeaters based on this company
+        btnUpdateClientActions.CommandName = "Filtered"
+        btnUpdateClientActions.CommandArgument = sender.CommandArgument
     End Sub
 
     Protected Sub btnRefreshCertification_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefreshCertification.Click
@@ -631,9 +634,39 @@ Partial Class mycerico
 
     Protected Sub btnUpdateClientActions_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUpdateClientActions.Click
         'This routine gets fired when the pop up window closes
-        'lblTest.Text &= " Submitted!<br>"
-        Threading.Thread.Sleep(5000)
-        Response.Redirect("~/mycerico.aspx")
+
+        Select Case sender.CommandName
+            Case ""
+                'We're on non filtered view so we can bind on the main repeaters for the ALL options
+                'Now go and get the list of companies we're waiting on the company owner to approve us as members of
+                Dim MyUnapprovedCompanies As DataSet = NashBLL.GetAllMyUnApprovedCompanies(Session("ContactID"))
+                rptUnapproved.DataSource = MyUnapprovedCompanies
+                rptUnapproved.DataBind()
+                'Now go and get the list of unapproved suppliers
+                Dim UnapprovedSuppliers As DataSet = NashBLL.GetAllMyUnapprovedSuppliers(Session("ContactID"))
+                rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
+                rptUnapprovedSuppliers.DataBind()
+                'Now go and get the list of unapproved customers
+                Dim UnapprovedCustomers As DataSet = NashBLL.GetAllMyUnapprovedCustomers(Session("ContactID"))
+                rptUnapprovedCustomers.DataSource = UnapprovedCustomers
+                rptUnapprovedCustomers.DataBind()
+                lblTest.Text = "Rebind non filtered!"
+            Case Else
+                'This was the filtered view so we should bind on the compnay based repeaters
+                'Now we need to filter the supplier actions for this company
+                Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
+                rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
+                rptUnapprovedSuppliers.DataBind()
+                'Now filter our customers
+                Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(sender.CommandArgument)
+                rptUnapprovedCustomers.DataSource = UnapprovedCustomers
+                rptUnapprovedCustomers.DataBind()
+                'Now filter our company members and join requests
+                Dim UnapprovedCompanies As DataSet = NashBLL.GetMyUnapprovedCompanies(sender.CommandArgument)
+                rptUnapproved.DataSource = UnapprovedCompanies
+                rptUnapproved.DataBind()
+                lblTest.Text = "Rebind filtered!"
+        End Select
     End Sub
 
 #End Region
