@@ -49,9 +49,9 @@
                 </Windows>
             </Telerik:RadWindowManager>
     
-        <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
+        
             
-            <div class="span9">
+            <div class="span9" runat="server" id="mainDiv">
             <h2>My CERICO</h2>
             <asp:Label ID="lblTest" runat="server" CssClass="alert-danger" />
             <asp:Button ID="btnRefreshCertification" runat="server" CssClass="pull-right" Style="visibility: hidden" />
@@ -160,6 +160,7 @@
                 </asp:Panel>
 
                 <asp:Panel ID="panAddCompany" runat="server" Visible="false">
+                    <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
                     <div class="form-signin form-horizontal">
                         
                         <asp:Button ID="btnGoback" runat="server" CausesValidation="False" CssClass="btn btn-danger pull-right" Text="Go back and Search" />
@@ -340,7 +341,7 @@
                            <asp:Button ID="btnAddNewCompany" runat="server" CssClass="btn btn-warning" Text="Add New Company" ValidationGroup="AddCompany" />&nbsp;&nbsp;<asp:Button ID="btnCancelAdd" runat="server" CssClass="btn btn-danger" Text="Cancel" CausesValidation="False" />
                            <p><asp:Label ID="lblAddCompany" runat="server" EnableViewState="false" CssClass="error" /></p>
                     </div> 
-                   
+                   </Telerik:RadAjaxPanel>  
                 </asp:Panel>
                 
                 <asp:Panel ID="panCompanyCertification" runat="server" Visible="false">
@@ -737,9 +738,15 @@
             <uc1:submenu1 ID="submenu11" runat="server" />      
         </asp:Panel>
     </div>
-  </Telerik:RadAjaxPanel>  
+  
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
+            <Telerik:AjaxSetting AjaxControlID="mainDiv">
+                <UpdatedControls>
+                    <Telerik:AjaxUpdatedControl ControlID="mainDiv" LoadingPanelID="RadAjaxLoadingPanel1"
+                        UpdatePanelRenderMode="Block" />
+                </UpdatedControls>
+            </Telerik:AjaxSetting>
             <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
                 <UpdatedControls>
                     <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
