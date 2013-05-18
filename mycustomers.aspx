@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycustomers.aspx.vb" Inherits="mycustomers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
-      
-            <div class="span9">
+ <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">     
+            <div class="span9" runat="server" id="mainDiv">
              
                   <h2>Manage Customers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
@@ -174,18 +174,18 @@
                 
                 
         </div>
- 
+ </Telerik:RadAjaxPanel>
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
-            <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
+            <Telerik:AjaxSetting AjaxControlID="mainDiv">
                 <UpdatedControls>
-                    <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
+                    <Telerik:AjaxUpdatedControl ControlID="mainDiv" LoadingPanelID="RadAjaxLoadingPanel1"
                         UpdatePanelRenderMode="Block" />
                 </UpdatedControls>
             </Telerik:AjaxSetting>
         </AjaxSettings>
     </Telerik:RadAjaxManager>
-    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />          
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />          
     
     <div class="span3">
         <asp:Panel runat="server" ID="panSubNav">
