@@ -3,10 +3,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
    
   
-          <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-            <div class="span9">
+          
+            <div class="span9" runat="server" id="divMain">
+                
                 <h2>Manage Suppliers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" Visible="false" />
+                <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
+               
                 <asp:Panel ID="panMyCompanies" runat="server">
                 
                   <div class="alert alert-info">
@@ -53,15 +56,12 @@
   </ul>
                             </div>
                         <p>
-                            <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
-                        </p>
+                                    </p>
                       -->
                      </asp:Panel>
                 <hr />
 
               <asp:Panel ID="panSuppliers" runat="server">
-                     <div class="span9">
-                          
                         <h4>Suppliers to <asp:Label runat="server" ID="lblCompanySuppliers" /></h4>
                             <div runat="server" id="divSuppliers">
                             <table class="table table-bordered">
@@ -119,25 +119,41 @@
                             <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn btn-success pull-left gapright" />
                         </p>
                             <asp:Button ID="btnCancelAddSupplier" runat="server" Text="Cancel" CssClass="btn btn-danger pull-left" Visible="false" />
-                    </div>
+                    
                 </asp:Panel>
                 
               <asp:Panel ID="panAddSupplier" runat="server" DefaultButton="btnSearchSuppliers">
-                    <div class="span9">
+                    
                         <asp:Button ID="btnCancelSearch" runat="server" CssClass="btn-small btn-danger" Text="Cancel Search" CausesValidation="False"  />
                         <h4>Add a new supplier</h4> 
                         <p>The supplier you are looking for may already exist on our system, please use the search feature below to find them.</p>
                         Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> 
-                        <asp:Button ID="btnSearchSuppliers" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
+                        <asp:Button ID="btnSearchSuppliers" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br /><br />
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ValidationGroup="search"
                             ControlToValidate="txtSupplierSearch" CssClass="error" ForeColor="red"
                             runat="server" Display="Dynamic" ErrorMessage="Please enter a search term" />
-                        <ul class="unstyled">
+                   <asp:Panel ID="panNoResults3" runat="server" Visible="false">
+                        
+                            <div class="alert">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>Search results</h4>
+                                No results found for the search you entered, please adjust and try again.
+                            </div>    
+                        </asp:Panel>
+                     
+                    <ul class="unstyled">
+                          
+                        <div class="alert alert-success" runat="server" id="divSearchResults">
+                            
                             <asp:Repeater ID="rptSupplierSearch" runat="server">
-                                <HeaderTemplate><h4>Supplier Search Results</h4></HeaderTemplate>
+
+                                <HeaderTemplate>
+                                    <h4>Supplier Search Results</h4>
+                                    If the company you are looking for is listed below, just click on the name to add them as a supplier. You can also hover over their name to view more details.<br /><br />
+                                </HeaderTemplate>
                                 <ItemTemplate>
                                     <li>
-                                       <span class="btn btn-success"><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier"  /></span>
+                                       <span class="btn btn-success"><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForSupplier"  /></span><br /><br />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
@@ -155,9 +171,11 @@
                                   
                                 </FooterTemplate>
                             </asp:Repeater>
+                            
+                            </div>
                         </ul>
-                          <br />
-                                    <div class="alert alert-info">
+                         
+                                 <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 <h4>Can't find the supplier your looking for?</h4>
                                 If you cannot find the supplier you wish to add then you can invite them to the system by clicking the "Invite Supplier" button. In doing so they will be automatically connected to you once they setup their account.<br />
@@ -165,22 +183,34 @@
                                 
                                 <br />
                             </div>
+                      
+                 <asp:Panel ID="panTooManyRecords3" runat="server" Visible="false">
+                            <p>
+                                Too many records found, please narrow your search and try again.</p>
+                 </asp:Panel>
+              </asp:Panel>
+
+                
+                 
+                        <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
                         <ajaxToolkit:ModalPopupExtender ID="MPE1" runat="server"
                         TargetControlID="btnInviteSuppliers"
-                        PopupControlID="panInviteSupplier"
-                        BackgroundCssClass="modal-backdrop" 
+                        PopupControlID="panInviteSupplier" 
+                        BackgroundCssClass="modal-backdrop" CancelControlID="btnClosePopUp"
                         DropShadow="true" 
                         OkControlID="OkButton" 
-                        OnOkScript="onOk()"
-                        PopupDragHandleControlID="Panel3" >
+                        OnOkScript="onOk()">
                         </ajaxToolkit:ModalPopupExtender>
-                        <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
+                        
+                        <asp:Panel ID="panInviteSupplier" style="display: none" runat="server" CssClass="modal-body">
+                               
                                 <legend><asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />Invite Supplier</legend>
                                 
-                                <asp:Panel ID="panInviteStart" runat="server" Visible="true">
+                                <asp:Panel ID="panInviteStart" runat="server">
+                                   
                                     Please enter the supplier details below and click the submit button. Items marked with <span class="alert-error">* </span> are required.
                                     <fieldset>
-                                        
+                                     
                                     <label><span class="alert-error">* </span> Firstname:</label><asp:TextBox ID="txtSupplierFirstname" CssClass="input-large" runat="server" />
                                                  <asp:RequiredFieldValidator ID="rfvSupplier1" runat="server" ControlToValidate="txtSupplierFirstname"
                                                     CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
@@ -201,9 +231,9 @@
                                                  <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtSupplierCompanyName"
                                                     CssClass="alert-error" ErrorMessage="Company Name is required." ToolTip="Company Name is required."
                                                     ValidationGroup="InviteSupplier" Display="Dynamic" />
-                                    <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
+                                    <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" CausesValidation="true" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
                                         </fieldset>
-                                        
+                                  
                                 </asp:Panel>
                                 
                                 <asp:Panel ID="panInviteSent" runat="server" Visible="false">
@@ -213,33 +243,12 @@
                                 <asp:Panel ID="panUserExists" runat="server" Visible="false">
                                     <p>User is already a registered user and has been invited to add their company.</p>
                                 </asp:Panel>
-                            
-                            </asp:Panel>
+                           
+                        </asp:Panel>
+                        </Telerik:RadAjaxPanel>  
                         
-                        <asp:Panel ID="panNoResults3" runat="server" Visible="false">
-                            
-                            <div class="alert">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <h4>Search results</h4>
-                                No results found for the search you entered, please adjust and try again.
-                            </div>    
-                            
-                              
-                             
-    
-                
-                          
-                             
-                       
-                        </asp:Panel>
-                        <asp:Panel ID="panTooManyRecords3" runat="server" Visible="false">
-                            <p>
-                                Too many records found, please narrow your search and try again.</p>
-                        </asp:Panel>
-                       </div>
-                </asp:Panel>
-               
-              <asp:Panel ID="panSupplierDetails" runat="server" Visible="false">
+             
+             <asp:Panel ID="panSupplierDetails" runat="server" Visible="false">
                     
                         <div class="span12">
                             <hr />
@@ -307,27 +316,35 @@
                     
                     
                 </asp:Panel>
-              
+             
         </div>
        
+            
+            
             <div class="span3">
             <asp:Panel runat="server" ID="panSubNav">
                 <uc1:submenu1 ID="submenu11" runat="server" />      
             </asp:Panel>
             </div>
-   </Telerik:RadAjaxPanel>  
-  
   <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
-            <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
+            <Telerik:AjaxSetting AjaxControlID="divMain">
+                <UpdatedControls>
+                    <Telerik:AjaxUpdatedControl ControlID="divMain" LoadingPanelID="RadAjaxLoadingPanel1"
+                        UpdatePanelRenderMode="Block" />
+                </UpdatedControls>
+            </Telerik:AjaxSetting>
+           <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
                 <UpdatedControls>
                     <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
                         UpdatePanelRenderMode="Block" />
                 </UpdatedControls>
             </Telerik:AjaxSetting>
+              
+          
         </AjaxSettings>
     </Telerik:RadAjaxManager>
-    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik" Transparency="0" IsSticky="False" />          
+    <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />          
     
     
         

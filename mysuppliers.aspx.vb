@@ -55,13 +55,15 @@ Partial Class mysuppliers
                 'No customers were found
                 lblNoCompanies.Text = "No companies found!"
                 lblNoCompaniesHelp.Text = "- You have no companies associated, please visit the mycerico page to associate yourself with a company."
-
+                panMyCompanies.Visible = False
             End If
-            'Hide the other panels until clicked
+            'Hide the other panels until clicked apart from the panel that is used in the modal popup
 
             panSuppliers.Visible = False
             panAddSupplier.Visible = False
             panSupplierDetails.Visible = False
+            panNoResults3.Visible = False
+            divSearchResults.Visible = False
 
             'Set the page title 
             lblManageCompaniesPageTitle.Text = ""
@@ -190,7 +192,8 @@ Partial Class mysuppliers
         panSuppliers.Visible = False
         panSupplierDetails.Visible = False
         panMyCompanies.Visible = True
-
+        panNoResults3.Visible = False
+        divSearchResults.Visible = False
         panMyCompanies.CssClass = ""
         panSubNav.CssClass = ""
         rptSupplierSearch.Visible = False
@@ -203,7 +206,8 @@ Partial Class mysuppliers
         panAddSupplier.Visible = False
         panSuppliers.Visible = False
         panMyCompanies.Visible = True
-
+        divSearchResults.Visible = False
+        panNoResults3.Visible = False
         panMyCompanies.CssClass = ""
         panSubNav.CssClass = ""
         rptSupplierSearch.Visible = False
@@ -230,10 +234,12 @@ Partial Class mysuppliers
                 rptSupplierSearch.DataBind()
                 rptSupplierSearch.Visible = True
                 panNoResults3.Visible = False
+                divSearchResults.Visible = True
             Else
                 'No results were found so display and advise
                 panNoResults3.Visible = True
                 rptSupplierSearch.Visible = False
+                divSearchResults.Visible = False
             End If
         Else
             'Too many results found so advise to narrow the search
@@ -327,7 +333,8 @@ Partial Class mysuppliers
                 'This is not compliant
                 litCompliance.Text = "<span class='label label-important'>Non Compliant</span>"
             Else
-                litCompliance.Text = "<span class='label label-important'>Compliant</span>"
+                'This is compliant
+                litCompliance.Text = "<span class='label label-success'>Compliant</span>"
             End If
 
 
