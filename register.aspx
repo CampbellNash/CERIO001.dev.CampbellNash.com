@@ -2,7 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" Runat="Server">
     <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">
-    <div class="span7">
+    <div class="span7" runat="server" id="divMain">
         
             <h2 class="form-signin-heading">CERICO Registration</h2>
              <asp:Panel ID="panMain" runat="server" Visible="true">
@@ -117,6 +117,12 @@ demonstrate compliance</li></ul><h3>Industry Endorsed</h3><p>“<i>We are accele
                         <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
                             <UpdatedControls>
                                 <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
+                                    UpdatePanelRenderMode="Block" />
+                            </UpdatedControls>
+                        </Telerik:AjaxSetting>
+                         <Telerik:AjaxSetting AjaxControlID="divMain">
+                            <UpdatedControls>
+                                <Telerik:AjaxUpdatedControl ControlID="divMain" LoadingPanelID="RadAjaxLoadingPanel1"
                                     UpdatePanelRenderMode="Block" />
                             </UpdatedControls>
                         </Telerik:AjaxSetting>

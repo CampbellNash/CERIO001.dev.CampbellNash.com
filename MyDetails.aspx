@@ -136,7 +136,7 @@
                 </Telerik:AjaxSetting>
             </AjaxSettings>
         </Telerik:RadAjaxManager>
-        <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="Telerik"
+        <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch"
             Transparency="0" IsSticky="False" />
     </div>
     <div class="span3">
