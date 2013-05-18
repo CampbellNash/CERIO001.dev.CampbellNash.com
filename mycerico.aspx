@@ -366,7 +366,7 @@
                             <tbody>
                                 <tr>
                                     <td>Conflict Minerals</td>
-                                    <td>Petrofac</td>
+                                    <td>EuroPlanes</td>
                                     <td><asp:Literal ID="litDateStarted" runat="server" /></td>   
                                     <td><asp:Literal ID="litDueDate" runat="server" /></td>
                                     <td><asp:Literal ID="litProgress" runat="server"  Text="In progress (75%)" /></td>
