@@ -323,7 +323,12 @@
                             <div class="controls"><asp:TextBox runat="server" ID="txtEmailAddress" CssClass="input-xxlarge" /><br />
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator8" ControlToValidate="txtEmailAddress"
                                     CssClass="error" ForeColor="red" runat="server" Display="Dynamic" ErrorMessage="please enter a valid email address"
-                                    ValidationGroup="AddCompany" /></div>
+                                    ValidationGroup="AddCompany" />
+                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmailAddress"
+                                     ErrorMessage="Please enter a valid email" ValidationGroup="AddCompany"
+                                     ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" CssClass="alert-error" Display="Dynamic" />
+
+                            </div>
 
                         </div>
                             
