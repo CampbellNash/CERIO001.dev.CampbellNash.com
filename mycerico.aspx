@@ -58,7 +58,7 @@
             <asp:Button ID="btnUpdateClientActions" runat="server" CssClass="pull-right" Style="visibility: hidden" />
                 <asp:Panel ID="panMyCompanies" runat="server" >
  
-                  <asp:Button ID="btnAddCompany" runat="server" Text="Start Company Association process &raquo;" CssClass="btn btn-success pull-right" /> 
+                  <asp:Button ID="btnAddCompany" runat="server" Text="Add new company or associate with an existing company &raquo;" CssClass="btn btn-success pull-right" /> 
                   <h3><asp:Label runat="server" ID="lblManageCompaniesPageTitle" /></h3>
                         
                         The list below shows the list of companies that you are responsible for. Click on the Company to view more details. If you wish to associate yourself with another company then click the "Start Company Association process" button.
