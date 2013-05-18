@@ -28,7 +28,7 @@
    <script type="text/javascript">
        function pageLoad() {
            $(function () {
-               $("#moreinfo").popover({ html: true, trigger: 'hover', content: '<p><span class="label label-info">Petrofacs</span> policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p><p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p><p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>' });
+               $("#moreinfo").popover({ html: true, trigger: 'hover', content: '<p>This policy is to conduct business in a legal and ethical manner, to further human rights and to not do anything which contributes to conflict.</p><p>It is therefore important to identify the existence of any "conflict minerals" in our supply chain.  We expect our suppliers to adhere to this to statement of principle and to work with us in fulfilling our commitment.</p><p>Our suppliers are required to answer all questions honestly and thoroughly following the making of inquiries within their own business and with their supply chain.</p>' });
 
            });
        }
