@@ -4,7 +4,7 @@
 <html>
 <head>
     <link id="Link1" href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" runat="server" />
-        runat="server" />
+        
     <title>CERICO Supplier Management</title>
     <script type="text/javascript">
 

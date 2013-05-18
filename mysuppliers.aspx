@@ -175,13 +175,12 @@
                         PopupDragHandleControlID="Panel3" >
                         </ajaxToolkit:ModalPopupExtender>
                         <asp:Panel ID="panInviteSupplier" runat="server" CssClass="modal-body">
-                                
+                                <legend><asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />Invite Supplier</legend>
                                 
                                 <asp:Panel ID="panInviteStart" runat="server" Visible="true">
                                     Please enter the supplier details below and click the submit button. Items marked with <span class="alert-error">* </span> are required.
-                                    <form>
                                     <fieldset>
-                                        <legend><asp:LinkButton ID="btnClosePopUp" runat="server" CssClass="btn btn-danger pull-right" Text="Close Invite" />Invite Supplier</legend>
+                                        
                                     <label><span class="alert-error">* </span> Firstname:</label><asp:TextBox ID="txtSupplierFirstname" CssClass="input-large" runat="server" />
                                                  <asp:RequiredFieldValidator ID="rfvSupplier1" runat="server" ControlToValidate="txtSupplierFirstname"
                                                     CssClass="alert-error" ErrorMessage="First Name is required." ToolTip="First Name is required."
@@ -204,7 +203,7 @@
                                                     ValidationGroup="InviteSupplier" Display="Dynamic" />
                                     <asp:LinkButton ID="btnInvite" runat="server" CssClass="btn btn-success pull-right" ValidationGroup="InviteSupplier" Text="Send Invite &raquo;" />
                                         </fieldset>
-                                        </form>
+                                        
                                 </asp:Panel>
                                 
                                 <asp:Panel ID="panInviteSent" runat="server" Visible="false">
@@ -216,6 +215,7 @@
                                 </asp:Panel>
                             
                             </asp:Panel>
+                        
                         <asp:Panel ID="panNoResults3" runat="server" Visible="false">
                             
                             <div class="alert">

@@ -124,27 +124,35 @@ Partial Class mysuppliers
 
     Protected Sub ApplyForSupplier(ByVal sender As Object, ByVal e As System.EventArgs)
         'First we make our request
-        Dim MailData As DataSet = NashBLL.RequestSupplier(btnSearchSuppliers.CommandArgument, sender.CommandArgument, Session("ContactID"))
+        Dim MailData As DataSet = NashBLL.RequestSupplier(sender.CommandArgument, btnSearchSuppliers.CommandArgument, Session("ContactID"))
         Dim dr As DataRow = MailData.Tables(0).Rows(0)
         'Create the main mail body
+
         Dim MailBody As String = "Dear " & dr("FirstName") & "," & vbCrLf & vbLf & _
-            "The company" & dr("CompanyName") & " has added you to it's supplier list." & vbCrLf & vbLf & _
-            "Please login to your account at our web site to find out more details." & vbCrLf & vbLf & _
+            "The company '" & cboCompanies.SelectedItem.Text & "' has added your company '" & dr("CompanyName") & "' to it's supplier list." & vbCrLf & vbLf & _
+            "Please login to your account at our web site using the link below to find out more details." & vbCrLf & vbLf & _
+            "http://cerio-live.azurewebsites.net/default.aspx" & vbCrLf & vbLf & _
             "Thank you," & vbCrLf & vbLf & _
             "CERICO Admin Team."
         'Now send this mail to the company owner
-        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "New Customer Addded", "", False)
+        NashBLL.SendMail(dr("EmailAddress"), "", "", MailBody, "New Customer Added To Your Company", "", False)
+        RadAjaxPanel1.Alert("The company you selected has been successfully assigned to your supplier list.\n\n" & _
+        "We have sent a mail to the company principle informing them of this transaction and inviting them to visit our site.\n\n" & _
+         "Any required compliances you have stipulated have been added to the task list for this company to complete.")
         'Now rebind the repeater
-        Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(btnSearchSuppliers.CommandArgument)
+        Dim MySuppliers As DataSet = NashBLL.GetMySuppliers(cboCompanies.SelectedValue)
         rptSuppliers.DataSource = MySuppliers
         rptSuppliers.DataBind()
         rptSuppliers.Visible = True
         panAddSupplier.Visible = False
         panSuppliers.Visible = True
+        panMyCompanies.Visible = True
+        divSuppliers.Visible = True
 
         panMyCompanies.CssClass = ""
         panSubNav.CssClass = ""
         txtSupplierSearch.Text = ""
+
     End Sub
 
 
@@ -236,15 +244,16 @@ Partial Class mysuppliers
     Protected Sub btnInvite_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnInvite.Click
         'Make sure the pop up stays alive until we're finished checking the situation
         MPE1.Show()
-        Dim Result As Integer = NashBLL.CheckEmailAddressExists(txtSupplierEmailAddress.Text)
-        Select Case Result
-            Case 0
-                'User was found so we need to do something else here
-                panUserExists.Visible = True
-            Case Else
-                'User was not found so we need to invite them and create their company
-                panInviteSent.Visible = True
-        End Select
+        'User was not found so we need to invite them and create their company
+        Dim MailBody As String = "Dear " & txtSupplierFirstname.Text & "," & vbCrLf & vbLf & _
+                "You have been invited to join us at CERICO and to add your company details for '" & txtSupplierCompanyName.Text & "'" & vbCrLf & vbLf & _
+                "Please create your new account at our web site using the link below and to find out more details of our services." & vbCrLf & vbLf & _
+                "http://cerio-live.azurewebsites.net/register.aspx" & vbCrLf & vbLf & _
+                "Thank you," & vbCrLf & vbLf & _
+                "CERICO Admin Team."
+        'Now send this mail to the company owner
+        NashBLL.SendMail(txtSupplierEmailAddress.Text, "", "", MailBody, "Invitation to join CERICO", "", False)
+        panInviteSent.Visible = True
         panInviteStart.Visible = False
     End Sub
 
@@ -256,6 +265,7 @@ Partial Class mysuppliers
         txtSupplierFirstname.Text = ""
         txtSupplierSurname.Text = ""
         txtSupplierEmailAddress.Text = ""
+        txtSupplierCompanyName.Text = ""
 
     End Sub
 

@@ -68,6 +68,8 @@ Partial Class standardquestionnaire
             'TODO: adjust prev & next logic as this would mean the next page is the last one
             btnNext.CommandArgument = 5
             btnPrev.CommandArgument = 3
+            btnTopNext.CommandArgument = 5
+            btnTopPrev.CommandArgument = 3
             Return True
         Else
             'Either a mineral or a country was chosen, so show the rest of the form
@@ -75,7 +77,8 @@ Partial Class standardquestionnaire
             panMineralPurpose.Visible = True
             panUpload.Visible = True
             'TODO: adjust prev & next logic as this would mean the next page is the last one
-            btnNext.CommandArgument = 5
+            btnNext.CommandArgument = 3
+            btnTopNext.CommandArgument = 3
             'btnPrev.CommandArgument = 1
             Return False
         End If
@@ -145,7 +148,7 @@ Partial Class standardquestionnaire
                 'Hide these buttons as we're now read only
                 btnSave.Visible = False
                 btnClose.Visible = False
-
+                btnTopSave.Visible = False
             End If
         End If
     End Sub
@@ -879,7 +882,7 @@ Partial Class standardquestionnaire
                     End If
                 Next
                 If CompanyPercentage < 100 Or ThereWasAnError Then
-                    RadAjaxPanel1.Alert("Please check the directors shareholding!\n\nCompany ownership must total 100%")
+                    'RadAjaxPanel1.Alert("Please check the directors shareholding!\n\nCompany ownership must total 100%")
                     'Just exit now at this point
                     Return
                 End If

@@ -185,8 +185,6 @@ Namespace MasterClass
             SendUserAndPassword = EmailResult
         End Function
 
-
-
         Public Shared Function UploadFile(ByVal CompanyID As Integer, _
                                           ByVal ContactID As Integer, _
                                           ByVal FileName As String) As Integer
@@ -1012,6 +1010,28 @@ Namespace MasterClass
             'Send our dataset back to calling class
             Return MyDataSet
         End Function
+
+        Public Shared Function GetMyCompliantSupplierCount(ByVal CompanyID As Integer) As String
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("GetMyCompliantSupplierCount", Conn)
+            Dim rsMain As SqlDataReader
+            Dim Compliant As String = ""
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            Conn.Open()
+            rsMain = ObjCmd.ExecuteReader()
+            rsMain.Read()
+            
+            'We got a record back so we can send the items back to .NET
+            Compliant = rsMain("CompliantSuppliers") & "," & rsMain("NonCompliantSuppliers") & "," & rsMain("CompliantCustomers") & "," & rsMain("NonCompliantCustomers")
+
+
+            'Close any connections & recordsets now
+            rsMain.Close()
+            Conn.Close()
+            Return Compliant
+        End Function
+
 
 #End Region
 

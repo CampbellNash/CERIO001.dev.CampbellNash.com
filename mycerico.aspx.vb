@@ -109,12 +109,20 @@ Partial Class mycerico
         Dim dr As DataRow = MyCertificates.Tables(0).Rows(0)
         'Set our pop up URL
         hypCertification.NavigateUrl = "JavaScript:openCertRadWin('questionnairepopup.aspx?ci=" & sender.CommandArgument & "');"
+        Dim ThisIsNotOneOfMyCompanies As Boolean = NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), sender.CommandArgument)
         If UCase(dr("InProgress")) = "N" Then
             'This questionnaire has not yet started
             litDateStarted.Text = "Not Started"
             litDueDate.Text = "Not Started"
             litProgress.Text = "Not Started"
-            hypCertification.Text = "Start this Certification"
+            If ThisIsNotOneOfMyCompanies Then
+                'This is not one of my companies so we can't start this questionnaire so hide the button
+                hypCertification.Visible = False
+            Else
+                hypCertification.Text = "Start this Certification"
+                hypCertification.Visible = True
+            End If
+
         ElseIf UCase(dr("InProgress")) = "Y" Then
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
@@ -124,7 +132,13 @@ Partial Class mycerico
                 Progress = 95
             End If
             litProgress.Text = "In Progress (" & Progress & "%)"
-            hypCertification.Text = "Continue this Certification"
+            If ThisIsNotOneOfMyCompanies Then
+                'User can only view this as its not one of their companies
+                hypCertification.Text = "View"
+            Else
+                'This is one of my companies so I can continue with this questionnaire
+                hypCertification.Text = "Continue this Certification"
+            End If
         Else
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
@@ -139,12 +153,12 @@ Partial Class mycerico
         Dim UnapprovedSuppliers As DataSet = NashBLL.GetMyUnapprovedSuppliers(sender.CommandArgument)
         rptUnapprovedSuppliers.DataSource = UnapprovedSuppliers
         rptUnapprovedSuppliers.DataBind()
-        litSupplierActions.Text = "My Supplier Actions [" & sender.CommandName & "]"
+        litSupplierActions.Text = "Companies who supply to my companies [" & sender.CommandName & "]"
         'Now filter our customers
         Dim UnapprovedCustomers As DataSet = NashBLL.GetMyUnapprovedCustomers(sender.CommandArgument)
         rptUnapprovedCustomers.DataSource = UnapprovedCustomers
         rptUnapprovedCustomers.DataBind()
-        litCustomerActions.Text = "My Customer Actions [" & sender.CommandName & "]"
+        litCustomerActions.Text = "Companies my companies supply to [" & sender.CommandName & "]"
         'Now filter our company members and join requests
         Dim UnapprovedCompanies As DataSet = NashBLL.GetMyUnapprovedCompanies(sender.CommandArgument)
         rptUnapproved.DataSource = UnapprovedCompanies
@@ -159,12 +173,19 @@ Partial Class mycerico
     Protected Sub btnRefreshCertification_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnRefreshCertification.Click
         Dim MyCertificates As DataSet = NashBLL.CheckMyCertifications(sender.CommandArgument)
         Dim dr As DataRow = MyCertificates.Tables(0).Rows(0)
+        Dim ThisIsNotOneOfMyCompanies As Boolean = NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), sender.CommandArgument)
         If UCase(dr("InProgress")) = "N" Then
             'This questionnaire has not yet started
             litDateStarted.Text = "Not Started"
             litDueDate.Text = "Not Started"
             litProgress.Text = "Not Started"
-            hypCertification.Text = "Start this Certification"
+            If ThisIsNotOneOfMyCompanies Then
+                'This is not one of my companies so we can't start this questionnaire so hide the button
+                hypCertification.Visible = False
+            Else
+                hypCertification.Text = "Start this Certification"
+            End If
+
         ElseIf UCase(dr("InProgress")) = "Y" Then
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
@@ -174,7 +195,13 @@ Partial Class mycerico
                 Progress = 95
             End If
             litProgress.Text = "In Progress (" & Progress & "%)"
-            hypCertification.Text = "Continue this Certification"
+            If ThisIsNotOneOfMyCompanies Then
+                'User can only view this as its not one of their companies
+                hypCertification.Text = "View"
+            Else
+                'This is one of my companies so I can continue with this questionnaire
+                hypCertification.Text = "Continue this Certification"
+            End If
         Else
             litDateStarted.Text = CDate(dr("DateStarted")).ToString("dd MMM yyyy")
             litDueDate.Text = DateAdd(DateInterval.Month, 1, CDate(dr("DateStarted"))).ToString("dd MMM yyyy")
@@ -626,6 +653,8 @@ Partial Class mycerico
         Dim lblNonCompliantCustomers As Label
         Dim btnViewApproved As LinkButton
         Dim btnViewCertifications As LinkButton
+        Dim lblCompliantCustomers As Label
+        Dim lblCompliantSuppliers As Label
         Dim drv As DataRowView
         Dim MyRepeater As Repeater = sender
 
@@ -639,7 +668,9 @@ Partial Class mycerico
             lblApprovedSuppliers = e.Item.FindControl("lblApprovedSuppliers")
             lblUnapprovedSuppliers = e.Item.FindControl("lblUnapprovedSuppliers")
             lblNonCompliantSuppliers = e.Item.FindControl("lblNonCompliantSuppliers")
-            lblNonCompliantCustomers = e.Item.FindControl("lbloNonCompliantCustomers")
+            lblNonCompliantCustomers = e.Item.FindControl("lblNonCompliantCustomers")
+            lblCompliantCustomers = e.Item.FindControl("lblCompliantCustomers")
+            lblCompliantSuppliers = e.Item.FindControl("lblCompliantSuppliers")
             lblStatus = e.Item.FindControl("lblStatus")
             btnViewApproved = e.Item.FindControl("btnViewapproved")
             btnViewCertifications = e.Item.FindControl("btnViewCertifications")
@@ -654,13 +685,10 @@ Partial Class mycerico
             btnViewCertifications.CommandArgument = drv("CompanyID")
             btnViewCertifications.CommandName = drv("CompanyName")
             lblTotalCustomers.Text = drv("TotalCustomers")
-            lblApprovedCustomers.Text = drv("ApprovedCustomers")
             lblUnapprovedCustomers.Text = drv("UnapprovedCustomers")
             lblTotalSuppliers.Text = drv("TotalSuppliers")
-            lblApprovedSuppliers.Text = drv("ApprovedSuppliers")
             lblUnapprovedSuppliers.Text = drv("UnapprovedSuppliers")
-            'lblNonCompliantCustomers.Text = drv("NonCompliantCustomers")
-            'lblNonCompliantSuppliers.Text = drv("NonCompliantSuppliers")
+            
             If UCase(drv("Approved")) = "Y" Then
                 lblStatus.Text = "Approved"
                 lblStatus.CssClass = "label label-success"
@@ -671,7 +699,12 @@ Partial Class mycerico
                 btnCompanyName.Attributes.Remove("href")
                 btnCompanyName.CssClass = "disabled"
             End If
-
+            'Now check our compliances
+            Dim MyCompliances As Array = Split(NashBLL.GetMyCompliantSupplierCount(drv("CompanyID")), ",")
+            lblCompliantSuppliers.Text = MyCompliances(0)
+            lblNonCompliantSuppliers.Text = MyCompliances(1)
+            lblCompliantCustomers.Text = MyCompliances(2)
+            lblNonCompliantCustomers.Text = MyCompliances(3)
         End If
     End Sub
 
@@ -740,6 +773,8 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+            btnCompanyName.CommandName = drv("CompanyName")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -754,10 +789,20 @@ Partial Class mycerico
                     hypAction.Text = "Send Reminder"
                     hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("MYID") & "&Method=Reminder&Type=Staff');"
                 Else
-                    'TODO : do some extra stuff
+                    'This is just a view as its not our approval nor has it expired
+                    hypAction.Text = "View"
+                    hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("MYID") & "&Method=View&Type=Staff');"
                 End If
             End If
+
+            'Finally check if this is one of our companies
+            If NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), drv("CompanyID")) Then
+                'This is not one of our companies so diable the action button
+                hypAction.Visible = False
+            End If
         End If
+
+
     End Sub
 
     Protected Sub rptUnapprovedSuppliers_ItemDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.RepeaterItemEventArgs) Handles rptUnapprovedSuppliers.ItemDataBound
@@ -785,6 +830,8 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+            btnCompanyName.CommandName = drv("CompanyName")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
@@ -795,6 +842,12 @@ Partial Class mycerico
                 hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=Remind&Type=Supplier');"
             Else
                 hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=View&Type=Supplier');"
+            End If
+
+            'Finally check if this is one of our companies
+            If NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), drv("CompanyID")) OrElse UCase(drv("Approved")) = "Y" Then
+                'This is not one of our companies so disable the action button
+                hypAction.Visible = False
             End If
         End If
 
@@ -825,12 +878,19 @@ Partial Class mycerico
             litDateCreated.Text = CDate(drv("DateApplied")).ToString("dd MMM yyyy")
             litDescription.Text = drv("Description")
             btnCompanyName.Text = drv("CompanyName")
+            btnCompanyName.CommandArgument = drv("CompanyID")
+            btnCompanyName.CommandName = drv("CompanyName")
             litCompanyName.Text = drv("CompanyName")
             litCompanyAddress.Text = drv("Address1") & "<br />" & _
                 drv("City") & "<br />" & drv("PostZipCode")
             hypAction.Text = "View &amp; Approve"
             hypAction.NavigateUrl = "JavaScript:openSupplierActionWin('supplieractions.aspx?ID=" & drv("CompanyID") & "&Method=Remind&Type=Supplier');"
 
+            'Finally check if this is one of our companies
+            If NashBLL.ThisIsNotOneOfMyCompanies(Session("ContactID"), drv("CompanyID")) OrElse UCase(drv("Approved")) = "Y" Then
+                'This is not one of our companies so diable the action button
+                hypAction.Visible = False
+            End If
         End If
 
     End Sub

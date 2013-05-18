@@ -40,7 +40,7 @@
                         VisibleStatusbar="False" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="780"
                         Height="550" ReloadOnShow="true" OnClientClose="RefreshCertificates" BackColor="#666666"
                         AutoSize="False" KeepInScreenBounds="True" OnClientShow=""
-                        Overlay="True" EnableShadow="True" Animation="Fade" ShowContentDuringLoad="False" ClientIDMode="AutoID" />
+                        Overlay="True" EnableShadow="True" ShowContentDuringLoad="False" ClientIDMode="AutoID" />
                     <Telerik:RadWindow runat="server" ID="rwSupplierActions" DestroyOnClose="false" Modal="true"
                         VisibleStatusbar="True" Behaviors="Close,Move,Resize,Pin" Skin="MetroTouch" Width="750"
                         Height="500" ReloadOnShow="True" OnClientClose="UpdateSupplierActions" BackColor="#666666"
@@ -84,18 +84,18 @@
                                 <ItemTemplate>
                                     <tr>
                                         <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /> - <asp:Label ID="lblStatus" runat="server" /></td>
-                                        <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="2" CssClass="label label-inverse" title="Total Number of Suppliers"  /></td>
-                                        <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="1" CssClass="label" /></td>
-                                        <td><asp:Label ID="lblApprovedSuppliers" runat="server" Text="1" CssClass="label label-success" /></td>
-                                        
+                                        <td><asp:Label ID="lblTotalSuppliers" runat="server" Text="0" CssClass="label label-inverse" title="Total Number of Suppliers"  /></td>
+                                        <td><asp:Label ID="lblUnapprovedSuppliers" runat="server" Text="0" CssClass="label" /></td>
+                                        <td><asp:Label ID="lblCompliantSuppliers" runat="server" Text="0" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblNonCompliantSuppliers" runat="server" Text="0" CssClass="label label-important" /></td>
-                                        <td><asp:Label ID="lblTotalCustomers" runat="server" Text="1" CssClass="label label-inverse" /></td>
-                                         <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="1" CssClass="label" /></td>
-                                        <td><asp:Label ID="lblApprovedCustomers" runat="server" Text="1" CssClass="label label-success" /></td>
                                        
+                                        <td><asp:Label ID="lblTotalCustomers" runat="server" Text="0" CssClass="label label-inverse" /></td>
+                                        <td><asp:Label ID="lblUnapprovedCustomers" runat="server" Text="0" CssClass="label" /></td>
+                                        <td><asp:Label ID="lblCompliantCustomers" runat="server" Text="0" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="0" CssClass="label label-important" /></td>
-                                        <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
-                                            <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
+                                        
+                                       <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
+                                        <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
                                     
                                 </ItemTemplate>
@@ -395,7 +395,7 @@
                                     <ItemTemplate>
                                         <tr class="info">
                                             <td><asp:Literal ID="litDescription" runat="server" /></td>
-                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" /></td>
+                                            <td><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" /></td>
                                             <td><asp:Literal ID="litDateCreated" runat="server" /></td>
                                             
                                             <td>
@@ -455,7 +455,7 @@
                                                 <asp:Literal ID="litDescription" runat="server" />
                                             </td>
                                             <td>
-                                                <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                                <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />
                                             </td>
                                             <td>
                                                 <asp:Literal ID="litDateCreated" runat="server" />
@@ -518,7 +518,7 @@
                                                 <asp:Literal ID="litDescription" runat="server" />
                                             </td>
                                             <td>
-                                                <asp:LinkButton ID="btnCompanyName" runat="server" />
+                                                <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />
                                             </td>
                                             <td>
                                                 <asp:Literal ID="litDateCreated" runat="server" />
@@ -580,7 +580,7 @@
                             <ul>
                                 <asp:Repeater ID="rptCustomers" runat="server">
                                     <ItemTemplate>
-                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" />&nbsp;<asp:label ID="lblStatus" runat="server" /></li>
+                                        <li><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="GetMyRelationships" />&nbsp;<asp:label ID="lblStatus" runat="server" /></li>
                                         <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                             <div class="popover-content">
                                                 <h5>

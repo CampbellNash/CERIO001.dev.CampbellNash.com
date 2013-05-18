@@ -77,7 +77,7 @@
                     <script type="text/javascript">
                                          // This will force the pop to close in event of no login
                                          // That in turn will cause the underlying page to be posted back
-                                         // leading to the login page bei9ng displayed. 
+                                         // leading to the login page being displayed. 
                                          Close();
                                      </script>
                 </asp:Panel> 
