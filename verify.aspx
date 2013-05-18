@@ -8,7 +8,7 @@
         <p>
             <strong>Thank you for confirming your registration</strong>.</p>
         <p>
-            Please <asp:HyperLink ID="hypLogin" runat="server" NavigateUrl="~/login.aspx" Text="Click Here" /> to login now.
+            Please <asp:HyperLink ID="hypLogin" runat="server" NavigateUrl="~/default.aspx" Text="Click Here" /> to login now.
         </p>
         
     </asp:Panel>
