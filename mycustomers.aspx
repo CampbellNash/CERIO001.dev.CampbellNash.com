@@ -1,11 +1,13 @@
 ﻿<%@ Page Title="" Language="VB" MasterPageFile="~/masterpages/templatefull.master" AutoEventWireup="false" CodeFile="mycustomers.aspx.vb" Inherits="mycustomers" %>
 <%@ Register src="controls/submenu1.ascx" tagname="submenu1" tagprefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cpcMainContent" runat="Server">
- <Telerik:RadAjaxPanel ID="RadAjaxPanel1" runat="server">     
-            <div class="span9" runat="server" id="mainDiv">
+ 
+            <div class="span9" runat="server" id="divMain" >
              
                   <h2>Manage Customers</h2>
                 <asp:Label runat="server" ID="lblManageCompaniesPageTitle" />
+                 <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
+             
                <asp:Panel ID="panMyCompanies" runat="server">
                    <div class="alert alert-info">
                        <div class="form-horizontal">
@@ -55,8 +57,7 @@
   </ul>
                             </div>
                         <p>
-                            <asp:Label ID="lblNoCompanies" runat="server" CssClass="label-nodata" EnableViewState="false" /> <asp:Label runat="server" ID="lblNoCompaniesHelp" />
-                        </p>
+                              </p>
                       -->
                             
                      </asp:Panel>
@@ -73,8 +74,13 @@
 
                 <asp:Panel ID="panCustomers" runat="server">
                     <div class="span12">
-                        <h4>Customers to <asp:Label runat="server" ID="lblCompanyCustomers" /></h4>
-                        
+                        <div class="alert alert-success" runat="server" id="divCustomerRequesrSuccess">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h3>Supplier request successful!</h3>
+                            <p>You have successfully requested to be a supplier, when the customer involved accepts you will be notified.</p>
+                        </div>
+                        <h4>Companies <span class="text-info"><asp:Label runat="server" ID="lblCompanyCustomers" /></span> supplies to</h4>
+                        <div  runat="server" id="tblCustomers">
                            <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -111,11 +117,12 @@
                                 </asp:Repeater>
                             </tbody>
                                </table>
+                        </div>
                         <p>
                             <asp:Label ID="lblNoCustomers" runat="server" CssClass="failureNotification" EnableViewState="false" />
                         </p>
                         <p>
-                            <asp:Button ID="btnAddCustomer" runat="server" Text="Apply to be Customer" CssClass="btn" />
+                            <asp:Button ID="btnAddCustomer" runat="server" Text="Apply to be a Supplier to a customer" CssClass="btn btn-success" />
                         </p>
 
                     </div>
@@ -126,25 +133,26 @@
                     <div class="span6">
                     <asp:Button ID="btnCancelApplyCustomer" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
                     <h4>Apply to be a Customer</h4>
-                        Customer search: <asp:TextBox ID="txtSearchCustomerCompany" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearchCustomerCompany" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
+                    <p>The customer you are looking to supply to may already exist on our system, please use the search feature below to find them.</p>
+                    Customer search: <asp:TextBox ID="txtSearchCustomerCompany" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearchCustomerCompany" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="search"
                         ControlToValidate="txtSearchCustomerCompany" CssClass="error" ForeColor="red"
                         runat="server" Display="Dynamic" ErrorMessage="Please enter a search term"></asp:RequiredFieldValidator>
-                        
-                        <ul>
+                       <br />
+                        <div class="alert alert-success" runat="server" id="divSearchResults">
+                       <ul class="unstyled">
                             <asp:Repeater ID="rptCustomerSearch" runat="server">
-                                
+                                <HeaderTemplate> <h4>Supplier Search Results</h4>
+                                    If the company you are looking for is listed below, just click on the name to apply to be a supplier to them. You can also hover over their name to view more details.<br /><br /></HeaderTemplate>
                                 <ItemTemplate>
                                     <li>
-                                        <asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForCustomer" />
+                                        <span class="btn btn-success"><asp:LinkButton ID="btnCompanyName" runat="server" OnClick="ApplyForCustomer" /></span><br /><br />
                                     </li>
                                     <asp:Panel CssClass="popover" ID="panPopup" runat="server">
                                         <div class="popover-content">
-                                            <h5>Full Company details </h5>
+                                            <h5>Quick Veiw for <asp:Literal ID="litCompanyName" runat="server" />  </h5>
                                             <asp:Image ID="imgCompanyLogo" runat="server" ImageUrl="img/apple-touch-icon-144-precomposed.png" />
-                                            <h6>
-                                                <asp:Literal ID="litCompanyName" runat="server" />
-                                            </h6>
+                                           
                                             <h6>
                                                 <asp:Literal ID="litCompanyAddress" runat="server" /></h6>
                                         </div>
@@ -154,8 +162,10 @@
                                         OffsetY="0" PopDelay="50" />
                                 </ItemTemplate>
                             </asp:Repeater>
-                        </ul>
+                       </ul>
+                        </div>
                         <asp:Panel ID="panNoResults2" runat="server" Visible="false">
+                            <br />
                             <div class="alert">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
 
@@ -170,22 +180,31 @@
                         </div>
                 </asp:Panel>
 
+
                 
                 
                 
         </div>
- </Telerik:RadAjaxPanel>
-  <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
+    <Telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
         <AjaxSettings>
-            <Telerik:AjaxSetting AjaxControlID="mainDiv">
+            <Telerik:AjaxSetting AjaxControlID="divMain">
                 <UpdatedControls>
-                    <Telerik:AjaxUpdatedControl ControlID="mainDiv" LoadingPanelID="RadAjaxLoadingPanel1"
+                    <Telerik:AjaxUpdatedControl ControlID="divMain" LoadingPanelID="RadAjaxLoadingPanel1"
                         UpdatePanelRenderMode="Block" />
                 </UpdatedControls>
             </Telerik:AjaxSetting>
+           <Telerik:AjaxSetting AjaxControlID="RadAjaxPanel1">
+                <UpdatedControls>
+                    <Telerik:AjaxUpdatedControl ControlID="RadAjaxPanel1" LoadingPanelID="RadAjaxLoadingPanel1"
+                        UpdatePanelRenderMode="Block" />
+                </UpdatedControls>
+            </Telerik:AjaxSetting>
+              
+          
         </AjaxSettings>
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />          
+    
     
     <div class="span3">
         <asp:Panel runat="server" ID="panSubNav">
