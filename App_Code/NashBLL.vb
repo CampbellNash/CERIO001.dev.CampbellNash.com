@@ -278,6 +278,126 @@ Namespace MasterClass
 
 #End Region
 
+#Region " Demo Scripts "
+
+        Public Shared Function ListAllDemoCompanies() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("ListAllDemoCompanies", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "CompanyList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function ListAllDemoUsers() As DataSet
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim paramReturn As SqlParameter = Nothing
+            Dim ObjCmd As SqlCommand = New SqlCommand("ListAllDemoUsers", Conn)
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Dim MyDataSet As DataSet
+            Dim sqlMyAdapter As SqlDataAdapter
+            'Build our dataset
+            sqlMyAdapter = New SqlDataAdapter
+            MyDataSet = New DataSet
+            sqlMyAdapter.SelectCommand = ObjCmd
+            Try
+                sqlMyAdapter.SelectCommand.Connection.Open()
+                sqlMyAdapter.Fill(MyDataSet, "UserList")
+            Finally
+                sqlMyAdapter.SelectCommand.Connection.Close()
+            End Try
+
+            'Send our dataset back to calling class
+            Return MyDataSet
+        End Function
+
+        Public Shared Function DeleteCompany(ByVal CompanyID As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteCompany", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function DeleteCompanyConnections(ByVal CompanyID As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteCompanyConnections", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function DeleteQuestionnaire(ByVal CompanyID As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteStandardQuestionnaire", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@CompanyID", CompanyID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+        Public Shared Function DeleteUser(ByVal ContactID As String) As Integer
+            Dim Conn As SqlConnection = New SqlConnection(strConnString)
+            Dim ObjCmd As SqlCommand = New SqlCommand("DeleteUser", Conn)
+            Dim paramReturn As SqlParameter = Nothing
+            ObjCmd.CommandType = CommandType.StoredProcedure
+            ObjCmd.Parameters.AddWithValue("@ContactID", ContactID)
+            paramReturn = ObjCmd.Parameters.AddWithValue("ReturnValue", DbType.Int32)
+            paramReturn.Direction = ParameterDirection.ReturnValue
+            Try
+                Conn.Open()
+                ObjCmd.ExecuteNonQuery()
+            Finally
+                Conn.Close()
+            End Try
+            Return paramReturn.Value
+        End Function
+
+#End Region
+
 #Region " User Forms "
 
         Public Shared Function GetMyDetails(ByVal ContactID As String) As DataSet
