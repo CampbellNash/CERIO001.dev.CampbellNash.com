@@ -94,8 +94,8 @@
                                         <td><asp:Label ID="lblCompliantCustomers" runat="server" Text="0" CssClass="label label-success" /></td>
                                         <td><asp:Label ID="lblNonCompliantCustomers" runat="server" Text="0" CssClass="label label-important" /></td>
                                         
-                                       <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
-                                        <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
+                                       <td><asp:LinkButton ID="btnViewApproved" runat="server" CssClass="btn btn-small btn-primary" OnClick="GetMyRelationships">View Details</asp:LinkButton> 
+                                        <asp:LinkButton ID="btnViewCertifications" runat="server" CssClass="btn btn-small btn-primary" OnClick="GetMyRelationships">View Certifications</asp:LinkButton></td>
                                     </tr>
                                     
                                 </ItemTemplate>
@@ -581,7 +581,7 @@
                 </asp:Panel>
 
                 <asp:Panel ID="panCustomers" runat="server">
-                    <div class="span6">
+                    
                         <h4><asp:Label runat="server" ID="lblCompanyCustomers" /> Customers:</h4>
                             <ul>
                                 <asp:Repeater ID="rptCustomers" runat="server">
@@ -611,12 +611,12 @@
                             <asp:Button ID="btnAddCustomer" runat="server" Text="Apply to be Customer" CssClass="btn" />
                         </p>
 
-                    </div>
+                  
                     
                 </asp:Panel>
 
                 <asp:Panel runat="server" ID="panApplyCustomer" Visible="False">
-                    <div class="span6">
+                    
                     <asp:Button ID="btnCancelApplyCustomer" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
                     <h4>Apply to be a Customer</h4>
                         Customer search: <asp:TextBox ID="txtSearchCustomerCompany" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> <asp:Button ID="btnSearchCustomerCompany" runat="server" ValidationGroup="search"  CssClass="btn-small btn-warning" Text="Search" /><br />
@@ -655,11 +655,11 @@
                             <p>
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
-                    </div>
+                    
                 </asp:Panel>
 
                 <asp:Panel ID="panSuppliers" runat="server">
-                     <div class="span6">
+                     
                         <h4><asp:Label runat="server" ID="lblCompanySuppliers" /> Suppliers:</h4>
 
                             <ul>
@@ -692,11 +692,11 @@
                             <asp:Button ID="btnAddSupplier" runat="server" Text="Add Supplier" CssClass="btn" />
                         </p>
 
-                    </div>
+                    
                 </asp:Panel>
                 
                 <asp:Panel ID="panAddSupplier" runat="server">
-                    <div class="span6">
+                   
                         <asp:Button ID="btnCancelAddSupplier" runat="server" CssClass="btn-small btn-danger" Text="Cancel" CausesValidation="False" />
                         <h4>Add a new supplier</h4> 
                         Supplier search: <asp:TextBox ID="txtSupplierSearch" runat="server" CssClass="form-search search-query" placeholder="Search..." TabIndex="1" /> 
@@ -735,7 +735,7 @@
                             <p>
                                 Too many records found, please narrow your search and try again.</p>
                         </asp:Panel>
-                        </div>
+                     
                 </asp:Panel>
         </div>
              <div class="span3">
@@ -758,6 +758,9 @@
                         UpdatePanelRenderMode="Block" />
                 </UpdatedControls>
             </Telerik:AjaxSetting>
+           
+
+            
         </AjaxSettings>
     </Telerik:RadAjaxManager>
     <Telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server" Skin="MetroTouch" Transparency="0" IsSticky="False" />          
