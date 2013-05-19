@@ -63,6 +63,10 @@ Partial Class masterpages_site
                     menusuppliers.Attributes.Add("class", "active")
                 ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "mycustomers.aspx" Then
                     menucustomers.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "cerico-help.aspx" Then
+                    menuhelp.Attributes.Add("class", "active")
+                ElseIf System.IO.Path.GetFileName(HttpContext.Current.Request.FilePath).ToLower = "contact-cerico.aspx" Then
+                    menuusercontact.Attributes.Add("class", "active")
                 End If
             End If
         End If

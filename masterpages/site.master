@@ -64,8 +64,8 @@
                         <li id="menumycerico" runat="server"><asp:HyperLink ID="HyperLink6" runat="server" NavigateUrl="~/mycerico.aspx" Text="My CERICO" /></li>
                         <li id="menusuppliers" runat="server"><asp:HyperLink ID="HyperLink7" runat="server" NavigateUrl="~/mysuppliers.aspx" Text="Suppliers" /></li>
                         <li id="menucustomers" runat="server"><asp:HyperLink ID="HyperLink8" runat="server" NavigateUrl="~/mycustomers.aspx" Text="Customers" /></li>
-                        <li><asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="#" Text="Help" /></li>
-                        <li><asp:HyperLink ID="HyperLink10" runat="server" NavigateUrl="#" Text="Contact" /></li>
+                        <li id="menuhelp" runat="server"><asp:HyperLink ID="HyperLink9" runat="server" NavigateUrl="~/cerico-help.aspx" Text="Help" /></li>
+                        <li id="menuusercontact" runat="server"><asp:HyperLink ID="HyperLink10" runat="server" NavigateUrl="~/contact-cerico.aspx" Text="Contact" /></li>
                     </ul>
                 </div>
             </div><!--/.nav-collapse -->
