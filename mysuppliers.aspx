@@ -62,7 +62,7 @@
                 <hr />
 
               <asp:Panel ID="panSuppliers" runat="server">
-                        <h4>Suppliers to <asp:Label runat="server" ID="lblCompanySuppliers" /></h4>
+                        <h4>Suppliers to <span class="text-info"><asp:Label runat="server" ID="lblCompanySuppliers" /></span></h4>
                             <div runat="server" id="divSuppliers">
                             <table class="table table-bordered">
                             <thead>
