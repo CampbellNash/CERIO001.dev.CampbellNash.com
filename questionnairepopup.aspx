@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>CERICO Questionnaire's</title>
+    <title>CERICO Questionnaire</title>
     <link href="~/css/bootstrap.min.css" rel="stylesheet" media="screen" runat="server" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
